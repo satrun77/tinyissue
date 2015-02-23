@@ -13,6 +13,11 @@ Simple Issue Tracking for Teams - for Laravel 5 and above.
 
 Enjoy!
 
+# Upgrade steps (since version 2.0.0)
+
+1. Pull latest changes from the [GitHub repository](https://github.com/satrun77/tinyissue)
+1. Execute Laravel migration command `php artisan migrate`
+
 ### How to contribute
 
 We welcome and appreciate all contributions. The `develop` branch is the branch you should base all pull requests and development off of.
