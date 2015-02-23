@@ -1,30 +1,31 @@
-![](http://tinyissue.com/assets/images/giant-preview.png)
+# Tiny Issue v2.0.0-alpha1 - for Laravel 5)
 
-# Installing Tiny Issue v1.3.1
+Simple Issue Tracking for Teams - for Laravel 5 and above.
 
-- Create a MySQL Database
-- Make /uploads/ write-able (CHMOD 777)
-- Open /install/ in your browser
-- Delete or rename /install/
+
+# Installation
+
+1. Download and install [composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx)
+2. Install dependencies `composer install`
+3. Create a database. It can be any of the databases supported by Laravel 5.
+4. Execute Tiny Issue install command `php artisan tinyissue:install`
+5. Note: make sure that all of the Tiny Issues files/folders are behind the public root directory of your site. Except for the ones under public directory.
 
 Enjoy!
-
-## Requirements:
-
-- Tested on: Apache, IIS
-- PHP 5.3+
-- MySQL 5+
-- PDO Extension for PHP (MySQL)
-- MCrypt Extension for PHP
-- Javascript Enabled - Tiny Issue also uses heavy Javascript to make it easier to use
 
 ### How to contribute
 
 We welcome and appreciate all contributions. The `develop` branch is the branch you should base all pull requests and development off of.
 The `master` branch is tagged releases only.
 
+Code changes must adhere the PSR-2 standards.
+
 ### Main Developers:
 
+#### Version 2.0.0 and above:
+- [Mohamed Alsharaf](http://my.geek.nz)
+
+#### Version 1.3.1 and below:
 - [Michael Hasselbring](http://michaelhasselbring.com)
 - [Zachary Hoover](http://zachoover.com)
 - [Suthan Sangaralingham](http://suthanwebs.com/)

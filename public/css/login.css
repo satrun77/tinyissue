@@ -1,0 +1,87 @@
+body {
+    font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
+    color:#545454;
+    background:#ccc;
+}
+
+#container {
+    margin-top:25px;
+}
+
+h2 {
+    font-size: 20px;
+    margin: 0px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#login {
+    background: none repeat scroll 0 0 #F8F8F8;
+    width: 40%;
+    border-radius: 8px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px 20px;
+    box-shadow: 0 1px 5px #999;
+}
+#login form {
+    overflow: hidden;
+}
+#login .remember-me {
+    float: left;
+    margin-left: 15%;
+    width: 70%;
+}
+.form-actions {
+    float: left;
+}
+
+/* Notices */
+.global-notice{
+    width: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    background: #222727;
+    font-size: 15px;
+    text-decoration: none;
+    text-align: center;
+    opacity: .95;
+    padding:  11px 0;
+    display: none;
+    z-index: 1000;
+}
+.global-notice:visited, .global-notice:focus {
+    color: #fff;
+
+}
+.global-notice.global-error{
+    background: #de2e2e!important;
+}
+.global-saving{
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    display: none;
+    z-index: 1000;
+}
+.global-saving span{
+    background: url('../images/icons/global-saving.gif') no-repeat 10px 10px #222727;
+    font-size: 15px;
+    text-align: center;
+    width: 100px;
+    margin: 0 auto;
+    color: #fff;
+    text-decoration: none;
+    opacity: .95;
+    padding: 11px 0 11px 5px;
+    display: block;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+}
+.global-saving:hover, .global-notice:hover{
+    text-decoration: none;
+}

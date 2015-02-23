@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: Tinyissue
+        psr4_prefix: Tinyissue
+        src_path: app
