@@ -6,7 +6,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 
 class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
 {
-    public function toolbar($type, array $data = array())
+    public function toolbar($type, array $data = [])
     {
         $link = '';
         $title = '';
@@ -153,6 +153,37 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
             $periods[$j] .= 's';
         }
         return $difference . ' ' . $periods[$j] . ' ago';
+    }
+
+    /**
+     * Convert seconds into time duration format
+     *
+     * @param int $seconds
+     *
+     * @return string
+     */
+    public function duration($seconds)
+    {
+        $hours   = floor($seconds / 3600);
+        $minutes = ($seconds / 60) % 60;
+        $seconds = $seconds % 60;
+
+        $output        = '';
+        $separatorChar = ', ';
+        $separator     = '';
+        if ($hours > 0) {
+            $output .= $hours . ' ' . trans('tinyissue.short_hours');
+            $separator = $separatorChar;
+        }
+        if ($minutes > 0) {
+            $output .= $separator . $minutes . ' ' . trans('tinyissue.short_minutes');
+            $separator = $separatorChar;
+        }
+        if ($seconds > 0) {
+            $output .= $separator . $seconds . ' ' . trans('tinyissue.short_seconds');
+        }
+
+        return $output;
     }
 
     public function loader($message)

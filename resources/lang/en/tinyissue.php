@@ -132,4 +132,12 @@ return array(
     'confirm_unassign_user' => 'Are you sure you want to remove this user from the project?',
     'change_project'                    => 'Change Project',
     'default_assignee'                  => 'Default Assignee',
+    'time_quote' => 'Quote',
+    'total_quote' => 'Total Quote',
+    'short_hours' => 'hrs',
+    'short_minutes' => 'mins',
+    'short_seconds' => 'secs',
+    'hours' => 'hours',
+    'minutes' => 'minutes',
+    'seconds' => 'seconds',
 );

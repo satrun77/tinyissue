@@ -14,6 +14,9 @@ active
 @stop
 
 @section('content')
+@if ($issue->time_quote > 0)
+    <div class="issue-quote"><strong>@lang('tinyissue.time_quote'):</strong><span>{{ Html::duration($issue->time_quote) }}</span></div>
+@endif
 
 <ul class="issue-discussion">
     <li>

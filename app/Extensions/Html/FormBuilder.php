@@ -57,7 +57,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
      *
      * @return mixed
      */
-    protected function element($name, $field)
+    public function element($name, $field)
     {
         $type = $field['type'];
         unset($field['type']);

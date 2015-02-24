@@ -1,4 +1,9 @@
 @if ($issues)
+<div class="issue-quote">
+    <strong>@lang('tinyissue.total_quote'):</strong>
+    <span>{{ Html::duration($project->getTotalQuote()) }}</span>
+</div>
+
 <ul class="issues">
     @foreach ($issues as $issue)
     <li>
@@ -14,6 +19,10 @@
                         @if($issue->updated_by)
                         - @lang('tinyissue.updated_by') <strong>{{ $issue->updatedBy->firstname . ' ' . $issue->updatedBy->lastname }}</strong>
                         {{ Html::age($issue->updated_at) }}
+                        @endif
+
+                        @if ($issue->time_quote > 0)
+                        - @lang('tinyissue.time_quote') <strong>{{ Html::duration($issue->time_quote) }}</strong>
                         @endif
                 </div>
         </div>

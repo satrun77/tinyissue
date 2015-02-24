@@ -30,6 +30,10 @@ active
                 - @lang('tinyissue.updated_by') <strong>{{ $issue->updatedBy->fullname }}</strong>
                 {{ Html::age($issue->updated_at) }}
                 @endif
+
+                @if ($issue->time_quote > 0)
+                    - @lang('tinyissue.time_quote') <strong>{{ Html::duration($issue->time_quote) }}</strong>
+                @endif
             </div>
         </div>
     </li>

@@ -2,6 +2,8 @@
 
 namespace Tinyissue\Form;
 
+use Tinyissue\Model\Project;
+
 class Issue extends FormAbstract
 {
     protected $project;
@@ -23,6 +25,7 @@ class Issue extends FormAbstract
 
     public function fields()
     {
+        $issueModify = \Auth::user()->permission('issue-modify');
         $fields = [
             'title' => [
                 'type'  => 'text',
@@ -34,7 +37,7 @@ class Issue extends FormAbstract
             ],
         ];
 
-        if (\Auth::user()->permission('issue-modify')) {
+        if ($issueModify) {
             $fields['assigned_to'] = [
                 'type'    => 'select',
                 'label'   => 'assigned_to',
@@ -58,6 +61,31 @@ class Issue extends FormAbstract
             ];
         }
 
+        if ($issueModify) {
+            $fields['time_quote'] = [
+                'type'     => 'groupText',
+                'label'    => 'quote',
+                'fields'   => [
+                    'h' => [
+                        'type'   => 'number',
+                        'append' => trans('tinyissue.hours'),
+                        'value'  => $this->extractQuoteValue('h'),
+                    ],
+                    'm' => [
+                        'type'   => 'number',
+                        'append' => trans('tinyissue.minutes'),
+                        'value'  => $this->extractQuoteValue('m'),
+                    ],
+                    's' => [
+                        'type'   => 'number',
+                        'append' => trans('tinyissue.seconds'),
+                        'value'  => $this->extractQuoteValue('s'),
+                    ],
+                ],
+                'addClass' => 'issue-quote'
+            ];
+        }
+
         return $fields;
     }
 
@@ -78,5 +106,25 @@ class Issue extends FormAbstract
         }
 
         return 'project/' . $this->project->id . '/issue/new';
+    }
+
+    protected function extractQuoteValue($part)
+    {
+        if ($this->getModel() instanceof Project\Issue) {
+            $seconds = $this->getModel()->time_quote;
+            if ($part === 'h') {
+                return floor($seconds / 3600);
+            }
+
+            if ($part === 'm') {
+                return (($seconds / 60) % 60);
+            }
+
+            if ($part === 's') {
+                return $seconds % 60;
+            }
+        }
+
+        return 0;
     }
 }

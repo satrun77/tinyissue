@@ -11,7 +11,7 @@ class Issue extends Model
 {
     protected $table = 'projects_issues';
     public $timestamps = true;
-    protected $fillable = array('created_by', 'project_id', 'title', 'body', 'assigned_to');
+    protected $fillable = array('created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote');
 
     const STATUS_OPEN = 1;
     const STATUS_CLOSED = 0;
@@ -181,6 +181,7 @@ class Issue extends Model
             'title'       => $input['title'],
             'body'        => $input['body'],
             'assigned_to' => $input['assigned_to'],
+            'time_quote'  => $input['time_quote'],
         );
 
         /* Add to activity log for assignment if changed */
@@ -217,6 +218,7 @@ class Issue extends Model
 
         if (\Auth::user()->permission('issue-modify')) {
             $fill['assigned_to'] = $input['assigned_to'];
+            $fill['time_quote']  = $input['time_quote'];
         }
 
         $this->fill($fill)->save();
@@ -253,5 +255,21 @@ class Issue extends Model
         }
 
         return $this;
+    }
+
+    /**
+     * Convert time quote from an array into seconds
+     *
+     * @param array $value
+     */
+    public function setTimeQuoteAttribute($value)
+    {
+        $seconds = $value;
+        if (is_array($value)) {
+            $seconds = isset($value['s']) ? $value['s'] : 0;
+            $seconds += isset($value['m']) ? ($value['m'] * 60) : 0;
+            $seconds += isset($value['h']) ? ($value['h'] * 60 * 60) : 0;
+        }
+        $this->attributes['time_quote'] = (int) $seconds;
     }
 }

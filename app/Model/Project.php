@@ -260,4 +260,19 @@ class Project extends Model
         ProjectUser::where('project_id', '=', $id)->delete();
         UserActivity::where('parent_id', '=', $id)->delete();
     }
+
+    /**
+     * Get total issues total quote time
+     *
+     * @return int
+     */
+    public function getTotalQuote()
+    {
+        $total = 0;
+        foreach($this->issues as $issue) {
+            $total += $issue->time_quote;
+        }
+
+        return $total;
+    }
 }
