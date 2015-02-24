@@ -24,10 +24,6 @@ class Issue extends \Tinyissue\Http\Requests\Request
 
     protected function getRedirectUrl()
     {
-        if ($this->getForm()->isEditing()) {
-            return $this->getForm()->getModel()->to('edit');
-        }
-
-        return 'issue/new';
+        return $this->getForm()->getRedirectUrl();
     }
 }

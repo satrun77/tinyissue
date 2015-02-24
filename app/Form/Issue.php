@@ -70,4 +70,13 @@ class Issue extends FormAbstract
 
         return $rules;
     }
+
+    public function getRedirectUrl()
+    {
+        if ($this->isEditing()) {
+            return $this->getModel()->to('edit');
+        }
+
+        return 'project/' . $this->project->id . '/issue/new';
+    }
 }
