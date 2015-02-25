@@ -58,11 +58,14 @@ class RouteServiceProvider extends ServiceProvider
                     $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
                     $router->pattern('project', '[0-9]+');
                     $router->pattern('attachment', '[0-9]+');
+                    $router->pattern('note', '[0-9]+');
+                    $router->model('note', 'Tinyissue\Model\Project\Note');
 
                     // View project
                     $router->get('project/{project}', 'ProjectController@getIndex');
                     $router->get('project/{project}/issues/{status?}', 'ProjectController@getIssues')->where('status', '[0-1]');
                     $router->get('project/{project}/assigned', 'ProjectController@getAssigned');
+                    $router->get('project/{project}/notes', 'ProjectController@getNotes');
 
                     // Edit project
                     $router->group(['middleware' => 'permission', 'permission' => 'project-modify'], function ($router) {
@@ -71,6 +74,11 @@ class RouteServiceProvider extends ServiceProvider
                         $router->get('project/inactive_users/{project?}', array('middleware' => 'ajax', 'uses' => 'ProjectController@getInactiveUsers'));
                         $router->post('project/{project}/unassign_user', array('middleware' => 'ajax', 'uses' => 'ProjectController@postUnassign'));
                         $router->post('project/{project}/assign_user', array('middleware' => 'ajax', 'uses' => 'ProjectController@postAssign'));
+
+                        // Edit project notes
+                        $router->post('project/{project}/edit_note/{note}', ['middleware' => 'ajax', 'uses' => 'ProjectController@postEditNote']);
+                        $router->get('project/{project}/delete_note/{note}', ['middleware' => 'ajax', 'uses' => 'ProjectController@getDeleteNote']);
+                        $router->post('project/{project}/add_note', 'ProjectController@postAddNote');
                     });
 
                     // Add issue

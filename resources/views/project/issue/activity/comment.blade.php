@@ -15,7 +15,7 @@
             @lang('tinyissue.commented') {{ Html::date($comment->updated_at) }}
         </div>
 
-        <div class="issue">
+        <div class="content">
             {!! Html::format($comment->comment) !!}
         </div>
 

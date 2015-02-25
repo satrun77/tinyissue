@@ -110,6 +110,9 @@ code{
     text-transform: uppercase;
     white-space: nowrap;
 }
+.label-note {
+    background-color: #FFA763;
+}
 .blue-box .activity li .label{
     width: 68px;
     float: left;
@@ -590,53 +593,60 @@ code{
     padding: 5px;
 }
 
+.inside-tabs.notes {
+    border:0 none;
+}
+.inside-tabs.notes .blue-box {
+    background: #fff;
+    border:0 none;
+}
 /* Issues */
-.issue-discussion , .new-comment ul{
+.issue-discussion , .new-comment ul, .notes {
     list-style: none;
     padding: 0px;
 }
-.issue-discussion > li{
+.issue-discussion > li, .notes > li {
     border: 2px solid #dcdcdc;
     border-radius: 6px;
     margin-bottom: 20px;
 }
-.issue-discussion li .insides{
+.issue-discussion li .insides, .notes li .insides {
     padding: 2px;
 }
-.issue-discussion li .topbar{
+.issue-discussion li .topbar, .notes li .topbar{
     background: #e8e8e8;
     border-radius: 6px;
     padding: 12px 10px;
 }
-.issue-discussion li .topbar ul{
+.issue-discussion li .topbar ul, .notes li .topbar ul{
     float: right;
 }
-.issue-discussion li .topbar ul li{
+.issue-discussion li .topbar ul li, .notes li .topbar ul li{
     float: left;
     margin-left: 7px;
 }
-.issue-discussion li .topbar ul li a{
+.issue-discussion li .topbar ul li a, .notes li .topbar ul li a{
     display: block;
     text-indent: -999999px;
 }
-.issue-discussion li .topbar .delete-comment a{
+.issue-discussion li .topbar .delete-comment a, .notes li .topbar .delete-note a{
     background: url('../images/layout/icon-delete.png') no-repeat 0 1px;
     width: 12px; height: 15px;
 }
-.issue-discussion li .topbar .edit-comment a{
+.issue-discussion li .topbar .edit-comment a, .notes li .topbar .edit-note a{
     background: url('../images/layout/icon-edit.png') no-repeat;
     width: 16px; height: 15px;
 }
-.issue-discussion li .issue{
+.issue-discussion li .content, .notes li .content {
     padding: 12px 10px;
     color: #696969;
 }
 
-.issue-discussion li .comment-edit{
+.issue-discussion li .comment-edit, .notes li .note-edit{
     display: none;
     padding: 12px 10px;
 }
-.issue-discussion li .comment-edit .right{
+.issue-discussion li .comment-edit .right, .notes li .note-edit .right{
     padding: 15px 0px 5px 0px;
     text-align: right;
 }
@@ -767,10 +777,10 @@ textarea.form-control {
     border: 1px solid #262626;
     color: white;
 }
-.new-comment .col-lg-offset-2 {
+.new-comment .col-lg-offset-2, .new-note .col-lg-offset-2 {
     margin: 0px;
 }
-.new-comment .col-lg-10 {
+.new-comment .col-lg-10, .new-note .col-lg-10 {
     width: 100%;
 }
 .group-text {
@@ -787,6 +797,12 @@ textarea.form-control {
 .issue-quote .form-group {
     width: 30%;
 }
+.new-note h4 {
+    font-size: 18px;
+    color: #424242;
+    padding:0;
+}
+
 /* Autocomplete */
 .ui-autocomplete{
     border-radius: 4px;

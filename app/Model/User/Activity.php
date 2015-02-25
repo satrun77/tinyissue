@@ -46,6 +46,11 @@ class Activity extends Model
         return $this->belongsTo('Tinyissue\Model\Project', 'parent_id');
     }
 
+    public function note()
+    {
+        return $this->belongsTo('\Tinyissue\Model\Project\Note', 'action_id');
+    }
+
     public static function projectActivity(Project $project, $limit = 5)
     {
         return UserActivity::with('activity', 'issue', 'user', 'comment', 'assignTo')

@@ -26,7 +26,7 @@ active
                 @lang('tinyissue.opened_this_issue') {{ Html::date($issue->created_at) }}
             </div>
 
-            <div class = "issue">
+            <div class = "content">
                 {!! Html::format($issue->body) !!}
             </div>
 

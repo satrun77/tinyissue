@@ -275,4 +275,10 @@ class Project extends Model
 
         return $total;
     }
+
+    public function notes()
+    {
+        return $this->hasMany('Tinyissue\Model\Project\Note', 'project_id');
+    }
+
 }

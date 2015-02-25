@@ -140,4 +140,12 @@ return array(
     'hours' => 'hours',
     'minutes' => 'minutes',
     'seconds' => 'seconds',
+    'note' => 'Note',
+    'notes' => 'Notes',
+    'no_notes' => 'This project does not have any notes!',
+    'add_note' => 'Add Note',
+    'you_put_no_note' => 'You did not put in a note!',
+    'your_note_added' => 'Your note has been added!',
+    'noted' => 'Noted',
+    'confirm_delete_note' => 'Are you sure you want to remove this note from the project?'
 );

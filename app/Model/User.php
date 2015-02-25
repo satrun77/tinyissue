@@ -149,7 +149,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->projects($status)->with([
             'activities' => function ($query) {
-                $query->with('activity', 'issue', 'user', 'assignTo', 'comment');
+                $query->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note');
                 $query->orderBy('created_at', 'DESC');
             },
         ]);

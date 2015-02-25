@@ -215,3 +215,85 @@ var Selection = {
         return (this.selected && this.selected.find('input').val() === el2.find('input').val());
     }
 };
+
+function Discussion() {
+    var instance = null;
+    var options = {
+        name: 'comment',
+        selector: '.issue-discussion'
+    };
+
+    function getId(el) {
+        return el.data(options.name + '-id');
+    }
+
+    function getEdit(id) {
+        return $('#' + options.name + id + ' .' + options.name + '-edit');
+    }
+
+    function getContent(id) {
+        return $('#' + options.name + id + ' .content');
+    }
+
+    return {
+        init: function (args) {
+            options = $.extend(options, args);
+            instance = $(options.selector);
+            if (instance.length == 0) {
+                return this;
+            }
+            instance.find('li .edit').on('click', $.proxy(function (e) {
+                e.preventDefault();
+                return this.edit($(e.currentTarget));
+            }, this));
+            instance.find('li .delete').on('click', $.proxy(function (e) {
+                e.preventDefault();
+                return this.remove($(e.currentTarget));
+            }, this));
+            instance.find('li .save').on('click', $.proxy(function (e) {
+                e.preventDefault();
+                return this.save($(e.currentTarget));
+            }, this));
+            instance.find('li .cancel').on('click', $.proxy(function (e) {
+                e.preventDefault();
+                return this.cancel($(e.currentTarget));
+            }, this));
+            return this;
+        },
+        edit: function (el) {
+            var id = getId(el);
+            getContent(id).hide();
+            getEdit(id).show();
+        },
+        save: function (el) {
+            var id = getId(el);
+            var url = $('#' + options.name + id + ' .edit').attr('href');
+            var textarea = $('#' + options.name + id + ' textarea');
+
+            textarea.attr('disabled', 'disabled');
+            GlobalSaving.toggle();
+
+            Ajax.post(url, {body: textarea.val()}, function (data) {
+                textarea.removeAttr('disabled');
+                getEdit(id).hide();
+                getContent(id).html(data.text).show();
+                GlobalSaving.toggle();
+            });
+        },
+        cancel: function (el) {
+            var id = getId(el);
+            getEdit(id).hide();
+            getContent(id).show();
+        },
+        remove: function (el) {
+            ConfirmDialog.show(el, function (el) {
+                GlobalSaving.show('Deleting');
+                var id = getId(el);
+                Ajax.get(el.attr('href'), function () {
+                    $('#' + options.name + id).fadeOut();
+                    GlobalSaving.hide();
+                });
+            });
+        }
+    }
+}

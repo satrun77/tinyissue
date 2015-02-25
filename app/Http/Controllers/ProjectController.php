@@ -7,6 +7,8 @@ use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Illuminate\Http\Request;
+use Tinyissue\Form\Note as NoteForm;
+use Tinyissue\Model\Project\Note;
 
 class ProjectController extends Controller
 {
@@ -18,7 +20,7 @@ class ProjectController extends Controller
     public function getIndex(Project $project)
     {
         $activities = $project->activities()
-                ->with('activity', 'issue', 'user', 'assignTo', 'comment')
+                ->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note')
                 ->orderBy('created_at', 'DESC')
                 ->take(10)
                 ->get();
@@ -30,6 +32,7 @@ class ProjectController extends Controller
             'open_issues_count'     => $project->openIssuesCount()->count(),
             'closed_issues_count'   => $project->closedIssuesCount()->count(),
             'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
+            'notes_count'           => $project->notes()->count(),
             'sidebar'               => 'project'
         ]);
     }
@@ -58,6 +61,7 @@ class ProjectController extends Controller
             'open_issues_count'     => $openIssuesCount,
             'closed_issues_count'   => $closedIssuesCount,
             'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
+            'notes_count'           => $project->notes()->count(),
             'sidebar'               => 'project'
         ]);
     }
@@ -78,10 +82,33 @@ class ProjectController extends Controller
             'open_issues_count'     => $project->openIssuesCount()->count(),
             'closed_issues_count'   => $project->closedIssuesCount()->count(),
             'assigned_issues_count' => $issues->count(),
+            'notes_count'           => $project->notes()->count(),
             'sidebar'               => 'project'
         ]);
     }
 
+    /**
+     * Display notes for a project
+     *
+     * @param Project $project
+     * @return \Illuminate\View\View
+     */
+    public function getNotes(Project $project, NoteForm $form)
+    {
+        $notes = $project->notes()->with('createdBy')->get();
+
+        return view('project.index', [
+            'project'               => $project,
+            'active'                => 'notes',
+            'notes'                 => $notes,
+            'open_issues_count'     => $project->openIssuesCount()->count(),
+            'closed_issues_count'   => $project->closedIssuesCount()->count(),
+            'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
+            'notes_count'           => $notes->count(),
+            'sidebar'               => 'project',
+            'noteForm'              => $form,
+        ]);
+    }
     /**
      * Edit the project.
      *
@@ -139,5 +166,34 @@ class ProjectController extends Controller
         }
 
         return response()->json(['status' => $status]);
+    }
+
+    public function postAddNote(Project $project, Note $note, FormRequest\Note $request)
+    {
+        $note->setRelation('project', $project);
+        $note->setRelation('createdBy', $this->auth->user());
+        $note->createNote($request->all());
+
+        return redirect($note->to())->with('notice', trans('tinyissue.your_note_added'));
+    }
+
+    public function postEditNote(Project $project, Project\Note $note, Request $request)
+    {
+        $body = '';
+        if ($request->has('body')) {
+            $note->setRelation('project', $project);
+            $note->body = $request->input('body');
+            $note->save();
+            $body = \Html::format($note->body);
+        }
+
+        return response()->json(['status' => true, 'text' => $body]);
+    }
+
+    public function getDeleteNote(Project $project, Project\Note $note)
+    {
+        $note->delete();
+
+        return response()->json(['status' => true]);
     }
 }

@@ -65,7 +65,7 @@ class IssueController extends Controller
             $body = \Html::format($comment->comment);
         }
 
-        return response()->json(['comment' => $body]);
+        return response()->json(['text' => $body]);
     }
 
     /**

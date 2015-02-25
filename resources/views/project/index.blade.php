@@ -34,13 +34,20 @@ active
         'page' => 'issue_assigned_to_you',
         'count' => $assigned_issues_count,
     ],
+    [
+    'url' => $project->to('notes'),
+    'page' => 'notes',
+    'count' => $notes_count,
+    ],
 ], $active, 'activity') !!}
 
-<div class="inside-tabs">
+<div class="inside-tabs {{ $active }}">
     {!! Html::startBox() !!}
 
     @if (isset($issues))
     @include('project/index/issues')
+    @elseif(isset($notes))
+    @include('project/index/notes')
     @else
     @include('project/index/activity')
     @endif

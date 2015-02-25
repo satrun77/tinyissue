@@ -1,51 +1,14 @@
 $(function () {
     'use strict';
 
-    // Comment Actions
-    var discussion = $('.issue-discussion');
-
-    discussion.find('li .edit').on('click', function (e) {
-        e.preventDefault();
-        var id = $(this).data('comment-id');
-        $('#comment' + id + ' .issue').hide();
-        $('#comment' + id + ' .comment-edit').show();
+    Discussion().init({
+        name: 'comment',
+        selector: '.issue-discussion'
     });
 
-    discussion.find('li .delete').on('click', function (e) {
-        e.preventDefault();
-        ConfirmDialog.show($(this), function (el) {
-            GlobalSaving.show('Deleting');
-            var id = el.data('comment-id');
-            Ajax.get(el.attr('href'), function () {
-                $('#comment' + id).fadeOut();
-                GlobalSaving.hide();
-            });
-        });
-    });
-
-    discussion.find('li .save').on('click', function (e) {
-        e.preventDefault();
-        var el = $(this);
-        var id = el.data('comment-id');
-        var url = $('#comment' + id + ' .edit').attr('href');
-        var textarea = $('#comment' + id + ' textarea');
-
-        textarea.attr('disabled', 'disabled');
-        GlobalSaving.toggle();
-
-        Ajax.post(url, {body: textarea.val()}, function (data) {
-            textarea.removeAttr('disabled');
-            $('#comment' + id + ' .comment-edit').hide();
-            $('#comment' + id + ' .issue').html(data.comment).show();
-            GlobalSaving.toggle();
-        });
-    });
-
-    discussion.find('li .cancel').on('click', function (e) {
-        e.preventDefault();
-        var id = $(this).data('comment-id');
-        $('#comment' + id + ' .comment-edit').hide();
-        $('#comment' + id + ' .issue').show();
+    Discussion().init({
+        name: 'note',
+        selector: '.notes'
     });
 
     // Left column assign users
