@@ -867,6 +867,9 @@ th {
 .glyphicon-tree-deciduous:before {
   content: "\e200";
 }
+.glyphicon-menu-right:before {
+    content: "\e258";
+}
 * {
   box-sizing: border-box;
 }
