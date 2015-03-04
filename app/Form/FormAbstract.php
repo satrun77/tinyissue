@@ -34,4 +34,9 @@ abstract class FormAbstract implements FormInterface
     {
         return $this->model;
     }
+
+    public function openType()
+    {
+        return 'open';
+    }
 }

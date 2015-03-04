@@ -11,7 +11,8 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
             \Former::populate($model);
         }
 
-        $former = \Former::open();
+        $formType = $form->openType();
+        $former = \Former::$formType();
         array_walk($attrs, function ($value, $attr) use ($former) {
             if ($value === null) {
                 $former->$attr();

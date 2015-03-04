@@ -17,4 +17,6 @@ interface FormInterface
     public function isEditing();
 
     public function getModel();
+
+    public function openType();
 }
