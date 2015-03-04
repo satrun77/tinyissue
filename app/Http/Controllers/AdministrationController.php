@@ -4,6 +4,7 @@ namespace Tinyissue\Http\Controllers;
 
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
+use Tinyissue\Model\Tag;
 
 class AdministrationController extends Controller
 {
@@ -21,6 +22,7 @@ class AdministrationController extends Controller
             'open_issues'       => Project::countOpenIssues(),
             'closed_issues'     => Project::countClosedIssues(),
             'projects'          => $this->auth->user()->projects()->get(),
+            'tags'              => Tag::where('group', '=', false)->count(),
         ]);
     }
 }

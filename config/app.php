@@ -133,6 +133,7 @@ return [
         'Former\FormerServiceProvider',
         'Tinyissue\Providers\FormerServiceProvider',
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
+        'Tinyissue\Providers\BladeServiceProvider',
     ],
     /*
       |--------------------------------------------------------------------------

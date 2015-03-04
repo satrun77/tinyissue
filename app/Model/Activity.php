@@ -15,4 +15,5 @@ class Activity extends Model
     const TYPE_REOPEN_ISSUE = 4;
     const TYPE_REASSIGN_ISSUE = 5;
     const TYPE_NOTE = 6;
+    const TYPE_ISSUE_TAG = 7;
 }

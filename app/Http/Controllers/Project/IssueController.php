@@ -107,7 +107,8 @@ class IssueController extends Controller
     public function postNew(Project $project, Issue $issue, FormRequest\Issue $request)
     {
         $issue->setRelation('project', $project);
-        $issue->createIssue($request->all(), $this->auth->user()->id);
+        $issue->setRelation('user', $this->auth->user());
+        $issue->createIssue($request->all());
 
         return redirect($issue->to())
             ->with('notice', trans('tinyissue.issue_has_been_created'));
@@ -131,7 +132,8 @@ class IssueController extends Controller
     public function postEdit(Project $project, Issue $issue, FormRequest\Issue $request)
     {
         $issue->setRelation('project', $project);
-        $issue->updateIssue($request->all(), $this->auth->user()->id);
+        $issue->setRelation('updatedBy', $this->auth->user());
+        $issue->updateIssue($request->all());
 
         return redirect($issue->to())
             ->with('notice', trans('tinyissue.issue_has_been_updated'));

@@ -193,4 +193,13 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
                 . '<span>' . trans('tinyissue.' . $message) . '</span>'
                 . '</div>';
     }
+
+    public function formatIssueTag($tag, $group = null)
+    {
+        if (null === $group) {
+            list($group, $tag) = explode(':', $tag);
+        }
+
+        return '<span class="issue-tag"><span class="group">' . $group . '</span><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="title">' . $tag . '</span></span>';
+    }
 }

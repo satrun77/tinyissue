@@ -8,6 +8,7 @@ use Tinyissue\Model\Project\Issue\Comment as IssueComment;
 use Tinyissue\Model\Project\User as ProjectUser;
 use Tinyissue\Model\User\Activity as UserActivity;
 use URL;
+use Illuminate\Database\Eloquent\Relations;
 
 class Project extends Model
 {
@@ -225,13 +226,53 @@ class Project extends Model
         return $this->hasMany('Tinyissue\Model\User\Activity', 'parent_id');
     }
 
-    public function listIssues($status = \Tinyissue\Model\Project\Issue::STATUS_OPEN)
+    public function listIssues($status = ProjectIssue::STATUS_OPEN, array $filter = array())
     {
-        return $this->issues()
-            ->with('countComments', 'user', 'updatedBy')
-            ->where('status', '=', $status)
-            ->orderBy('updated_at', 'DESC')
-            ->get();
+        $sortOrder = array_get($filter, 'sortorder', 'desc');
+
+        $query = $this->issues()
+            ->with('countComments', 'user', 'updatedBy', 'tags', 'tags.parent')
+            ->with(['tags' => function($query) use($status, $sortOrder) {
+                $status = $status == ProjectIssue::STATUS_OPEN? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
+                $query->where('name', '!=', $status);
+                $query->orderBy('name', $sortOrder);
+            }])
+            ->where('status', '=', $status);
+
+        // Filter by assign to
+        if (!empty($filter['assignto']) && $filter['assignto'] > 0) {
+            $query->where('assigned_to', '=', (int) $filter['assignto']);
+        }
+
+        // Filter by tag
+        if (!empty($filter['tags'])) {
+            $tagIds = array_map('trim', explode(',', $filter['tags']));
+            $query->whereHas('tags', function($query) use($tagIds) {
+                $query->whereIn('id', $tagIds);
+            });
+        }
+
+        // Sort
+        if (!empty($filter['sortby'])) {
+            $sortOrder = array_get($filter, 'sortorder', 'desc');
+            if ($filter['sortby'] == 'updated') {
+                $query->orderBy('updated_at', $sortOrder);
+            } elseif (($tagGroup = substr($filter['sortby'], strlen('tag:'))) > 0) {
+                $results = $query->get()->sort(function($issue1, $issue2) use($tagGroup, $sortOrder) {
+                    $tag1 = $issue1->tags->where('parent.id', $tagGroup, false)->first();
+                    $tag2 = $issue2->tags->where('parent.id', $tagGroup, false)->first();
+                    $tag1 = $tag1? $tag1->name : '';
+                    $tag2 = $tag2? $tag2->name : '';
+                    if ($sortOrder === 'asc') {
+                        return strcmp($tag1, $tag2);
+                    }
+                    return strcmp($tag2, $tag1);
+                });
+                return $results;
+            }
+        }
+
+        return $query->get();
     }
 
     public function listAssignedIssues($userId)

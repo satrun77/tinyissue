@@ -1,15 +1,21 @@
 @extends('layouts.wrapper')
 
+@section('styles')
+    {!! Html::style('css/tokenfield.css') !!}
+    @parent
+@stop
+
 @section('scripts')
-{!! Html::script('js/project.js') !!}
+    {!! Html::script('js/jquery.tokenfield.js') !!}
+    {!! Html::script('js/project.js') !!}
 @stop
 
 @section('nav/projects/class')
-active
+    active
 @stop
 
 @section('contentTitle')
-{!! Html::toolbar('project', ['project' => $project]) !!}
+    {!! Html::toolbar('project', ['project' => $project]) !!}
 @stop
 
 @section('content')
@@ -41,18 +47,25 @@ active
     ],
 ], $active, 'activity') !!}
 
-<div class="inside-tabs {{ $active }}">
-    {!! Html::startBox() !!}
+    <div class="inside-tabs {{ $active }}">
 
-    @if (isset($issues))
-    @include('project/index/issues')
-    @elseif(isset($notes))
-    @include('project/index/notes')
-    @else
-    @include('project/index/activity')
-    @endif
+        @if (isset($issues))
+            {!! Html::startBox('blue-box gray-box toolbar') !!}
+            {!! Form::form($filterForm, ['action'=>'', 'method'=>'GET']) !!}
+            {!! Html::endBox() !!}
+        @endif
 
-    {!! Html::endBox() !!}
-</div>
+        {!! Html::startBox() !!}
+
+        @if (isset($issues))
+            @include('project/index/issues')
+        @elseif(isset($notes))
+            @include('project/index/notes')
+        @else
+            @include('project/index/activity')
+        @endif
+
+        {!! Html::endBox() !!}
+    </div>
 
 @stop

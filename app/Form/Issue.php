@@ -3,6 +3,7 @@
 namespace Tinyissue\Form;
 
 use Tinyissue\Model\Project;
+use Tinyissue\Model\Tag;
 
 class Issue extends FormAbstract
 {
@@ -26,6 +27,20 @@ class Issue extends FormAbstract
     public function fields()
     {
         $issueModify = \Auth::user()->permission('issue-modify');
+        if ($this->isEditing()) {
+            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function($tag) {
+                return !($tag->name == Tag::STATUS_OPEN || $tag->name == Tag::STATUS_CLOSED);
+            })->map(function($tag) {
+                return [
+                    'value' => $tag->id,
+                    'label' =>  ($tag->fullname),
+                    'bgcolor' => $tag->bgcolor,
+                ];
+            })->toJson();
+        } else {
+            $selectTags = '';
+        }
+
         $fields = [
             'title' => [
                 'type'  => 'text',
@@ -34,6 +49,13 @@ class Issue extends FormAbstract
             'body'  => [
                 'type'  => 'textarea',
                 'label' => 'issue',
+            ],
+            'tag'  => [
+                'type'  => 'text',
+                'label' => 'tags',
+                'multiple' => true,
+                'class' => 'tagit',
+                'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
             ],
         ];
 

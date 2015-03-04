@@ -4,6 +4,17 @@
 active
 @stop
 
+@section('styles')
+    {!! Html::style('css/tokenfield.css') !!}
+    @parent
+@stop
+
+@section('scripts')
+    {!! Html::script('js/uploadify/jquery.uploadify.min.js') !!}
+    {!! Html::script('js/jquery.tokenfield.js') !!}
+    {!! Html::script('js/project.js') !!}
+@stop
+
 @section('contentTitle')
 {!! Html::toolbar('edit_issue', ['project' => $project]) !!}
 @stop

@@ -59,6 +59,7 @@ class RouteServiceProvider extends ServiceProvider
                     $router->pattern('project', '[0-9]+');
                     $router->pattern('attachment', '[0-9]+');
                     $router->pattern('note', '[0-9]+');
+                    $router->pattern('term', '\w+');
                     $router->model('note', 'Tinyissue\Model\Project\Note');
 
                     // View project
@@ -106,6 +107,9 @@ class RouteServiceProvider extends ServiceProvider
                         $router->post('project/issue/edit_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postEditComment']);
                         $router->get('project/issue/delete_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@getDeleteComment']);
                         $router->post('project/{project}/issue/{issue}/add_comment', 'Project\IssueController@getAddComment');
+
+                        // Tags autocomplete
+                        $router->get('administration/tags/suggestions/{term?}', 'Administration\TagsController@getTags');
                     });
                 });
 
@@ -119,6 +123,15 @@ class RouteServiceProvider extends ServiceProvider
                     $router->get('administration/users/edit/{user}', 'Administration\UsersController@getEdit');
                     $router->post('administration/users/edit/{user}', 'Administration\UsersController@postEdit');
                     $router->get('administration/users/delete/{user}', 'Administration\UsersController@getDelete');
+
+                    // Tags
+                    $router->model('tag', 'Tinyissue\Model\Tag');
+                    $router->pattern('tag', '[0-9]+');
+                    $router->get('administration/tags', 'Administration\TagsController@getIndex');
+                    $router->get('administration/tag/new', 'Administration\TagsController@getNew');
+                    $router->post('administration/tag/new', 'Administration\TagsController@postNew');
+                    $router->get('administration/tag/{tag}/edit', 'Administration\TagsController@getEdit');
+                    $router->post('administration/tag/{tag}/edit', 'Administration\TagsController@postEdit');
                 });
             });
         });

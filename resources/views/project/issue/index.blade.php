@@ -18,6 +18,13 @@ active
     <div class="issue-quote"><strong>@lang('tinyissue.time_quote'):</strong><span>{{ Html::duration($issue->time_quote) }}</span></div>
 @endif
 
+<div class="activity-tags">
+@foreach($issue->tags()->with('parent')->get() as $tag)
+    <label class="label" style="background: {{ $tag->bgcolor }}">{!! Html::formatIssueTag($tag->name, $tag->parent->name) !!}</label>
+@endforeach
+</div>
+
+<span class="clearfix"></span>
 <ul class="issue-discussion">
     <li>
         <div class="insides">

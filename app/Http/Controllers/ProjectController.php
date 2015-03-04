@@ -9,6 +9,7 @@ use Tinyissue\Model\Project\Issue;
 use Illuminate\Http\Request;
 use Tinyissue\Form\Note as NoteForm;
 use Tinyissue\Model\Project\Note;
+use Tinyissue\Form\FilterIssue as FilterForm;
 
 class ProjectController extends Controller
 {
@@ -42,10 +43,10 @@ class ProjectController extends Controller
      *
      * @return View
      */
-    public function getIssues(Project $project, $status = Issue::STATUS_OPEN)
+    public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
         $active = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
-        $issues = $project->listIssues($status);
+        $issues = $project->listIssues($status, $request->all());
         if ($status == Issue::STATUS_OPEN) {
             $closedIssuesCount = $project->closedIssuesCount()->count();
             $openIssuesCount = $issues->count();
@@ -62,7 +63,8 @@ class ProjectController extends Controller
             'closed_issues_count'   => $closedIssuesCount,
             'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
             'notes_count'           => $project->notes()->count(),
-            'sidebar'               => 'project'
+            'sidebar'               => 'project',
+            'filterForm'            => $filterForm,
         ]);
     }
 

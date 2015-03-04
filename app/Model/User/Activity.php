@@ -3,6 +3,7 @@
 namespace Tinyissue\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Tinyissue\Model\Project;
 
 class Activity extends Model
@@ -10,6 +11,9 @@ class Activity extends Model
     protected $table = 'users_activity';
     public $timestamps = true;
     protected $fillable = array('type_id', 'parent_id', 'user_id', 'item_id', 'action_id', 'data');
+    protected $casts = [
+        'data' => 'array',
+    ];
 
     public function issue()
     {
@@ -58,5 +62,15 @@ class Activity extends Model
                         ->orderBy('created_at', 'DESC')
                         ->take($limit)
                         ->get();
+    }
+
+    public function dataValue($name)
+    {
+        return array_get($this->data, $name);
+    }
+
+    public function dataCollection($name)
+    {
+        return new Collection($this->dataValue($name));
     }
 }

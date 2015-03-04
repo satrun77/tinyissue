@@ -8,6 +8,14 @@
     @foreach ($issues as $issue)
     <li>
         <a href="" class="comments">{{ $issue->count_comments }}</a>
+
+        <div class="issue-tags">
+        @forelse($issue->tags as $tag)
+                <label class="label" style="background: {{ $tag->bgcolor }}">{!! Html::formatIssueTag($tag->fullname) !!}</label>
+        @empty
+        @endforelse
+        </div>
+
         <a href="" class="id">#{{ $issue->id }}</a>
         <div class="data">
                 <a href="{{ $issue->to() }}">{{ $issue->title }}</a>

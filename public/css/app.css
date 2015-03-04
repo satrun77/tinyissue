@@ -69,6 +69,31 @@ h3 .newissue{
     background: url('../images/layout/newissue.png') no-repeat;
     text-indent: -999999px;
 }
+h3 > a, h3 > a:visited, h3 > a:focus{
+    height: 26px;
+    border-radius: 5px;
+    color: #fff;
+    float: right;
+    background: rgb(61, 164, 84);
+    font-size: 13px;
+    display: inline-block;
+    font-weight: 700 !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    vertical-align: middle;
+    padding-left: 10px;
+    line-height: 2.2em;
+    padding-right: 10px;
+}
+h3 > a:before {
+    content: "\2b";
+    font-size: 31px;
+    font-weight: 700;
+    float: left;
+    margin-top: 0px;
+    padding-right: 10px;
+}
+
 h3 .addnewuser{
     width: 121px; height: 26px;
     display: block;
@@ -94,7 +119,13 @@ h4 span{
     font-size: 15px;
     color: #999;
 }
-
+h4 .icon-color {
+    border-radius: 4px;
+    padding: 9px;
+    float: left;
+    border: 1px solid #dddddd;
+    margin: -3px 10px 0px 0px;
+}
 code{
     border: 1px solid rgb(204, 204, 204);
     padding: 3px;
@@ -113,10 +144,21 @@ code{
 .label-note {
     background-color: #FFA763;
 }
-.blue-box .activity li .label{
-    width: 68px;
+.label-tag {
+    background-color: #5f6074;
+}
+.blue-box .activity li .label  {
+    min-width: 68px;
+    height: 18px;
     float: left;
     margin-top: 2px;
+}
+.issues .issue-tags {
+    margin: 6px 0 -6px 0;
+}
+.issues .issue-tags .label {
+    float: right;
+    margin-right: 5px;
 }
 
 /* Notices */
@@ -451,6 +493,7 @@ code{
     min-height: 14px;
     background: url('../images/layout/icon-clock.png') no-repeat 0 1px;
     padding: 0 0 0 20px;
+    clear: left;
 }
 .blue-box .view{
     color: #426e86;
@@ -510,7 +553,11 @@ code{
     padding: 0;
     border-bottom: 0;
 }
-
+/* gray box */
+.gray-box {
+    background: #F5F5F5;
+    border-color: #E7E7E7;
+}
 
 /* Tabs */
 .tabs, .pills {
@@ -601,6 +648,10 @@ code{
     border:0 none;
 }
 /* Issues */
+.issue-discussion, .blue-box .issues {
+    clear: both;
+    margin-top: 5px;
+}
 .issue-discussion , .new-comment ul, .notes {
     list-style: none;
     padding: 0px;
@@ -702,7 +753,7 @@ code{
     color: #48a547;
 }
 .issue-quote {
-    text-align: right;
+    float: right;
     padding: 0 3px 8px 0;
 }
 .issue-quote span, .issue-quote strong {
@@ -757,6 +808,9 @@ code{
     font: normal 13px Helvetica, "Lucida Grande", Arial, sans-serif;
     color: #424242;
 }
+.form-control[type='color'] {
+    padding: 3px 4px;
+}
 textarea.form-control {
     min-height: 100px;
 }
@@ -776,6 +830,10 @@ textarea.form-control {
     background: #424242;
     border: 1px solid #262626;
     color: white;
+}
+.btn-sm {
+    padding: 9px 10px;
+    font-weight: 400;
 }
 .new-comment .col-lg-offset-2, .new-note .col-lg-offset-2 {
     margin: 0px;
@@ -810,6 +868,7 @@ textarea.form-control {
     padding: 5px 0;
     width: 50%;
     list-style: none;
+    z-index: 99;
 }
 
 .ui-autocomplete li{
@@ -852,6 +911,59 @@ textarea.form-control {
     background: rgb(255, 247, 189);
 }
 
+/*Tags*/
+.tokenfield .token {
+    border:0 none;
+    margin: 0 5px 0 0;
+}
+.tokenfield .token, .tokenfield .token .close {
+    color: #fff;
+}
+.tokenfield .token .close {
+    border-left: 1px solid #fff;
+    padding-left: 5px;
+    margin-top: 1px;
+    font-weight: 100;
+    opacity: 1;
+}
+.tokenfield .token .token-label {
+    margin: 5px 0;
+}
+.tokenfield .token-input {
+    margin-bottom: 0;
+}
+.issue-tag {
+
+}
+.issue-tag .glyphicon {
+    color: #fff;
+    float: left;
+    font-size: 12px;
+    margin: -3px 3px;
+    vertical-align: middle;
+}
+.issue-tag .group {
+
+}
+.issue-tag .group, .issue-tag .title {
+    float: left;
+    vertical-align: middle;
+}
+.issue-tag .title {
+
+}
+.activity-tags {
+    display: inline;
+    float: left;
+    margin-right: 5px;
+}
+.activity-tags .label {
+    margin-right: 5px;
+    min-width: 68px;
+    height: 18px;
+    float: left;
+    margin-top: -4px;
+}
 /* Attachments */
 #upload {
     background: rgb(88,88,88);
@@ -883,4 +995,26 @@ textarea.form-control {
 .attachments li{
     float: left;
     padding: 12px 10px;
+}
+/* Filter form */
+.toolbar {
+    padding-bottom: 0px;
+}
+.toolbar .first {
+    padding-left: 0px;
+}
+.toolbar .last {
+    border-right:0 none;
+}
+.form-group.toolbar-item.group {
+    border: 0 none;
+    padding-right: 0px;
+}
+.toolbar-item, .toolbar-item.first.group {
+    border-right: 1px solid #ddd;
+    padding: 0 7px;
+    margin: 0;
+}
+.toolbar .tagit {
+    min-width: 300px;
 }

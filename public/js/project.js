@@ -11,6 +11,28 @@ $(function () {
         selector: '.notes'
     });
 
+    var tags = $('.tagit');
+    if (tags.length > 0) {
+        tags.on('tokenfield:createdtoken', function (e) {
+            $(e.relatedTarget).css('background-color', e.attrs.bgcolor);
+        });
+        tags.on('tokenfield:createtoken', function (e) {
+            var existingTokens = $(this).tokenfield('getTokens');
+            $.each(existingTokens, function (index, token) {
+                if (token.value === e.attrs.value) {
+                    e.preventDefault();
+                }
+            });
+        });
+        tags.tokenfield({
+            autocomplete: {
+                source: TINY.baseUrl + "administration/tags/suggestions",
+                delay: 100
+            },
+            allowEditing: false
+        });
+    }
+
     // Left column assign users
     $('.delete-from-project').on('click', function (e) {
         e.preventDefault();
