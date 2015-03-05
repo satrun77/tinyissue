@@ -177,7 +177,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function projects($status = Project::STATUS_OPEN)
     {
-        return $this->belongsToMany('Tinyissue\Model\Project', 'projects_users')->where('status', '=', $status);
+        return $this->belongsToMany('Tinyissue\Model\Project', 'projects_users')->where('status', '=', $status)->orderBy('name');
     }
 
     /**
