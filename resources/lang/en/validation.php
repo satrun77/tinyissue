@@ -83,7 +83,7 @@ return [
       | specify a specific custom language line for a given attribute rule.
       |
      */
-    'custom' => [
+    'custom'               => [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
@@ -98,7 +98,7 @@ return [
       | of "email". This simply helps us make messages a little cleaner.
       |
      */
-    'attributes' => [
+    'attributes'           => [
         'only_complete_if_changing_password' => 'Only complete if changing password',
         'remember_me'                        => 'Remember me?',
     ],

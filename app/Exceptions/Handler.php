@@ -1,8 +1,23 @@
-<?php namespace Tinyissue\Exceptions;
+<?php
+
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace Tinyissue\Exceptions;
 
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
+/**
+ * Handler is a class to handler all of the application exceptions (reporting and rendering)
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class Handler extends ExceptionHandler
 {
     /**

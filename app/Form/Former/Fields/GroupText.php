@@ -1,10 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form\Former\Fields;
 
 use Former\Traits\Field;
-use Illuminate\Container\Container;
 
+/**
+ * GroupText is a Former field class to generate a group of fields as one field
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class GroupText extends Field
 {
     /**
@@ -14,11 +26,28 @@ class GroupText extends Field
      */
     protected $injectedProperties = [];
 
+    /**
+     * The field's default element
+     *
+     * @var string
+     */
     protected $element = 'div';
 
-    protected $fields;
+    /**
+     * List of managed fields
+     *
+     * @var array
+     */
+    protected $fields = [];
 
-    public function fields($fields)
+    /**
+     * Set managed fields
+     *
+     * @param array $fields
+     *
+     * @return $this
+     */
+    public function fields(array $fields)
     {
         array_walk($fields, function (&$field, $name) {
             $field = \Form::element($this->name . '[' . $name . ']', $field);
@@ -29,18 +58,24 @@ class GroupText extends Field
         return $this;
     }
 
+    /**
+     * Render the field
+     *
+     * @return string
+     */
     public function render()
     {
-        try {
-            $this->addClass('group-text');
-            $this->setId();
+        $this->addClass('group-text');
+        $this->setId();
 
-            return $this->open() . $this->getContent() . $this->close();
-        }catch (\Exception $e) {
-            echo $e;
-        }
+        return $this->open() . $this->getContent() . $this->close();
     }
 
+    /**
+     * Render the field content. Rendering the managed fields
+     *
+     * @return string
+     */
     public function getContent()
     {
         $output = '';
@@ -51,6 +86,11 @@ class GroupText extends Field
         return $output;
     }
 
+    /**
+     * Returns values stored in managed fields
+     *
+     * @return array
+     */
     public function getValue()
     {
         if (!is_array($this->fields)) {

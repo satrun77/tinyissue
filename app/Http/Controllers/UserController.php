@@ -1,19 +1,32 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Http\Controllers;
 
-use Tinyissue\Model\Project;
-use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Form\UserSetting as Form;
+use Tinyissue\Http\Requests\FormRequest;
+use Tinyissue\Model\Project;
 
+/**
+ * UserController is the controller class for managing request related to logged in user account
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class UserController extends Controller
 {
     /**
-     * Edit the user's settings.
+     * Edit the user's settings
      *
      * @param Form $form
      *
-     * @return Response
+     * @return \Illuminate\View\View
      */
     public function getSettings(Form $form)
     {
@@ -23,18 +36,24 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * To update user settings
+     *
+     * @param FormRequest\UserSetting $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postSettings(FormRequest\UserSetting $request)
     {
         $this->auth->user()->updateSetting($request->all());
 
-        return redirect('user/settings')
-                        ->with('notice', trans('tinyissue.settings_updated'));
+        return redirect('user/settings')->with('notice', trans('tinyissue.settings_updated'));
     }
 
     /**
-     * Shows the user's assigned issues.
+     * Shows the user's assigned issues
      *
-     * @return View
+     * @return \Illuminate\View\View
      */
     public function getIssues()
     {

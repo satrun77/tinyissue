@@ -1,18 +1,47 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Extensions\Html;
 
+use Former;
+use Former\Traits\Field;
+use Illuminate\Database\Eloquent\Model;
+use Request;
+use Tinyissue\Form\FormInterface;
+
+/**
+ * FormBuilder is a class to extend Laravel FormBuilder to add extra view macro
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class FormBuilder extends \Illuminate\Html\FormBuilder
 {
-    public function form(\Tinyissue\Form\FormInterface $form, array $attrs = [])
+    /**
+     * Render Form object into Html form with Former
+     *
+     * @param FormInterface $form
+     * @param array         $attrs
+     *
+     * @return string
+     */
+    public function form(FormInterface $form, array $attrs = [])
     {
+        // Populate form from edited model
         $model = $form->getModel();
-        if ($model instanceof \Illuminate\Database\Eloquent\Model) {
-            \Former::populate($model);
+        if ($model instanceof Model) {
+            Former::populate($model);
         }
 
+        // Start a form and add rules
         $formType = $form->openType();
-        $former = \Former::$formType();
+        $former = Former::$formType();
         array_walk($attrs, function ($value, $attr) use ($former) {
             if ($value === null) {
                 $former->$attr();
@@ -22,21 +51,23 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
         });
         $form->rules($form->rules());
 
+        // Generate form fields
         $output = $former;
         $fields = $form->fields();
         foreach ($fields as $name => $field) {
             $element = $this->element($name, $field);
 
-            if ($element instanceof \Former\Traits\Field) {
+            if ($element instanceof Field) {
                 if (null === $model) {
-                    $element->value(\Request::input($name));
+                    $element->value(Request::input($name));
                 }
             }
 
             $output .= $element;
         }
 
-        $actions = \Former::actions()->addClass('form-actions');
+        // Generate form actions
+        $actions = Former::actions()->addClass('form-actions');
         $buttons = $form->actions();
         foreach ($buttons as $name => $options) {
             if (is_array($options)) {
@@ -47,24 +78,29 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
         }
         $output .= $actions;
 
-        $output .= \Former::close();
+        // Close the opened form
+        $output .= Former::close();
 
         return $output;
     }
 
     /**
-     * @param $name
-     * @param $field
+     * Generate Former field
      *
-     * @return mixed
+     * @param string $name
+     * @param array  $field
+     *
+     * @return Field
      */
-    public function element($name, $field)
+    public function element($name, array $field)
     {
         $type = $field['type'];
         unset($field['type']);
 
-        $element = \Former::$type($name);
+        // Create field with name
+        $element = Former::$type($name);
 
+        // Create field attributes
         array_walk($field, function ($value, $attr) use ($element) {
             if ($value === null) {
                 $element->$attr();

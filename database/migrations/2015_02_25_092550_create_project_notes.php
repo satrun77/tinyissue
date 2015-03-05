@@ -1,9 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Tinyissue\Model;
 
+/**
+ * CreateProjectNotes is a migration class for upgrading the database to use project notes feature
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class CreateProjectNotes extends Migration
 {
 

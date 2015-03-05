@@ -5,7 +5,7 @@ active
 @stop
 
 @section('contentTitle')
-    {!! Html::toolbar('title', ['title' => 'administration', 'subTitle' => 'administration_description']) !!}
+    {!! Html::heading('title', ['title' => 'administration', 'subTitle' => 'administration_description']) !!}
 @stop
 
 @macro('list_item', $count, $label, $simple = true)

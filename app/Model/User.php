@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Model;
 
 use Hash;
@@ -11,6 +19,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Mail;
 
+/**
+ * User is model class for users
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable,
@@ -50,11 +63,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public static function getLanguages()
     {
-        $languages = array();
+        $languages = [];
 
         $cdir = scandir(__DIR__ . '/../../resources/lang');
         foreach ($cdir as $value) {
-            if (!in_array($value, array(".", ".."))) {
+            if (!in_array($value, [".", ".."])) {
                 $languages[$value] = $value;
             }
         }
@@ -82,16 +95,31 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->hasMany('Tinyissue\Model\Project\Issue\Comment', 'created_by', 'id');
     }
 
+    /**
+     * Returns issues created by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function issuesCreatedBy()
     {
         return $this->hasMany('Tinyissue\Model\Project\Issue', 'created_by');
     }
 
+    /**
+     * Returns issues closed by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function issuesClosedBy()
     {
         return $this->hasMany('Tinyissue\Model\Project\Issue', 'closed_by');
     }
 
+    /**
+     * Returns issues updated by the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function issuesUpdatedBy()
     {
         return $this->hasMany('Tinyissue\Model\Project\Issue', 'updated_by');
@@ -100,7 +128,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * User has many attachments (One-many relationship of Attachment::user).
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function attachments()
     {
@@ -117,14 +145,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->id == \Auth::user()->id;
     }
 
+    /**
+     * Returns projects with issues details eager loaded
+     *
+     * @param int $status
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function projectsWidthIssues($status = Project::STATUS_OPEN)
     {
         return $this->projects($status)->with([
-            'issues' => function ($query) {
+            'issues'               => function ($query) {
                 $query->with('updatedBy');
                 $query->where('assigned_to', '=', $this->id);
             },
-            'issues.user' => function ($query) {
+            'issues.user'          => function ($query) {
 
             },
             'issues.countComments' => function ($query) {
@@ -134,17 +169,24 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Select all issues assigned to a user.
+     * Returns all projects the user can access
      *
      * @param int $status
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function projects($status = Project::STATUS_OPEN)
     {
         return $this->belongsToMany('Tinyissue\Model\Project', 'projects_users')->where('status', '=', $status);
     }
 
+    /**
+     * Returns user projects with activities details eager loaded
+     *
+     * @param int $status
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function projectsWidthActivities($status = Project::STATUS_OPEN)
     {
         return $this->projects($status)->with([
@@ -155,12 +197,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         ]);
     }
 
-    public function assignedIssuesCount($prodjectId = 0)
+    /**
+     * Count number of assigned issues in a project
+     *
+     * @param int $projectId
+     *
+     * @return int
+     */
+    public function assignedIssuesCount($projectId = 0)
     {
         $issues = $this->issues();
 
-        if (0 < $prodjectId) {
-            $issues = $issues->where('project_id', '=', $prodjectId);
+        if (0 < $projectId) {
+            $issues = $issues->where('project_id', '=', $projectId);
         }
         $issues->where('status', '=', Project\Issue::STATUS_OPEN);
 
@@ -170,7 +219,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * User has many issues assigned to (One-many relationship of Issue::assigned).
      *
-     * @return mixed
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function issues()
     {
@@ -178,12 +227,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Returns inactive projects for the given user.
+     * Returns all projects with open issue count
      *
-     * @param bool  $all
-     * @param \User $user
+     * @param int $status
      *
-     * @return array
+     * @return $this
      */
     public function projectsWithCountOpenIssues($status = Project::STATUS_OPEN)
     {
@@ -194,6 +242,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return $this->projects($status)->with('openIssuesCount');
     }
 
+    /**
+     * Whether or not the user has a permission
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
     public function permission($key)
     {
         $this->loadPermisions();
@@ -206,6 +261,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return false;
     }
 
+    /**
+     * Load user premissions
+     *
+     * @return void
+     */
     protected function loadPermisions()
     {
         if (null == $this->permission) {
@@ -213,14 +273,22 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
     }
 
+    /**
+     * Returns all permission for the user
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function permissions()
     {
         return $this->hasMany('\Tinyissue\Model\Role\Permission', 'role_id', 'role_id');
     }
 
     /**
-     * @param $context
-     * @param array $params
+     * Whether or not the user has a valid permission in current context
+     * e.g. can access the issue or the project
+     *
+     * @param string $context
+     * @param array  $params
      *
      * @return bool
      */
@@ -246,9 +314,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         return false;
     }
 
+    /**
+     * Return user full name with property "fullname"
+     *
+     * @return string
+     */
     public function getFullNameAttribute()
     {
-        return $this->attributes['firstname'].' '.$this->attributes['lastname'];
+        return $this->attributes['firstname'] . ' ' . $this->attributes['lastname'];
     }
 
     /**
@@ -258,21 +331,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return array
      */
-    public function createUser($info)
+    public function createUser(array $info)
     {
         $insert = [
-            'email' => $info['email'],
+            'email'     => $info['email'],
             'firstname' => $info['firstname'],
-            'lastname' => $info['lastname'],
-            'role_id' => $info['role_id'],
-            'password' => Hash::make($password = Str::random(6)),
+            'lastname'  => $info['lastname'],
+            'role_id'   => $info['role_id'],
+            'password'  => Hash::make($password = Str::random(6)),
         ];
 
         $this->fill($insert)->save();
 
         /* Send Activation email */
         $viewData = [
-            'email' => $info['email'],
+            'email'    => $info['email'],
             'password' => $password,
         ];
         Mail::send('email.new_user', $viewData, function ($message) {
@@ -283,16 +356,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Soft deletes a user and empties the email.
-     *
-     * @param int $id
+     * Soft deletes a user and empties the email
      *
      * @return bool
      */
     public function delete()
     {
         $this->update([
-            'email' => '',
+            'email'   => '',
             'deleted' => static::DELETED_USERS,
         ]);
         Project\User::where('user_id', '=', $this->id)->delete();
@@ -301,20 +372,19 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Update a user.
+     * Update the user
      *
      * @param array $info
-     * @param int   $id
      *
-     * @return array
+     * @return bool|int
      */
-    public function update(array $info = array())
+    public function update(array $info = [])
     {
         $update = [
-            'email' => $info['email'],
+            'email'     => $info['email'],
             'firstname' => $info['firstname'],
-            'lastname' => $info['lastname'],
-            'role_id' => $info['role_id'],
+            'lastname'  => $info['lastname'],
+            'role_id'   => $info['role_id'],
         ];
 
         if ($info['password']) {
@@ -331,14 +401,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return array
      */
-    public function updateSetting($info)
+    public function updateSetting(array $info)
     {
-        $update = array(
-            'email' => $info['email'],
+        $update = [
+            'email'     => $info['email'],
             'firstname' => $info['firstname'],
-            'lastname' => $info['lastname'],
-            'language' => $info['language'],
-        );
+            'lastname'  => $info['lastname'],
+            'language'  => $info['language'],
+        ];
 
         if ($info['password']) {
             $update['password'] = \Hash::make($info['password']);

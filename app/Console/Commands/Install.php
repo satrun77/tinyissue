@@ -1,5 +1,13 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -8,6 +16,11 @@ use League\Flysystem\Filesystem;
 use Tinyissue\Model;
 use Illuminate\Support\Facades\Artisan;
 
+/**
+ * Install is console command to install the Tiny Issue application
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class Install extends Command
 {
     /**
@@ -24,6 +37,11 @@ class Install extends Command
      */
     protected $description = 'Install Tinyissue.';
 
+    /**
+     * Required PHP modules
+     *
+     * @var array
+     */
     protected $modules = [
         'pdo',
         'mcrypt',
@@ -33,8 +51,18 @@ class Install extends Command
         'mbstring',
     ];
 
+    /**
+     * Minimum PHP version
+     *
+     * @var string
+     */
     protected $phpVersion = '5.4.0';
 
+    /**
+     * Supported drivers
+     *
+     * @var array
+     */
     protected $dbDrivers = [
         'sqlite',
         'mysql',
@@ -42,8 +70,18 @@ class Install extends Command
         'sqlsrv',
     ];
 
+    /**
+     * Current enabled drivers
+     *
+     * @var array
+     */
     protected $validDbDrivers = [];
 
+    /**
+     * Current user entered data & default values
+     *
+     * @var array
+     */
     protected $data = [
         'key' => '',
         'timezone' => 'Pacific/Auckland',
@@ -84,11 +122,17 @@ class Install extends Command
         return true;
     }
 
+    /**
+     * Check the current environment and display the result in table
+     *
+     * @return bool
+     */
     protected function checkEnvironment()
     {
         $requirements = [];
         $allOk = true;
 
+        // Check PHP modules
         array_walk($this->modules, function ($module) use (&$requirements, &$allOk) {
             if (!extension_loaded($module)) {
                 $requirements[] = $this->formatTableCells([$module.' extension', 'No'], 'red');
@@ -98,6 +142,7 @@ class Install extends Command
             }
         });
 
+        // Check db drivers
         array_walk($this->dbDrivers, function ($driver) use (&$requirements, &$allOk) {
             if (!extension_loaded('pdo_'.$driver)) {
                 $requirements[] = $this->formatTableCells([$driver.' driver for pdo', 'Not Found'], 'blue');
@@ -107,6 +152,7 @@ class Install extends Command
             }
         });
 
+        // Whether or not one or more valid drivers were found
         if (false === $this->validDbDrivers) {
             $requirements[] = $this->formatTableCells([
                 'Install one of the following pdo drivers ('.implode(', ',
@@ -122,6 +168,7 @@ class Install extends Command
             ], 'green');
         }
 
+        // Check PHP version
         if (version_compare(PHP_VERSION, $this->phpVersion, '<')) {
             $allOk = false;
             $requirements[] = $this->formatTableCells([
@@ -135,6 +182,7 @@ class Install extends Command
             ], 'green');
         }
 
+        // Check application upload directory
         if (!is_writable(base_path('storage/app/uploads'))) {
             $allOk = false;
             $requirements[] = $this->formatTableCells([
@@ -148,19 +196,18 @@ class Install extends Command
             ], 'green');
         }
 
-        $segments = explode('/', base_path());
-        $count = count($segments);
-        $basePath = base_path();
+        // Check if upload directory is accessible to the public
+        $pathSegments = explode('/', base_path());
+        $count = count($pathSegments);
         $indexes = [];
         $break = false;
         for ($i = 0; $i < $count; $i++) {
             $indexes[] = $i;
-            $path = implode('/', array_except($segments, $indexes));
+            $path = implode('/', array_except($pathSegments, $indexes));
             $guessUrl = url($path.'/storage/app/uploads');
             $curl = curl_init($guessUrl);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, false);
-            $data = curl_exec($curl);
             $info = curl_getinfo($curl);
             if ($info['http_code'] != '404') {
                 $break = true;
@@ -175,18 +222,34 @@ class Install extends Command
             }
         }
 
+        // Display the result table
         $this->table(['Requirement', 'Status'], $requirements);
 
         return $allOk;
     }
 
-    protected function formatTableCells($cells, $color)
+    /**
+     * Format cell text color
+     *
+     * @param $cells array
+     * @param $color string
+     *
+     * @return array
+     */
+    protected function formatTableCells(array $cells, $color)
     {
         return array_map(function ($cell) use ($color) {
             return '<fg='.$color.'>'.$cell.'</fg='.$color.'>';
         }, $cells);
     }
 
+    /**
+     * Start a stage loop
+     *
+     * @param $method string The method name to execute in a loop
+     *
+     * @return void
+     */
     protected function loop($method)
     {
         while (true) {
@@ -202,6 +265,11 @@ class Install extends Command
         }
     }
 
+    /**
+     * Returns an object for application file system
+     *
+     * @return Filesystem
+     */
     protected function getFilesystem()
     {
         if (null === $this->filesystem) {
@@ -211,6 +279,14 @@ class Install extends Command
         return $this->filesystem;
     }
 
+    /**
+     * Stage one:
+     * - Collect data for the configuration file
+     * - Create .env file
+     * - Install the database
+     *
+     * @return void
+     */
     protected function stageOne()
     {
         $this->section('Local configurations:');
@@ -234,6 +310,7 @@ class Install extends Command
             $this->data['timezone']);
         $this->data['key'] = md5(str_random(40));
 
+        // Create .env from .env.example and populate with user data
         $filesystem = $this->getFilesystem();
         $content = $filesystem->read('.env.example');
         foreach ($this->data as $key => $value) {
@@ -244,6 +321,7 @@ class Install extends Command
         }
         $filesystem->put('.env', $content);
 
+        // Update the current database connection
         $config = \Config::get('database.connections.'.$this->data['dbDriver']);
         $config['driver'] = $this->data['dbDriver'];
         $config['host'] = $this->data['dbHost'];
@@ -255,12 +333,20 @@ class Install extends Command
         \Config::set("database.connections.".$this->data['dbDriver'], $config);
         \Config::set('database.default', $this->data['dbDriver']);
 
+        // Install the new database
         $this->section('Setting up the database:');
         Artisan::call('migrate:install');
         Artisan::call('migrate', ['--force' => true]);
         $this->info('Database created successfully.');
     }
 
+    /**
+     * Prints out a section title
+     *
+     * @param $title string
+     *
+     * @return void
+     */
     protected function section($title)
     {
         $this->line('');
@@ -268,6 +354,13 @@ class Install extends Command
         $this->line('------------------------');
     }
 
+    /**
+     * Stage two:
+     * - Collect details for admin user
+     * - Create the admin user
+     *
+     * @return void
+     */
     protected function stageTwo()
     {
         $this->section('Setting up the admin account:');

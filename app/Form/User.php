@@ -1,9 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form;
 
 use Tinyissue\Model\Role;
 
+/**
+ * User is a class to defines fields & rules for add/edit user form
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class User extends FormAbstract
 {
     public function actions()
@@ -39,6 +52,11 @@ class User extends FormAbstract
         return $fields;
     }
 
+    /**
+     * Return password fields
+     *
+     * @return array
+     */
     protected function passwordFields()
     {
         $fields = [];
@@ -57,6 +75,11 @@ class User extends FormAbstract
         return $fields;
     }
 
+    /**
+     * For sub-classes to add extra fields or remove fields
+     *
+     * @return array
+     */
     protected function innerFields()
     {
         $fields = [
@@ -88,5 +111,14 @@ class User extends FormAbstract
         }
 
         return $rules;
+    }
+
+    public function getRedirectUrl()
+    {
+        if ($this->isEditing()) {
+            return 'administration/users/edit/'.$this->getModel()->id;
+        }
+
+        return 'administration/users/add/';
     }
 }

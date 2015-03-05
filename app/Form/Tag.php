@@ -1,12 +1,25 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form;
 
 use Tinyissue\Model;
 
+/**
+ * Tag is a class to defines fields & rules for add/edit tag form
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class Tag extends FormAbstract
 {
-    public function setup($params)
+    public function setup(array $params)
     {
         if (isset($params['tag'])) {
             $this->editingModel($params['tag']);

@@ -1,30 +1,45 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Tinyissue\Form\FilterIssue as FilterForm;
+use Tinyissue\Form\Note as NoteForm;
 use Tinyissue\Form\Project as Form;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
-use Illuminate\Http\Request;
-use Tinyissue\Form\Note as NoteForm;
 use Tinyissue\Model\Project\Note;
-use Tinyissue\Form\FilterIssue as FilterForm;
 
+/**
+ * ProjectController is the controller class for managing request related to a project
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class ProjectController extends Controller
 {
     /**
-     * Display activity for a project.
+     * Display activity for a project
      *
-     * @return View
+     * @param Project $project
+     *
+     * @return \Illuminate\View\View
      */
     public function getIndex(Project $project)
     {
         $activities = $project->activities()
-                ->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note')
-                ->orderBy('created_at', 'DESC')
-                ->take(10)
-                ->get();
+            ->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note')
+            ->orderBy('created_at', 'DESC')
+            ->take(10)
+            ->get();
 
         return view('project.index', [
             'project'               => $project,
@@ -39,9 +54,14 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display issues for a project.
+     * Display issues for a project
      *
-     * @return View
+     * @param FilterForm $filterForm
+     * @param Request    $request
+     * @param Project    $project
+     * @param int        $status
+     *
+     * @return \Illuminate\View\View
      */
     public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
@@ -69,9 +89,11 @@ class ProjectController extends Controller
     }
 
     /**
-     * Display issues assigned to current user for a project.
+     * Display issues assigned to current user for a project
      *
-     * @return View
+     * @param Project $project
+     *
+     * @return \Illuminate\View\View
      */
     public function getAssigned(Project $project)
     {
@@ -92,7 +114,9 @@ class ProjectController extends Controller
     /**
      * Display notes for a project
      *
-     * @param Project $project
+     * @param Project  $project
+     * @param NoteForm $form
+     *
      * @return \Illuminate\View\View
      */
     public function getNotes(Project $project, NoteForm $form)
@@ -111,10 +135,14 @@ class ProjectController extends Controller
             'noteForm'              => $form,
         ]);
     }
+
     /**
-     * Edit the project.
+     * Edit the project
      *
-     * @return View
+     * @param Project $project
+     * @param Form    $form
+     *
+     * @return \Illuminate\View\View
      */
     public function getEdit(Project $project, Form $form)
     {
@@ -125,6 +153,14 @@ class ProjectController extends Controller
         ]);
     }
 
+    /**
+     * To update project details
+     *
+     * @param Project             $project
+     * @param FormRequest\Project $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postEdit(Project $project, FormRequest\Project $request)
     {
         // Delete the project
@@ -132,15 +168,22 @@ class ProjectController extends Controller
             $project->delete();
 
             return redirect('projects')
-                            ->with('notice', trans('tinyissue.project_has_been_deleted'));
+                ->with('notice', trans('tinyissue.project_has_been_deleted'));
         }
 
         $project->update($request->all());
 
         return redirect($project->to('edit'))
-                        ->with('notice', trans('tinyissue.project_has_been_updated'));
+            ->with('notice', trans('tinyissue.project_has_been_updated'));
     }
 
+    /**
+     * Ajax: returns list of users that are not in the project
+     *
+     * @param Project $project
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getInactiveUsers(Project $project)
     {
         $users = $project->usersNotIn();
@@ -148,6 +191,14 @@ class ProjectController extends Controller
         return response()->json($users);
     }
 
+    /**
+     * Ajax: add user to the project
+     *
+     * @param Project $project
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function postAssign(Project $project, Request $request)
     {
         $status = false;
@@ -159,6 +210,14 @@ class ProjectController extends Controller
         return response()->json(['status' => $status]);
     }
 
+    /**
+     * Ajax: remove user from the project
+     *
+     * @param Project $project
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function postUnassign(Project $project, Request $request)
     {
         $status = false;
@@ -170,6 +229,15 @@ class ProjectController extends Controller
         return response()->json(['status' => $status]);
     }
 
+    /**
+     * To add a new note to the project
+     *
+     * @param Project          $project
+     * @param Note             $note
+     * @param FormRequest\Note $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function postAddNote(Project $project, Note $note, FormRequest\Note $request)
     {
         $note->setRelation('project', $project);
@@ -179,6 +247,15 @@ class ProjectController extends Controller
         return redirect($note->to())->with('notice', trans('tinyissue.your_note_added'));
     }
 
+    /**
+     * Ajax: To update project note
+     *
+     * @param Project $project
+     * @param Note    $note
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function postEditNote(Project $project, Project\Note $note, Request $request)
     {
         $body = '';
@@ -192,6 +269,14 @@ class ProjectController extends Controller
         return response()->json(['status' => true, 'text' => $body]);
     }
 
+    /**
+     * Ajax: to delete a project note
+     *
+     * @param Project $project
+     * @param Note    $note
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getDeleteNote(Project $project, Project\Note $note)
     {
         $note->delete();

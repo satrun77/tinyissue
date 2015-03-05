@@ -15,7 +15,7 @@
 @stop
 
 @section('contentTitle')
-    {!! Html::toolbar('project', ['project' => $project]) !!}
+    {!! Html::heading('project', ['project' => $project]) !!}
 @stop
 
 @section('content')

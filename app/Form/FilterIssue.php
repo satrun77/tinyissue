@@ -1,15 +1,33 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form;
 
 use Request;
 use Tinyissue\Model;
 
+/**
+ * FilterIssue is a class to defines fields & rules for issue filter form
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class FilterIssue extends FormAbstract
 {
+    /**
+     * An instance of project model
+     *
+     * @var Model\Project
+     */
     protected $project;
 
-    public function setup($params)
+    public function setup(array $params)
     {
         $this->project = $params['project'];
     }
@@ -27,16 +45,20 @@ class FilterIssue extends FormAbstract
 
     public function fields()
     {
-        $tagGroups = Model\Tag::where('group', '=', 1)->get()->map(function($group) {
+        // Prefix tag groups with "tag:"
+        $tagGroups = Model\Tag::where('group', '=', 1)->get()->map(function ($group) {
             $group->keyname = 'tag:' . $group->id;
             $group->name = ucwords($group->name);
             return $group;
         })->lists('name', 'keyname');
 
+        // Array of sort optins
         $sort = ['updated' => trans('tinyissue.updated')] + $tagGroups;
 
+        // Array of project users
         $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->lists('fullname', 'id');
 
+        // On submit, generate list of selected tags to populate the field
         if (Request::has('tags')) {
             $tagIds = array_map('trim', explode(',', Request::input('tags')));
             $selectTags = Model\Tag::whereIn('id', $tagIds)->get()->map(function ($tag) {
@@ -79,11 +101,6 @@ class FilterIssue extends FormAbstract
         ];
 
         return $fields;
-    }
-
-    public function rules()
-    {
-        return [];
     }
 
     public function getRedirectUrl()

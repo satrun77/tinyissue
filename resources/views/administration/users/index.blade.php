@@ -5,7 +5,7 @@ active
 @stop
 
 @section('contentTitle')    
-{!! Html::toolbar('add_user', ['title' => 'users', 'subTitle' => 'users_description']) !!}
+{!! Html::heading('add_user', ['title' => 'users', 'subTitle' => 'users_description']) !!}
 @stop
 
 @section('content')

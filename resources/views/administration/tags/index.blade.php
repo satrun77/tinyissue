@@ -5,7 +5,7 @@ active
 @stop
 
 @section('contentTitle')    
-{!! Html::toolbar('title', ['title' => 'tags', 'subTitle' => 'tags_list', 'link'=>link_to('administration/tag/new', trans('tinyissue.add_tag'))]) !!}
+{!! Html::heading('title', ['title' => 'tags', 'subTitle' => 'tags_list', 'link'=>link_to('administration/tag/new', trans('tinyissue.add_tag'))]) !!}
 @stop
 
 @section('content')

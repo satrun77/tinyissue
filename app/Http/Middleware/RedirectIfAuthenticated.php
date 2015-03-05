@@ -1,9 +1,24 @@
-<?php namespace Tinyissue\Http\Middleware;
+<?php
+
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+namespace Tinyissue\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\RedirectResponse;
 
+/**
+ * RedirectIfAuthenticated is a Middleware class to redirect logged user to dashboard instead of login page
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class RedirectIfAuthenticated
 {
     /**

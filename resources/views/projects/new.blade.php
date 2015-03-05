@@ -13,7 +13,7 @@ active
 @stop
 
 @section('contentTitle')
-    {!! Html::toolbar('title', ['title' => 'create_a_new_project', 'subTitle' => 'create_a_new_project_description']) !!}
+    {!! Html::heading('title', ['title' => 'create_a_new_project', 'subTitle' => 'create_a_new_project_description']) !!}
 @stop
 
 @section('content')

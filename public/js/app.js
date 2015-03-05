@@ -1,20 +1,21 @@
 $(function () {
     'use strict';
 
-    if ($('.global-notice').html().length > 0) {
-        $('.global-notice').slideDown();
+    var globalNotice = $('.global-notice');
+    if (globalNotice.html().length > 0) {
+        globalNotice.slideDown();
 
         setTimeout(function () {
-            $('.global-notice').slideUp();
+            globalNotice.slideUp();
         }, 15000);
 
-        $('.global-notice').live('click', function () {
-            $('.global-notice').slideUp();
+        globalNotice.on('click', function () {
+            globalNotice.slideUp();
         });
     }
 
     // Confirm links
-    $('.close-issue, .delete-project, #users-list .delete').on('click', function (e) {
+    $('.close-issue, .delete-project, #users-list .delete').on('click', function () {
         return ConfirmDialog.show($(this), function () {
             return true;
         });

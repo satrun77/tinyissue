@@ -9,7 +9,7 @@ active
 @stop
 
 @section('contentTitle')
-    {!! Html::toolbar('title', ['title' => 'dashboard', 'subTitle' => 'dashboard_description']) !!}
+    {!! Html::heading('title', ['title' => 'dashboard', 'subTitle' => 'dashboard_description']) !!}
 @stop
 
 @section('content')

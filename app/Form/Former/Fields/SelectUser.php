@@ -1,13 +1,21 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form\Former\Fields;
 
-use Former\Helpers;
 use Former\Traits\Field;
-use Illuminate\Container\Container;
 
 /**
- * Renders all basic input types
+ * SelectUser is a Former field class for selecting project users
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class SelectUser extends Field
 {
@@ -16,7 +24,7 @@ class SelectUser extends Field
      *
      * @var array
      */
-    protected $injectedProperties = array();
+    protected $injectedProperties = [];
 
     /**
      * Prints out the current tag
@@ -35,46 +43,60 @@ class SelectUser extends Field
         // Render main input
         $input = parent::render();
 
-        $input .= $this->createDatalist('datalist_' . $name);
+        // Render list of selected users
+        $input .= $this->createDataList('datalist_' . $name);
 
         return $input;
     }
 
     /**
-     * Renders a datalist
+     * Returns Html of selected users
      *
-     * @param string $id     The datalist's id attribute
-     * @param array  $values Its values
+     * @param string $id
      *
-     * @return string A <datalist> tag
+     * @return string
      */
-    private function createDatalist($id)
+    private function createDataList($id)
     {
-        $datalist = '<ul id="' . $id . '" class="datalist ' . $id . '">';
+        $dataList = '<ul id="' . $id . '" class="datalist ' . $id . '">';
         if (is_array($this->value)) {
             foreach ($this->value as $key => $value) {
-                $datalist .= $this->formatSelected($key, $value);
+                $dataList .= $this->formatSelected($key, $value);
             }
         }
-        $datalist .= '</ul>';
+        $dataList .= '</ul>';
 
-        return $datalist;
+        return $dataList;
     }
 
+    /**
+     * Returns Html of a selected user row
+     *
+     * @param int    $id
+     * @param string $name
+     *
+     * @return string
+     */
     protected function formatSelected($id, $name)
     {
         return '<li class="project-user' . $id . '">'
-                . '<a href="javascript:void(0);" onclick="$(\'.project-user' . $id . '\').remove();" class="delete">' . trans('tinyissue.remove') . '</a>'
-                . $name
-                . '<input type="hidden" name="user[' . $id . ']" value="' . $name . '" />'
-                . '</li>';
+        . '<a href="" class="delete">' . trans('tinyissue.remove') . '</a>'
+        . $name
+        . '<input type="hidden" name="user[' . $id . ']" value="' . $name . '" />'
+        . '</li>';
     }
 
+    /**
+     * Returns an array of selected users
+     *
+     * @return array
+     */
     public function getValue()
     {
         if (!is_array($this->value)) {
             return [];
         }
+
         return array_keys($this->value);
     }
 }

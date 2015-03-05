@@ -9,7 +9,7 @@ active
 @stop
 
 @section('contentTitle')
-    {!! Html::toolbar('edit_project', ['project' => $project]) !!}
+    {!! Html::heading('edit_project', ['project' => $project]) !!}
 @stop
 
 @section('content')

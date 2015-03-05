@@ -17,8 +17,7 @@ html,body,#container {
 }
 #container {
     display:table;
-    padding: 0px;
-    padding-top: 48px;
+    padding: 48px 0 0 0;
 }
 .main {
     height: 100%;
@@ -45,7 +44,7 @@ h3{
     color: #535353;
     padding: 17px 18px 10px 18px;
     border-bottom: 1px solid #dfdfdf;
-    margin: 0px;
+    margin: 0;
 }
 h3 .subtitle {
     font-size: 11px;
@@ -124,7 +123,7 @@ h4 .icon-color {
     padding: 9px;
     float: left;
     border: 1px solid #dddddd;
-    margin: -3px 10px 0px 0px;
+    margin: -3px 10px 0 0;
 }
 code{
     border: 1px solid rgb(204, 204, 204);
@@ -132,7 +131,6 @@ code{
     background-color: rgb(248, 248, 248);
     font-family: Courier,monospace;
 }
-
 
 /* Labels */
 .label {
@@ -180,7 +178,7 @@ code{
 
 }
 .global-notice.global-error{
-    background: #de2e2e!important;
+    background: #de2e2e !important;
 }
 .global-saving{
     position: fixed;
@@ -319,9 +317,8 @@ code{
     font-size: 17px;
     color: #535353;
     background: url('../images/layout/h2-bg.png') no-repeat bottom left;
-    padding: 15px 0px 24px;
+    padding: 15px 0 24px 18px;
     margin: 0;
-    padding-left: 18px;
 }
 #sidebar h2:after {
     content: " ";
@@ -360,7 +357,7 @@ code{
 #sidebar ul{
     margin-bottom: 20px;
     list-style: none;
-    padding: 0px;
+    padding: 0;
 }
 #sidebar ul li{
     padding: 8px 18px;
@@ -386,12 +383,12 @@ code{
 
 /* content */
 #content {
-    padding: 0px 0px 50px;
+    padding: 0 0 50px;
     background: #fff;
 }
 
 #content .pad{
-    padding: 15px 20px 0px;
+    padding: 15px 20px 0;
 }
 
 /* User list */
@@ -454,8 +451,9 @@ code{
 
 .blue-box{
     background: url('../images/layout/blue-bg.png') #d4efff repeat-x;
-    border: 1px solid #c5e1f2;
-    border-bottom: 2px solid #c5e1f2;
+    border-color: #c5e1f2;
+    border-style: solid;
+    border-width: 1px 0 2px 0;
     border-radius: 5px;
     margin-bottom: 25px;
     padding-bottom: 5px;
@@ -467,13 +465,13 @@ code{
 .blue-box h4{
     font-size: 15px;
     color: #426e86;
-    padding: 0px 16px 16px;
+    padding: 0 16px 16px;
 }
 .blue-box .activity{
     background: #ffffff;
     border-top: 1px solid #dddddd;
     border-radius: 3px;
-    padding: 0px 8px 14px;
+    padding: 0 8px 14px;
     margin-bottom: 12px;
     list-style: none;
 }
@@ -509,7 +507,7 @@ code{
     border-radius: 3px;
     padding: 0 8px 17px;
     list-style: none;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .blue-box .issues li{
     padding: 9px 0;
@@ -542,7 +540,7 @@ code{
     border-radius: 3px;
     padding: 0 8px 17px;
     list-style: none;
-    margin-bottom: 0px;
+    margin-bottom: 0;
 }
 .blue-box .projects li{
     padding: 9px 0;
@@ -654,7 +652,7 @@ code{
 }
 .issue-discussion , .new-comment ul, .notes {
     list-style: none;
-    padding: 0px;
+    padding: 0;
 }
 .issue-discussion > li, .notes > li {
     border: 2px solid #dcdcdc;
@@ -698,7 +696,7 @@ code{
     padding: 12px 10px;
 }
 .issue-discussion li .comment-edit .right, .notes li .note-edit .right{
-    padding: 15px 0px 5px 0px;
+    padding: 15px 0 5px 0;
     text-align: right;
 }
 .issue-actions{
@@ -772,7 +770,7 @@ code{
 }
 .issue code {
     margin: 0 2px;
-    padding: 0px 5px;
+    padding: 0 5px;
     border: 1px solid #EAEAEA;
     background-color: #F8F8F8;
     border-radius: 3px;
@@ -794,7 +792,6 @@ code{
     border: none;
     background-color: transparent;
 }
-
 
 /* Form */
 
@@ -836,17 +833,17 @@ textarea.form-control {
     font-weight: 400;
 }
 .new-comment .col-lg-offset-2, .new-note .col-lg-offset-2 {
-    margin: 0px;
+    margin: 0;
 }
 .new-comment .col-lg-10, .new-note .col-lg-10 {
     width: 100%;
 }
 .group-text {
-    border: 0px none;
-    box-shadow: 0px 0px 0px transparent;
-    border-radius: 0px;
-    padding: 0px;
-    margin: 0px;
+    border: 0 none;
+    box-shadow: 0 0 0 transparent;
+    border-radius: 0;
+    padding: 0;
+    margin: 0;
 }
 .group-text .form-group {
     display: inline;
@@ -893,7 +890,7 @@ textarea.form-control {
 }
 #sidebar #add-user-project {
     width: 90%;
-    margin: 0px auto;
+    margin: 0 auto;
     background-position-x: 97%;
 }
 .datalist{
@@ -998,17 +995,17 @@ textarea.form-control {
 }
 /* Filter form */
 .toolbar {
-    padding-bottom: 0px;
+    padding-bottom: 0;
 }
 .toolbar .first {
-    padding-left: 0px;
+    padding-left: 0;
 }
 .toolbar .last {
     border-right:0 none;
 }
 .form-group.toolbar-item.group {
     border: 0 none;
-    padding-right: 0px;
+    padding-right: 0;
 }
 .toolbar-item, .toolbar-item.first.group {
     border-right: 1px solid #ddd;

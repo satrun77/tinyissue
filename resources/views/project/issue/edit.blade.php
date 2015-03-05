@@ -16,7 +16,7 @@ active
 @stop
 
 @section('contentTitle')
-{!! Html::toolbar('edit_issue', ['project' => $project]) !!}
+{!! Html::heading('edit_issue', ['project' => $project]) !!}
 @stop
 
 @section('content')

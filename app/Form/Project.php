@@ -1,9 +1,22 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form;
 
 use Tinyissue\Model\Project as ProjectModel;
 
+/**
+ * Project is a class to defines fields & rules for add/edit project form
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class Project extends FormAbstract
 {
     public function actions()
@@ -39,6 +52,8 @@ class Project extends FormAbstract
             ],
         ];
 
+        // On create project can assign users
+        // On edit project can change status or default assignee
         if (!$this->isEditing()) {
             $fields['user'] = [
                 'type'        => 'selectUser',
@@ -70,5 +85,14 @@ class Project extends FormAbstract
         ];
 
         return $rules;
+    }
+
+    public function getRedirectUrl()
+    {
+        if ($this->isEditing()) {
+            return $this->getModel()->to('edit');
+        }
+
+        return 'projects/new';
     }
 }

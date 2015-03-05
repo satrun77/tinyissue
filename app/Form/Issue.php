@@ -1,15 +1,33 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Form;
 
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Tag;
 
+/**
+ * Issue is a class to defines fields & rules for add/edit issue form
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class Issue extends FormAbstract
 {
+    /**
+     * An instance of project model
+     *
+     * @var Project
+     */
     protected $project;
 
-    public function setup($params)
+    public function setup(array $params)
     {
         $this->project = $params['project'];
         if (!empty($params['issue'])) {
@@ -27,13 +45,15 @@ class Issue extends FormAbstract
     public function fields()
     {
         $issueModify = \Auth::user()->permission('issue-modify');
+
+        // Populate tag fields with the submitted tags
         if ($this->isEditing()) {
-            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function($tag) {
+            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function ($tag) {
                 return !($tag->name == Tag::STATUS_OPEN || $tag->name == Tag::STATUS_CLOSED);
-            })->map(function($tag) {
+            })->map(function ($tag) {
                 return [
-                    'value' => $tag->id,
-                    'label' =>  ($tag->fullname),
+                    'value'   => $tag->id,
+                    'label'   => ($tag->fullname),
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toJson();
@@ -50,27 +70,29 @@ class Issue extends FormAbstract
                 'type'  => 'textarea',
                 'label' => 'issue',
             ],
-            'tag'  => [
-                'type'  => 'text',
-                'label' => 'tags',
-                'multiple' => true,
-                'class' => 'tagit',
+            'tag'   => [
+                'type'        => 'text',
+                'label'       => 'tags',
+                'multiple'    => true,
+                'class'       => 'tagit',
                 'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
             ],
         ];
 
+        // User with modify issue permission can assign users
         if ($issueModify) {
             $fields['assigned_to'] = [
                 'type'    => 'select',
                 'label'   => 'assigned_to',
                 'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id'),
-                'value'   => (int) $this->project->default_assignee,
+                'value'   => (int)$this->project->default_assignee,
             ];
         }
 
+        // Only on creating new issue
         if (!$this->isEditing()) {
             $fields['upload'] = [
-                'type' => 'file',
+                'type'  => 'file',
                 'label' => 'attachments',
             ];
             $fields['session'] = [
@@ -78,11 +100,12 @@ class Issue extends FormAbstract
                 'value' => \Crypt::encrypt(\Auth::user()->id),
             ];
             $fields['upload_token'] = [
-                'type' => 'hidden',
-                'value' => md5($this->project->id.time().\Auth::user()->id.rand(1, 100)),
+                'type'  => 'hidden',
+                'value' => md5($this->project->id . time() . \Auth::user()->id . rand(1, 100)),
             ];
         }
 
+        // User with modify issue permission can add quote
         if ($issueModify) {
             $fields['time_quote'] = [
                 'type'     => 'groupText',
@@ -113,10 +136,10 @@ class Issue extends FormAbstract
 
     public function rules()
     {
-        $rules = array(
+        $rules = [
             'title' => 'required|max:200',
             'body'  => 'required',
-        );
+        ];
 
         return $rules;
     }
@@ -130,6 +153,13 @@ class Issue extends FormAbstract
         return 'project/' . $this->project->id . '/issue/new';
     }
 
+    /**
+     * Extract number of hours, or minutes, or seconds from a quote
+     *
+     * @param string $part
+     *
+     * @return float|int
+     */
     protected function extractQuoteValue($part)
     {
         if ($this->getModel() instanceof Project\Issue) {

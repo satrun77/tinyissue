@@ -1,22 +1,34 @@
 <?php
 
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Tinyissue\Model\User\Activity as UserActivity;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\Tag;
+use Tinyissue\Model\User\Activity as UserActivity;
 
+/**
+ * Issue is model class for project issues
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ */
 class Issue extends Model
 {
-    protected $table = 'projects_issues';
-    public $timestamps = true;
-    protected $fillable = array('created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote');
-
     const STATUS_OPEN = 1;
     const STATUS_CLOSED = 0;
+    public $timestamps = true;
+    protected $table = 'projects_issues';
+    protected $fillable = ['created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote'];
 
     /**
      * An issue has one user assigned to (inverse relationship of User::issues).
@@ -58,42 +70,43 @@ class Issue extends Model
         return $this->belongsTo('Tinyissue\Model\User', 'created_by');
     }
 
-    //----
-    public function activities()
-    {
-        return $this->hasMany('Tinyissue\Model\User\Activity', 'item_id')->orderBy('created_at', 'ASC');
-    }
-
+    /**
+     * Issue belong to a project
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function project()
     {
         return $this->belongsTo('Tinyissue\Model\Project');
     }
 
-    public function comments()
-    {
-        return $this->hasMany('Tinyissue\Model\Project\Issue\Comment', 'issue_id')
-                        ->orderBy('created_at', 'ASC');
-    }
-
+    /**
+     * Issue can have many attachments
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function attachments()
     {
         return $this->hasMany('Tinyissue\Model\Project\Issue\Attachment', 'issue_id')->where('comment_id', '=', 0);
     }
 
-    public function tags()
-	{
-		return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_issues_tags', 'issue_id', 'tag_id');
-	}
-
-
+    /**
+     * Count number of comments in an issue
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function countComments()
     {
         return $this->hasOne('Tinyissue\Model\Project\Issue\Comment', 'issue_id')
-                        ->selectRaw('issue_id, count(*) as aggregate')
-                        ->groupBy('issue_id')
-        ;
+            ->selectRaw('issue_id, count(*) as aggregate')
+            ->groupBy('issue_id');
     }
 
+    /**
+     * Returns the aggregate value of number of comments in an issue
+     *
+     * @return int
+     */
     public function getCountCommentsAttribute()
     {
         // if relation is not loaded already, let's do it first
@@ -104,9 +117,16 @@ class Issue extends Model
         $related = $this->getRelation('countComments');
 
         // then return the count directly
-        return (isset($related->aggregate)) ? (int) $related->aggregate : 0;
+        return (isset($related->aggregate)) ? (int)$related->aggregate : 0;
     }
 
+    /**
+     * Set the issue is updated by a user
+     *
+     * @param int $userId
+     *
+     * @return bool
+     */
     public function changeUpdatedBy($userId)
     {
         $time = new \DateTime();
@@ -125,13 +145,15 @@ class Issue extends Model
      */
     public function to($url = '')
     {
-        return \URL::to('project/'.$this->project_id.'/issue/'.$this->id.(($url) ? '/'.$url : ''));
+        return \URL::to('project/' . $this->project_id . '/issue/' . $this->id . (($url) ? '/' . $url : ''));
     }
 
     /**
-     * Reassign the issue to a new user.
+     * Reassign the issue to a new user
      *
-     * @param int $user_id
+     * @param int $userId
+     *
+     * @return Model
      */
     public function reassign($userId)
     {
@@ -139,17 +161,30 @@ class Issue extends Model
         $this->save();
 
         return $this->activities()->save(new UserActivity([
-                    'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
-                    'parent_id' => $this->project->id,
-                    'user_id'   => \Auth::user()->id,
-                    'action_id' => $this->assigned_to,
+            'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
+            'parent_id' => $this->project->id,
+            'user_id'   => \Auth::user()->id,
+            'action_id' => $this->assigned_to,
         ]));
     }
 
     /**
-     * Change the status of an issue.
+     * Issue have many users activities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function activities()
+    {
+        return $this->hasMany('Tinyissue\Model\User\Activity', 'item_id')->orderBy('created_at', 'ASC');
+    }
+
+    /**
+     * Change the status of an issue
      *
      * @param int $status
+     * @param int $userId
+     *
+     * @return bool
      */
     public function changeStatus($status, $userId)
     {
@@ -193,13 +228,23 @@ class Issue extends Model
     }
 
     /**
+     * Issue have many tags
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_issues_tags', 'issue_id', 'tag_id');
+    }
+
+    /**
      * Update the given issue.
      *
      * @param array $input
      *
      * @return array
      */
-    public function updateIssue($input)
+    public function updateIssue(array $input)
     {
         $fill = [
             'title'       => $input['title'],
@@ -221,55 +266,22 @@ class Issue extends Model
 
         $this->fill($fill);
 
-        $tags = $this->createTags(array_map('trim', explode(',', $input['tag'])), $this->user->permission('administration'));
+        $tags = $this->createTags(array_map('trim', explode(',', $input['tag'])),
+            $this->user->permission('administration'));
         $this->syncTags($tags, $this->tags()->with('parent')->get());
 
         return $this->save();
     }
 
     /**
-     * Create a new issue.
+     * Create new tags from a string "group:tag_name" and fetch tag from a tag id.
      *
-     * @param array    $input
+     * @param    array $tags
+     * @param bool     $isAdmin
      *
-     * @return Issue
+     * @return Collection
      */
-    public function createIssue(array $input)
-    {
-        $fill = [
-            'created_by' => $this->user->id,
-            'project_id' => $this->project->id,
-            'title'      => $input['title'],
-            'body'       => $input['body'],
-        ];
-
-        if ($this->user->permission('issue-modify')) {
-            $fill['assigned_to'] = $input['assigned_to'];
-            $fill['time_quote']  = $input['time_quote'];
-        }
-
-        $this->fill($fill)->save();
-
-        /* Add to user's activity log */
-        $this->activities()->save(new UserActivity([
-            'type_id'   => Activity::TYPE_CREATE_ISSUE,
-            'parent_id' => $this->project->id,
-            'user_id'   => $this->user->id,
-        ]));
-
-        /* Add attachments to issue */
-        Attachment::where('upload_token', '=', $input['upload_token'])
-                ->where('uploaded_by', '=', $this->user->id)
-                ->update(['issue_id' => $this->id]);
-
-        // Create tags
-        $tags = $this->createTags(array_map('trim', explode(',', $input['tag'])), $this->user->permission('administration'));
-        $this->syncTags($tags);
-
-        return $this;
-    }
-
-    protected function createTags($tags, $isAdmin = false)
+    protected function createTags(array $tags, $isAdmin = false)
     {
         $newTags = new Collection;
         foreach ($tags as $aTag) {
@@ -309,53 +321,61 @@ class Issue extends Model
         return $newTags;
     }
 
+    /**
+     * Sync the issue tags
+     *
+     * @param Collection $tags
+     * @param Collection $currentTags
+     *
+     * @return bool
+     */
     public function syncTags(Collection $tags, Collection $currentTags = null)
     {
         $removedTags = [];
         if (null === $currentTags) {
             $openTag = Tag::where('name', '=', Tag::STATUS_OPEN)->first();
 
-            $addedTags = $tags->filter(function($tag) {
+            $addedTags = $tags->filter(function ($tag) {
                 return $tag->name !== Tag::STATUS_OPEN;
-            })->map(function($tag) {
+            })->map(function ($tag) {
                 return [
-                    'id' => $tag->id,
-                    'name' => $tag->fullname,
+                    'id'      => $tag->id,
+                    'name'    => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toArray();
         } else {
-            $openTag = $currentTags->first(function($index, $tag) {
+            $openTag = $currentTags->first(function ($index, $tag) {
                 return $tag->name === Tag::STATUS_OPEN;
             });
 
-            $removedTags = $currentTags->diff($tags)->filter(function($tag) {
+            $removedTags = $currentTags->diff($tags)->filter(function ($tag) {
                 return $tag->name !== Tag::STATUS_OPEN;
-            })->map(function($tag) {
+            })->map(function ($tag) {
                 return [
-                    'id' => $tag->id,
-                    'name' => $tag->fullname,
+                    'id'      => $tag->id,
+                    'name'    => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toArray();
 
             // Check if we are adding new tags
-            $addedTags = $tags->filter(function($tag) use ($currentTags) {
+            $addedTags = $tags->filter(function ($tag) use ($currentTags) {
                 // Ignore open tag
                 if ($tag->name === Tag::STATUS_OPEN) {
                     return false;
                 }
 
                 // Get new added tags that are not currently linked to the issue
-                $currentTag = $currentTags->first(function($index, $currentTag) use ($tag) {
+                $currentTag = $currentTags->first(function ($index, $currentTag) use ($tag) {
                     return $currentTag->id === $tag->id;
                 }, false);
 
                 return $currentTag === false;
-            })->map(function($tag) {
+            })->map(function ($tag) {
                 return [
-                    'id' => $tag->id,
-                    'name' => $tag->fullname,
+                    'id'      => $tag->id,
+                    'name'    => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toArray();
@@ -370,7 +390,7 @@ class Issue extends Model
         $tags->put($openTag->id, $openTag);
 
         // Save relation
-        $this->tags()->sync($tags->map(function($tag) {
+        $this->tags()->sync($tags->map(function ($tag) {
             return $tag->id;
         })->toArray());
 
@@ -381,13 +401,63 @@ class Issue extends Model
                 'type_id'   => Activity::TYPE_ISSUE_TAG,
                 'parent_id' => $this->project->id,
                 'user_id'   => $this->user->id,
-                'data' => ['added_tags' => $addedTags, 'removed_tags' => $removedTags]
+                'data'      => ['added_tags' => $addedTags, 'removed_tags' => $removedTags]
             ]));
         }
 
         return true;
     }
 
+    /**
+     * Create a new issue.
+     *
+     * @param array $input
+     *
+     * @return Issue
+     */
+    public function createIssue(array $input)
+    {
+        $fill = [
+            'created_by' => $this->user->id,
+            'project_id' => $this->project->id,
+            'title'      => $input['title'],
+            'body'       => $input['body'],
+        ];
+
+        if ($this->user->permission('issue-modify')) {
+            $fill['assigned_to'] = $input['assigned_to'];
+            $fill['time_quote'] = $input['time_quote'];
+        }
+
+        $this->fill($fill)->save();
+
+        /* Add to user's activity log */
+        $this->activities()->save(new UserActivity([
+            'type_id'   => Activity::TYPE_CREATE_ISSUE,
+            'parent_id' => $this->project->id,
+            'user_id'   => $this->user->id,
+        ]));
+
+        /* Add attachments to issue */
+        Attachment::where('upload_token', '=', $input['upload_token'])
+            ->where('uploaded_by', '=', $this->user->id)
+            ->update(['issue_id' => $this->id]);
+
+        // Create tags
+        $tags = $this->createTags(array_map('trim', explode(',', $input['tag'])),
+            $this->user->permission('administration'));
+        $this->syncTags($tags);
+
+        return $this;
+    }
+
+    /**
+     * Move the issue (comments & activities) to another project
+     *
+     * @param int $projectId
+     *
+     * @return $this
+     */
     public function changeProject($projectId)
     {
         $this->project_id = $projectId;
@@ -408,6 +478,17 @@ class Issue extends Model
     }
 
     /**
+     * Issue have many comments
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function comments()
+    {
+        return $this->hasMany('Tinyissue\Model\Project\Issue\Comment', 'issue_id')
+            ->orderBy('created_at', 'ASC');
+    }
+
+    /**
      * Convert time quote from an array into seconds
      *
      * @param array $value
@@ -420,6 +501,6 @@ class Issue extends Model
             $seconds += isset($value['m']) ? ($value['m'] * 60) : 0;
             $seconds += isset($value['h']) ? ($value['h'] * 60 * 60) : 0;
         }
-        $this->attributes['time_quote'] = (int) $seconds;
+        $this->attributes['time_quote'] = (int)$seconds;
     }
 }

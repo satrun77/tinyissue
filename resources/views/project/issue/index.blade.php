@@ -10,7 +10,7 @@ active
 @stop
 
 @section('contentTitle')
-{!! Html::toolbar('issue', ['project' => $project, 'issue' => $issue]) !!}
+{!! Html::heading('issue', ['project' => $project, 'issue' => $issue]) !!}
 @stop
 
 @section('content')
