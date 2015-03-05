@@ -73,13 +73,18 @@ class FilterIssue extends FormAbstract
         }
 
         $fields = [
+            'keyword'      => [
+                'type'            => 'text',
+                'placeholder'     => trans('tinyissue.keywords'),
+                'onGroupAddClass' => 'toolbar-item first',
+            ],
             'tags'      => [
                 'type'            => 'text',
                 'placeholder'     => trans('tinyissue.tags'),
                 'multiple'        => true,
                 'class'           => 'tagit',
                 'data_tokens'     => htmlentities($selectTags, ENT_QUOTES),
-                'onGroupAddClass' => 'toolbar-item first',
+                'onGroupAddClass' => 'toolbar-item',
             ],
             'sortby'    => [
                 'type'            => 'select',

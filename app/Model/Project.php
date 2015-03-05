@@ -348,6 +348,15 @@ class Project extends Model
             });
         }
 
+        // Filter by keyword
+        if (!empty($filter['keyword'])) {
+            $keyword = $filter['keyword'];
+            $query->where(function ($query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%');
+                $query->orWhere('body', 'like', '%' . $keyword . '%');
+            });
+        }
+
         // Sort
         if (!empty($filter['sortby'])) {
             $sortOrder = array_get($filter, 'sortorder', 'desc');

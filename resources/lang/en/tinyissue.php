@@ -165,4 +165,5 @@ return [
     'allusers'                          => 'All users',
     'sort_asc'                          => 'asc',
     'sort_desc'                         => 'desc',
+    'keywords'                          => 'Keywords',
 ];
