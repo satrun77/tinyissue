@@ -10,6 +10,7 @@
  */
 namespace Tinyissue\Http\Controllers;
 
+use Illuminate\Http\Request;
 use Tinyissue\Form\Project as Form;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
@@ -78,5 +79,49 @@ class ProjectsController extends Controller
         $project->createProject($request->all());
 
         return redirect($project->to());
+    }
+
+    /**
+     * Ajax: Calculate the progress of user projects
+     *
+     * @param Request $request
+     * @param Project $project
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postProgress(Request $request, Project $project)
+    {
+        $output = [];
+
+        // Get all projects with count of closed and opened issues
+        $projects = $project->with('openIssuesCount', 'closedIssuesCount')
+            ->whereIn('id', $request->input('ids'))->get();
+
+        foreach ($projects as $project) {
+            // Calculate the progress
+            $progress = $project->openIssuesCount + $project->closedIssuesCount;
+            if ($progress > 0) {
+                $progress = ($project->closedIssuesCount / $progress) * 100;
+            }
+
+            // Choose color based on the progress
+            $color = 'success';
+            $progressInt = (int)$progress;
+            if ($progressInt < 50) {
+                $color = 'danger';
+            } elseif ($progressInt >= 50 && $progressInt < 60) {
+                $color = 'warning';
+            }
+
+            // The project progress Html and value
+            $output[$project->id] = [
+                'html'  => '<div class="progress">'
+                    . '<div class="progress-bar progress-bar-' . $color . '" role="progressbar" aria-valuenow="' . $progress . '" aria-valuemin="0" aria-valuemax="100">' . $progress . '%</div>'
+                    . '</div>',
+                'value' => $progress
+            ];
+        }
+
+        return response()->json(['status' => true, 'progress' => $output]);
     }
 }

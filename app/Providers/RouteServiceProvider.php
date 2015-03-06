@@ -61,6 +61,7 @@ class RouteServiceProvider extends ServiceProvider
                 $router->get('projects/{status?}', 'ProjectsController@getIndex')->where('status', '[0-1]');
                 $router->get('projects/new', 'ProjectsController@getNew');
                 $router->post('projects/new', 'ProjectsController@postNew');
+                $router->post('projects/progress', ['middleware' => 'ajax', 'uses' => 'ProjectsController@postProgress']);
 
                 $router->group(['middleware' => 'project'], function ($router) {
                     $router->model('project', 'Tinyissue\Model\Project');

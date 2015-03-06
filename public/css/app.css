@@ -1015,3 +1015,12 @@ textarea.form-control {
 .toolbar .tagit {
     min-width: 300px;
 }
+/* Progress bar */
+.progress {
+    margin-bottom: 0px;
+    width: 90%;
+}
+.progress-bar {
+    min-width: 2em;
+    width: 2%;
+}

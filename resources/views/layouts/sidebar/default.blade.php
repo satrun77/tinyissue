@@ -9,7 +9,9 @@
 <ul>
     @forelse ($projects as $project)
     <li>
-        <a href="{{ $project->to() }}">{{ $project->name }}</a>
+        <a href="{{ $project->to() }}" data-project-id="{{ $project->id }}" class="project load-progress">
+            <span>{{ $project->name }}</span>
+        </a>
     </li>
     @empty
     @endforelse
