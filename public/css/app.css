@@ -62,45 +62,33 @@ h3 .subtitle a{
     font-weight: normal;
     color: #43a2d9;
 }
-h3 .newissue{
-    width: 99px; height: 26px;
-    display: block;
-    float: right;
-    background: url('../images/layout/newissue.png') no-repeat;
-    text-indent: -999999px;
-}
-h3 > a, h3 > a:visited, h3 > a:focus{
+h3 > a, h3 > a:visited, h3 > a:focus, h3 > a:hover{
     height: 26px;
-    border-radius: 5px;
+    border-radius: 4px;
     color: #fff;
     float: right;
     background: rgb(61, 164, 84);
-    font-size: 13px;
+    font-size: 12px;
     display: inline-block;
     font-weight: 700 !important;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     vertical-align: middle;
-    padding-left: 10px;
-    line-height: 2.2em;
-    padding-right: 10px;
+    padding-left: 8px;
+    line-height: 2.5em;
+    font-family: sans-serif;
+    padding-right: 8px;
 }
 h3 > a:before {
     content: "\2b";
-    font-size: 31px;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: bold;
     float: left;
-    margin-top: 0px;
-    padding-right: 10px;
+    -webkit-font-smoothing: antialiased;
+    margin-top: -2px;
+    padding-right: 6px;
 }
 
-h3 .addnewuser{
-    width: 121px; height: 26px;
-    display: block;
-    float: right;
-    background: url('../images/layout/addnewuser.png') no-repeat;
-    text-indent: -999999px;
-}
 h3 .edit-issue {
     padding-right: 35px;
     padding-top: 5px;
@@ -1004,7 +992,7 @@ textarea.form-control {
 .toolbar .last {
     border-right:0 none;
 }
-.form-group.toolbar-item.group {
+.form-group.toolbar-item.first.group {
     border: 0 none;
     padding-right: 0;
 }

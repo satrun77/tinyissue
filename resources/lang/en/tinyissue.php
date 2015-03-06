@@ -86,7 +86,7 @@ return [
     'version_release_date'              => 'Version Release Date',
     'users_description'                 => 'Add, modify and delete application wide users',
     'delete_user_confirm'               => 'Are you sure you wish to delete this user?',
-    'add_new_user'                      => 'Add a new user',
+    'add_new_user'                      => 'Add New User',
     'update_user'                       => 'Update User',
     'update_user_description'           => 'Change the information for user',
     'role'                              => 'Role',

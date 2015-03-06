@@ -35,7 +35,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
         extract($data);
 
         if ($type == 'issue') {
-            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'), ['class' => 'newissue']);
+            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'));
             $title = $this->link($issue->to(), $issue->title);
             if (\Auth::user()->permission('issue-modify')) {
                 $title = $this->link($issue->to('edit'), $issue->title, ['class' => 'edit-issue']);
@@ -53,15 +53,15 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
         } elseif ($type == 'project') {
             $title = $this->link($project->to(), $project->name);
             $subTitle = trans('tinyissue.project_overview');
-            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'), ['class' => 'newissue']);
+            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'));
         } elseif ($type == 'add_user') {
             $title = trans('tinyissue.' . $title);
             $subTitle = trans('tinyissue.' . $subTitle);
-            $link = $this->link('administration/users/add', trans('tinyissue.add_new_user'), ['class' => 'addnewuser']);
+            $link = $this->link('administration/users/add', trans('tinyissue.add_new_user'));
         } elseif ($type == 'edit_project') {
             $title = trans('tinyissue.update') . ' ' . $this->link($project->to(), $project->name);
             $subTitle = trans('tinyissue.update_project_description');
-            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'), ['class' => 'newissue']);
+            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'));
         }
 
         $output = '<h3>';
