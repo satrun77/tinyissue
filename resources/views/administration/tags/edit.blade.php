@@ -4,8 +4,12 @@
 active
 @stop
 
-@section('contentTitle')
-    {!! Html::heading('title', ['title' => 'update_tag', 'subTitle' => 'update_tag_description']) !!}
+@section('headingTitle')
+    @lang('tinyissue.update_tag')
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.update_tag_description')
 @stop
 
 @section('content')

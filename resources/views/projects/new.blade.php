@@ -12,8 +12,12 @@ active
 {!! Html::style('js/project-new.js') !!}
 @stop
 
-@section('contentTitle')
-    {!! Html::heading('title', ['title' => 'create_a_new_project', 'subTitle' => 'create_a_new_project_description']) !!}
+@section('headingTitle')
+    @lang('tinyissue.create_a_new_project')
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.create_a_new_project_description')
 @stop
 
 @section('content')

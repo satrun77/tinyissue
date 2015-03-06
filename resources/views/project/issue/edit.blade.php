@@ -15,8 +15,12 @@ active
     {!! Html::script('js/project.js') !!}
 @stop
 
-@section('contentTitle')
-{!! Html::heading('edit_issue', ['project' => $project]) !!}
+@section('headingTitle')
+    @lang('tinyissue.edit_issue')
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.edit_issue_in') {!! link_to($project->to(), $project->name) !!}
 @stop
 
 @section('content')

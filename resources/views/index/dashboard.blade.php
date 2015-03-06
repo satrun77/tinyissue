@@ -8,8 +8,12 @@ active
 {!! Html::script('js/dashboard.js') !!}
 @stop
 
-@section('contentTitle')
-    {!! Html::heading('title', ['title' => 'dashboard', 'subTitle' => 'dashboard_description']) !!}
+@section('headingTitle')
+    @lang('tinyissue.dashboard')
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.dashboard_description')
 @stop
 
 @section('content')

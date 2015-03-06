@@ -9,8 +9,20 @@
 active
 @stop
 
-@section('contentTitle')
-{!! Html::heading('issue', ['project' => $project, 'issue' => $issue]) !!}
+@section('headingTitle')
+    @if(\Auth::user()->permission('issue-modify'))
+        {!! link_to($issue->to('edit'), $issue->title, ['class' => 'edit-issue']) !!}
+    @else
+        {!! link_to($issue->to(), $issue->title) !!}
+    @endif
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.on_project') {!! link_to($project->to(), $project->name) !!}
+@stop
+
+@section('headingLink')
+    {!! link_to($project->to('issue/new'), trans('tinyissue.new_issue')) !!}
 @stop
 
 @section('content')

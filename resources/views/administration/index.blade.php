@@ -4,8 +4,12 @@
 active
 @stop
 
-@section('contentTitle')
-    {!! Html::heading('title', ['title' => 'administration', 'subTitle' => 'administration_description']) !!}
+@section('headingTitle')
+    @lang('tinyissue.administration')
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.administration_description')
 @stop
 
 @macro('list_item', $count, $label, $simple = true)

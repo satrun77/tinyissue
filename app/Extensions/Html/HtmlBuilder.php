@@ -20,60 +20,6 @@ use GrahamCampbell\Markdown\Facades\Markdown;
 class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
 {
     /**
-     * Render page heading (title, sub title, & button)
-     *
-     * @param string      $type
-     * @param array $data
-     *
-     * @return string
-     */
-    public function heading($type, array $data = [])
-    {
-        $link = '';
-        $title = '';
-        $subTitle = '';
-        extract($data);
-
-        if ($type == 'issue') {
-            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'));
-            $title = $this->link($issue->to(), $issue->title);
-            if (\Auth::user()->permission('issue-modify')) {
-                $title = $this->link($issue->to('edit'), $issue->title, ['class' => 'edit-issue']);
-            }
-            $subTitle = trans('tinyissue.on_project') . ' ' . $this->link($project->to(), $project->name);
-        } elseif ($type == 'add_issue') {
-            $title = trans('tinyissue.create_a_new_issue');
-            $subTitle = trans('tinyissue.create_a_new_issue_in') . ' ' . $this->link($project->to(), $project->name);
-        } elseif ($type == 'edit_issue') {
-            $title = trans('tinyissue.edit_issue');
-            $subTitle = trans('tinyissue.edit_issue_in') . ' ' . $this->link($project->to(), $project->name);
-        } elseif ($type == 'title') {
-            $title = trans('tinyissue.' . $title);
-            $subTitle = trans('tinyissue.' . $subTitle);
-        } elseif ($type == 'project') {
-            $title = $this->link($project->to(), $project->name);
-            $subTitle = trans('tinyissue.project_overview');
-            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'));
-        } elseif ($type == 'add_user') {
-            $title = trans('tinyissue.' . $title);
-            $subTitle = trans('tinyissue.' . $subTitle);
-            $link = $this->link('administration/users/add', trans('tinyissue.add_new_user'));
-        } elseif ($type == 'edit_project') {
-            $title = trans('tinyissue.update') . ' ' . $this->link($project->to(), $project->name);
-            $subTitle = trans('tinyissue.update_project_description');
-            $link = $this->link($project->to('issue/new'), trans('tinyissue.new_issue'));
-        }
-
-        $output = '<h3>';
-        $output .= $link;
-        $output .= $title ? '<span class="title">' . $title . '</span>' : '';
-        $output .= $subTitle ? '<span class="subtitle">' . $subTitle . '</span>' : '';
-        $output .= '</h3>';
-
-        return $output;
-    }
-
-    /**
      * Render tab header from an array
      *
      * @param array $tabs

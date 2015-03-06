@@ -61,7 +61,12 @@
 
                 <div id="content" class="col-sm-9 col-md-10">
                     <div class="inside">
-                        @yield('contentTitle')
+                        <h3>
+                            @yield('headingLink')
+                            <span class="title">@yield('headingTitle')</span>
+                            <span class="subtitle">@yield('headingSubTitle')</span>
+                        </h3>
+
                         <div class="pad container-fluid" id='inner-content'>
                             @yield('content')
                         </div>

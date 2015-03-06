@@ -8,8 +8,16 @@
 active
 @stop
 
-@section('contentTitle')
-    {!! Html::heading('edit_project', ['project' => $project]) !!}
+@section('headingTitle')
+    @lang('tinyissue.update') {!! link_to($project->to(), $project->name) !!}
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.update_project_description')
+@stop
+
+@section('headingLink')
+    {!! link_to($project->to('issue/new'), trans('tinyissue.new_issue')) !!}
 @stop
 
 @section('content')

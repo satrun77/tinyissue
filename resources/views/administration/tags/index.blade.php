@@ -4,8 +4,16 @@
 active
 @stop
 
-@section('contentTitle')    
-{!! Html::heading('title', ['title' => 'tags', 'subTitle' => 'tags_list', 'link'=>link_to('administration/tag/new', trans('tinyissue.add_tag'))]) !!}
+@section('headingTitle')
+    @lang('tinyissue.tags')
+@stop
+
+@section('headingSubTitle')
+    @lang('tinyissue.tags_list')
+@stop
+
+@section('headingLink')
+    {!! link_to('administration/tag/new', trans('tinyissue.add_tag')) !!}
 @stop
 
 @section('content')
