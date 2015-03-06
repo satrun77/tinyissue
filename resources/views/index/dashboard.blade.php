@@ -4,10 +4,6 @@
 active
 @stop
 
-@section('scripts')
-{!! Html::script('js/dashboard.js') !!}
-@stop
-
 @section('headingTitle')
     @lang('tinyissue.dashboard')
 @stop
