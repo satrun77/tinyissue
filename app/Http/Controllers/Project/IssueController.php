@@ -179,6 +179,12 @@ class IssueController extends Controller
      */
     public function getEdit(Project $project, Issue $issue, IssueForm $form)
     {
+        // Cannot edit closed issue
+        if ($issue->status == Issue::STATUS_CLOSED) {
+            return redirect($issue->to())
+                ->with('notice', trans('tinyissue.cant_edit_closed_issue'));
+        }
+
         return view('project.issue.edit', [
             'issue'   => $issue,
             'project' => $project,

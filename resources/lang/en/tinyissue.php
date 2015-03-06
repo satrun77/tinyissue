@@ -166,4 +166,5 @@ return [
     'sort_asc'                          => 'asc',
     'sort_desc'                         => 'desc',
     'keywords'                          => 'Keywords',
+    'cant_edit_closed_issue'            => 'Closed issue cannot be edited.',
 ];
