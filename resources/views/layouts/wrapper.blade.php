@@ -55,7 +55,6 @@
                         @else
                         @include('layouts/sidebar/' . $sidebar)
                         @endif
-                        @show
                     </div>
                 </div>
 
