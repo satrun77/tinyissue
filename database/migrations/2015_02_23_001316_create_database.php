@@ -133,7 +133,7 @@ class CreateDatabase extends Migration
             $table->string('firstname', 255)->nullable();
             $table->string('lastname', 255)->nullable();
             $table->string('language', 5)->nullable();
-            $table->unsignedInteger('deleted');
+            $table->unsignedInteger('deleted')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });
