@@ -12,6 +12,10 @@ active
     @lang('tinyissue.users_description')
 @stop
 
+@section('headingLink')
+    {!! link_to('administration/users/add', trans('tinyissue.add_new_user')) !!}
+@stop
+
 @section('content')
 <div id="users-list">
 
