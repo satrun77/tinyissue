@@ -34,7 +34,7 @@
                     <li><a href="{{ URL::to('administration/users') }}">@lang('tinyissue.users')</a></li>
                     <li><a href="{{ URL::to('administration') }}">@lang('tinyissue.administration')</a></li>
                     @endif
-                    <li class="logout"><a href="{{ URL::to('user/logout') }}">@lang('tinyissue.logout')</a></li>
+                    <li class="logout"><a href="{{ URL::to('/logout') }}">@lang('tinyissue.logout')</a></li>
                 </ul>
 
                 <a href="{{ URL::to(' / ') }}" class="logo">Tiny Issue</a>
