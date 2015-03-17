@@ -5,3 +5,5 @@ config.app.php
 /composer.phar
 /vendor/
 .env
+storage/*.sqlite
+tests/_output/*
