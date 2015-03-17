@@ -70,7 +70,7 @@ active
         'project'         => $project,
         'user'            => $activity->user,
         'comment'         => $activity->comment,
-        'assigned'        => $activity->assigned
+        'assigned'        => $activity->assignTo
     ])
     @endforeach
 </ul>

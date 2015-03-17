@@ -57,7 +57,7 @@
 
     <div class="inside-tabs {{ $active }}">
 
-        @if (isset($issues))
+        @if (isset($filterForm))
             {!! Html::startBox('blue-box gray-box toolbar') !!}
             {!! Form::form($filterForm, ['action'=>'', 'method'=>'GET']) !!}
             {!! Html::endBox() !!}

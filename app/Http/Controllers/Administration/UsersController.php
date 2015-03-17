@@ -94,7 +94,7 @@ class UsersController extends Controller
      */
     public function postEdit(User $user, FormRequest\User $request)
     {
-        $user->update($request->all());
+        $user->updateUser($request->all());
 
         return redirect('administration/users')
                         ->with('notice', trans('tinyissue.user_updated'));

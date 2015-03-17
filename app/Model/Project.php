@@ -29,7 +29,7 @@ class Project extends Model
     const STATUS_ARCHIVED = 0;
     public $timestamps = true;
     protected $table = 'projects';
-    protected $fillable = ['name', 'default_assignee'];
+    protected $fillable = ['name', 'default_assignee', 'status'];
 
     /**
      * Count number of open projects

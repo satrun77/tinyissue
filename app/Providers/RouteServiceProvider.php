@@ -102,8 +102,8 @@ class RouteServiceProvider extends ServiceProvider
 
                     // View issue
                     $router->model('issue', 'Tinyissue\Model\Project\Issue');
-                    $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
                     $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
+                    $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
                     $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
                     $router->get('project/{project}/issue/{issue}/display/{attachment}', 'Project\IssueController@getDisplayAttachment');
 

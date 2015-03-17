@@ -16,6 +16,7 @@ use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\Tag;
 use Tinyissue\Model\User\Activity as UserActivity;
+use Tinyissue\Model\User as UserModel;
 
 /**
  * Issue is model class for project issues
@@ -151,19 +152,22 @@ class Issue extends Model
     /**
      * Reassign the issue to a new user
      *
-     * @param int $userId
+     * @param int|UserModel $assignTo
+     * @param int|UserModel $user
      *
      * @return Model
      */
-    public function reassign($userId)
+    public function reassign($assignTo, $user)
     {
-        $this->assigned_to = $userId;
+        $assignToId = !$assignTo instanceof UserModel? $assignTo : $assignTo->id;
+        $userId = !$user instanceof UserModel? $user : $user->id;
+        $this->assigned_to = $assignToId;
         $this->save();
 
         return $this->activities()->save(new UserActivity([
             'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id'   => \Auth::user()->id,
+            'user_id'   => $userId,
             'action_id' => $this->assigned_to,
         ]));
     }

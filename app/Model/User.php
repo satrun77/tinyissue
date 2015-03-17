@@ -41,7 +41,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['name', 'email', 'password', 'firstname', 'lastname', 'role_id'];
+    protected $fillable = ['deleted', 'email', 'password', 'firstname', 'lastname', 'role_id'];
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -378,7 +378,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @return bool|int
      */
-    public function update(array $info = [])
+    public function updateUser(array $info = [])
     {
         $update = [
             'email'     => $info['email'],
@@ -391,7 +391,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             $update['password'] = Hash::make($info['password']);
         }
 
-        return parent::update($update);
+        return $this->update($update);
     }
 
     /**

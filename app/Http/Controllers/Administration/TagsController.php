@@ -104,14 +104,15 @@ class TagsController extends Controller
      * Ajax: to search for tag by keyword (used by auto complete tag field)
      *
      * @param Tag     $tag
+     * @param string  $term
      * @param Request $request
      *
      * @return string
      */
-    public function getTags(Tag $tag, Request $request)
+    public function getTags(Tag $tag, Request $request, $term = '')
     {
         $tags = [];
-        $term = $request->input('term');
+        $term = $request->input('term', $term);
         if (!empty($term)) {
             $tags = $tag->searchTags($term)->filter(function ($tag) {
                 return !($tag->name == 'open' || $tag->name == 'closed');

@@ -71,7 +71,7 @@ class IssueController extends Controller
     public function postAssign(Issue $issue, Request $request)
     {
         $response = ['status' => false];
-        if ($issue->reassign((int)$request->input('assign'))) {
+        if ($issue->reassign((int)$request->input('user_id'), $this->auth->user()->id)) {
             $response['status'] = true;
         }
 
