@@ -204,4 +204,27 @@ class FunctionalHelper extends \Codeception\Module
     {
         return $this->getModule('Laravel5')->client->getInternalResponse()->getContent();
     }
+
+    public function sendPostRequest(
+        $action,
+        array $actionParams,
+        array $postParams,
+        array $files = [],
+        array $server = [],
+        $content = null
+    ) {
+        $module = $this->getModule('Laravel5');
+        $uri = $module->getApplication()->url->action($action, $actionParams);
+        $module->client->request('POST', $uri, $postParams, $files, $server, $content);
+        $this->debugResponse();
+    }
+
+    protected function debugResponse()
+    {
+        $module = $this->getModule('Laravel5');
+        $this->debugSection('Response', $module->client->getInternalResponse()->getStatus());
+        $this->debugSection('Page', $module->client->getHistory()->current()->getUri());
+        $this->debugSection('Cookies', $module->client->getInternalRequest()->getCookies());
+        $this->debugSection('Headers', $module->client->getInternalResponse()->getHeaders());
+    }
 }

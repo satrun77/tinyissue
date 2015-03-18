@@ -47,12 +47,12 @@ class Permission extends Model
      */
     public function isEqual($permission)
     {
-        if ($permission == $this->permission) {
+        if ($permission === $this->permission) {
             return true;
         }
 
         foreach ($this->groups as $group => $permissions) {
-            if (in_array($permission, $permissions)) {
+            if (in_array($permission, $permissions) && $group === $this->permission) {
                 return true;
             }
         }

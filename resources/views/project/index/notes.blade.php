@@ -40,7 +40,9 @@
     <p>@lang('tinyissue.no_notes')</p>
 @endif
 
+@permission('project-modify')
 <div class="new-note" id="new-note">
     <h4>@lang('tinyissue.add_note')</h4>
     {!! Form::form($noteForm, ['action'=> $project->to('add_note'),'secure'=>null, 'method'=>'post']) !!}
 </div>
+@endpermission
