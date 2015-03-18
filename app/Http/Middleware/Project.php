@@ -36,7 +36,7 @@ class Project
         if ($project && $issue) {
             // Inside an issue page, the loaded issue must belong to the loaded project
             if ($issue->project_id !== $project->id) {
-                return response('Unauthorized.', 401);
+                return abort(401);
             }
         } elseif ($project === null && $issue && $request->route()->getUri() === 'project/issue/{issue}') {
             // Requesting an issue page without a project id in the url
@@ -47,7 +47,7 @@ class Project
         } elseif ($project && $note) {
             // Inside a note page, the loaded note must belong to the loaded project
             if ($note->project_id !== $project->id) {
-                return response('Unauthorized.', 401);
+                return abort(401);
             }
         }
 

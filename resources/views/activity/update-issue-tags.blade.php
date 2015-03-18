@@ -26,7 +26,7 @@
         <a href="{{ $userActivity->issue->to() }}">{{ $userActivity->issue->title }}</a> @lang('tinyissue.by')
         <strong>{{ $userActivity->user->fullname }}</strong>
         <span class="time">
-            {{ Html::date($userActivity->activity->created_at) }}
+            {{ Html::date($userActivity->created_at) }}
         </span>
     </div>
 

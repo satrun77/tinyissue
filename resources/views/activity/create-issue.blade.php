@@ -9,7 +9,7 @@
         <strong>{{ $userActivity->user->fullname }}</strong>
 
         <span class="time">
-            {{ Html::date($userActivity->activity->created_at) }}
+            {{ Html::date($userActivity->created_at) }}
         </span>
     </div>
 

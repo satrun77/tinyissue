@@ -1,7 +1,7 @@
 <li id="comment{{ $comment->id }}" class="comment">
     <div class="insides">
         <div class="topbar">
-            @if(Auth::user()->permission('issue-modify'))
+            @permission('issue-modify')
             <ul>
                 <li class="edit-comment">
                     <a href="{{ Url::to('project/issue/edit_comment/' . $comment->id) }}" class="edit" data-comment-id="{{ $comment->id }}">Edit</a>
@@ -10,7 +10,7 @@
                     <a href="{{ Url::to('project/issue/delete_comment/' . $comment->id) }}" class="delete" data-message="@lang('tinyissue.confirm_delete_comment')" data-comment-id="{{ $comment->id }}">Delete</a>
                 </li>
             </ul>
-            @endif
+            @endpermission
             <strong>{{ $user->fullname }}</strong>
             @lang('tinyissue.commented') {{ Html::date($comment->updated_at) }}
         </div>
@@ -19,7 +19,7 @@
             {!! Html::format($comment->comment) !!}
         </div>
 
-        @if(Auth::user()->permission('issue-modify'))
+        @permission('issue-modify')
         <div class="comment-edit">
             {!! Former::textarea('body')->value(stripslashes($comment->comment)) !!}
             <div class="right">
@@ -27,7 +27,7 @@
                 {!! Former::info_button('cancel-btn')->value(trans('tinyissue.cancel'))->data_comment_id($comment->id)->addClass('cancel')!!}
             </div>
         </div>
-        @endif
+        @endpermission
 
         <ul class="attachments">
             @foreach($comment->attachments as $attachment)

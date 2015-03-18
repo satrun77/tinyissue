@@ -55,7 +55,7 @@ class Permission
         if (!$user->permission($permission)
             || !$user->permissionInContext($permission, $request->route()->parameters())
         ) {
-            return response('Unauthorized.', 401);
+            return abort(401);
         }
 
         return $next($request);

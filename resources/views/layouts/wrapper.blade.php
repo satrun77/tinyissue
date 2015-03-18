@@ -30,10 +30,10 @@
             <div id="header" class="navbar-fixed-top">
                 <ul class="nav-right">
                     <li>@lang('tinyissue.welcome'), <a href="{{ URL::to('user/settings') }}" class="user">{{ Auth::user()->firstname }}</a></li>
-                    @if (Auth::user()->permission('administration'))
+                    @permission('administration')
                     <li><a href="{{ URL::to('administration/users') }}">@lang('tinyissue.users')</a></li>
                     <li><a href="{{ URL::to('administration') }}">@lang('tinyissue.administration')</a></li>
-                    @endif
+                    @endpermission
                     <li class="logout"><a href="{{ URL::to('/logout') }}">@lang('tinyissue.logout')</a></li>
                 </ul>
 

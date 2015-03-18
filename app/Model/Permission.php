@@ -30,4 +30,33 @@ class Permission extends Model
     const PERM_PROJECT_CREATE = 'project-create';
     const PERM_PROJECT_MODIFY = 'project-modify';
     const PERM_ADMIN = 'administration';
+
+    protected $groups = [
+        self::PERM_PROJECT_ALL => [
+            self::PERM_PROJECT_CREATE,
+            self::PERM_PROJECT_MODIFY,
+        ],
+    ];
+
+    /**
+     * Compare if the permission is match
+     *
+     * @param string $permission
+     *
+     * @return bool
+     */
+    public function isEqual($permission)
+    {
+        if ($permission == $this->permission) {
+            return true;
+        }
+
+        foreach ($this->groups as $group => $permissions) {
+            if (in_array($permission, $permissions)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

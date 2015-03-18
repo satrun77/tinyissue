@@ -59,8 +59,10 @@ class RouteServiceProvider extends ServiceProvider
 
                 // Projects area
                 $router->get('projects/{status?}', 'ProjectsController@getIndex')->where('status', '[0-1]');
-                $router->get('projects/new', 'ProjectsController@getNew');
-                $router->post('projects/new', 'ProjectsController@postNew');
+                $router->group(['middleware' => 'permission', 'permission' => 'project-create'], function ($router) {
+                    $router->get('projects/new', 'ProjectsController@getNew');
+                    $router->post('projects/new', 'ProjectsController@postNew');
+                });
                 $router->post('projects/progress', ['middleware' => 'ajax', 'uses' => 'ProjectsController@postProgress']);
 
                 $router->group(['middleware' => 'project'], function ($router) {
@@ -75,6 +77,9 @@ class RouteServiceProvider extends ServiceProvider
                     $router->pattern('note', '[0-9]+');
                     $router->pattern('term', '\w+');
                     $router->model('note', 'Tinyissue\Model\Project\Note');
+
+                    // Tags autocomplete
+                    $router->get('administration/tags/suggestions/{term?}', ['middleware' => 'ajax', 'uses' => 'Administration\TagsController@getTags']);
 
                     // View project
                     $router->get('project/{project}', 'ProjectController@getIndex');
@@ -97,15 +102,19 @@ class RouteServiceProvider extends ServiceProvider
                     });
 
                     // Add issue
-                    $router->get('project/{project}/issue/new', 'Project\IssueController@getNew');
-                    $router->post('project/{project}/issue/new', 'Project\IssueController@postNew');
+                    $router->group(['middleware' => 'permission', 'permission' => 'issue-create'], function ($router) {
+                        $router->get('project/{project}/issue/new', 'Project\IssueController@getNew');
+                        $router->post('project/{project}/issue/new', 'Project\IssueController@postNew');
+                    });
 
                     // View issue
                     $router->model('issue', 'Tinyissue\Model\Project\Issue');
-                    $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
-                    $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
-                    $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
-                    $router->get('project/{project}/issue/{issue}/display/{attachment}', 'Project\IssueController@getDisplayAttachment');
+                    $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function ($router) {
+                        $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
+                        $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
+                        $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
+                        $router->get('project/{project}/issue/{issue}/display/{attachment}', 'Project\IssueController@getDisplayAttachment');
+                    });
 
                     // Edit issue
                     $router->group(array('middleware' => 'permission', 'permission' => 'issue-modify'), function ($router) {
@@ -121,9 +130,6 @@ class RouteServiceProvider extends ServiceProvider
                         $router->post('project/issue/edit_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postEditComment']);
                         $router->get('project/issue/delete_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@getDeleteComment']);
                         $router->post('project/{project}/issue/{issue}/add_comment', 'Project\IssueController@getAddComment');
-
-                        // Tags autocomplete
-                        $router->get('administration/tags/suggestions/{term?}', 'Administration\TagsController@getTags');
                     });
                 });
 

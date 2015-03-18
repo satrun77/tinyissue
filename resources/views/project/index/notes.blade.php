@@ -4,7 +4,7 @@
             <li id="note{{ $note->id }}" class="note">
                 <div class="insides">
                     <div class="topbar">
-                        @if(Auth::user()->permission('project-modify'))
+                        @permission('project-modify')
                             <ul>
                                 <li class="edit-note">
                                     <a href="{{ $project->to('edit_note/' . $note->id) }}" class="edit" data-note-id="{{ $note->id }}">Edit</a>
@@ -13,7 +13,7 @@
                                     <a href="{{ $project->to('delete_note/' . $note->id) }}" class="delete" data-message="@lang('tinyissue.confirm_delete_note')" data-note-id="{{ $note->id }}">Delete</a>
                                 </li>
                             </ul>
-                        @endif
+                        @endpermission
                         <strong>{{ $note->createdBy->fullname }}</strong>
                         @lang('tinyissue.noted') {{ Html::date($note->updated_at) }}
                     </div>
@@ -22,7 +22,7 @@
                         {!! Html::format($note->body) !!}
                     </div>
 
-                    @if(Auth::user()->permission('project-modify'))
+                    @permission('project-modify')
                         <div class="note-edit">
                             {!! Former::textarea('body')->value($note->body) !!}
                             <div class="right">
@@ -30,7 +30,7 @@
                                 {!! Former::info_button('cancel-btn')->value(trans('tinyissue.cancel'))->data_note_id($note->id)->addClass('cancel')!!}
                             </div>
                         </div>
-                    @endif
+                    @endpermission
                 </div>
                 <div class="clearfix"></div>
             </li>

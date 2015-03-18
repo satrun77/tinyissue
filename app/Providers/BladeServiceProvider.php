@@ -41,6 +41,18 @@ class BladeServiceProvider extends ServiceProvider
 
             return preg_replace($pattern, "<?php echo \$___tiny['\$1'](\$2); ?>\n", $view);
         });
+
+        \Blade::extend(function ($view, $compiler) {
+            $pattern = $compiler->createMatcher('permission');
+
+            return preg_replace($pattern, "$1<?php if(Auth::user()->permission$2): ?>\n", $view);
+        });
+
+        \Blade::extend(function ($view, $compiler) {
+            $pattern = $compiler->createPlainMatcher('endpermission');
+
+            return preg_replace($pattern, "\n<?php endif; ?>\n", $view);
+        });
     }
 
     /**

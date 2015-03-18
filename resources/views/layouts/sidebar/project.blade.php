@@ -1,7 +1,7 @@
 <h2>
-    @if(Auth::user()->permission('project-modify'))
+    @permission('project-modify')
     <a href="{{ $project->to('edit') }}" class="edit">@lang('tinyissue.edit')</a>
-    @endif
+    @endpermission
 
     {!! Html::link($project->to(), $project->name) !!}
     <span>@lang('tinyissue.assign_users_and_edit_the_project')</span>
@@ -32,14 +32,14 @@
 <ul class="sidebar-users">
     @foreach($project->users()->get() as $row)
     <li id="project-user{{ $row->id }}">
-        @if(Auth::user()->permission('project-modify'))
+        @permission('project-modify')
         <a href="{{ $project->to('unassign_user') }}" data-message="@lang('tinyissue.confirm_unassign_user')" data-user-id="{{ $row->id }}" data-project-id="{{ $project->id }}" class="delete delete-from-project">@lang('tinyissue.remove')</a>
-        @endif
+        @endpermission
         {{ $row->fullname }}
     </li>
     @endforeach
 </ul>
 
-@if(Auth::user()->permission('project-modify'))
+@permission('project-modify')
 {!! Former::text('add-user-project')->placeholder(trans('tinyissue.assign_a_user'))->setAttribute('data-project-id', $project->id) !!}
-@endif
+@endpermission

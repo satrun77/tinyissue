@@ -1,7 +1,7 @@
 <h2>
-    @if(Auth::user()->permission('project-create'))
+    @permission('project-create')
     <a href="{{ URL::to('projects/new') }}" class="add" title="New Project">@lang('tinyissue.new')</a>
-    @endif
+    @endpermission
     @lang('tinyissue.active_projects')
     <span>@lang('tinyissue.active_projects_description')</span>
 </h2>

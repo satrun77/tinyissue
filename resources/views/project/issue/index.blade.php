@@ -10,11 +10,11 @@ active
 @stop
 
 @section('headingTitle')
-    @if(\Auth::user()->permission('issue-modify'))
+    @permission('issue-modify')
         {!! link_to($issue->to('edit'), $issue->title, ['class' => 'edit-issue']) !!}
     @else
         {!! link_to($issue->to(), $issue->title) !!}
-    @endif
+    @endpermission
 @stop
 
 @section('headingSubTitle')
@@ -77,9 +77,8 @@ active
 
 
 @if($issue->status == 1)
-
+@permission('issue-modify')
 <div class="new-comment" id="new-comment">
-    @if(Auth::user()->permission('issue-modify'))
 
     <ul class="issue-actions">
         <li class="assigned-to">
@@ -126,7 +125,6 @@ active
             <a href="{{ $issue->to('status/0') }}" class="close-issue" data-message="@lang('tinyissue.close_issue_confirm')">@lang('tinyissue.close_issue')</a>
         </li>
     </ul>
-    @endif
 
     <h4>
         @lang('tinyissue.comment_on_this_issue')
@@ -134,8 +132,7 @@ active
 
     {!! Form::form($commentForm, ['action'=> $issue->to('add_comment'),'secure'=>null]) !!}
 </div>
-
-</div>
+@endpermission
 
 @else
 {!! Html::link($issue->to('status/1'), trans('tinyissue.reopen_issue')) !!}

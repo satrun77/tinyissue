@@ -253,7 +253,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         $this->loadPermisions();
         foreach ($this->permission as $permission) {
-            if ($permission->permission->permission === $key) {
+            if ($permission->permission->isEqual($key)) {
                 return true;
             }
         }
@@ -305,7 +305,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             case Permission::PERM_ISSUE_CREATE:
             case Permission::PERM_ISSUE_COMMENT:
             case Permission::PERM_ISSUE_MODIFY:
-                if ($project && $project->users()->where('user_id', '=', $this->id)->count() === 0) {
+            case Permission::PERM_ISSUE_VIEW:
+                if ($project && $project->users()->where('user_id', '=', $this->id)->count() > 0) {
                     return true;
                 }
                 break;

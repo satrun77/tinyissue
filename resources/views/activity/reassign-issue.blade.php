@@ -6,7 +6,7 @@
 
     <div class="data">
         <a href="{{ $userActivity->issue->to() }}">{{ $userActivity->issue->title }}</a> @lang('tinyissue.was_reassigned_to')
-        @if($userActivity->activity->action_id > 0)
+        @if($userActivity->action_id > 0)
         <strong>{{ $userActivity->assignTo->fullname }}</strong>
         @else
         <strong>@lang('tinyissue.no_one')</strong>
@@ -15,7 +15,7 @@
         <strong>{{ $userActivity->user->fullname }}</strong>
 
         <span class="time">
-            {{ Html::date($userActivity->activity->created_at) }}
+            {{ Html::date($userActivity->created_at) }}
         </span>
     </div>
 

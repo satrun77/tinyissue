@@ -35,17 +35,15 @@ active
     <li>
         <a href="{{ $project->to() }}">{{ $project->name }}</a><br />
 
-        @if ($project->openIssuesCount > 1)
-        {{ $project->openIssuesCount }} @lang('tinyissue.open_issues')
-        @else
-        1  @lang('tinyissue.open_issue')
-        @endif
+        {{ $project->openIssuesCount }} @lang('tinyissue.open_issue' . ($project->openIssuesCount <= 1? '' : 's'))
     </li>
     @endforeach
 
+    @permission('project-create')
     @if(count($content_projects) == 0)
     <li>@lang('tinyissue.you_do_not_have_any_projects') <a href="{{ URL::to('projects/new') }}">@lang('tinyissue.create_project')</a></li>
     @endif
+    @endpermission
 </ul>
 {!! Html::endBox() !!}
 </div>
