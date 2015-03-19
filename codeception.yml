@@ -22,3 +22,4 @@ coverage:
                 - app/*
     remote: true
     c3_url: 'http://localhost/public/index.php'
+
