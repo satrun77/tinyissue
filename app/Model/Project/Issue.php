@@ -339,9 +339,9 @@ class Issue extends Model
         if (null === $currentTags) {
             $openTag = Tag::where('name', '=', Tag::STATUS_OPEN)->first();
 
-            $addedTags = $tags->filter(function ($tag) {
+            $addedTags = $tags->filter(function (Tag $tag) {
                 return $tag->name !== Tag::STATUS_OPEN;
-            })->map(function ($tag) {
+            })->map(function (Tag $tag) {
                 return [
                     'id'      => $tag->id,
                     'name'    => $tag->fullname,
@@ -349,13 +349,13 @@ class Issue extends Model
                 ];
             })->toArray();
         } else {
-            $openTag = $currentTags->first(function ($index, $tag) {
+            $openTag = $currentTags->first(function ($index, Tag $tag) {
                 return $tag->name === Tag::STATUS_OPEN;
             });
 
-            $removedTags = $currentTags->diff($tags)->filter(function ($tag) {
+            $removedTags = $currentTags->diff($tags)->filter(function (Tag $tag) {
                 return $tag->name !== Tag::STATUS_OPEN;
-            })->map(function ($tag) {
+            })->map(function (Tag $tag) {
                 return [
                     'id'      => $tag->id,
                     'name'    => $tag->fullname,
@@ -364,19 +364,19 @@ class Issue extends Model
             })->toArray();
 
             // Check if we are adding new tags
-            $addedTags = $tags->filter(function ($tag) use ($currentTags) {
+            $addedTags = $tags->filter(function (Tag $tag) use ($currentTags) {
                 // Ignore open tag
                 if ($tag->name === Tag::STATUS_OPEN) {
                     return false;
                 }
 
                 // Get new added tags that are not currently linked to the issue
-                $currentTag = $currentTags->first(function ($index, $currentTag) use ($tag) {
+                $currentTag = $currentTags->first(function ($index, Tag $currentTag) use ($tag) {
                     return $currentTag->id === $tag->id;
                 }, false);
 
                 return $currentTag === false;
-            })->map(function ($tag) {
+            })->map(function (Tag $tag) {
                 return [
                     'id'      => $tag->id,
                     'name'    => $tag->fullname,
@@ -394,7 +394,7 @@ class Issue extends Model
         $tags->put($openTag->id, $openTag);
 
         // Save relation
-        $this->tags()->sync($tags->map(function ($tag) {
+        $this->tags()->sync($tags->map(function (Tag $tag) {
             return $tag->id;
         })->toArray());
 

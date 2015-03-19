@@ -42,16 +42,16 @@ class RouteServiceProvider extends ServiceProvider
     /**
      * Define the routes for the application.
      *
-     * @param \Illuminate\Routing\Router $router
+     * @param Router $router
      */
     public function map(Router $router)
     {
-        $router->group(['namespace' => $this->namespace], function ($router) {
+        $router->group(['namespace' => $this->namespace], function (Router $router) {
             $router->get("/", "HomeController@getIndex");
             $router->get("logout", "HomeController@getLogout");
             $router->post("signin", "HomeController@postSignin");
 
-            $router->group(['middleware' => 'auth'], function ($router) {
+            $router->group(['middleware' => 'auth'], function (Router $router) {
                 $router->get('dashboard', 'HomeController@getDashboard');
 
                 // Login user area
@@ -59,13 +59,13 @@ class RouteServiceProvider extends ServiceProvider
 
                 // Projects area
                 $router->get('projects/{status?}', 'ProjectsController@getIndex')->where('status', '[0-1]');
-                $router->group(['middleware' => 'permission', 'permission' => 'project-create'], function ($router) {
+                $router->group(['middleware' => 'permission', 'permission' => 'project-create'], function (Router $router) {
                     $router->get('projects/new', 'ProjectsController@getNew');
                     $router->post('projects/new', 'ProjectsController@postNew');
                 });
                 $router->post('projects/progress', ['middleware' => 'ajax', 'uses' => 'ProjectsController@postProgress']);
 
-                $router->group(['middleware' => 'project'], function ($router) {
+                $router->group(['middleware' => 'project'], function (Router $router) {
                     $router->model('project', 'Tinyissue\Model\Project');
                     $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
                     $router->pattern('comment', '[0-9]+');
@@ -88,7 +88,7 @@ class RouteServiceProvider extends ServiceProvider
                     $router->get('project/{project}/notes', 'ProjectController@getNotes');
 
                     // Edit project
-                    $router->group(['middleware' => 'permission', 'permission' => 'project-modify'], function ($router) {
+                    $router->group(['middleware' => 'permission', 'permission' => 'project-modify'], function (Router $router) {
                         $router->get('project/{project}/edit', 'ProjectController@getEdit');
                         $router->post('project/{project}/edit', 'ProjectController@postEdit');
                         $router->get('project/inactive_users/{project?}', array('middleware' => 'ajax', 'uses' => 'ProjectController@getInactiveUsers'));
@@ -102,14 +102,14 @@ class RouteServiceProvider extends ServiceProvider
                     });
 
                     // Add issue
-                    $router->group(['middleware' => 'permission', 'permission' => 'issue-create'], function ($router) {
+                    $router->group(['middleware' => 'permission', 'permission' => 'issue-create'], function (Router $router) {
                         $router->get('project/{project}/issue/new', 'Project\IssueController@getNew');
                         $router->post('project/{project}/issue/new', 'Project\IssueController@postNew');
                     });
 
                     // View issue
                     $router->model('issue', 'Tinyissue\Model\Project\Issue');
-                    $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function ($router) {
+                    $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function (Router $router) {
                         $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
                         $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
                         $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
@@ -117,7 +117,7 @@ class RouteServiceProvider extends ServiceProvider
                     });
 
                     // Edit issue
-                    $router->group(array('middleware' => 'permission', 'permission' => 'issue-modify'), function ($router) {
+                    $router->group(array('middleware' => 'permission', 'permission' => 'issue-modify'), function (Router $router) {
                         $router->get('project/{project}/issue/{issue}/edit', 'Project\IssueController@getEdit');
                         $router->post('project/{project}/issue/{issue}/edit', 'Project\IssueController@postEdit');
                         $router->post('project/issue/{issue}/assign', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postAssign']);
@@ -134,7 +134,7 @@ class RouteServiceProvider extends ServiceProvider
                 });
 
                 // Admin area
-                $router->group(['middleware' => 'permission', 'permission' => 'administration'], function ($router) {
+                $router->group(['middleware' => 'permission', 'permission' => 'administration'], function (Router $router) {
                     $router->model('user', 'Tinyissue\Model\User');
                     $router->get('administration', 'AdministrationController@getIndex');
                     $router->get('administration/users', 'Administration\UsersController@getIndex');

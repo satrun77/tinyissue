@@ -41,12 +41,12 @@ class Permission
     /**
      * Handle an incoming request.
      *
-     * @param Request $request
-     * @param \Closure                 $next
+     * @param Request  $request
+     * @param \Closure $next
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $permission = $this->getPermission($request);
         $user = $this->auth->user();

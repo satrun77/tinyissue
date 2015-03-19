@@ -20,6 +20,7 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\Project\Issue\Comment;
+use Tinyissue\Model\User\Activity as UserActivity;
 
 /**
  * IssueController is the controller class for managing request related to projects issues
@@ -41,12 +42,12 @@ class IssueController extends Controller
      */
     public function getIndex(Project $project, Issue $issue, CommentForm $form, Request $request)
     {
-        $issue->attachments->each(function ($attachment) use ($issue) {
+        $issue->attachments->each(function (Attachment $attachment) use ($issue) {
             $attachment->setRelation('issue', $issue);
         });
         $activities = $issue->activities()->with('activity', 'user', 'comment', 'assignTo',
             'comment.attachments')->get();
-        $activities->each(function ($activity) use ($issue) {
+        $activities->each(function (UserActivity $activity) use ($issue) {
             $activity->setRelation('issue', $issue);
         });
 

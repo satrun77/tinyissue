@@ -23,6 +23,3 @@ active
 @section('content')
  {!! Form::form($form, ['action'=>'','secure'=>null, 'id' =>'submit-project']) !!}
 @stop
-
-
-        

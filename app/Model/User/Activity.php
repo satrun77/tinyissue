@@ -12,7 +12,6 @@ namespace Tinyissue\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Tinyissue\Model\Project;
 
 /**
  * Activity is model class for user activities

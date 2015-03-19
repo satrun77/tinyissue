@@ -48,9 +48,9 @@ class Issue extends FormAbstract
 
         // Populate tag fields with the submitted tags
         if ($this->isEditing()) {
-            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function ($tag) {
+            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function (Tag $tag) {
                 return !($tag->name == Tag::STATUS_OPEN || $tag->name == Tag::STATUS_CLOSED);
-            })->map(function ($tag) {
+            })->map(function (Tag $tag) {
                 return [
                     'value'   => $tag->id,
                     'label'   => ($tag->fullname),

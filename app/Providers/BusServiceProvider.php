@@ -12,6 +12,9 @@ namespace Tinyissue\Providers;
 
 use Illuminate\Bus\Dispatcher;
 use Illuminate\Support\ServiceProvider;
+use Tinyissue\Form\FormInterface;
+use Tinyissue\Http\Requests\Request as FormRequest;
+use Illuminate\Foundation\Application;
 
 /**
  * BusServiceProvider is the request service provider for bootstrapping and registering services in current request
@@ -40,14 +43,14 @@ class BusServiceProvider extends ServiceProvider
     public function register()
     {
         // Resolve form object by injecting the current model being edited
-        $this->app->resolving(function (\Tinyissue\Form\FormInterface $form, $app) {
+        $this->app->resolving(function (FormInterface $form, Application $app) {
             $form->setup($app->router->getCurrentRoute()->parameters());
         });
 
         // Resolve form request by injecting the current model being edited
-        $this->app->resolving(function (\Tinyissue\Http\Requests\Request $request, $app) {
+        $this->app->resolving(function (FormRequest $request, Application $app) {
             $form = array_first($app->router->getCurrentRoute()->parameters(), function ($key, $value) {
-                return $value instanceof \Tinyissue\Form\FormInterface;
+                return $value instanceof FormInterface;
             }, function () use ($request, $app) {
                 return $app->make($request->getFormClassName());
             });

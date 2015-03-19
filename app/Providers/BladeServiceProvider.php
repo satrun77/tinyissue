@@ -11,6 +11,7 @@
 namespace Tinyissue\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Illuminate\View\Compilers\BladeCompiler;
 
 /**
  * BladeServiceProvider is the blade service provider for extending blade template engine
@@ -24,31 +25,31 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Blade::extend(function ($view, $compiler) {
+        \Blade::extend(function ($view) {
             $pattern = '/@macro\s*\(\s*[\'"](.*)[\'"]\s*,\s*(.*)\)/';
 
             return preg_replace($pattern, "<?php \$___tiny['\$1']=function(\$2){ ob_start(); ?>\n", $view);
         });
 
-        \Blade::extend(function ($view, $compiler) {
+        \Blade::extend(function ($view, BladeCompiler $compiler) {
             $pattern = $compiler->createPlainMatcher('endmacro');
 
             return preg_replace($pattern, "\n<?php return ob_get_clean();} ?>\n", $view);
         });
 
-        \Blade::extend(function ($view, $compiler) {
+        \Blade::extend(function ($view) {
             $pattern = '/\s*@usemacro\s*\(\s*[\'"](\w+|\d+)[\'"]\s*,\s*(.*)\)/';
 
             return preg_replace($pattern, "<?php echo \$___tiny['\$1'](\$2); ?>\n", $view);
         });
 
-        \Blade::extend(function ($view, $compiler) {
+        \Blade::extend(function ($view, BladeCompiler $compiler) {
             $pattern = $compiler->createMatcher('permission');
 
             return preg_replace($pattern, "$1<?php if(Auth::user()->permission$2): ?>\n", $view);
         });
 
-        \Blade::extend(function ($view, $compiler) {
+        \Blade::extend(function ($view, BladeCompiler $compiler) {
             $pattern = $compiler->createPlainMatcher('endpermission');
 
             return preg_replace($pattern, "\n<?php endif; ?>\n", $view);

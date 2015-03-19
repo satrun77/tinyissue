@@ -11,6 +11,7 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
+use Illuminate\Http\Request;
 
 /**
  * Project is a Middleware class to for checking if the route parameters are correct.
@@ -23,12 +24,12 @@ class Project
     /**
      * Handle an incoming request.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \Closure                 $next
+     * @param Request  $request
+     * @param \Closure $next
      *
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $project = $request->route()->getParameter('project');
         $issue = $request->route()->getParameter('issue');

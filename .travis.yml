@@ -18,7 +18,7 @@ before_script:
   - wget https://raw.githubusercontent.com/janhenkgerritsen/codeception-laravel5/master/src/Codeception/Lib/Connector/Laravel5.php
   - mv ./Laravel5.php ./vendor/codeception/codeception/src/Codeception/Lib/Connector/Laravel5.php
   - php artisan migrate
-  - sh -c "sed -i -e s%//include%include% public/index.php"
+  - sh -c "sed -i -e s%\<\?php%\<\?php\ include\ \'../c3.php\'\;% public/index.php"
   - ./vendor/bin/codecept build
 
 script:

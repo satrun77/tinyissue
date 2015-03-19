@@ -108,6 +108,8 @@ class User extends FormAbstract
         if ($this->isEditing()) {
             $rules['email'] .= '|unique:users,email,'.$this->getModel()->id;
             $rules['password'] = 'confirmed';
+        } else {
+            $rules['email'] .= '|unique:users,email';
         }
 
         return $rules;

@@ -61,7 +61,7 @@ class FilterIssue extends FormAbstract
         // On submit, generate list of selected tags to populate the field
         if (Request::has('tags')) {
             $tagIds = array_map('trim', explode(',', Request::input('tags')));
-            $selectTags = Model\Tag::whereIn('id', $tagIds)->get()->map(function ($tag) {
+            $selectTags = Model\Tag::whereIn('id', $tagIds)->get()->map(function (Model\Tag $tag) {
                 return [
                     'value'   => $tag->id,
                     'label'   => $tag->fullname,

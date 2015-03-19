@@ -12,7 +12,9 @@ namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
+use Illuminate\Database\Eloquent\Builder;
 use Tinyissue\Model\Project\Issue as ProjectIssue;
+use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Comment as IssueComment;
 use Tinyissue\Model\Project\User as ProjectUser;
 use Tinyissue\Model\User\Activity as UserActivity;
@@ -72,7 +74,7 @@ class Project extends Model
     public static function countClosedIssues()
     {
         return ProjectIssue::join('projects', 'projects.id', '=', 'projects_issues.project_id')
-            ->where(function ($query) {
+            ->where(function (Builder $query) {
                 $query->where('projects.status', '=', static ::STATUS_OPEN);
                 $query->where('projects_issues.status', '=', ProjectIssue::STATUS_CLOSED);
             })
@@ -327,7 +329,7 @@ class Project extends Model
         $query = $this->issues()
             ->with('countComments', 'user', 'updatedBy', 'tags', 'tags.parent')
             ->with([
-                'tags' => function ($query) use ($status, $sortOrder) {
+                'tags' => function (Relations\BelongsToMany $query) use ($status, $sortOrder) {
                     $status = $status == ProjectIssue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
                     $query->where('name', '!=', $status);
                     $query->orderBy('name', $sortOrder);
@@ -343,7 +345,7 @@ class Project extends Model
         // Filter by tag
         if (!empty($filter['tags'])) {
             $tagIds = array_map('trim', explode(',', $filter['tags']));
-            $query->whereHas('tags', function ($query) use ($tagIds) {
+            $query->whereHas('tags', function (Builder $query) use ($tagIds) {
                 $query->whereIn('id', $tagIds);
             });
         }
@@ -351,7 +353,7 @@ class Project extends Model
         // Filter by keyword
         if (!empty($filter['keyword'])) {
             $keyword = $filter['keyword'];
-            $query->where(function ($query) use ($keyword) {
+            $query->where(function (Builder $query) use ($keyword) {
                 $query->where('title', 'like', '%' . $keyword . '%');
                 $query->orWhere('body', 'like', '%' . $keyword . '%');
             });
@@ -363,7 +365,7 @@ class Project extends Model
             if ($filter['sortby'] == 'updated') {
                 $query->orderBy('updated_at', $sortOrder);
             } elseif (($tagGroup = substr($filter['sortby'], strlen('tag:'))) > 0) {
-                $results = $query->get()->sort(function ($issue1, $issue2) use ($tagGroup, $sortOrder) {
+                $results = $query->get()->sort(function (Issue $issue1, Issue $issue2) use ($tagGroup, $sortOrder) {
                     $tag1 = $issue1->tags->where('parent.id', $tagGroup, false)->first();
                     $tag2 = $issue2->tags->where('parent.id', $tagGroup, false)->first();
                     $tag1 = $tag1 ? $tag1->name : '';

@@ -97,7 +97,7 @@ class GroupText extends Field
             return [];
         }
 
-        return array_map(function ($field) {
+        return array_map(function (Field $field) {
             return $field->getValue();
         }, $this->fields);
     }

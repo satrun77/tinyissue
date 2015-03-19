@@ -114,9 +114,9 @@ class TagsController extends Controller
         $tags = [];
         $term = $request->input('term', $term);
         if (!empty($term)) {
-            $tags = $tag->searchTags($term)->filter(function ($tag) {
+            $tags = $tag->searchTags($term)->filter(function (Tag $tag) {
                 return !($tag->name == 'open' || $tag->name == 'closed');
-            })->map(function ($tag) {
+            })->map(function (Tag $tag) {
                 return [
                     'value' => $tag->id,
                     'label' => $tag->fullname,

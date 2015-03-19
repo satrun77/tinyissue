@@ -16,8 +16,10 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Mail;
+use Illuminate\Mail\Message as MailMessage;
 
 /**
  * User is model class for users
@@ -98,7 +100,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Returns issues created by the user
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function issuesCreatedBy()
     {
@@ -108,7 +110,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Returns issues closed by the user
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function issuesClosedBy()
     {
@@ -118,7 +120,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Returns issues updated by the user
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function issuesUpdatedBy()
     {
@@ -128,7 +130,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * User has many attachments (One-many relationship of Attachment::user).
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function attachments()
     {
@@ -150,12 +152,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @param int $status
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function projectsWidthIssues($status = Project::STATUS_OPEN)
     {
         return $this->projects($status)->with([
-            'issues'               => function ($query) {
+            'issues'               => function (HasMany $query) {
                 $query->with('updatedBy');
                 $query->where('assigned_to', '=', $this->id);
             },
@@ -173,11 +175,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @param int $status
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function projects($status = Project::STATUS_OPEN)
     {
-        return $this->belongsToMany('Tinyissue\Model\Project', 'projects_users')->where('status', '=', $status)->orderBy('name');
+        return $this->belongsToMany('Tinyissue\Model\Project', 'projects_users')->where('status', '=',
+            $status)->orderBy('name');
     }
 
     /**
@@ -185,12 +188,12 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @param int $status
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function projectsWidthActivities($status = Project::STATUS_OPEN)
     {
         return $this->projects($status)->with([
-            'activities' => function ($query) {
+            'activities' => function (HasMany $query) {
                 $query->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note');
                 $query->orderBy('created_at', 'DESC');
             },
@@ -219,7 +222,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * User has many issues assigned to (One-many relationship of Issue::assigned).
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function issues()
     {
@@ -251,7 +254,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function permission($key)
     {
-        $this->loadPermisions();
+        $this->loadPermissions();
         foreach ($this->permission as $permission) {
             if ($permission->permission->isEqual($key)) {
                 return true;
@@ -262,13 +265,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Load user premissions
+     * Load user permissions
      *
      * @return void
      */
-    protected function loadPermisions()
+    protected function loadPermissions()
     {
-        if (null == $this->permission) {
+        if (null === $this->permission) {
             $this->permission = $this->permissions()->with('permission')->get();
         }
     }
@@ -276,7 +279,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * Returns all permission for the user
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function permissions()
     {
@@ -349,7 +352,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'email'    => $info['email'],
             'password' => $password,
         ];
-        Mail::send('email.new_user', $viewData, function ($message) {
+        Mail::send('email.new_user', $viewData, function (MailMessage $message) {
             $message->to($this->email, $this->fullname)->subject(trans('tinyissue.subject_your_account'));
         });
 
