@@ -1,0 +1,31 @@
+language: php
+
+php:
+  - 5.4
+  - 5.5
+  - 7.0
+
+matrix:
+    allow_failures:
+        - php: 7.0
+
+before_script:
+  - sh -c "sed -i -e s%'smtp'%'log'% config/mail.php"
+  - composer self-update
+  - touch storage/database.sqlite
+  - cp .env.testing .env
+  - composer install --dev --prefer-source
+  - wget https://raw.githubusercontent.com/janhenkgerritsen/codeception-laravel5/master/src/Codeception/Lib/Connector/Laravel5.php
+  - mv ./Laravel5.php ./vendor/codeception/codeception/src/Codeception/Lib/Connector/Laravel5.php
+  - php artisan migrate
+  - sh -c "sed -i -e s%//include%include% public/index.php"
+  - ./vendor/bin/codecept build
+
+script:
+  - ./vendor/bin/codecept run tests/functional/ --debug --coverage-xml
+
+after_script:
+  - cat tests/_output/*.fail.html
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - mv tests/_output/coverage.xml tests/_output/coverage.clover
+  - php ocular.phar code-coverage:upload --format=php-clover tests/_output/coverage.clover
