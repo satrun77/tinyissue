@@ -49,7 +49,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
                 $former->$attr($value);
             }
         });
-        $form->rules($form->rules());
+        $former->rules($form->rules());
 
         // Generate form fields
         $output = $former;

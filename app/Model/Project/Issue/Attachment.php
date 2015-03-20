@@ -10,15 +10,26 @@
  */
 namespace Tinyissue\Model\Project\Issue;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model\Project;
+use Illuminate\Database\Query;
 
 /**
  * Attachment is model class for project attachments
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int           $id
+ * @property int           $uploaded_by
+ * @property int           $issue_id
+ * @property int           $comment_id
+ * @property string        $filename
+ * @property string        $fileextension
+ * @property int           $filesize
+ * @property string        $upload_token
+ * @property Project\Issue $issue
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
-class Attachment extends Model
+class Attachment extends BaseModel
 {
     public $timestamps = true;
     protected $table = 'projects_issues_attachments';

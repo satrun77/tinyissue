@@ -20,11 +20,22 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 use Mail;
 use Illuminate\Mail\Message as MailMessage;
+use Illuminate\Database\Query;
 
 /**
  * User is model class for users
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int    $id
+ * @property int    $deleted
+ * @property int    $role_id
+ * @property string $language
+ * @property string $email
+ * @property string $password
+ * @property string $firstname
+ * @property string $lastname
+ * @property string $fullname
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {

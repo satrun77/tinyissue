@@ -10,8 +10,7 @@
  */
 namespace Tinyissue\Form;
 
-use Tinyissue\Model\Project;
-use Tinyissue\Model\Tag;
+use Tinyissue\Model;
 
 /**
  * Issue is a class to defines fields & rules for add/edit issue form
@@ -23,7 +22,7 @@ class Issue extends FormAbstract
     /**
      * An instance of project model
      *
-     * @var Project
+     * @var Model\Project
      */
     protected $project;
 
@@ -48,9 +47,9 @@ class Issue extends FormAbstract
 
         // Populate tag fields with the submitted tags
         if ($this->isEditing()) {
-            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function (Tag $tag) {
-                return !($tag->name == Tag::STATUS_OPEN || $tag->name == Tag::STATUS_CLOSED);
-            })->map(function (Tag $tag) {
+            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function (Model\Tag $tag) {
+                return !($tag->name == Model\Tag::STATUS_OPEN || $tag->name == Model\Tag::STATUS_CLOSED);
+            })->map(function (Model\Tag $tag) {
                 return [
                     'value'   => $tag->id,
                     'label'   => ($tag->fullname),
@@ -162,7 +161,7 @@ class Issue extends FormAbstract
      */
     protected function extractQuoteValue($part)
     {
-        if ($this->getModel() instanceof Project\Issue) {
+        if ($this->getModel() instanceof Model\Project\Issue) {
             $seconds = $this->getModel()->time_quote;
             if ($part === 'h') {
                 return floor($seconds / 3600);

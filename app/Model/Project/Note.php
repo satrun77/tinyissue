@@ -10,16 +10,23 @@
  */
 namespace Tinyissue\Model\Project;
 
-use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Activity;
-use Tinyissue\Model\User\Activity as UserActivity;
+use Illuminate\Database\Eloquent\Model as BaseModel;
+use Tinyissue\Model;
+use Illuminate\Database\Query;
 
 /**
  * Note is model class for project notes
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int           $id
+ * @property int           $project_id
+ * @property int           $created_by
+ * @property string        $body
+ * @property Model\Project $project
+ * @property Model\User    $createdBy
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
-class Note extends Model
+class Note extends BaseModel
 {
     public $timestamps = true;
     protected $table = 'projects_notes';
@@ -70,8 +77,8 @@ class Note extends Model
         $this->save();
 
         // Add to user's activity log
-        $this->activity()->save(new UserActivity([
-            'type_id'   => Activity::TYPE_NOTE,
+        $this->activity()->save(new Model\User\Activity([
+            'type_id'   => Model\Activity::TYPE_NOTE,
             'parent_id' => $this->project->id,
             'user_id'   => $this->createdBy->id
         ]));
@@ -86,7 +93,7 @@ class Note extends Model
      */
     public function activity()
     {
-        return $this->hasOne('Tinyissue\Model\User\Activity', 'action_id')->where('type_id', '=', Activity::TYPE_NOTE);
+        return $this->hasOne('Tinyissue\Model\User\Activity', 'action_id')->where('type_id', '=', Model\Activity::TYPE_NOTE);
     }
 
     /**

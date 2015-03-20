@@ -11,11 +11,20 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query;
 
 /**
  * Tag is model class for tags
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int     $id
+ * @property int     $parent_id
+ * @property string  $name
+ * @property string  $fullname
+ * @property string  $bgcolor
+ * @property boolean $group
+ * @property Tag     $parent
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Tag extends Model
 {

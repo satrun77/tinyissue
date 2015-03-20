@@ -20,7 +20,7 @@ class Note extends FormAbstract
     /**
      * An instance of project model
      *
-     * @var Project
+     * @var \Tinyissue\Model\Project
      */
     protected $project;
 

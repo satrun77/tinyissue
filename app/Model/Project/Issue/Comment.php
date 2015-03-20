@@ -10,16 +10,27 @@
  */
 namespace Tinyissue\Model\Project\Issue;
 
-use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Activity;
-use Tinyissue\Model\User\Activity as UserActivity;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model as BaseModel;
+use Tinyissue\Model;
+use Illuminate\Database\Query;
 
 /**
  * Comment is model class for project issue comments
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int                    $id
+ * @property int                    $issue_id
+ * @property int                    $project_id
+ * @property string                 $comment
+ * @property int                    $created_by
+ * @property Model\Project          $project
+ * @property Model\Project\Issue    $issue
+ * @property Model\User             $user
+ * @property Collection             $attachments
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
-class Comment extends Model
+class Comment extends BaseModel
 {
     public $timestamps = true;
     protected $table = 'projects_issues_comments';
@@ -71,8 +82,8 @@ class Comment extends Model
         $this->save();
 
         /* Add to user's activity log */
-        $this->activity()->save(new UserActivity([
-            'type_id'   => Activity::TYPE_COMMENT,
+        $this->activity()->save(new Model\User\Activity([
+            'type_id'   => Model\Activity::TYPE_COMMENT,
             'parent_id' => $this->project->id,
             'item_id'   => $this->issue->id,
             'user_id'   => $this->user->id,

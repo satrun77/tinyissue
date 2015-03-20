@@ -10,20 +10,36 @@
  */
 namespace Tinyissue\Model\Project;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Collection;
+use Tinyissue\Model;
+use Tinyissue\Model\Tag;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project\Issue\Attachment;
-use Tinyissue\Model\Tag;
-use Tinyissue\Model\User\Activity as UserActivity;
-use Tinyissue\Model\User as UserModel;
+use Illuminate\Database\Query;
 
 /**
  * Issue is model class for project issues
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int              $id
+ * @property int              $created_by
+ * @property int              $project_id
+ * @property string           $title
+ * @property string           $body
+ * @property int              $assigned_to
+ * @property int              $time_quote
+ * @property int              $closed_by
+ * @property int              $closed_at
+ * @property int              status
+ * @property int              $updated_at
+ * @property int              $updated_by
+ * @property Model\Project    $project
+ * @property Model\User       $user
+ * @property Model\User       $updatedBy
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
-class Issue extends Model
+class Issue extends BaseModel
 {
     const STATUS_OPEN = 1;
     const STATUS_CLOSED = 0;
@@ -152,19 +168,19 @@ class Issue extends Model
     /**
      * Reassign the issue to a new user
      *
-     * @param int|UserModel $assignTo
-     * @param int|UserModel $user
+     * @param int|Model\User $assignTo
+     * @param int|Model\User $user
      *
-     * @return Model
+     * @return $this
      */
     public function reassign($assignTo, $user)
     {
-        $assignToId = !$assignTo instanceof UserModel? $assignTo : $assignTo->id;
-        $userId = !$user instanceof UserModel? $user : $user->id;
+        $assignToId = !$assignTo instanceof Model\User? $assignTo : $assignTo->id;
+        $userId = !$user instanceof Model\User? $user : $user->id;
         $this->assigned_to = $assignToId;
         $this->save();
 
-        return $this->activities()->save(new UserActivity([
+        return $this->activities()->save(new Model\User\Activity([
             'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
             'parent_id' => $this->project->id,
             'user_id'   => $userId,
@@ -220,7 +236,7 @@ class Issue extends Model
         $this->tags()->sync(array_unique($ids));
 
         /* Add to activity log */
-        $this->activities()->save(new UserActivity([
+        $this->activities()->save(new Model\User\Activity([
             'type_id'   => $activityType,
             'parent_id' => $this->project->id,
             'user_id'   => $userId,
@@ -260,7 +276,7 @@ class Issue extends Model
 
         /* Add to activity log for assignment if changed */
         if ($input['assigned_to'] != $this->assigned_to) {
-            $this->activities()->save(new UserActivity([
+            $this->activities()->save(new Model\User\Activity([
                 'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
                 'parent_id' => $this->project->id,
                 'user_id'   => $this->updatedBy->id,
@@ -401,7 +417,7 @@ class Issue extends Model
         // Activity is added when new issue create with tags or updated with tags excluding the open status tag
         if (!empty($removedTags) || !empty($addedTags)) {
             // Add to activity log for tags if changed
-            $this->activities()->save(new UserActivity([
+            $this->activities()->save(new Model\User\Activity([
                 'type_id'   => Activity::TYPE_ISSUE_TAG,
                 'parent_id' => $this->project->id,
                 'user_id'   => $this->user->id,
@@ -436,7 +452,7 @@ class Issue extends Model
         $this->fill($fill)->save();
 
         /* Add to user's activity log */
-        $this->activities()->save(new UserActivity([
+        $this->activities()->save(new Model\User\Activity([
             'type_id'   => Activity::TYPE_CREATE_ISSUE,
             'parent_id' => $this->project->id,
             'user_id'   => $this->user->id,

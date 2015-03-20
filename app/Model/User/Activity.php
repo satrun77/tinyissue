@@ -12,11 +12,20 @@ namespace Tinyissue\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
+use Illuminate\Database\Query;
 
 /**
  * Activity is model class for user activities
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int    $id
+ * @property string $data
+ * @property int    $type_id
+ * @property int    $parent_id
+ * @property int    $user_id
+ * @property int    $item_id
+ * @property int    $action_id
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Activity extends Model
 {

@@ -19,11 +19,16 @@ use Tinyissue\Model\Project\Issue\Comment as IssueComment;
 use Tinyissue\Model\Project\User as ProjectUser;
 use Tinyissue\Model\User\Activity as UserActivity;
 use URL;
+use Illuminate\Database\Query;
 
 /**
  * Project is model class for projects
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int    $id
+ * @property string $name
+ * @property int    $status
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Project extends Model
 {

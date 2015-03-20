@@ -11,11 +11,17 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query;
 
 /**
  * Permission is model class for permissions
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ * @property int    $id
+ * @property string $permission
+ * @property string $description
+ * @property string $auto_has
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Permission extends Model
 {
