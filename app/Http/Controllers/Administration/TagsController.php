@@ -107,12 +107,12 @@ class TagsController extends Controller
      * @param string  $term
      * @param Request $request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getTags(Tag $tag, Request $request, $term = '')
     {
         $tags = [];
-        $term = $request->input('term', $term);
+        $term = (string) $request->input('term', $term);
         if (!empty($term)) {
             $tags = $tag->searchTags($term)->filter(function (Tag $tag) {
                 return !($tag->name == 'open' || $tag->name == 'closed');
@@ -122,7 +122,7 @@ class TagsController extends Controller
                     'label' => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
-            });
+            })->toArray();
         }
         return response()->json($tags);
     }

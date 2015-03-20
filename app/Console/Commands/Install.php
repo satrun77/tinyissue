@@ -104,7 +104,7 @@ class Install extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return boolean
      */
     public function fire()
     {
@@ -231,8 +231,8 @@ class Install extends Command
     /**
      * Format cell text color
      *
-     * @param $cells array
-     * @param $color string
+     * @param array $cells
+     * @param string $color
      *
      * @return array
      */
@@ -246,7 +246,7 @@ class Install extends Command
     /**
      * Start a stage loop
      *
-     * @param $method string The method name to execute in a loop
+     * @param string $method The method name to execute in a loop
      *
      * @return void
      */
@@ -343,7 +343,7 @@ class Install extends Command
     /**
      * Prints out a section title
      *
-     * @param $title string
+     * @param string $title
      *
      * @return void
      */

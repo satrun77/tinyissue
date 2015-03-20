@@ -262,7 +262,7 @@ class Issue extends BaseModel
      *
      * @param array $input
      *
-     * @return array
+     * @return boolean
      */
     public function updateIssue(array $input)
     {

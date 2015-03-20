@@ -72,7 +72,7 @@ class ProjectsController extends Controller
      * @param Project             $project
      * @param FormRequest\Project $request
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function postNew(Project $project, FormRequest\Project $request)
     {

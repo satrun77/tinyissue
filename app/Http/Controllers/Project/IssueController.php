@@ -67,7 +67,7 @@ class IssueController extends Controller
      * @param Issue   $issue
      * @param Request $request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postAssign(Issue $issue, Request $request)
     {
@@ -85,7 +85,7 @@ class IssueController extends Controller
      * @param Comment $comment
      * @param Request $request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postEditComment(Comment $comment, Request $request)
     {
@@ -124,7 +124,7 @@ class IssueController extends Controller
      *
      * @param Comment $comment
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function getDeleteComment(Comment $comment)
     {
@@ -244,7 +244,7 @@ class IssueController extends Controller
      * @param Attachment $attachment
      * @param Request    $request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postUploadAttachment(Project $project, Attachment $attachment, Request $request)
     {
@@ -269,7 +269,7 @@ class IssueController extends Controller
      * @param Attachment $attachment
      * @param Request    $request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postRemoveAttachment(Project $project, Attachment $attachment, Request $request)
     {
@@ -352,7 +352,7 @@ class IssueController extends Controller
      * @param Issue   $issue
      * @param Request $request
      *
-     * @return string
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function postChangeProject(Issue $issue, Request $request)
     {

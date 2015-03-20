@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\Builder;
 use Tinyissue\Model\Project\Issue as ProjectIssue;
-use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Comment as IssueComment;
 use Tinyissue\Model\Project\User as ProjectUser;
 use Tinyissue\Model\User\Activity as UserActivity;
 use URL;
 use Illuminate\Database\Query;
+
 
 /**
  * Project is model class for projects
@@ -28,7 +28,7 @@ use Illuminate\Database\Query;
  * @property int    $id
  * @property string $name
  * @property int    $status
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method   Query\Builder where()
  */
 class Project extends Model
 {
@@ -203,7 +203,7 @@ class Project extends Model
     /**
      * Returns all users assigned in the current project.
      *
-     * @return Relations\HasMany
+     * @return Relations\BelongsToMany
      */
     public function users()
     {

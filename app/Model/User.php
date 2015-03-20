@@ -101,7 +101,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     /**
      * User has many comments (One-many relationship of Comment::user).
      *
-     * @return mixed
+     * @return HasMany
      */
     public function comments()
     {
@@ -344,7 +344,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @param array $info
      *
-     * @return array
+     * @return boolean
      */
     public function createUser(array $info)
     {
