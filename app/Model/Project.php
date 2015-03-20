@@ -370,7 +370,7 @@ class Project extends Model
             if ($filter['sortby'] == 'updated') {
                 $query->orderBy('updated_at', $sortOrder);
             } elseif (($tagGroup = substr($filter['sortby'], strlen('tag:'))) > 0) {
-                $results = $query->get()->sort(function (Issue $issue1, Issue $issue2) use ($tagGroup, $sortOrder) {
+                $results = $query->get()->sort(function (ProjectIssue $issue1, ProjectIssue $issue2) use ($tagGroup, $sortOrder) {
                     $tag1 = $issue1->tags->where('parent.id', $tagGroup, false)->first();
                     $tag2 = $issue2->tags->where('parent.id', $tagGroup, false)->first();
                     $tag1 = $tag1 ? $tag1->name : '';
