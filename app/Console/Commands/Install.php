@@ -11,10 +11,10 @@
 namespace Tinyissue\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Artisan;
 use League\Flysystem\Adapter\Local as Adapter;
 use League\Flysystem\Filesystem;
 use Tinyissue\Model;
-use Illuminate\Support\Facades\Artisan;
 
 /**
  * Install is console command to install the Tiny Issue application
@@ -23,6 +23,10 @@ use Illuminate\Support\Facades\Artisan;
  */
 class Install extends Command
 {
+    const COLOR_GOOD = 'green';
+    const COLOR_BAD = 'red';
+    const COLOR_INFO = 'blue';
+
     /**
      * The console command name.
      *
@@ -43,12 +47,12 @@ class Install extends Command
      * @var array
      */
     protected $modules = [
-        'pdo',
-        'mcrypt',
-        'openssl',
-        'curl',
-        'json',
-        'mbstring',
+        'pdo'      => 0,
+        'mcrypt'   => 0,
+        'openssl'  => 0,
+        'curl'     => 0,
+        'json'     => 0,
+        'mbstring' => 0,
     ];
 
     /**
@@ -64,18 +68,11 @@ class Install extends Command
      * @var array
      */
     protected $dbDrivers = [
-        'sqlite',
-        'mysql',
-        'pgsql',
-        'sqlsrv',
+        'pdo_sqlite' => 0,
+        'pdo_mysql'  => 0,
+        'pdo_pgsql'  => 0,
+        'pdo_sqlsrv' => 0,
     ];
-
-    /**
-     * Current enabled drivers
-     *
-     * @var array
-     */
-    protected $validDbDrivers = [];
 
     /**
      * Current user entered data & default values
@@ -83,22 +80,39 @@ class Install extends Command
      * @var array
      */
     protected $data = [
-        'key' => '',
-        'timezone' => 'Pacific/Auckland',
-        'dbHost' => 'localhost',
-        'dbName' => 'tinyissue',
-        'dbUser' => 'root',
-        'dbPass' => 'root',
-        'dbDriver' => 'mysql',
-        'dbPrefix' => '',
-        'sysEmail' => '',
-        'sysName' => '',
-        'adminEmail' => '',
+        'key'            => '',
+        'timezone'       => 'Pacific/Auckland',
+        'dbHost'         => 'localhost',
+        'dbName'         => 'tinyissue',
+        'dbUser'         => 'root',
+        'dbPass'         => 'root',
+        'dbDriver'       => 'mysql',
+        'dbPrefix'       => '',
+        'sysEmail'       => '',
+        'sysName'        => '',
+        'adminEmail'     => '',
         'adminFirstName' => '',
-        'adminLastName' => '',
-        'adminPass' => '',
+        'adminLastName'  => '',
+        'adminPass'      => '',
     ];
 
+    /**
+     * The status of the environment check
+     *
+     * @var bool
+     */
+    protected $envStatus = false;
+
+    /**
+     * Environment requirements for display status table
+     *
+     * @var array
+     */
+    protected $envRequirements = [];
+
+    /**
+     * @var Filesystem
+     */
     protected $filesystem;
 
     /**
@@ -129,109 +143,91 @@ class Install extends Command
      */
     protected function checkEnvironment()
     {
-        $requirements = [];
-        $allOk = true;
-
         // Check PHP modules
-        array_walk($this->modules, function ($module) use (&$requirements, &$allOk) {
-            if (!extension_loaded($module)) {
-                $requirements[] = $this->formatTableCells([$module.' extension', 'No'], 'red');
-                $allOk = false;
-            } else {
-                $requirements[] = $this->formatTableCells([$module.' extension', 'OK'], 'green');
-            }
-        });
+        $this->checkPhpExtension($this->modules, '{module} extension', true, 'No');
 
         // Check db drivers
-        array_walk($this->dbDrivers, function ($driver) use (&$requirements, &$allOk) {
-            if (!extension_loaded('pdo_'.$driver)) {
-                $requirements[] = $this->formatTableCells([$driver.' driver for pdo', 'Not Found'], 'blue');
-            } else {
-                $this->validDbDrivers[] = $driver;
-                $requirements[] = $this->formatTableCells([$driver.' driver for pdo', 'OK'], 'green');
-            }
-        });
+        $this->checkPhpExtension($this->dbDrivers, '{module} driver for pdo', false, 'Not Found');
 
         // Whether or not one or more valid drivers were found
-        if (false === $this->validDbDrivers) {
-            $requirements[] = $this->formatTableCells([
-                'Install one of the following pdo drivers ('.implode(', ',
-                    $this->dbDrivers).')',
-                'Not Found',
-            ], 'red');
-            $allOk = false;
+        $validDrivers = $this->getValidDbDrivers();
+        $dbDriverStatus = !empty($validDrivers);
+        if (!$dbDriverStatus) {
+            $dbDriverTitle = 'Install one of the following pdo drivers ('
+                . implode(', ', array_keys($this->dbDrivers)) . ')';
         } else {
-            $requirements[] = $this->formatTableCells([
-                'You can choose one of the following pdo drivers ('.implode(', ',
-                    $this->validDbDrivers).')',
-                'OK',
-            ], 'green');
+            $dbDriverTitle = 'You can choose one of the following pdo drivers ('
+                . implode(', ', array_keys($validDrivers)) . ')';
         }
+        $this->envRequirementsRow($dbDriverTitle, $dbDriverStatus, true, 'No Found');
 
         // Check PHP version
-        if (version_compare(PHP_VERSION, $this->phpVersion, '<')) {
-            $allOk = false;
-            $requirements[] = $this->formatTableCells([
-                'PHP version '.$this->phpVersion.' or above is needed.',
-                'Not Found',
-            ], 'red');
-        } else {
-            $requirements[] = $this->formatTableCells([
-                'PHP version '.$this->phpVersion.' or above is needed.',
-                'OK',
-            ], 'green');
-        }
+        $phpVersionStatus = version_compare(PHP_VERSION, $this->phpVersion, '>=');
+        $this->envRequirementsRow('PHP version ' . $this->phpVersion . ' or above is needed.', $phpVersionStatus, true);
 
         // Check application upload directory
-        if (!is_writable(base_path('storage/app/uploads'))) {
-            $allOk = false;
-            $requirements[] = $this->formatTableCells([
-                'Upload directory is writable.',
-                'No',
-            ], 'red');
-        } else {
-            $requirements[] = $this->formatTableCells([
-                'Upload directory is writable.',
-                'OK',
-            ], 'green');
-        }
+        $this->envRequirementsRow('Upload directory is writable.', is_writable(base_path('storage/app/uploads')), true);
 
         // Check if upload directory is accessible to the public
-        $pathSegments = explode('/', base_path());
-        $count = count($pathSegments);
-        $indexes = [];
-        $break = false;
-        for ($i = 0; $i < $count; $i++) {
-            $indexes[] = $i;
-            $path = implode('/', array_except($pathSegments, $indexes));
-            $guessUrl = url($path.'/storage/app/uploads');
-            $curl = curl_init($guessUrl);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_HEADER, false);
-            $info = curl_getinfo($curl);
-            if ($info['http_code'] != '404') {
-                $break = true;
-                $requirements[] = $this->formatTableCells([
-                    'Upload directory maybe accessible from ('.$guessUrl.').',
-                    'No',
-                ], 'red');
-            }
-            curl_close($curl);
-            if ($break) {
-                break;
-            }
+        $url = $this->isUploadDirectoryPublic();
+        if (!empty($url)) {
+            $this->envRequirementsRow('Upload directory maybe accessible from (' . $url . ').', '');
         }
 
         // Display the result table
-        $this->table(['Requirement', 'Status'], $requirements);
+        $this->table(['Requirement', 'Status'], $this->envRequirements);
 
-        return $allOk;
+        return $this->envStatus;
+    }
+
+    /**
+     * Check the availability of list of php extensions
+     *
+     * @param array  $modules
+     * @param string $labelFormat
+     * @param bool   $required
+     * @param string $failedLabel
+     *
+     * @return $this
+     */
+    protected function checkPhpExtension(array &$modules, $labelFormat, $required = true, $failedLabel = 'No')
+    {
+        foreach ($modules as $module => $status) {
+            $title = str_replace(['{module}'], [$module], $labelFormat);
+            $status = extension_loaded($module);
+            $modules[$module] = $status;
+            $this->envRequirementsRow($title, $status, $required, $failedLabel);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Render environment requirement row
+     *
+     * @param string $label
+     * @param bool   $status
+     * @param bool   $isRequired
+     * @param string $failedLabel
+     *
+     * @return $this
+     */
+    protected function envRequirementsRow($label, $status = false, $isRequired = false, $failedLabel = 'No')
+    {
+        $statusColor = $status ? static::COLOR_GOOD : ($isRequired ? static::COLOR_BAD : static::COLOR_INFO);
+        $statusTitle = $status ? 'OK' : $failedLabel;
+        $this->envRequirements[] = $this->formatTableCells([$label, $statusTitle], $statusColor);
+        if ($isRequired) {
+            $this->envStatus = false;
+        }
+
+        return $this;
     }
 
     /**
      * Format cell text color
      *
-     * @param array $cells
+     * @param array  $cells
      * @param string $color
      *
      * @return array
@@ -239,8 +235,48 @@ class Install extends Command
     protected function formatTableCells(array $cells, $color)
     {
         return array_map(function ($cell) use ($color) {
-            return '<fg='.$color.'>'.$cell.'</fg='.$color.'>';
+            return '<fg=' . $color . '>' . $cell . '</fg=' . $color . '>';
         }, $cells);
+    }
+
+    /**
+     * Returns list of valid db drivers
+     *
+     * @return array
+     */
+    protected function getValidDbDrivers()
+    {
+        return array_filter($this->dbDrivers, function ($item) {
+            return $item === true;
+        });
+    }
+
+    /**
+     * Check if upload directory is accessible to the public
+     *
+     * @return string
+     */
+    protected function isUploadDirectoryPublic()
+    {
+        $pathSegments = explode('/', base_path());
+        $count = count($pathSegments);
+        $indexes = [];
+        for ($i = 0; $i < $count; $i++) {
+            $indexes[] = $i;
+            $path = implode('/', array_except($pathSegments, $indexes));
+            $guessUrl = url($path . '/storage/app/uploads');
+            $curl = curl_init($guessUrl);
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($curl, CURLOPT_HEADER, true);
+            curl_exec($curl);
+            $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            curl_close($curl);
+            if ($code != '404') {
+                return $guessUrl;
+            }
+        }
+
+        return '';
     }
 
     /**
@@ -266,55 +302,41 @@ class Install extends Command
     }
 
     /**
-     * Returns an object for application file system
-     *
-     * @return Filesystem
-     */
-    protected function getFilesystem()
-    {
-        if (null === $this->filesystem) {
-            $this->filesystem = new Filesystem(new Adapter(base_path()));
-        }
-
-        return $this->filesystem;
-    }
-
-    /**
      * Stage one:
      * - Collect data for the configuration file
      * - Create .env file
      * - Install the database
      *
      * @return void
+     * @throws \Exception
      */
     protected function stageOne()
     {
         $this->section('Local configurations:');
-        $this->data['dbDriver'] = $this->choice('Select a database driver: ('.$this->data['dbDriver'].')',
-            $this->validDbDrivers, $this->validDbDrivers[0]);
-        $this->data['dbHost'] = $this->ask('Enter the database host: ('.$this->data['dbHost'].')',
-            $this->data['dbHost']);
-        $this->data['dbName'] = $this->ask('Enter the database name: ('.$this->data['dbName'].')',
-            $this->data['dbName']);
-        $this->data['dbUser'] = $this->ask('Enter the database username: ('.$this->data['dbUser'].')',
-            $this->data['dbUser']);
-        $this->data['dbPass'] = $this->ask('Enter the database password: ('.$this->data['dbPass'].')',
-            $this->data['dbPass']);
-        $this->data['dbPrefix'] = $this->ask('Enter the tables prefix: ('.$this->data['dbPrefix'].')',
-            $this->data['dbPrefix']);
-        $this->data['sysEmail'] = $this->ask('Email address used by the Tiny Issue to send emails from: ('.$this->data['sysEmail'].')',
-            $this->data['sysEmail']);
-        $this->data['sysName'] = $this->ask('Email name used by the Tiny Issue for the email address above: ('.$this->data['sysName'].')',
-            $this->data['sysName']);
-        $this->data['timezone'] = $this->ask('The application timezone. Find your timezone from: http://php.net/manual/en/timezones.php): ('.$this->data['timezone'].')',
-            $this->data['timezone']);
+
+        $validDbDrivers = $this->getValidDbDrivers();
+        $this->askQuestions([
+            'dbDriver' => ['choice', ['Select a database driver', $validDbDrivers, $validDbDrivers[0]]],
+            'dbHost'   => 'Enter the database host',
+            'dbName'   => 'Enter the database name',
+            'dbUser'   => 'Enter the database username',
+            'dbPass'   => 'Enter the database password',
+            'dbPrefix' => 'Enter the tables prefix',
+            'sysEmail' => 'Email address used by the Tiny Issue to send emails from',
+            'sysName'  => 'Email name used by the Tiny Issue for the email address above',
+            'timezone' => 'The application timezone. Find your timezone from: http://php.net/manual/en/timezones.php)',
+        ]);
         $this->data['key'] = md5(str_random(40));
 
         // Create .env from .env.example and populate with user data
         $filesystem = $this->getFilesystem();
         $content = $filesystem->read('.env.example');
+        if (!$content) {
+            throw new \Exception('Unable to read .env.example to create .env file.');
+        }
+
         foreach ($this->data as $key => $value) {
-            $content = str_replace('{'.$key.'}', $value, $content);
+            $content = str_replace('{' . $key . '}', $value, $content);
         }
         if ($filesystem->has('.env')) {
             $filesystem->delete('.env');
@@ -322,15 +344,14 @@ class Install extends Command
         $filesystem->put('.env', $content);
 
         // Update the current database connection
-        $config = \Config::get('database.connections.'.$this->data['dbDriver']);
+        $config = \Config::get('database.connections.' . $this->data['dbDriver']);
         $config['driver'] = $this->data['dbDriver'];
         $config['host'] = $this->data['dbHost'];
         $config['database'] = $this->data['dbName'];
         $config['username'] = $this->data['dbUser'];
         $config['password'] = $this->data['dbPass'];
         $config['prefix'] = $this->data['dbPrefix'];
-
-        \Config::set("database.connections.".$this->data['dbDriver'], $config);
+        \Config::set("database.connections." . $this->data['dbDriver'], $config);
         \Config::set('database.default', $this->data['dbDriver']);
 
         // Install the new database
@@ -355,6 +376,46 @@ class Install extends Command
     }
 
     /**
+     * Ask user questions
+     *
+     * @param array $questions
+     *
+     * @return $this
+     */
+    protected function askQuestions(array $questions)
+    {
+        $labelFormat = function ($label, $value) {
+            return sprintf('%s: (%s)', $label, $value);
+        };
+
+        foreach ($questions as $name => $question) {
+            if (is_array($question)) {
+                $question[1][0] = $labelFormat($question[1][0], $this->data[$name]);
+                call_user_func_array([$this, $question[0]], $question[1]);
+            } else {
+                $question = $labelFormat($question, $this->data[$name]);
+                $this->data[$name] = $this->ask($question, $this->data[$name]);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Returns an object for application file system
+     *
+     * @return Filesystem
+     */
+    protected function getFilesystem()
+    {
+        if (null === $this->filesystem) {
+            $this->filesystem = new Filesystem(new Adapter(base_path()));
+        }
+
+        return $this->filesystem;
+    }
+
+    /**
      * Stage two:
      * - Collect details for admin user
      * - Create the admin user
@@ -365,25 +426,24 @@ class Install extends Command
     {
         $this->section('Setting up the admin account:');
 
-        $this->data['adminEmail'] = $this->ask('Email address: ('.$this->data['adminEmail'].')',
-            $this->data['adminEmail']);
-        $this->data['adminFirstName'] = $this->ask('First Name: ('.$this->data['adminFirstName'].')',
-            $this->data['adminFirstName']);
-        $this->data['adminLastName'] = $this->ask('Last Name: ('.$this->data['adminLastName'].')',
-            $this->data['adminLastName']);
-        $this->data['adminPass'] = $this->ask('Password: ('.$this->data['adminPass'].')',
-            $this->data['adminPass']);
+        $this->askQuestions([
+            'adminEmail'     => 'Email address',
+            'adminFirstName' => 'First Name',
+            'adminLastName'  => 'Last Name',
+            'adminPass'      => 'Password',
+        ]);
 
         Model\User::updateOrCreate(['email' => $this->data['adminEmail']], [
-            'email' => $this->data['adminEmail'],
+            'email'     => $this->data['adminEmail'],
             'firstname' => $this->data['adminFirstName'],
-            'lastname' => $this->data['adminLastName'],
-            'password' => \Hash::make($this->data['adminPass']),
-            'deleted' => Model\User::NOT_DELETED_USERS,
-            'role_id' => 4,
-            'language' => 'en',
+            'lastname'  => $this->data['adminLastName'],
+            'password'  => \Hash::make($this->data['adminPass']),
+            'deleted'   => Model\User::NOT_DELETED_USERS,
+            'role_id'   => 4,
+            'language'  => 'en',
         ]);
 
         $this->info('Admin account created successfully.');
     }
 }
+
