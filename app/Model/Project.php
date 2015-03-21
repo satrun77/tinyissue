@@ -10,15 +10,16 @@
  */
 namespace Tinyissue\Model;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
-use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query;
 use Tinyissue\Model\Project\Issue as ProjectIssue;
 use Tinyissue\Model\Project\Issue\Comment as IssueComment;
 use Tinyissue\Model\Project\User as ProjectUser;
+use Tinyissue\Model\Traits\CountAttributeTrait;
 use Tinyissue\Model\User\Activity as UserActivity;
 use URL;
-use Illuminate\Database\Query;
 
 
 /**
@@ -32,6 +33,8 @@ use Illuminate\Database\Query;
  */
 class Project extends Model
 {
+    use CountAttributeTrait;
+
     const STATUS_OPEN = 1;
     const STATUS_ARCHIVED = 0;
     public $timestamps = true;
@@ -131,15 +134,7 @@ class Project extends Model
      */
     public function getOpenIssuesCountAttribute()
     {
-        // if relation is not loaded already, let's do it first
-        if (!array_key_exists('openIssuesCount', $this->relations)) {
-            $this->load('openIssuesCount');
-        }
-
-        $related = $this->getRelation('openIssuesCount');
-
-        // then return the count directly
-        return (isset($related->aggregate)) ? (int)$related->aggregate : 0;
+        return $this->getCountAttribute('openIssuesCount');
     }
 
     /**
@@ -162,15 +157,7 @@ class Project extends Model
      */
     public function getClosedIssuesCountAttribute()
     {
-        // if relation is not loaded already, let's do it first
-        if (!array_key_exists('closedIssuesCount', $this->relations)) {
-            $this->load('closedIssuesCount');
-        }
-
-        $related = $this->getRelation('closedIssuesCount');
-
-        // then return the count directly
-        return (isset($related->aggregate)) ? (int)$related->aggregate : 0;
+        return $this->getCountAttribute('closedIssuesCount');
     }
 
     /**
@@ -208,6 +195,22 @@ class Project extends Model
     public function users()
     {
         return $this->belongsToMany('\Tinyissue\Model\User', 'projects_users', 'project_id', 'user_id');
+    }
+
+    /**
+     * Set default assignee attribute
+     *
+     * @param int $value
+     *
+     * @return $this
+     */
+    public function setDefaultAssigneeAttribute($value)
+    {
+        if (!empty($value)) {
+            $this->attributes['default_assignee'] = (int)$value;
+        }
+
+        return $this;
     }
 
     /**
@@ -298,15 +301,7 @@ class Project extends Model
      */
     public function getIssuesCountAttribute()
     {
-        // if relation is not loaded already, let's do it first
-        if (!array_key_exists('issuesCount', $this->relations)) {
-            $this->load('issuesCount');
-        }
-
-        $related = $this->getRelation('issuesCount');
-
-        // then return the count directly
-        return ($related) ? (int)$related->aggregate : 0;
+        return $this->getCountAttribute('issuesCount');
     }
 
     /**
@@ -370,7 +365,10 @@ class Project extends Model
             if ($filter['sortby'] == 'updated') {
                 $query->orderBy('updated_at', $sortOrder);
             } elseif (($tagGroup = substr($filter['sortby'], strlen('tag:'))) > 0) {
-                $results = $query->get()->sort(function (ProjectIssue $issue1, ProjectIssue $issue2) use ($tagGroup, $sortOrder) {
+                $results = $query->get()->sort(function (ProjectIssue $issue1, ProjectIssue $issue2) use (
+                    $tagGroup,
+                    $sortOrder
+                ) {
                     $tag1 = $issue1->tags->where('parent.id', $tagGroup, false)->first();
                     $tag2 = $issue2->tags->where('parent.id', $tagGroup, false)->first();
                     $tag1 = $tag1 ? $tag1->name : '';

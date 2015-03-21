@@ -101,7 +101,7 @@ class Install extends Command
      *
      * @var bool
      */
-    protected $envStatus = false;
+    protected $envStatus = true;
 
     /**
      * Environment requirements for display status table
@@ -157,7 +157,7 @@ class Install extends Command
                 . implode(', ', array_keys($this->dbDrivers)) . ')';
         } else {
             $dbDriverTitle = 'You can choose one of the following pdo drivers ('
-                . implode(', ', array_keys($validDrivers)) . ')';
+                . implode(', ', $validDrivers) . ')';
         }
         $this->envRequirementsRow($dbDriverTitle, $dbDriverStatus, true, 'No Found');
 
@@ -166,7 +166,7 @@ class Install extends Command
         $this->envRequirementsRow('PHP version ' . $this->phpVersion . ' or above is needed.', $phpVersionStatus, true);
 
         // Check application upload directory
-        $this->envRequirementsRow('Upload directory is writable.', is_writable(base_path('storage/app/uploads')), true);
+        $this->envRequirementsRow('Upload directory is writable.', is_writable(base_path('storage/app/uploads')));
 
         // Check if upload directory is accessible to the public
         $url = $this->isUploadDirectoryPublic();
@@ -207,18 +207,18 @@ class Install extends Command
      *
      * @param string $label
      * @param bool   $status
-     * @param bool   $isRequired
+     * @param bool   $required
      * @param string $failedLabel
      *
      * @return $this
      */
-    protected function envRequirementsRow($label, $status = false, $isRequired = false, $failedLabel = 'No')
+    protected function envRequirementsRow($label, $status = false, $required = false, $failedLabel = 'No')
     {
-        $statusColor = $status ? static::COLOR_GOOD : ($isRequired ? static::COLOR_BAD : static::COLOR_INFO);
+        $statusColor = $status ? static::COLOR_GOOD : ($required ? static::COLOR_BAD : static::COLOR_INFO);
         $statusTitle = $status ? 'OK' : $failedLabel;
         $this->envRequirements[] = $this->formatTableCells([$label, $statusTitle], $statusColor);
-        if ($isRequired) {
-            $this->envStatus = false;
+        if ($required) {
+            $this->envStatus = $status;
         }
 
         return $this;
@@ -246,9 +246,9 @@ class Install extends Command
      */
     protected function getValidDbDrivers()
     {
-        return array_filter($this->dbDrivers, function ($item) {
+        return array_keys(array_filter($this->dbDrivers, function ($item) {
             return $item === true;
-        });
+        }));
     }
 
     /**
@@ -327,6 +327,7 @@ class Install extends Command
             'timezone' => 'The application timezone. Find your timezone from: http://php.net/manual/en/timezones.php)',
         ]);
         $this->data['key'] = md5(str_random(40));
+        $this->data['dbDriver'] = substr($this->data['dbDriver'], 4);
 
         // Create .env from .env.example and populate with user data
         $filesystem = $this->getFilesystem();
@@ -391,7 +392,7 @@ class Install extends Command
         foreach ($questions as $name => $question) {
             if (is_array($question)) {
                 $question[1][0] = $labelFormat($question[1][0], $this->data[$name]);
-                call_user_func_array([$this, $question[0]], $question[1]);
+                $this->data[$name] = call_user_func_array([$this, $question[0]], $question[1]);
             } else {
                 $question = $labelFormat($question, $this->data[$name]);
                 $this->data[$name] = $this->ask($question, $this->data[$name]);

@@ -17,6 +17,7 @@ use Tinyissue\Model\Tag;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Illuminate\Database\Query;
+use Tinyissue\Model\Traits\CountAttributeTrait;
 
 /**
  * Issue is model class for project issues
@@ -41,6 +42,8 @@ use Illuminate\Database\Query;
  */
 class Issue extends BaseModel
 {
+    use CountAttributeTrait;
+
     const STATUS_OPEN = 1;
     const STATUS_CLOSED = 0;
     public $timestamps = true;
@@ -126,15 +129,7 @@ class Issue extends BaseModel
      */
     public function getCountCommentsAttribute()
     {
-        // if relation is not loaded already, let's do it first
-        if (!array_key_exists('countComments', $this->relations)) {
-            $this->load('countComments');
-        }
-
-        $related = $this->getRelation('countComments');
-
-        // then return the count directly
-        return (isset($related->aggregate)) ? (int)$related->aggregate : 0;
+        return $this->getCountAttribute('countComments');
     }
 
     /**
@@ -214,7 +209,6 @@ class Issue extends BaseModel
             $this->closed_at = $time->format('Y-m-d H:i:s');
 
             $activityType = Activity::TYPE_CLOSE_ISSUE;
-            $removeTag = Tag::STATUS_OPEN;
             $addTagName = Tag::STATUS_CLOSED;
 
             // Remove all tags of type status

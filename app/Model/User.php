@@ -21,6 +21,8 @@ use Illuminate\Support\Str;
 use Mail;
 use Illuminate\Mail\Message as MailMessage;
 use Illuminate\Database\Query;
+use Tinyissue\Model\Project\Issue;
+use Tinyissue\Model\Permission;
 
 /**
  * User is model class for users
@@ -301,32 +303,32 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Whether or not the user has a valid permission in current context
      * e.g. can access the issue or the project
      *
-     * @param string $context
      * @param array  $params
      *
      * @return bool
      */
-    public function permissionInContext($context, array $params)
+    public function permissionInContext(array $params)
     {
+        // Can access all projects
         if ($this->permission(Permission::PERM_PROJECT_ALL)) {
             return true;
         }
 
-        $project = empty($params['project']) ? false : $params['project'];
-
-        switch ($context) {
-            case Permission::PERM_PROJECT_MODIFY:
-            case Permission::PERM_ISSUE_CREATE:
-            case Permission::PERM_ISSUE_COMMENT:
-            case Permission::PERM_ISSUE_MODIFY:
-            case Permission::PERM_ISSUE_VIEW:
-                if ($project && $project->users()->where('user_id', '=', $this->id)->count() > 0) {
-                    return true;
-                }
-                break;
+        $project = false;
+        if (!empty($params['project']) && $params['project'] instanceof Project) {
+            $project = $params['project'];
         }
 
-        return false;
+        if (!empty($params['issue']) && $params['issue'] instanceof Issue) {
+            $project = $params['issue']->project;
+        }
+
+        // Is member of the project
+        if ($project && $project->users()->where('user_id', '=', $this->id)->count() === 0) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -395,18 +397,11 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function updateUser(array $info = [])
     {
-        $update = [
-            'email'     => $info['email'],
-            'firstname' => $info['firstname'],
-            'lastname'  => $info['lastname'],
-            'role_id'   => $info['role_id'],
-        ];
-
         if ($info['password']) {
-            $update['password'] = Hash::make($info['password']);
+            $info['password'] = Hash::make($info['password']);
         }
 
-        return $this->update($update);
+        return $this->update($info);
     }
 
     /**
@@ -418,17 +413,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function updateSetting(array $info)
     {
-        $update = [
-            'email'     => $info['email'],
-            'firstname' => $info['firstname'],
-            'lastname'  => $info['lastname'],
-            'language'  => $info['language'],
-        ];
+        $update = array_intersect_key($info, array_flip([
+            'email',
+            'firstname',
+            'lastname',
+            'language',
+            'password'
+        ]));
 
-        if ($info['password']) {
-            $update['password'] = \Hash::make($info['password']);
-        }
-
-        return parent::update($update);
+        return $this->updateUser($update);
     }
 }
