@@ -171,7 +171,7 @@ class Install extends Command
         // Check if upload directory is accessible to the public
         $url = $this->isUploadDirectoryPublic();
         if (!empty($url)) {
-            $this->envRequirementsRow('Upload directory maybe accessible from (' . $url . ').', '');
+            $this->envRequirementsRow('Upload directory maybe accessible from (' . $url . ').');
         }
 
         // Display the result table
@@ -227,7 +227,7 @@ class Install extends Command
     /**
      * Format cell text color
      *
-     * @param array  $cells
+     * @param string[]  $cells
      * @param string $color
      *
      * @return array
@@ -332,7 +332,7 @@ class Install extends Command
         // Create .env from .env.example and populate with user data
         $filesystem = $this->getFilesystem();
         $content = $filesystem->read('.env.example');
-        if (!$content) {
+        if (empty($content)) {
             throw new \Exception('Unable to read .env.example to create .env file.');
         }
 

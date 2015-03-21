@@ -334,7 +334,7 @@ class IssueController extends Controller
      * @param Issue      $issue
      * @param Attachment $attachment
      *
-     * @return mixed
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
      */
     public function getDownloadAttachment(Project $project, Issue $issue, Attachment $attachment)
     {

@@ -29,7 +29,7 @@ use URL;
  * @property int    $id
  * @property string $name
  * @property int    $status
- * @method   Query\Builder where()
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Project extends Model
 {
