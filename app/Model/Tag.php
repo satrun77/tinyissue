@@ -30,11 +30,10 @@ class Tag extends Model
 {
     const STATUS_OPEN = 'open';
     const STATUS_CLOSED = 'closed';
+    const GROUP_STATUS = 'status';
     public $timestamps = true;
     public $fillable = ['parent_id', 'name', 'bgcolor', 'group'];
     protected $table = 'tags';
-
-    const GROUP_STATUS = 'status';
 
     /**
      * Returns the parent/group for the tag
@@ -118,5 +117,57 @@ class Tag extends Model
     public function getFullNameAttribute()
     {
         return (isset($this->parent->name) ? ucwords($this->parent->name) : '') . ':' . ucwords($this->attributes['name']);
+    }
+
+    /**
+     * Create new tag from string of group name and tag name
+     *
+     * @param string $tagFullName
+     *
+     * @return $this|boolean
+     */
+    public function createTagFromString($tagFullName)
+    {
+        list($groupName, $tagName) = explode(':', $tagFullName);
+
+        // Check if group name is valid
+        $groupTag = $this->validOrCreate($groupName);
+
+        if (!$groupTag) {
+            return false;
+        }
+
+        // Create new tag or return existing one
+        return $this->validOrCreate($tagName, $groupTag);
+    }
+
+    /**
+     * Create a new tag if valid or return existing one
+     *
+     * @param   string $name
+     * @param null|Tag $parent
+     *
+     * @return boolean|$this
+     */
+    public function validOrCreate($name, $parent = null)
+    {
+        $group = $parent === null ? true : false;
+        $tag = $this->where('name', '=', $name)->first();
+        if ($tag && $tag->group != $group) {
+            return false;
+        }
+
+        if (!$tag) {
+            $tag = new static();
+            $tag->name = $name;
+            $tag->group = $group;
+            if (!is_null($parent)) {
+                $tag->parent_id = $parent->id;
+                $tag->setRelation('parent', $parent);
+            }
+            $tag->save();
+        }
+
+        return $tag;
     }
 }

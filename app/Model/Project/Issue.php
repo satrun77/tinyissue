@@ -11,12 +11,12 @@
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Database\Query;
 use Illuminate\Support\Collection;
 use Tinyissue\Model;
-use Tinyissue\Model\Tag;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project\Issue\Attachment;
-use Illuminate\Database\Query;
+use Tinyissue\Model\Tag;
 use Tinyissue\Model\Traits\CountAttributeTrait;
 
 /**
@@ -170,8 +170,8 @@ class Issue extends BaseModel
      */
     public function reassign($assignTo, $user)
     {
-        $assignToId = !$assignTo instanceof Model\User? $assignTo : $assignTo->id;
-        $userId = !$user instanceof Model\User? $user : $user->id;
+        $assignToId = !$assignTo instanceof Model\User ? $assignTo : $assignTo->id;
+        $userId = !$user instanceof Model\User ? $user : $user->id;
         $this->assigned_to = $assignToId;
         $this->save();
 
@@ -297,40 +297,21 @@ class Issue extends BaseModel
      */
     protected function createTags(array $tags, $isAdmin = false)
     {
-        $newTags = new Collection;
-        foreach ($tags as $aTag) {
-            if (strpos($aTag, ':') !== false) {
-                $parts = explode(':', $aTag);
-                $group = Tag::where('name', '=', $parts[0])->where('group', '=', true)->first();
-                if (!$group) {
-                    if (!$isAdmin) {
-                        continue;
-                    }
-                    $group = new Tag();
-                    $group->name = $parts[0];
-                    $group->group = true;
-                    $group->save();
-                }
-                $tag = Tag::where('name', '=', $parts[1])->where('parent_id', '=', $group->id)->first();
-                if (!$tag) {
-                    if (!$isAdmin) {
-                        continue;
-                    }
-                    $tag = new Tag();
-                    $tag->name = $parts[1];
-                    $tag->group = false;
-                    $tag->parent_id = $group->id;
-                    $tag->setRelation('group', $group);
-                    $tag->save();
-                }
+        $newTags = new Collection($tags);
+
+        // Transform the user input tags into tag objects
+        $newTags->transform(function ($tagNameOrId) use ($isAdmin) {
+            if (strpos($tagNameOrId, ':') !== false && $isAdmin) {
+                return (new Tag())->createTagFromString($tagNameOrId);
             } else {
-                $tag = Tag::find($aTag);
-                if (!$tag) {
-                    continue;
-                }
+                return Tag::find($tagNameOrId);
             }
-            $newTags->put($tag->id, $tag);
-        }
+        });
+
+        // Filter out invalid tags entered by the user
+        $newTags = $newTags->filter(function ($tag) {
+            return $tag instanceof Tag;
+        });
 
         return $newTags;
     }

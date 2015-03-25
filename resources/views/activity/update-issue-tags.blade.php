@@ -8,7 +8,7 @@
             @if(($countAddedTags = $userActivity->dataCollection('added_tags')->count()) > 0)
                 <div class="activity-tags">
                 @foreach($userActivity->data['added_tags'] as $tag)
-                    <label class="label" style="background: {{ $tag['bgcolor'] }}">{!! Html::formatIssueTag($tag['name']) !!}</label>
+                    <label class="label" style="background: {{ $tag['bgcolor'] or 'gray' }}">{!! Html::formatIssueTag($tag['name']) !!}</label>
                 @endforeach
                 @lang('tinyissue.tag_added', ['s' => $countAddedTags > 1? 's' : ''])
                 </div>
@@ -16,7 +16,7 @@
             @if(($countRemovedTags = $userActivity->dataCollection('removed_tags')->count()) > 0)
                 <div class="activity-tags">
                 @foreach($userActivity->data['removed_tags'] as $tag)
-                    <label class="label" style="background: {{ $tag['bgcolor'] }}">{!! Html::formatIssueTag($tag['name']) !!}</label>
+                    <label class="label" style="background: {{ $tag['bgcolor'] or 'gray' }}">{!! Html::formatIssueTag($tag['name']) !!}</label>
                 @endforeach
                 @lang('tinyissue.tag_removed', ['s' => $countAddedTags > 1? 's' : ''])
                 </div>

@@ -88,11 +88,14 @@ class CrudIssueCest
         $I->fillField('title', $newTitle);
         $I->fillField('time_quote[h]', 1);
         $I->fillField('time_quote[s]', 100);
+        $I->fillField('tag', 'type:tag1');
         $I->click(trans('tinyissue.update_issue'));
         $I->seeResponseCodeIs(200);
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeLink($newTitle);
         $I->see(\Html::duration($newTime), '.issue-quote');
+        $I->see('type', '.issue-tag');
+        $I->see('tag1', '.issue-tag');
     }
 
     /**

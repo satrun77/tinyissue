@@ -11,7 +11,7 @@
 
         <div class="issue-tags">
         @forelse($issue->tags as $tag)
-                <label class="label" style="background: {{ $tag->bgcolor }}">{!! Html::formatIssueTag($tag->fullname) !!}</label>
+                <label class="label" style="background: {{ $tag->bgcolor  or 'gray' }}">{!! Html::formatIssueTag($tag->fullname) !!}</label>
         @empty
         @endforelse
         </div>

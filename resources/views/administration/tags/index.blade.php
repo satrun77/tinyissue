@@ -22,7 +22,7 @@ active
         <h4><a href="{{ $group->to('edit') }}">{{ ucwords($group->name) }}</a></h4>
         <div class="list-group">
             @foreach($group->tags as $tag)
-            <a href="{{ $tag->to('edit') }}" class="list-group-item"><span class="label" @if($tag->bgcolor) style="background:{{ $tag->bgcolor }}" @endif>{{ $tag->name }}</span></a>
+            <a href="{{ $tag->to('edit') }}" class="list-group-item"><span class="label" style="background:{{ $tag->bgcolor or 'gray' }}">{{ $tag->name }}</span></a>
             @endforeach
         </div>
     @endforeach

@@ -32,7 +32,7 @@ active
 
 <div class="activity-tags">
 @foreach($issue->tags()->with('parent')->get() as $tag)
-    <label class="label" style="background: {{ $tag->bgcolor }}">{!! Html::formatIssueTag($tag->name, $tag->parent->name) !!}</label>
+    <label class="label" style="background: {{ $tag->bgcolor or 'gray' }}">{!! Html::formatIssueTag($tag->name, $tag->parent->name) !!}</label>
 @endforeach
 </div>
 
