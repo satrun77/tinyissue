@@ -101,7 +101,7 @@ class ProjectsController extends Controller
             // Calculate the progress
             $progress = $project->openIssuesCount + $project->closedIssuesCount;
             if ($progress > 0) {
-                $progress = ($project->closedIssuesCount / $progress) * 100;
+                $progress = round(($project->closedIssuesCount / $progress) * 100, 2);
             }
 
             // Choose color based on the progress
