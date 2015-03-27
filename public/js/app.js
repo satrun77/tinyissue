@@ -23,19 +23,21 @@ $(function () {
 
     // Load project progress
     var projects = $('.project.load-progress');
-    var projectIds = [];
-    projects.each(function() {
-        projectIds.push(parseInt($(this).data('project-id'), 10))
-    });
-    Ajax.relPost('projects/progress', {ids:projectIds}, function(data) {
-        projects.each(function() {
-            var project = $(this), id = parseInt(project.data('project-id'), 10);
-            if (id > 0) {
-                project.append(data.progress[id]['html']);
-                project.find('.progress-bar').width(data.progress[id]['value'] + '%')
-            }
+    if (projects.length > 0) {
+        var projectIds = [];
+        projects.each(function () {
+            projectIds.push(parseInt($(this).data('project-id'), 10))
         });
-    });
+        Ajax.relPost('projects/progress', {ids: projectIds}, function (data) {
+            projects.each(function () {
+                var project = $(this), id = parseInt(project.data('project-id'), 10);
+                if (id > 0) {
+                    project.append(data.progress[id]['html']);
+                    project.find('.progress-bar').width(data.progress[id]['value'] + '%')
+                }
+            });
+        });
+    }
 });
 
 var GlobalSaving = {
