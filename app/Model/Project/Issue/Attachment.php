@@ -61,6 +61,7 @@ class Attachment extends BaseModel
     {
         return $this->belongsTo('Tinyissue\Model\User', 'uploaded_by');
     }
+
     /**
      * An attachment can belong to a comment (inverse relationship of Comments::attachments).
      *
@@ -82,7 +83,7 @@ class Attachment extends BaseModel
      */
     public function upload(array $input, Project $project, User $user)
     {
-        $relativePath = '/uploads/' . $project->id . '/' . $input['upload_token'];
+        $relativePath = '/' . config('tinyissue.uploads_dir') . '/' . $project->id . '/' . $input['upload_token'];
         \Storage::disk('local')->makeDirectory($relativePath, 0777, true);
         $path = config('filesystems.disks.local.root') . $relativePath;
 
@@ -115,7 +116,7 @@ class Attachment extends BaseModel
             ->where('filename', '=', $input['filename'])
             ->delete();
 
-        $path = config('filesystems.disks.local.root') . '/uploads/' . $project->id . '/' . $input['upload_token'];
+        $path = config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir') . '/' . $project->id . '/' . $input['upload_token'];
         $this->deleteFile($path, $input['filename']);
     }
 
@@ -127,7 +128,7 @@ class Attachment extends BaseModel
      */
     public function deleteFile($path, $filename)
     {
-        @unlink($path.'/'.$filename);
+        @unlink($path . '/' . $filename);
         @rmdir($path);
     }
 
@@ -139,9 +140,14 @@ class Attachment extends BaseModel
     public function isImage()
     {
         return in_array($this->fileextension, [
-            'jpg', 'jpeg', 'JPG', 'JPEG',
-            'png', 'PNG',
-            'gif', 'GIF',
+            'jpg',
+            'jpeg',
+            'JPG',
+            'JPEG',
+            'png',
+            'PNG',
+            'gif',
+            'GIF',
         ]);
     }
 
@@ -152,7 +158,7 @@ class Attachment extends BaseModel
      */
     public function download()
     {
-        return \URL::to('project/'.$this->issue->project_id.'/issue/'.$this->issue_id.'/download/'.$this->id);
+        return \URL::to('project/' . $this->issue->project_id . '/issue/' . $this->issue_id . '/download/' . $this->id);
     }
 
     /**
@@ -162,6 +168,6 @@ class Attachment extends BaseModel
      */
     public function display()
     {
-        return \URL::to('project/'.$this->issue->project_id.'/issue/'.$this->issue_id.'/display/'.$this->id);
+        return \URL::to('project/' . $this->issue->project_id . '/issue/' . $this->issue_id . '/display/' . $this->id);
     }
 }

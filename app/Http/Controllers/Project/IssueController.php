@@ -310,7 +310,7 @@ class IssueController extends Controller
         $issue->setRelation('project', $project);
         $attachment->setRelation('issue', $issue);
 
-        $path = 'uploads/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
+        $path = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
         $storage = \Storage::disk('local');
         $length = $storage->size($path);
         $time = $storage->lastModified($path);
@@ -353,7 +353,7 @@ class IssueController extends Controller
         $issue->setRelation('project', $project);
         $attachment->setRelation('issue', $issue);
 
-        $path = config('filesystems.disks.local.root') . '/uploads/' . $this->issue->project_id . '/' . $this->upload_token . '/' . $attachment->filename;
+        $path = config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
 
         return response()->download($path, $attachment->filename);
     }

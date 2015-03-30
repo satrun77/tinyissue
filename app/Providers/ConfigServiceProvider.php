@@ -31,6 +31,7 @@ class ConfigServiceProvider extends ServiceProvider
         config([
             'tinyissue.release_date' => '4-11-2013',
             'tinyissue.version'      => '1.3.1',
+            'tinyissue.uploads_dir'  => env('APP_UPLOAD_DIR', 'uploads'),
         ]);
     }
 }

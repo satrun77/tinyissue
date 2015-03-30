@@ -107,7 +107,9 @@ class Issue extends BaseModel
      */
     public function attachments()
     {
-        return $this->hasMany('Tinyissue\Model\Project\Issue\Attachment', 'issue_id')->where('comment_id', '=', 0);
+        return $this->hasMany('Tinyissue\Model\Project\Issue\Attachment', 'issue_id')
+            ->where('comment_id', '=', 0)
+            ->orWhere('comment_id', '=', null);
     }
 
     /**

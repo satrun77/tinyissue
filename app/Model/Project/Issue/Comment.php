@@ -121,7 +121,7 @@ class Comment extends BaseModel
         $this->activity()->delete();
 
         foreach ($this->attachments as $attachment) {
-            $path = config('filesystems.disks.local.root') . '/uploads/' . $this->project_id . '/' . $attachment->upload_token;
+            $path = config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir') . '/' . $this->project_id . '/' . $attachment->upload_token;
             $attachment->deleteFile($path, $attachment->filename);
             $attachment->delete();
         }
