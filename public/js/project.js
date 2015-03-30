@@ -116,44 +116,6 @@ $(function () {
         return window.location = $(this).data('url');
     });
 
-    // Uploadify
-    var upload = $('#upload');
-    if (upload.length > 0) {
-        upload.uploadify({
-            buttonImage: '',
-            swf: TINY.basePath + 'js/uploadify/uploadify.swf',
-            uploader: TINY.basePath + 'project/' + TINY.projectId + '/issue/upload_attachment',
-            formData: {
-                session: $('input[name=session]').val(),
-                _token: TINY.token,
-                upload_token: $('input[name=upload_token]').val()
-            },
-            auto: true,
-            multi: true,
-            queueSizeLimit: 10,
-            removeCompleted: false,
-            itemTemplate: '<div id="${fileID}" class="queue-item">\
-                        <a class="delete" data-file-name="${fileName}" data-file-id="${fileID}">X</a>\
-                            <span class="fileName">${fileName} (${fileSize})</span><span class="data"></span>\
-                        </div>',
-            onUploadStart: function (file) {
-                $('#' + file.id + ' a').attr('data-file-name', file.name);
-            }
-        });
-        $(document).on('click', '.queue-item .delete', function (e) {
-            e.preventDefault();
-            GlobalSaving.show('Deleting...');
-            var fileName = $(this).data('file-name');
-            var fileId = $(this).data('file-id');
-            Ajax.relPost('project/' + TINY.projectId + '/issue/remove_attachment', {
-                session: $('input[name=session]').val(),
-                _token: TINY.token,
-                upload_token: $('input[name=upload_token]').val(),
-                filename: fileName
-            }, function () {
-                GlobalSaving.hide();
-                upload.uploadify('cancel', fileId);
-            });
-        });
-    }
+    // File Uploader
+    Uploader().init();
 });

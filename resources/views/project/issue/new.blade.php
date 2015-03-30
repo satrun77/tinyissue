@@ -10,8 +10,11 @@ active
 @stop
 
 @section('scripts')
-{!! Html::script('js/uploadify/jquery.uploadify.min.js') !!}
 {!! Html::script('js/jquery.tokenfield.js') !!}
+{!! Html::script('js/upload/vendor/jquery.ui.widget.js') !!}
+{!! Html::script('js/upload/jquery.iframe-transport.js') !!}
+{!! Html::script('js/upload/jquery.fileupload.js') !!}
+{!! Html::script('js/upload/jquery.fileupload-process.js') !!}
 {!! Html::script('js/project.js') !!}
 @stop
 

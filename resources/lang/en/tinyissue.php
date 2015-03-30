@@ -167,4 +167,8 @@ return [
     'sort_desc'                         => 'desc',
     'keywords'                          => 'Keywords',
     'cant_edit_closed_issue'            => 'Closed issue cannot be edited.',
+    'add_files'                         => 'Add files...',
+    'delete_upload_file'                => 'Deleting file...',
+    'error_uploadfailed'                => 'Failed to upload.',
+    'success_upload'                    => 'Upload success!',
 ];

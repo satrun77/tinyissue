@@ -94,14 +94,14 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
      */
     public function element($name, array $field)
     {
-        $type = $field['type'];
-        unset($field['type']);
+        $filterKeys = ['type'];
+        $attrs = array_diff_key($field, array_flip($filterKeys));
 
         // Create field with name
-        $element = Former::$type($name);
+        $element = Former::$field['type']($name);
 
         // Create field attributes
-        array_walk($field, function ($value, $attr) use ($element) {
+        array_walk($attrs, function ($value, $attr) use ($element) {
             if ($value === null) {
                 $element->$attr();
             } else {

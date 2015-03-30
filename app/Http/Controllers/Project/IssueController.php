@@ -248,18 +248,35 @@ class IssueController extends Controller
      */
     public function postUploadAttachment(Project $project, Attachment $attachment, Request $request)
     {
-        $userId = \Crypt::decrypt(str_replace(' ', '+', $request->input('session')));
-        if ((int)$userId !== (int)$this->auth->user()->id) {
-            return abort(404);
+        try {
+            if (!$this->auth->user()->permission('project-all')) {
+                return abort(404);
+            }
+
+            $attachment->upload($request->all(), $project, $this->auth->user());
+
+            $response = [
+                'upload' => [
+                    [
+                        'name'      => $attachment->filename,
+                        'size'      => $attachment->filesize,
+                        'fileId'    => $attachment->id,
+                    ]
+                ]
+            ];
+
+        } catch (\Exception $exception) {
+            $file = $request->file('upload');
+
+            $response = array(
+                'status' => false,
+                'name'   => $file->getClientOriginalName(),
+                'error'  => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString()
+            );
         }
 
-        if (!$this->auth->user()->permission('project-all')) {
-            return abort(404);
-        }
-
-        $attachment->upload($request->all(), $project, $userId);
-
-        return response()->json(['status' => true]);
+        return response()->json($response);
     }
 
     /**
@@ -273,12 +290,7 @@ class IssueController extends Controller
      */
     public function postRemoveAttachment(Project $project, Attachment $attachment, Request $request)
     {
-        $userId = \Crypt::decrypt(str_replace(' ', '+', $request->input('session')));
-        if ((int)$userId !== (int)$this->auth->user()->id) {
-            return abort(404);
-        }
-
-        $attachment->remove($request->all(), $project, $userId);
+        $attachment->remove($request->all(), $project, $this->auth->user());
 
         return response()->json(['status' => true]);
     }

@@ -180,13 +180,13 @@ code{
     background: url('../images/icons/global-saving.gif') no-repeat 10px 10px #222727;
     font-size: 15px;
     text-align: center;
-    width: 100px;
-    margin: 0 auto;
+    width: auto;
     color: #fff;
     text-decoration: none;
+    margin: 0px auto;
     opacity: .95;
-    padding: 11px 0 11px 5px;
-    display: block;
+    padding: 11px 8px 11px 35px;
+    display: table;
     -webkit-border-bottom-right-radius: 8px;
     -webkit-border-bottom-left-radius: 8px;
     -moz-border-radius-bottomright: 8px;
@@ -951,26 +951,39 @@ textarea.form-control {
     margin-top: -4px;
 }
 /* Attachments */
-#upload {
-    background: rgb(88,88,88);
-    text-align: center;
-    color: #fff;
-    border-radius: 4px;
-    font: normal 13px Helvetica, "Lucida Grande", Arial, sans-serif;
+.fileinput-button {
+    position: relative;
+    overflow: hidden;
 }
-#upload:hover {
-    background: rgb(99,99,99);
+.fileinput-button input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
     cursor: pointer;
 }
-#upload-queue{
-    width: 450px;
+/* Fixes for IE < 8 */
+@media screen\9 {
+    .fileinput-button input {
+        filter: alpha(opacity=0);
+        font-size: 100%;
+        height: 100%;
+    }
 }
 #upload-queue .queue-item{
     padding: 5px;
     border-bottom: 1px solid #ddd;
+    list-style: none;
 }
-#upload-queue .queue-item .delete{
+#upload-queue .queue-item .close{
     float: right;
+}
+#upload-queue .queue-item .status{
+    padding-left: 5px;
 }
 .attachments {
     list-style: none;
@@ -1006,7 +1019,10 @@ textarea.form-control {
 }
 /* Progress bar */
 .progress {
-    margin-bottom: 0px;
+    margin-bottom: 0;
+    width: 100%;
+}
+#sidebar .progress {
     width: 90%;
 }
 .progress-bar {

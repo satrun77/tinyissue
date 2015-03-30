@@ -11,8 +11,9 @@
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
-use Tinyissue\Model\Project;
 use Illuminate\Database\Query;
+use Tinyissue\Model\Project;
+use Tinyissue\Model\User;
 
 /**
  * Attachment is model class for project attachments
@@ -73,31 +74,27 @@ class Attachment extends BaseModel
     /**
      * Upload the attachment
      *
-     * @param   array      $input
+     * @param array   $input
      * @param Project $project
-     * @param int        $userId
+     * @param User    $user
      *
      * @return bool
      */
-    public function upload(array $input, Project $project, $userId)
+    public function upload(array $input, Project $project, User $user)
     {
-        $relativePath = '/uploads/'.$project->id.'/'.$input['upload_token'];
+        $relativePath = '/uploads/' . $project->id . '/' . $input['upload_token'];
         \Storage::disk('local')->makeDirectory($relativePath, 0777, true);
-        $path = config('filesystems.disks.local.root').$relativePath;
+        $path = config('filesystems.disks.local.root') . $relativePath;
 
-        /* @var $file \Symfony\Component\HttpFoundation\File\UploadedFile */
-        $uploadedFile = $input['Filedata'];
-        $file = $uploadedFile->move($path, $input['Filename']);
+        /* @var $uploadedFile \Symfony\Component\HttpFoundation\File\UploadedFile */
+        $uploadedFile = $input['upload'];
+        $file = $uploadedFile->move($path, $uploadedFile->getClientOriginalName());
 
-        $fill = [
-            'uploaded_by' => $userId,
-            'filename' => $file->getFilename(),
-            'fileextension' => $file->getExtension(),
-            'filesize' => $file->getSize(),
-            'upload_token' => $input['upload_token'],
-        ];
-
-        $this->fill($fill);
+        $this->uploaded_by = $user->id;
+        $this->filename = $file->getFilename();
+        $this->fileextension = $file->getExtension();
+        $this->filesize = $file->getSize();
+        $this->upload_token = $input['upload_token'];
 
         return $this->save();
     }
@@ -105,20 +102,20 @@ class Attachment extends BaseModel
     /**
      * Remove a attachment that is pending from a issue/comment
      *
-     * @param array $input
+     * @param array   $input
      * @param Project $project
-     * @param int $userId
+     * @param User    $user
      *
      * @return void
      */
-    public function remove(array $input, Project $project, $userId)
+    public function remove(array $input, Project $project, User $user)
     {
-        $this->where('uploaded_by', '=', $userId)
+        $this->where('uploaded_by', '=', $user->id)
             ->where('upload_token', '=', $input['upload_token'])
             ->where('filename', '=', $input['filename'])
             ->delete();
 
-        $path = config('filesystems.disks.local.root').'/uploads/'.$project->id.'/'.$input['upload_token'];
+        $path = config('filesystems.disks.local.root') . '/uploads/' . $project->id . '/' . $input['upload_token'];
         $this->deleteFile($path, $input['filename']);
     }
 

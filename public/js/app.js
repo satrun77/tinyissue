@@ -316,3 +316,97 @@ function Discussion() {
         }
     }
 }
+
+function Uploader() {
+    var instance;
+    var errorClass = 'text-danger';
+    var successClass = 'text-success';
+    var options = {};
+
+    function setMessage(data, removeClass, addClass, message) {
+        $(data.context).find('.status').removeClass(removeClass).addClass(addClass).text(message);
+    }
+
+    function setError(data, message) {
+        setMessage(data, successClass, errorClass, message);
+    }
+
+    function onDone(e, data) {
+        setMessage(data, errorClass, successClass, options['messageSuccess']);
+        if (data.result.error) {
+            setError(data, data.result.error);
+        }
+    }
+
+    function onFail(e, data) {
+        setError(data, options['messageFailed']);
+    }
+
+    function onAdd(e, data) {
+        var template = $($('#upload-template').html());
+        data.context = template.appendTo('#upload-queue');
+        $.each(data.files, function (index, file) {
+            template.find('.name span:first').text(file.name);
+            template.find('.close').data(data);
+        });
+    }
+
+    function onProgress(e, data) {
+        if (e.isDefaultPrevented()) {
+            return false;
+        }
+        var progress = Math.floor(data.loaded / data.total * 100);
+        if (data.context) {
+            data.context.each(function () {
+                $(this).find('.progress')
+                    .attr('aria-valuenow', progress)
+                    .children().first().css(
+                    'width',
+                    progress + '%'
+                );
+            });
+        }
+    }
+
+    return {
+        init: function () {
+            instance = $('#upload');
+            if (instance.length == 0) {
+                return this;
+            }
+            options = instance.data();
+            instance.fileupload({
+                dataType: 'json',
+                autoUpload: true,
+                limitMultiFileUploads: 1,
+                url: TINY.basePath + 'project/' + TINY.projectId + '/issue/upload_attachment'
+            });
+            instance.on('fileuploaddone', onDone);
+            instance.on('fileuploadfail', onFail);
+            instance.on('fileuploadadd', onAdd);
+            instance.on('fileuploadprogress', onProgress);
+            instance.prop('disabled', !$.support.fileInput);
+            instance.parent().addClass($.support.fileInput ? undefined : 'disabled');
+
+            $(document).on('click', '.queue-item .close', function (e) {
+                e.preventDefault();
+                var button = $(this),
+                    data = button.data(),
+                    file = data.files[0];
+
+                GlobalSaving.show(button.data('message'));
+                Ajax.relPost('project/' + TINY.projectId + '/issue/remove_attachment', {
+                    _token: TINY.token,
+                    upload_token: $('input[name=upload_token]').val(),
+                    filename: file.name
+                }, function () {
+                    GlobalSaving.hide();
+                    data.abort();
+                    $(data.context).remove();
+                });
+            });
+
+            return this;
+        }
+    }
+}
