@@ -26,15 +26,14 @@ h2 {
 #login form {
     overflow: hidden;
 }
-#login .remember-me {
-    float: left;
-    margin-left: 15%;
-    width: 70%;
+#login .form-actions {
+    margin-right: 0;
 }
-.form-actions {
-    float: left;
-    width: 21%;
-    text-align: right;
+#login .form-actions .btn, #login .form-actions .checkbox-inline {
+    float: right;
+}
+#login .form-actions .checkbox-inline {
+    margin-right: 15px;
 }
 
 /* Notices */

@@ -17,17 +17,6 @@ namespace Tinyissue\Form;
  */
 class Login extends FormAbstract
 {
-
-    public function actions()
-    {
-        return [
-            'submit' => [
-                'type' => 'primary_submit',
-                'label' => 'login',
-            ],
-        ];
-    }
-
     public function fields()
     {
         $fields = [
@@ -39,12 +28,25 @@ class Login extends FormAbstract
                 'type'  => 'password',
                 'label' => 'password',
             ],
+            'group' => [
+                'type' => 'group',
+                'addClass' => 'form-actions',
+                'label' => '',
+                'required' => false
+            ],
+            'login' => [
+                'type' => 'primary_submit',
+                'value' => 'login',
+            ],
             'remember' => [
                 'type'   => 'checkbox',
+                'required' => false,
                 'text'   => 'remember_me',
                 'inline' => null,
-                'onGroupAddClass' => 'remember-me',
             ],
+            'closeGroup' => [
+                'type' => 'closeGroup'
+            ]
         ];
 
         return $fields;
