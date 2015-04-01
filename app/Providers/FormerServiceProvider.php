@@ -28,5 +28,9 @@ class FormerServiceProvider extends \Former\FormerServiceProvider
 
         // Stop it from rendering field name into label
         \Former::setOption('automatic_label', false);
+        \Former::setOption('TwitterBootstrap3.labelWidths', array(
+            'large' => 2,
+            'small' => 3,
+        ));
     }
 }
