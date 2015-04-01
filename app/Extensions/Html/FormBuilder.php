@@ -67,16 +67,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
         }
 
         // Generate form actions
-        $actions = Former::actions()->addClass('form-actions');
-        $buttons = $form->actions();
-        foreach ($buttons as $name => $options) {
-            if (is_array($options)) {
-                $actions->{$options['type']}($options['label'], $options);
-            } else {
-                $actions->primary_submit(trans('tinyissue.' . $options));
-            }
-        }
-        $output .= $actions;
+        $output .= $this->actions($form);
 
         // Close the opened form
         $output .= Former::close();
@@ -110,5 +101,31 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
         });
 
         return $element;
+    }
+
+    /**
+     * Render form actions
+     *
+     * @param FormInterface $form
+     *
+     * @return string
+     */
+    public function actions(FormInterface $form)
+    {
+        $output = '';
+        $buttons = $form->actions();
+        if (!empty($buttons)) {
+            $actions = Former::actions()->addClass('form-actions');
+            foreach ($buttons as $name => $options) {
+                if (is_array($options)) {
+                    $actions->{$options['type']}($options['label'], $options);
+                } else {
+                    $actions->primary_submit(trans('tinyissue.' . $options));
+                }
+            }
+            $output .= $actions;
+        }
+
+        return $output;
     }
 }
