@@ -59,7 +59,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
 
             if ($element instanceof Field) {
                 if (null === $model) {
-                    $element->value(Request::input($name));
+                    $element->value = Request::input($name);
                 }
             }
 
