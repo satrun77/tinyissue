@@ -26,9 +26,9 @@ class BladeServiceProvider extends ServiceProvider
     public function boot()
     {
         \Blade::extend(function ($view) {
-            $pattern = '/@macro\s*\(\s*[\'"](.*)[\'"]\s*,\s*(.*)\)/';
+            $pattern = '/@(macro)\s*(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
 
-            return preg_replace($pattern, "<?php \$___tiny['\$1']=function(\$2){ ob_start(); ?>\n", $view);
+            return preg_replace($pattern, "<?php \$___tiny['\$3']=function(\$4){ ob_start(); ?>\n", $view);
         });
 
         \Blade::extend(function ($view, BladeCompiler $compiler) {
@@ -38,9 +38,9 @@ class BladeServiceProvider extends ServiceProvider
         });
 
         \Blade::extend(function ($view) {
-            $pattern = '/\s*@usemacro\s*\(\s*[\'"](\w+|\d+)[\'"]\s*,\s*(.*)\)/';
+            $pattern = '/@(usemacro)\s*(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
 
-            return preg_replace($pattern, "<?php echo \$___tiny['\$1'](\$2); ?>\n", $view);
+            return preg_replace($pattern, "<?php echo \$___tiny['\$3'](\$4); ?>\n", $view);
         });
 
         \Blade::extend(function ($view, BladeCompiler $compiler) {
