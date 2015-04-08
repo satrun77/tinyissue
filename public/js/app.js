@@ -38,6 +38,9 @@ $(function () {
             });
         });
     }
+
+    // Mobile/Tablet screen
+    SidebarEvents().init();
 });
 
 var GlobalSaving = {
@@ -405,6 +408,60 @@ function Uploader() {
                     $(data.context).remove();
                 });
             });
+
+            return this;
+        }
+    }
+}
+
+function SidebarEvents() {
+    var contentEl = $('#content');
+    var sidebarEl = $('#sidebar');
+    var bodyWidth = $(document.body).outerWidth(true);
+    var mobileClassName = 'sidebar-mobile';
+    var hiddenClassName = 'hidden-xs';
+
+    // Only enabled if body width is small
+    function isEnabled() {
+        return bodyWidth < 768;
+    }
+
+    function show(e) {
+        if (e.swipestart.coords[0] < 50 && !sidebarEl.hasClass(mobileClassName)) {
+            sidebarEl
+                .addClass(mobileClassName)
+                .removeClass(hiddenClassName)
+                .animate({
+                    'left': 0
+                }, 500);
+        }
+    }
+
+    function hide() {
+        sidebarEl.animate({
+            'left': '-500px'
+        }, 500, function () {
+            sidebarEl
+                .removeClass(mobileClassName)
+                .addClass(hiddenClassName);
+        });
+    }
+
+    return {
+        init: function () {
+            if (!isEnabled()) {
+                return;
+            }
+
+            // Load jQuery mobile js
+            $.getScript(TINY.basePath + "js/jquery.mobile.js", function () {
+                // Show/Hide sidebar
+                contentEl.on('swiperight', show);
+                sidebarEl.on('swipeleft', hide);
+            });
+
+            // Load bootstrap js
+            $.getScript(TINY.basePath + "js/bootstrap.js");
 
             return this;
         }

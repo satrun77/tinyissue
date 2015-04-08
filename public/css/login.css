@@ -13,16 +13,27 @@ h2 {
     margin: 0 0 20px 0;
     text-align: center;
 }
-
+input {
+    -moz-appearance:    none;
+    appearance:         none;
+    -webkit-appearance: none;
+}
 #login {
     background: none repeat scroll 0 0 #F8F8F8;
-    width: 40%;
+    width: 90%;
     border-radius: 8px;
     margin-left: auto;
     margin-right: auto;
     padding: 10px 20px;
     box-shadow: 0 1px 5px #999;
 }
+
+@media (min-width: 990px) {
+    #login {
+        width: 50%;
+    }
+}
+
 #login form {
     overflow: hidden;
 }
