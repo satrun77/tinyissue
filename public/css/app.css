@@ -963,7 +963,7 @@ textarea.form-control {
     width: 100%;
 }
 
-.group-text {
+.group-fields {
     border: 0 none;
     box-shadow: 0 0 0 transparent;
     border-radius: 0;
@@ -971,7 +971,7 @@ textarea.form-control {
     margin: 0;
 }
 
-.group-text .form-group {
+.group-fields .form-group {
     display: inline;
     float: left;
 }
@@ -1177,17 +1177,30 @@ textarea.form-control {
     text-align: right;
 }
 
+.toolbar .control-inline {
+    display: inline-block;
+    width: 70%;
+}
+
+.toolbar .control-sortorder {
+    width: 29%;
+    margin-left: 1%;
+}
+
+#group-sort {
+    background: transparent;
+}
+
+.toolbar .form-inline .form-control {
+    width:100%;
+}
+
 @media (min-width: 768px) {
     .toolbar .last {
         border-right: 0 none;
     }
 
-    .form-group.toolbar-item.first.group {
-        border: 0 none;
-        padding-right: 0;
-    }
-
-    .toolbar-item, .toolbar-item.first.group {
+    .toolbar-item, .toolbar-item {
         border-right: 1px solid #ddd;
         padding: 0 7px;
         margin: 0;

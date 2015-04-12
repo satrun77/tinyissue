@@ -324,7 +324,8 @@ class Project extends Model
      */
     public function listIssues($status = ProjectIssue::STATUS_OPEN, array $filter = [])
     {
-        $sortOrder = array_get($filter, 'sortorder', 'desc');
+        $sortOrder = array_get($filter, 'sort.sortorder', 'desc');
+        $sortBy    = array_get($filter, 'sort.sortby', null);
 
         $query = $this->issues()
             ->with('countComments', 'user', 'updatedBy', 'tags', 'tags.parent')
@@ -360,11 +361,10 @@ class Project extends Model
         }
 
         // Sort
-        if (!empty($filter['sortby'])) {
-            $sortOrder = array_get($filter, 'sortorder', 'desc');
-            if ($filter['sortby'] == 'updated') {
+        if (!empty($sortBy)) {
+            if ($sortBy == 'updated') {
                 $query->orderBy('updated_at', $sortOrder);
-            } elseif (($tagGroup = substr($filter['sortby'], strlen('tag:'))) > 0) {
+            } elseif (($tagGroup = substr($sortBy, strlen('tag:'))) > 0) {
                 $results = $query->get()->sort(function (ProjectIssue $issue1, ProjectIssue $issue2) use (
                     $tagGroup,
                     $sortOrder

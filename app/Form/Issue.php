@@ -107,7 +107,7 @@ class Issue extends FormAbstract
         // User with modify issue permission can add quote
         if ($issueModify) {
             $fields['time_quote'] = [
-                'type'     => 'groupText',
+                'type'     => 'groupField',
                 'label'    => 'quote',
                 'fields'   => [
                     'h' => [

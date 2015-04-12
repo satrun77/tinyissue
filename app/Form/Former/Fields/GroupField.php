@@ -13,11 +13,11 @@ namespace Tinyissue\Form\Former\Fields;
 use Former\Traits\Field;
 
 /**
- * GroupText is a Former field class to generate a group of fields as one field
+ * GroupField is a Former field class to generate a group of fields as one field
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class GroupText extends Field
+class GroupField extends Field
 {
     /**
      * A list of class properties to be added to attributes
@@ -65,8 +65,9 @@ class GroupText extends Field
      */
     public function render()
     {
-        $this->addClass('group-text');
+        $this->addClass('group-fields');
         $this->setId();
+        $this->removeAttribute('value');
 
         return $this->open() . $this->getContent() . $this->close();
     }
@@ -100,5 +101,18 @@ class GroupText extends Field
         return array_map(function (Field $field) {
             return $field->getValue();
         }, $this->fields);
+    }
+
+    /**
+     * Set the matching ID on a field if possible
+     * Override to prefix the id with group-
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    protected function getUniqueId($name)
+    {
+        return 'group-' . parent::getUniqueId($name);
     }
 }
