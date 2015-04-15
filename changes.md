@@ -1,5 +1,18 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.0.0
+
+- Migrate to Laravel 5
+- Feature: Responsive design
+- Feature: Sort and filter issues
+- Feature: Add tags to issues
+- Feature: Project progress bar
+- Feature: Add/edit/delete project notes
+- Feature: Add issues quote
+- Feature: Convert issue no. text into the issue url
+- Feature: Set default assignee for a project issues
+- Feature: Move issues (including activities, comments, etc.) to another project
+
 ## Tiny Issue v1.3.1
 
 - Bug fixes
