@@ -6,3 +6,4 @@ config.app.php
 .env
 storage/*.sqlite
 tests/_output/*
+/node_modules/
