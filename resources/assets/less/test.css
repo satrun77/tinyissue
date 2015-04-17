@@ -1,0 +1,5 @@
+.d > li .topbar .delete-note .delete-that a {
+  background: url('../../images/layout/icon-delete.png') no-repeat 0 1px;
+  width: 12px;
+  height: 15px;
+}

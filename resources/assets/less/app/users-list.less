@@ -1,0 +1,40 @@
+@import "mixins";
+
+#users-list {
+  ul {
+    .list-no-style;
+  }
+
+  > ul {
+    background: #dddddd;
+    padding: 3px 3px 1px;
+    border-radius: 5px;
+    margin-bottom: 25px;
+
+    > li {
+      margin-bottom: 3px;
+      padding: 4px 10px;
+      background: #fff;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+  }
+
+  .name {
+    color: #696969;
+    font-weight: normal;
+    float: left;
+    padding: 10px 0;
+  }
+
+  ul {
+    ul {
+      float: right;
+
+      li {
+        float: left;
+        margin-left: 5px;
+      }
+    }
+  }
+}

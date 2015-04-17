@@ -1,7 +1,10 @@
 @import "bootstrap/bootstrap";
 
-@btn-font-weight: 300;
 @font-family-sans-serif: "Roboto", Helvetica, Arial, sans-serif;
+@padding-base-vertical: 8px;
+@padding-base-horizontal: 12px;
+@font-size-base: 13px;
+
 @navbar-height: 48px;
 @navbar-default-toggle-border-color: #596174;
 @navbar-default-toggle-hover-bg: #98a3bd;
@@ -10,34 +13,64 @@
 @navbar-default-toggle-hover-bg: transparent;
 @navbar-default-link-active-bg: transparent;
 
+@btn-font-weight: bold;
+@btn-default-color: #fff;
+@btn-default-bg: #acacac;
+@btn-default-border: #a2a2a2;
+
+@link-color: #43a2d9;
+@link-hover-color: #424242;
+@link-hover-decoration: none;
+
+@padding-large-vertical: 10px;
+@padding-large-horizontal: 13px;
+@border-radius-large: 6px;
+
+@padding-small-vertica: 9px;
+@padding-small-horizontal: 10px;
+@font-size-small: 11px;
+@border-radius-small: 4px;
+
+@padding-xs-vertical: 8px;
+@padding-xs-horizontal: 9px;
+@font-size-small: 10px;
+@border-radius-small: 3px;
+
 body, label, .checkbox label {
-	font-weight: 300;
+  font-weight: 300;
 }
+
 .navbar {
   border: 0 none;
 }
+
 .navbar-brand {
   padding: 12px 15px 12px 0;
 }
+
 .navbar-header {
   min-width: 240px;
 }
+
 .navbar-toggle {
   margin-right: 0;
   margin-top: 7px;
   margin-bottom: 7px;
 }
+
 .navbar-text {
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .navbar-right {
-  li{
+  li {
     margin: 0;
     padding: 0;
     border-right: 1px solid #596174;
   }
 }
+
 .navbar-collapse {
   &.in {
     li {
@@ -60,36 +93,44 @@ body, label, .checkbox label {
     }
   }
 }
+
 .navbar-nav {
   margin: 0px -15px;
   background: #353D49;
 }
+
 @media (min-width: 768px) {
   .navbar-nav {
     margin: 14px 0;
     background: transparent;
   }
+
   .navbar-nav > li {
     border-right: 1px solid #596174;
     border-bottom: 0 none;
   }
+
   .navbar-nav > li > a {
     padding-top: 0;
     padding-bottom: 0;
   }
 }
+
 .navbar-form {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
 .navbar-btn {
   margin-top: 8px;
   margin-bottom: 8px;
 }
+
 .navbar-btn.btn-sm {
   margin-top: 10px;
   margin-bottom: 10px;
 }
+
 .navbar-btn.btn-xs {
   margin-top: 14px;
   margin-bottom: 14px;

@@ -5,7 +5,7 @@
     </div>
 
     <div class="data">
-        <span class="comment">
+        <span class="markdown comment">
             {{ Html::trim($userActivity->comment->comment) }}
         </span>
         @lang('tinyissue.by')

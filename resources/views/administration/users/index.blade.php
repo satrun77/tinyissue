@@ -30,12 +30,12 @@ active
         <li>
             <ul>
                 @if(!$user->me())
-                <li class="delete">
-                    <a href="{{ URL::to('administration/users/delete/' . $user->id) }}" data-message="@lang('tinyissue.delete_user_confirm')" class="button tiny error right">@lang('tinyissue.delete')</a>
+                <li>
+                    <a class="delete btn btn-danger" href="{{ URL::to('administration/users/delete/' . $user->id) }}" role="button" data-message="@lang('tinyissue.delete_user_confirm')">@lang('tinyissue.delete')</a>
                 </li>
                 @endif
-                <li class="edit">
-                    <a href="{{ URL::to('administration/users/edit/' . $user->id) }}">@lang('tinyissue.edit')</a>
+                <li>
+                    <a class="edit btn btn-default" role="button" href="{{ URL::to('administration/users/edit/' . $user->id) }}">@lang('tinyissue.edit')</a>
                 </li>
             </ul>
 

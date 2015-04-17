@@ -1,0 +1,115 @@
+@import "mixins.less";
+
+#sidebar {
+  padding: 0;
+  background: #ededed;
+  border-right: 1px solid #cecece;
+  min-width: 240px;
+
+  &.sidebar-mobile {
+    position: fixed;
+    left: -500px;
+    z-index: 9;
+    height: 100%;
+    min-height: 100%;
+  }
+
+  .pad {
+    padding: 0 18px;
+  }
+
+  h2 {
+    font-size: 17px;
+    color: #535353;
+    background: url('../../images/layout/h2-bg.png') no-repeat bottom left;
+    padding: 15px 0 24px 18px;
+    margin: 0;
+
+    &:after {
+      content: " ";
+      height: 1px;
+      display: block;
+      background: #cecece;
+      margin-top: 9px;
+      margin-bottom: -13px;
+      margin-left: 100px;
+    }
+
+    a {
+      font-size: 17px;
+      color: #535353;
+      font-weight: normal;
+    }
+
+    .add, .edit {
+      background: url('../../images/layout/icon-bigadd.png') no-repeat;
+      background-size: 93%;
+      width: 26px;
+      height: 26px;
+      display: block;
+      float: right;
+      margin-right: 14px;
+      text-indent: -999999px;
+    }
+
+    .edit {
+      background-image: url('../../images/layout/icon-bigedit.png');
+    }
+
+    span {
+      color: #989898;
+      font-size: 11px;
+      display: block;
+      margin-top: 3px;
+    }
+  }
+
+  .content {
+    margin-bottom: 20px;
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+
+    li {
+      padding: 8px 18px;
+      border-bottom: 1px solid #eee;
+
+      .delete {
+        .list-delete-link;
+      }
+
+      a {
+        min-height: 23px;
+        display: block;
+        background: url('../../images/layout/icon-li-arrow.png') right 5px no-repeat;
+        color: #535353;
+        text-decoration: none;
+        padding-top: 5px;
+        font-weight: 500;
+
+        span {
+          float: left;
+          margin-right: 18px;
+          font-size: 14px;
+          padding: 2px 0px;
+        }
+      }
+    }
+  }
+
+  #export-project-issues {
+    width: 90%;
+    margin: 5px auto 0 auto;
+
+    .col-lg-10 {
+      width: 100%;
+    }
+
+    .form-actions .col-lg-10 {
+      margin: 0;
+      text-align: right;
+    }
+  }
+}

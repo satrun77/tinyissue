@@ -30,17 +30,19 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
      */
     public function tab(array $tabs, $active, $areaFor = null)
     {
-        $output = '<ul class="tabs">';
+        $output = '<ul class="nav nav-tabs">';
         foreach ($tabs as $tab) {
-            $output .= '<li ' . ($active == $tab['page'] ? 'class="active"' : '') . '>';
-            $output .= '<a href="' . $tab['url'] . '">';
+            $output .= '<li role="presentation" ' . ($active == $tab['page'] ? 'class="active"' : '') . '>';
+
+            $title = '';
             if (isset($tab['count'])) {
-                $output .= $tab['count'] === 1 ? 1: (int) $tab['count'];
-                $output .= ' ';
+                $title .= $tab['count'] === 1 ? 1 : (int)$tab['count'];
+                $title .= ' ';
             }
-            $output .= trans('tinyissue.' . $tab['page']);
-            $output .= $areaFor == 'project' ? trans('tinyissue.project') : '';
-            $output .= '</a>';
+            $title .= trans('tinyissue.' . $tab['page']);
+            $title .= $areaFor == 'project' ? trans('tinyissue.project') : '';
+
+            $output .= $this->link($tab['url'], $title);
         }
         $output .= '</ul>';
 

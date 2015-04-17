@@ -1,6 +1,6 @@
 @extends('layouts.wrapper')
 
-@section('script')
+@section('scripts')
     {!! Html::script(elixir('js/tiny_project_issue.js')) !!}
 @stop
 
@@ -36,7 +36,7 @@ active
 </div>
 
 <span class="clearfix"></span>
-<ul class="issue-discussion">
+<ul class="discussion">
     <li>
         <div class="insides">
             <div class="topbar">
@@ -44,7 +44,7 @@ active
                 @lang('tinyissue.opened_this_issue') {{ Html::date($issue->created_at) }}
             </div>
 
-            <div class = "content">
+            <div class = "markdown content">
                 {!! Html::format($issue->body) !!}
             </div>
 

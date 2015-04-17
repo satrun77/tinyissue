@@ -1,0 +1,57 @@
+@import "mixins";
+
+.ui-autocomplete {
+  border-radius: 4px;
+  background: #3c4352;
+  padding: 5px 0;
+  width: 50%;
+  list-style: none;
+  z-index: 99;
+
+  li {
+    padding: 12px 9px;
+    display: block;
+    color: #7e889b;
+    font-weight: normal;
+
+    &:hover, .ui-state-highligh, .ui-state-focus, .ui-state-hover {
+      background: #485060 !important;
+      color: #fff;
+    }
+  }
+}
+
+#add-user-project {
+  background: #ffffff url('../../images/layout/icon-bigadd.png') no-repeat;
+  background-position: 99.4% center;
+  background-size: 22px;
+  font: normal 12px Helvetica, "Lucida Grande", Arial, sans-serif;
+}
+
+#sidebar #add-user-project {
+  width: 90%;
+  margin: 0 auto;
+  background-position-x: 97%;
+}
+
+.datalist {
+  padding: 10px 0;
+  list-style: none;
+
+  li {
+    padding: 8px 5px;
+    border-bottom: 1px solid #cecece;
+
+    .delete {
+      .list-delete-link;
+    }
+  }
+}
+
+.add-user-project li {
+  cursor: pointer;
+}
+
+.default-assignee {
+  background: #fff7bd;
+}

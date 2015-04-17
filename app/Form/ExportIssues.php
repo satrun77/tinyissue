@@ -26,7 +26,7 @@ class ExportIssues extends FilterIssue
             'export-issue' => [
                 'name'  => 'export-issue',
                 'label' => 'export',
-                'type'  => 'info_sm_submit',
+                'type'  => 'info_submit',
             ]
         ];
     }

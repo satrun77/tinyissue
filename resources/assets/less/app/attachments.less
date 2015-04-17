@@ -1,0 +1,45 @@
+
+.fileinput-button {
+  position: relative;
+  overflow: hidden;
+
+  input {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    -ms-filter: 'alpha(opacity=0)';
+    font-size: 200px;
+    direction: ltr;
+    cursor: pointer;
+  }
+}
+
+#upload-queue {
+  .queue-item {
+    padding: 5px;
+    border-bottom: 1px solid #ddd;
+    list-style: none;
+
+    .close {
+      float: right;
+    }
+
+    .status {
+      padding-left: 5px;
+    }
+  }
+}
+
+.attachments {
+  list-style: none;
+  margin: 0;
+  padding: 12px 10px;
+  overflow: hidden;
+
+  li {
+    float: left;
+    padding: 12px 10px;
+  }
+}

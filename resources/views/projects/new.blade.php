@@ -1,6 +1,6 @@
 @extends('layouts.wrapper')
 
-@section('script')
+@section('scripts')
     {!! Html::script(elixir('js/tiny_project_new.js')) !!}
 @stop
 

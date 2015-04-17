@@ -1,0 +1,50 @@
+@import "mixins";
+
+.issue-actions {
+  float: right;
+
+  li {
+    .list-no-style;
+  }
+
+  > li {
+    float: left;
+  }
+
+  .assigned-to {
+    border-right: 1px solid #b4b4b4;
+    padding-right: 14px;
+    margin-right: 14px;
+    position: relative;
+    overflow: visible;
+
+    &:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown {
+      .dropdown;
+    }
+  }
+
+  .currently_assigned, .current_project {
+    display: inline-block;
+    background: url('../../images/layout/dropdown-arrow.png') no-repeat right center;
+    min-height: 10px;
+    padding-right: 19px;
+  }
+
+  .close-issue {
+    color: #48a547;
+  }
+}
+
+.issue-quote {
+  text-align: right;
+  padding: 0 3px 8px 0;
+
+  span, strong {
+    border-bottom: 2px solid #d4d4d4;
+    padding: 1px 3px;
+  }
+}

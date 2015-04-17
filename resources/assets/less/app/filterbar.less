@@ -1,0 +1,57 @@
+
+.toolbar {
+  padding-bottom: 0;
+
+  .toolbar-item {
+
+    @media (min-width: 768px) {
+      border-right: 1px solid #ddd;
+      padding: 0 7px;
+      margin: 0;
+    }
+  }
+
+  .first {
+    padding-left: 0;
+  }
+
+  .last {
+
+    @media (min-width: 768px) {
+      border-right: 0 none;
+    }
+  }
+
+  .tagit {
+    min-width: 101%;
+
+    @media (min-width: 768px) {
+      min-width: 300px;
+    }
+  }
+
+  .form-actions {
+    text-align: right;
+  }
+
+  .control-inline {
+    display: inline-block;
+    width: 70%;
+  }
+
+  .control-sortorder {
+    width: 29%;
+    margin-left: 1%;
+  }
+
+  .form-inline {
+
+    .form-control {
+      width: 100%;
+    }
+  }
+}
+
+#group-sort {
+  background: transparent;
+}

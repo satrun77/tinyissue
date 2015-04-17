@@ -18,6 +18,8 @@ elixir(function (mix) {
         'jquery.cookie.js',
         'jquery-ui.js',
         'jquery.tokenfield.js',
+        'bootstrap.js',
+        'jquery.mobile.js',
         'app.js'
     ];
     mix
@@ -46,16 +48,17 @@ elixir(function (mix) {
 
         .scripts(baseJs, 'public/js/tiny.js')
 
-        .scripts(['project.js'].concat(baseJs), 'public/js/tiny_project.js')
+        .scripts(baseJs.concat(['project.js']), 'public/js/tiny_project.js')
 
-        .scripts([
+        .scripts(baseJs.concat([
             'upload/jquery.iframe-transport.js',
             'upload/vendor/jquery.ui.widget.js',
             'upload/jquery.fileupload.js',
-            'upload/jquery.fileupload-process.js', 'project.js'
-        ].concat(baseJs), 'public/js/tiny_project_issue.js')
+            'upload/jquery.fileupload-process.js',
+            'project.js'
+        ]), 'public/js/tiny_project_issue.js')
 
-        .scripts(['project-new.js'].concat(baseJs), 'public/js/tiny_project_new.js')
+        .scripts(baseJs.concat(['project-new.js']), 'public/js/tiny_project_new.js')
 
         .version([
             'css/tiny.css',

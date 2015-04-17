@@ -1,0 +1,148 @@
+@import "mixins";
+
+.discussion {
+  clear: both;
+  margin-top: 5px;
+  .list-no-style();
+
+  > li {
+    border: 2px solid #dcdcdc;
+    border-radius: 6px;
+    margin-bottom: 20px;
+
+    .insides {
+      padding: 2px;
+    }
+
+    .topbar {
+      background: #e8e8e8;
+      border-radius: 6px;
+      padding: 12px 10px;
+
+      ul {
+        float: right;
+
+        li {
+          float: left;
+          margin-left: 7px;
+
+          a {
+            display: block;
+            text-indent: -999999px;
+          }
+        }
+      }
+
+      a.delete {
+        background: url('../../images/layout/icon-delete.png') no-repeat 0 1px;
+        width: 12px;
+        height: 15px;
+      }
+
+      a.edit {
+        background: url('../../images/layout/icon-edit.png') no-repeat;
+        width: 16px;
+        height: 15px;
+      }
+    }
+
+    .content {
+      padding: 12px 10px;
+      color: #696969;
+    }
+
+    .form {
+      display: none;
+      padding: 12px 10px;
+
+      .right {
+        padding: 15px 0 5px 0;
+        text-align: right;
+      }
+    }
+  }
+}
+
+/*
+.issue-discussion,
+.blue-box .issues {
+  clear: both;
+  margin-top: 5px;
+}
+
+.issue-discussion,
+.new-comment ul,
+.notes {
+  list-style: none;
+  padding: 0;
+}
+
+.issue-discussion > li,
+.notes > li {
+  border: 2px solid #dcdcdc;
+  border-radius: 6px;
+  margin-bottom: 20px;
+}
+
+.issue-discussion li .insides,
+.notes li .insides {
+  padding: 2px;
+}
+
+.issue-discussion li .topbar,
+.notes li .topbar {
+  background: #e8e8e8;
+  border-radius: 6px;
+  padding: 12px 10px;
+}
+
+.issue-discussion li .topbar ul,
+.notes li .topbar ul {
+  float: right;
+}
+
+.issue-discussion li .topbar ul li,
+.notes li .topbar ul li {
+  float: left;
+  margin-left: 7px;
+}
+
+.issue-discussion li .topbar ul li a,
+.notes li .topbar ul li a {
+  display: block;
+  text-indent: -999999px;
+}
+
+.issue-discussion li .topbar .delete-comment a,
+.notes li .topbar .delete-note a {
+  background: url('../../images/layout/icon-delete.png') no-repeat 0 1px;
+  width: 12px;
+  height: 15px;
+}
+
+.issue-discussion li .topbar .edit-comment a,
+.notes li .topbar .edit-note a {
+  background: url('../../images/layout/icon-edit.png') no-repeat;
+  width: 16px;
+  height: 15px;
+}
+
+.issue-discussion li .content,
+.notes li .content {
+  padding: 12px 10px;
+  color: #696969;
+}
+
+.issue-discussion li .comment-edit,
+.notes li .note-edit {
+  display: none;
+  padding: 12px 10px;
+}
+
+.issue-discussion li .comment-edit .right,
+.notes li .note-edit .right {
+  padding: 15px 0 5px 0;
+  text-align: right;
+}
+
+*/

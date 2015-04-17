@@ -1,15 +1,15 @@
 @if ($notes)
-    <ul class="notes">
+    <ul class="discussion notes">
         @foreach ($notes as $note)
             <li id="note{{ $note->id }}" class="note">
                 <div class="insides">
                     <div class="topbar">
                         @permission('project-modify')
                             <ul>
-                                <li class="edit-note">
+                                <li class="edit">
                                     <a href="{{ $project->to('edit_note/' . $note->id) }}" class="edit" data-note-id="{{ $note->id }}">Edit</a>
                                 </li>
-                                <li class="delete-note">
+                                <li class="delete">
                                     <a href="{{ $project->to('delete_note/' . $note->id) }}" class="delete" data-message="@lang('tinyissue.confirm_delete_note')" data-note-id="{{ $note->id }}">Delete</a>
                                 </li>
                             </ul>
@@ -18,12 +18,12 @@
                         @lang('tinyissue.noted') {{ Html::date($note->updated_at) }}
                     </div>
 
-                    <div class="content">
+                    <div class="markdown content">
                         {!! Html::format($note->body) !!}
                     </div>
 
                     @permission('project-modify')
-                        <div class="note-edit">
+                        <div class="form">
                             {!! Former::textarea('body')->value($note->body) !!}
                             <div class="right">
                                 {!! Former::primary_button('save-btn')->value(trans('tinyissue.save'))->data_note_id($note->id)->addClass('save') !!}

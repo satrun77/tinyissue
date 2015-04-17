@@ -2,13 +2,11 @@ $(function () {
     'use strict';
 
     Discussion().init({
-        name: 'comment',
-        selector: '.issue-discussion'
+        name: 'comment'
     });
 
     Discussion().init({
-        name: 'note',
-        selector: '.notes'
+        name: 'note'
     });
 
     // Left column assign users
@@ -86,12 +84,6 @@ $(function () {
             GlobalSaving.toggle();
             window.location = data.url;
         });
-    });
-
-    // Clickable elements
-    $('.vlink').on('click', function (e) {
-        e.preventDefault();
-        return window.location = $(this).data('url');
     });
 
     // File Uploader

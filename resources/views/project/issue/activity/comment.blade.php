@@ -3,10 +3,10 @@
         <div class="topbar">
             @permission('issue-modify')
             <ul>
-                <li class="edit-comment">
+                <li>
                     <a href="{{ Url::to('project/issue/edit_comment/' . $comment->id) }}" class="edit" data-comment-id="{{ $comment->id }}">Edit</a>
                 </li>
-                <li class="delete-comment">
+                <li>
                     <a href="{{ Url::to('project/issue/delete_comment/' . $comment->id) }}" class="delete" data-message="@lang('tinyissue.confirm_delete_comment')" data-comment-id="{{ $comment->id }}">Delete</a>
                 </li>
             </ul>
@@ -15,12 +15,12 @@
             @lang('tinyissue.commented') {{ Html::date($comment->updated_at) }}
         </div>
 
-        <div class="content">
+        <div class="markdown content">
             {!! Html::format($comment->comment) !!}
         </div>
 
         @permission('issue-modify')
-        <div class="comment-edit">
+        <div class="form">
             {!! Former::textarea('body')->value(stripslashes($comment->comment)) !!}
             <div class="right">
                 {!! Former::primary_button('save-btn')->value(trans('tinyissue.save'))->data_comment_id($comment->id)->addClass('save') !!}

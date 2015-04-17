@@ -1,0 +1,97 @@
+@import "mixins";
+
+input, select, textarea {
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.control-label {
+  font-weight: 600;
+}
+
+.form-control {
+  border: 1px solid #d4d4d4;
+  border-radius: 5px;
+  padding: 7px;
+  font: normal 13px Helvetica, "Lucida Grande", Arial, sans-serif;
+  color: #424242;
+
+  &[type='color'] {
+    padding: 3px 4px;
+  }
+}
+
+textarea.form-control {
+  min-height: 100px;
+}
+
+.btn-primary {
+  border: 1px solid #107aa7;
+  background: #138dc1;
+}
+
+.btn {
+  font-family: Helvetica, "Lucida Grande", Arial, sans-serif;
+  line-height: 1;
+}
+
+.btn-hover {
+  cursor: pointer;
+  background: #424242;
+  border: 1px solid #262626;
+  color: white;
+}
+
+.btn-info, .btn-default, .btn-primary {
+  &:hover,
+  &:focus {
+    .btn-hover();
+  }
+
+  &:active,
+  &.active {
+    .btn-hover();
+  }
+}
+
+.btn-sm {
+  font-weight: 400;
+}
+
+.new-comment, .new-note {
+  .col-lg-offset-2 {
+    margin: 0;
+  }
+
+  .col-lg-10 {
+    width: 100%;
+  }
+}
+
+.group-fields {
+  border: 0 none;
+  box-shadow: 0 0 0 transparent;
+  border-radius: 0;
+  padding: 0;
+  margin: 0;
+
+  .form-group {
+    display: inline;
+    float: left;
+  }
+}
+
+.issue-quote {
+  .form-group {
+    width: 30%;
+  }
+}
+
+.new-note {
+  h4 {
+    font-size: 18px;
+    color: #424242;
+    padding: 0;
+  }
+}

@@ -1,0 +1,63 @@
+
+.notice-hover {
+  text-decoration: none;
+}
+
+.global-notice {
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #222727;
+  font-size: 15px;
+  text-decoration: none;
+  text-align: center;
+  opacity: .95;
+  padding: 11px 0;
+  display: none;
+  z-index: 1000;
+
+  &:visited, &:focus {
+    color: #fff;
+  }
+
+  &:hover {
+    .notice-hover();
+  }
+
+  &.global-error {
+    background: #de2e2e !important;
+  }
+}
+
+.global-saving {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: none;
+  z-index: 1000;
+
+  span {
+    background: url('../../images/icons/global-saving.gif') no-repeat 10px 10px #222727;
+    font-size: 15px;
+    text-align: center;
+    width: 100px;
+    margin: 0 auto;
+    color: #fff;
+    text-decoration: none;
+    opacity: .95;
+    padding: 11px 0 11px 5px;
+    display: block;
+    -webkit-border-bottom-right-radius: 8px;
+    -webkit-border-bottom-left-radius: 8px;
+    -moz-border-radius-bottomright: 8px;
+    -moz-border-radius-bottomleft: 8px;
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  &:hover {
+    .notice-hover();
+  }
+}

@@ -4,7 +4,7 @@
 active
 @stop
 
-@section('script')
+@section('scripts')
     {!! Html::script(elixir('js/tiny_project_issue.js')) !!}
 @stop
 

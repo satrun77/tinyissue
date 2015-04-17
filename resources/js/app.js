@@ -41,6 +41,14 @@ $(function () {
 
     var tags = $('.tagit');
     if (tags.length > 0) {
+        tags.on('tokenfield:initialize', function (e) {
+            var input = $(this).data('bs.tokenfield').$input;
+            input.autocomplete({
+                open: function () {
+                    input.autocomplete('widget').outerWidth(input.outerWidth());
+                }
+            });
+        });
         tags.on('tokenfield:createdtoken', function (e) {
             $(e.relatedTarget).css('background-color', e.attrs.bgcolor);
         });
@@ -63,16 +71,22 @@ $(function () {
 
     var exportIssues = $('#export-project-issues');
     if (exportIssues.length > 0) {
-        exportIssues.on('click', 'input.btn', function(e) {
+        exportIssues.on('click', 'input.btn', function (e) {
             e.preventDefault();
             GlobalSaving.show('Exporting...');
-            Ajax.post(exportIssues.attr('action'), exportIssues.serialize(), function(data) {
+            Ajax.post(exportIssues.attr('action'), exportIssues.serialize(), function (data) {
                 exportIssues.find('.form-actions .btn-link').remove();
                 $(data.link).prependTo(exportIssues.find('.form-actions div')).effect("highlight");
                 GlobalSaving.hide();
             });
         });
     }
+
+    // Clickable elements
+    $('.vlink').on('click', function (e) {
+        e.preventDefault();
+        return window.location = $(this).data('url');
+    });
 
     // Mobile/Tablet screen
     SidebarEvents().init();
@@ -231,30 +245,30 @@ var Selection = {
         itemSelector: 'li',
         placeHolderSelector: ''
     },
-    init: function(options) {
+    init: function (options) {
         var me = this;
         this.options = $.extend(this.options, options);
         this.options.items.on({
-            mouseenter: function() {
+            mouseenter: function () {
                 return me.showHighlight($(this).css('cursor', 'pointer'));
             },
-            mouseleave: function() {
+            mouseleave: function () {
                 return me.removeHighligt($(this));
             },
-            click: function() {
+            click: function () {
                 return me.select($(this));
             }
         }, this.options.itemSelector);
     },
-    showHighlight: function(el) {
+    showHighlight: function (el) {
         el.addClass(this.options.className);
     },
-    removeHighligt: function(el) {
+    removeHighligt: function (el) {
         if (!this.isEqual(el)) {
             el.removeClass(this.options.className);
         }
     },
-    select: function(el) {
+    select: function (el) {
         if (this.selected) {
             this.selected.removeClass(this.options.className);
             if (this.isEqual(el)) {
@@ -268,7 +282,7 @@ var Selection = {
         $(this.options.placeHolderSelector).val(this.selected.find('input').val());
         return true;
     },
-    isEqual:  function(el2) {
+    isEqual: function (el2) {
         return (this.selected && this.selected.find('input').val() === el2.find('input').val());
     }
 };
@@ -277,7 +291,7 @@ function Discussion() {
     var instance = null;
     var options = {
         name: 'comment',
-        selector: '.issue-discussion'
+        selector: '.discussion'
     };
 
     function getId(el) {
@@ -285,7 +299,7 @@ function Discussion() {
     }
 
     function getEdit(id) {
-        return $('#' + options.name + id + ' .' + options.name + '-edit');
+        return $('#' + options.name + id + ' .form');
     }
 
     function getContent(id) {
@@ -488,15 +502,9 @@ function SidebarEvents() {
                 return;
             }
 
-            // Load jQuery mobile js
-            $.getScript(TINY.basePath + "js/jquery.mobile.js", function () {
-                // Show/Hide sidebar
-                contentEl.on('swiperight', show);
-                sidebarEl.on('swipeleft', hide);
-            });
-
-            // Load bootstrap js
-            $.getScript(TINY.basePath + "js/bootstrap.js");
+            // Show/Hide sidebar
+            contentEl.on('swiperight', show);
+            sidebarEl.on('swipeleft', hide);
 
             return this;
         }

@@ -1,6 +1,6 @@
 @extends('layouts.wrapper')
 
-@section('script')
+@section('scripts')
     {!! Html::script(elixir('js/tiny_project.js')) !!}
 @stop
 
@@ -57,17 +57,18 @@
             {!! Html::endBox() !!}
         @endif
 
-        {!! Html::startBox() !!}
-
-        @if (isset($issues))
-            @include('project/index/issues')
-        @elseif(isset($notes))
+        @if(isset($notes))
             @include('project/index/notes')
         @else
-            @include('project/index/activity')
+            {!! Html::startBox() !!}
+            @if (isset($issues))
+                @include('project/index/issues')
+            @else
+                @include('project/index/activity')
+            @endif
+            {!! Html::endBox() !!}
         @endif
 
-        {!! Html::endBox() !!}
     </div>
 
 @stop

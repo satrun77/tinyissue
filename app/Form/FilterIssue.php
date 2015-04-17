@@ -38,7 +38,7 @@ class FilterIssue extends FormAbstract
             'filter' => [
                 'name'  => 'filter',
                 'label' => 'filter',
-                'type'  => 'info_sm_submit',
+                'type'  => 'info_submit',
             ]
         ];
     }
