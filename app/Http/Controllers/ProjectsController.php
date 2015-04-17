@@ -100,13 +100,18 @@ class ProjectsController extends Controller
         foreach ($projects as $project) {
             // Calculate the progress
             $progress = $project->openIssuesCount + $project->closedIssuesCount;
-            if ($progress > 0) {
-                $progress = round(($project->closedIssuesCount / $progress) * 100, 2);
+            $progress = (float)($project->closedIssuesCount / $progress) * 100;
+            $progressInt = (int)$progress;
+            if ($progressInt > 0) {
+                $progress = number_format($progress, 2);
+                $fraction = $progress - $progressInt;
+                if ($fraction === 0.0) {
+                    $progress = $progressInt;
+                }
             }
 
             // Choose color based on the progress
             $color = 'success';
-            $progressInt = (int)$progress;
             if ($progressInt < 50) {
                 $color = 'danger';
             } elseif ($progressInt >= 50 && $progressInt < 60) {
