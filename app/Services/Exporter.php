@@ -21,9 +21,9 @@ use Maatwebsite\Excel\Files\NewExcelFile;
 class Exporter extends NewExcelFile
 {
     /** Current supported files type */
-    const TYPE_CSV = 'csv';
-    const TYPE_Xls = 'xls';
-    const TYPE_Xlsx = 'xlsx';
+    const TYPE_CSV  = 'csv';
+    const TYPE_XLS  = 'xls';
+    const TYPE_XLSX = 'xlsx';
 
     /**
      * Parameters

@@ -50,9 +50,9 @@ class ExportIssues extends FilterIssue
             'type'        => 'select',
             'placeholder' => trans('tinyissue.export_format'),
             'options'     => [
-                Exporter::TYPE_Xls => trans('tinyissue.xls'),
-                Exporter::TYPE_Xlsx => trans('tinyissue.xlsx'),
-                Exporter::TYPE_CSV => trans('tinyissue.csv'),
+                Exporter::TYPE_XLS  => trans('tinyissue.xls'),
+                Exporter::TYPE_XLSX => trans('tinyissue.xlsx'),
+                Exporter::TYPE_CSV  => trans('tinyissue.csv'),
             ]
         ];
 
