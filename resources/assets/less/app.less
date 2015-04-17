@@ -827,16 +827,25 @@ textarea.form-control {
 }
 .btn {
   font: bold 13px Helvetica, "Lucida Grande", Arial, sans-serif;
-  color: #fff;
   padding: 10px 13px;
   border-radius: 6px;
 }
-.btn:hover,
-.btn:focus {
+.btn-hover {
   cursor: pointer;
   background: #424242;
   border: 1px solid #262626;
   color: white;
+}
+.btn-info, .btn-default, .btn-primary {
+  &:hover,
+  &:focus  {
+    .btn-hover();
+  }
+
+  &:active,
+  &.active {
+    .btn-hover();
+  }
 }
 .btn-sm {
   padding: 9px 10px;

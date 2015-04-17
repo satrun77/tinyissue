@@ -36,7 +36,7 @@ class CrudAttachmentCest
         $uri = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
             'project' => $project
         ]);
-        $I->submitFormWithFileToUri('.form-horizontal', $uri, ['upload' => $fileName], [
+        $I->submitFormWithFileToUri('#content .form-horizontal', $uri, ['upload' => $fileName], [
             'title' => $title,
             'body'  => $body,
         ]);

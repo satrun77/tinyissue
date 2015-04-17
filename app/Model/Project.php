@@ -315,6 +315,41 @@ class Project extends Model
     }
 
     /**
+     * Filter query project issues
+     *
+     * @param Relations\HasMany $query
+     * @param array             $filter
+     *
+     * @return mixed
+     */
+    public function filterIssues(Relations\HasMany $query, array $filter = [])
+    {
+        // Filter by assign to
+        if (!empty($filter['assignto']) && $filter['assignto'] > 0) {
+            $query->where('assigned_to', '=', (int)$filter['assignto']);
+        }
+
+        // Filter by tag
+        if (!empty($filter['tags'])) {
+            $tagIds = array_map('trim', explode(',', $filter['tags']));
+            $query->whereHas('tags', function (Builder $query) use ($tagIds) {
+                $query->whereIn('id', $tagIds);
+            });
+        }
+
+        // Filter by keyword
+        if (!empty($filter['keyword'])) {
+            $keyword = $filter['keyword'];
+            $query->where(function (Builder $query) use ($keyword) {
+                $query->where('title', 'like', '%' . $keyword . '%');
+                $query->orWhere('body', 'like', '%' . $keyword . '%');
+            });
+        }
+
+        return $query;
+    }
+
+    /**
      * Fetch and filter issues in the project
      *
      * @param int   $status
@@ -338,27 +373,8 @@ class Project extends Model
             ])
             ->where('status', '=', $status);
 
-        // Filter by assign to
-        if (!empty($filter['assignto']) && $filter['assignto'] > 0) {
-            $query->where('assigned_to', '=', (int)$filter['assignto']);
-        }
-
-        // Filter by tag
-        if (!empty($filter['tags'])) {
-            $tagIds = array_map('trim', explode(',', $filter['tags']));
-            $query->whereHas('tags', function (Builder $query) use ($tagIds) {
-                $query->whereIn('id', $tagIds);
-            });
-        }
-
-        // Filter by keyword
-        if (!empty($filter['keyword'])) {
-            $keyword = $filter['keyword'];
-            $query->where(function (Builder $query) use ($keyword) {
-                $query->where('title', 'like', '%' . $keyword . '%');
-                $query->orWhere('body', 'like', '%' . $keyword . '%');
-            });
-        }
+        // Filter issues
+        $this->filterIssues($query, $filter);
 
         // Sort
         if (!empty($sortBy)) {

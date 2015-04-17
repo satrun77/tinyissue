@@ -94,6 +94,8 @@ class RouteServiceProvider extends ServiceProvider
                         $router->get('project/inactive_users/{project?}', array('middleware' => 'ajax', 'uses' => 'ProjectController@getInactiveUsers'));
                         $router->post('project/{project}/unassign_user', array('middleware' => 'ajax', 'uses' => 'ProjectController@postUnassign'));
                         $router->post('project/{project}/assign_user', array('middleware' => 'ajax', 'uses' => 'ProjectController@postAssign'));
+                        $router->post('project/{project}/export_issues', array('middleware' => 'ajax', 'uses' => 'ProjectController@postExportIssues'));
+                        $router->get('project/{project}/download_export/{file}', array('uses' => 'ProjectController@getDownloadExport'));
 
                         // Edit project notes
                         $router->post('project/{project}/edit_note/{note}', ['middleware' => 'ajax', 'uses' => 'ProjectController@postEditNote']);

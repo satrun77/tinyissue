@@ -67,7 +67,7 @@ class PermissionDeveloperCest
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);
-        $I->submitForm('.form-horizontal', $params);
+        $I->submitForm('#content .form-horizontal', $params);
         $issue = $I->fetchIssueBy('title', $params['title']);
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue]);
         $I->seeResponseCodeIs(200);

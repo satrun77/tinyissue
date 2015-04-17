@@ -53,6 +53,7 @@ class Install extends Command
         'curl'     => 0,
         'json'     => 0,
         'mbstring' => 0,
+        'xml'      => 0,
     ];
 
     /**

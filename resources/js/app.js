@@ -63,11 +63,12 @@ $(function () {
 
     var exportIssues = $('#export-project-issues');
     if (exportIssues.length > 0) {
-        exportIssues.on('click', '.btn', function(e) {
+        exportIssues.on('click', 'input.btn', function(e) {
             e.preventDefault();
             GlobalSaving.show('Exporting...');
             Ajax.post(exportIssues.attr('action'), exportIssues.serialize(), function(data) {
-                console.log(data);
+                exportIssues.find('.form-actions .btn-link').remove();
+                $(data.link).prependTo(exportIssues.find('.form-actions div')).effect("highlight");
                 GlobalSaving.hide();
             });
         });

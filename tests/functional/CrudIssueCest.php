@@ -41,7 +41,7 @@ class CrudIssueCest
                 's' => 3,
             ],
         ];
-        $I->submitForm('.form-horizontal', $params);
+        $I->submitForm('#content .form-horizontal', $params);
         $issue = $I->fetchIssueBy('title', $params['title']);
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeResponseCodeIs(200);

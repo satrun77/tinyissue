@@ -86,16 +86,22 @@ class FilterIssue extends FormAbstract
                 'data_tokens'     => htmlentities($selectTags, ENT_QUOTES),
                 'onGroupAddClass' => 'toolbar-item',
             ],
-            'sortby'    => [
-                'type'            => 'select',
-                'placeholder'     => trans('tinyissue.sortby'),
-                'options'         => $sort,
-                'onGroupAddClass' => 'toolbar-item first group',
-            ],
-            'sortorder' => [
-                'type'            => 'select',
-                'options'         => ['asc' => trans('tinyissue.sort_asc'), 'desc' => trans('tinyissue.sort_desc')],
+            'sort' => [
+                'type'     => 'groupField',
                 'onGroupAddClass' => 'toolbar-item',
+                'fields'   => [
+                    'sortby' => [
+                        'type'   => 'select',
+                        'placeholder'     => trans('tinyissue.sortby'),
+                        'options'         => $sort,
+                        'onGroupClass'    => 'control-inline control-sortby',
+                    ],
+                    'sortorder' => [
+                        'type'            => 'select',
+                        'options'         => ['asc' => trans('tinyissue.sort_asc'), 'desc' => trans('tinyissue.sort_desc')],
+                        'onGroupClass'    => 'control-inline control-sortorder',
+                    ],
+                ],
             ],
             'assignto'  => [
                 'type'            => 'select',

@@ -134,6 +134,8 @@ return [
         'Tinyissue\Providers\FormerServiceProvider',
         'GrahamCampbell\Markdown\MarkdownServiceProvider',
         'Tinyissue\Providers\BladeServiceProvider',
+        'Tinyissue\Providers\ComposerServiceProvider',
+        'Maatwebsite\Excel\ExcelServiceProvider',
     ],
     /*
       |--------------------------------------------------------------------------
@@ -184,5 +186,6 @@ return [
         'Html'      => 'Illuminate\Html\HtmlFacade',
         'Former'    => 'Former\Facades\Former',
         'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
+        'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
     ],
 ];

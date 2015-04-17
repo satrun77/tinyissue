@@ -18,6 +18,7 @@ use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Note;
+use Tinyissue\Services\Exporter;
 
 /**
  * ProjectController is the controller class for managing request related to a project
@@ -282,5 +283,55 @@ class ProjectController extends Controller
         $note->delete();
 
         return response()->json(['status' => true]);
+    }
+
+    /**
+     * Ajax: generate the issues export file
+     *
+     * @param Project  $project
+     * @param Exporter $exporter
+     * @param Request  $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postExportIssues(Project $project, Exporter $exporter, Request $request)
+    {
+        // Generate export file
+        $info = $exporter->exportFile(
+            'Project\Issue',
+            $request->input('format', Exporter::TYPE_CSV),
+            $request->all()
+        );
+
+        // Download link
+        $link = link_to(
+            $project->to('download_export/' . $info['file']),
+            trans('tinyissue.download_export'),
+            ['class' => 'btn btn-link']
+        );
+
+        return response()->json([
+            'link'  => $link,
+            'title' => $info['title'],
+            'file'  => $info['file'],
+            'ext'   => $info['ext'],
+        ]);
+    }
+
+    /**
+     * Download and then delete an export file
+     *
+     * @param Project $project
+     * @param string  $file
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
+    public function getDownloadExport(Project $project, $file)
+    {
+        // Filter out any characters that are not in pattern
+        $file = preg_replace('/[^a-z0-9\_\.]/mi', '', $file);
+
+        // Download export
+        return response()->download(storage_path('exports/' . $file), $file)->deleteFileAfterSend(true);
     }
 }
