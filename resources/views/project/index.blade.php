@@ -1,13 +1,7 @@
 @extends('layouts.wrapper')
 
-@section('styles')
-    {!! Html::style('css/tokenfield.css') !!}
-    @parent
-@stop
-
-@section('scripts')
-    {!! Html::script('js/jquery.tokenfield.js') !!}
-    {!! Html::script('js/project.js') !!}
+@section('script')
+    {!! Html::script(elixir('js/tiny_project.js')) !!}
 @stop
 
 @section('nav/projects/class')

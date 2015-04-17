@@ -1,15 +1,11 @@
 @extends('layouts.wrapper')
 
-@section('scripts')
-{!! Html::script('js/project-new.js') !!}
+@section('script')
+    {!! Html::script(elixir('js/tiny_project_new.js')) !!}
 @stop
 
 @section('nav/projects/class')
 active
-@stop
-
-@section('scripts')
-{!! Html::style('js/project-new.js') !!}
 @stop
 
 @section('headingTitle')

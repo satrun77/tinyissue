@@ -1,7 +1,7 @@
 @extends('layouts.wrapper')
 
-@section('scripts')
-{!! Html::script('js/project.js') !!}
+@section('script')
+    {!! Html::script(elixir('js/tiny_project.js')) !!}
 @stop
 
 @section('nav/projects/class')

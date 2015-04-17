@@ -1,11 +1,7 @@
 @extends('layouts.wrapper')
 
-@section('scripts')
-    {!! Html::script('js/upload/vendor/jquery.ui.widget.js') !!}
-    {!! Html::script('js/upload/jquery.iframe-transport.js') !!}
-    {!! Html::script('js/upload/jquery.fileupload.js') !!}
-    {!! Html::script('js/upload/jquery.fileupload-process.js') !!}
-    {!! Html::script('js/project.js') !!}
+@section('script')
+    {!! Html::script(elixir('js/tiny_project_issue.js')) !!}
 @stop
 
 @section('nav/projects/class')

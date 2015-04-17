@@ -6,8 +6,7 @@
     {!! Html::link($project->to(), $project->name) !!}
     <span>@lang('tinyissue.assign_users_and_edit_the_project')</span>
 </h2>
-
-<ul>
+<ul class="content">
     <li><a href="{{ $project->to('issues') }}">
         @if (!empty($open_issues_count))
         {{ $open_issues_count }}
@@ -29,6 +28,7 @@
     <span>@lang('tinyissue.assigned_users_description')</span>
 </h2>
 
+<div class="content">
 <ul class="sidebar-users">
     @foreach($project->users()->get() as $row)
     <li id="project-user{{ $row->id }}">
@@ -42,4 +42,15 @@
 
 @permission('project-modify')
 {!! Former::text('add-user-project')->placeholder(trans('tinyissue.assign_a_user'))->setAttribute('data-project-id', $project->id) !!}
+</div>
+
+<h2>
+    @lang('tinyissue.export_issues')
+    <span>@lang('tinyissue.export_issues_description')</span>
+</h2>
+
+<div class="content">
+{!! Form::form($exportForm, ['action'=> $project->to('export_issues'), 'method'=>'POST', 'id'=>'export-project-issues']) !!}
 @endpermission
+
+</div>

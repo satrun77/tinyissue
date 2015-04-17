@@ -1,8 +1,4 @@
-@extends('layouts.wrapper')
-
-@section('styles')
-{!! Html::style('css/login.css') !!}
-@stop
+@extends('layouts.login')
 
 @section('content')
 <h2 class="form-signin-heading">@lang('tinyissue.login_to_your_account')</h2>

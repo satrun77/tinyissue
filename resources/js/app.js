@@ -39,6 +39,40 @@ $(function () {
         });
     }
 
+    var tags = $('.tagit');
+    if (tags.length > 0) {
+        tags.on('tokenfield:createdtoken', function (e) {
+            $(e.relatedTarget).css('background-color', e.attrs.bgcolor);
+        });
+        tags.on('tokenfield:createtoken', function (e) {
+            var existingTokens = $(this).tokenfield('getTokens');
+            $.each(existingTokens, function (index, token) {
+                if (token.value === e.attrs.value) {
+                    e.preventDefault();
+                }
+            });
+        });
+        tags.tokenfield({
+            autocomplete: {
+                source: TINY.baseUrl + "administration/tags/suggestions",
+                delay: 100
+            },
+            allowEditing: false
+        });
+    }
+
+    var exportIssues = $('#export-project-issues');
+    if (exportIssues.length > 0) {
+        exportIssues.on('click', '.btn', function(e) {
+            e.preventDefault();
+            GlobalSaving.show('Exporting...');
+            Ajax.post(exportIssues.attr('action'), exportIssues.serialize(), function(data) {
+                console.log(data);
+                GlobalSaving.hide();
+            });
+        });
+    }
+
     // Mobile/Tablet screen
     SidebarEvents().init();
 });
