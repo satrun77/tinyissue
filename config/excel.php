@@ -32,7 +32,7 @@ return array(
         'settings' => array(
 
             'memoryCacheSize' => '32MB',
-            'cacheTime'       => 600
+            'cacheTime'       => 600,
 
         ),
 
@@ -54,7 +54,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'dir'      => storage_path('cache')
+        'dir'      => storage_path('cache'),
     ),
 
     'properties' => array(
@@ -134,7 +134,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'line_ending' => "\r\n"
+        'line_ending' => "\r\n",
     ),
 
     'export'     => array(
@@ -245,7 +245,7 @@ return array(
             | Apply strict comparison when testing for null values in the array
             |--------------------------------------------------------------------------
             */
-            'strictNullComparison' => false
+            'strictNullComparison' => false,
         ),
 
         /*
@@ -274,7 +274,7 @@ return array(
             | Whether we want to return information about the stored file or not
             |
             */
-            'returnInfo' => false
+            'returnInfo' => false,
 
         ),
 
@@ -306,7 +306,7 @@ return array(
                 |--------------------------------------------------------------------------
                 */
                 'DomPDF' => array(
-                    'path' => base_path('vendor/dompdf/dompdf/')
+                    'path' => base_path('vendor/dompdf/dompdf/'),
                 ),
 
                 /*
@@ -315,7 +315,7 @@ return array(
                 |--------------------------------------------------------------------------
                 */
                 'tcPDF'  => array(
-                    'path' => base_path('vendor/tecnick.com/tcpdf/')
+                    'path' => base_path('vendor/tecnick.com/tcpdf/'),
                 ),
 
                 /*
@@ -324,10 +324,10 @@ return array(
                 |--------------------------------------------------------------------------
                 */
                 'mPDF'   => array(
-                    'path' => base_path('vendor/mpdf/mpdf/')
+                    'path' => base_path('vendor/mpdf/mpdf/'),
                 ),
-            )
-        )
+            ),
+        ),
     ),
 
     'filters'    => array(
@@ -338,7 +338,7 @@ return array(
         */
 
         'registered' => array(
-            'chunk' => 'Maatwebsite\Excel\Filters\ChunkReadFilter'
+            'chunk' => 'Maatwebsite\Excel\Filters\ChunkReadFilter',
         ),
 
         /*
@@ -347,7 +347,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'enabled'    => array()
+        'enabled'    => array(),
     ),
 
     'import'     => array(
@@ -418,7 +418,7 @@ return array(
         'encoding'                => array(
 
             'input'  => 'UTF-8',
-            'output' => 'UTF-8'
+            'output' => 'UTF-8',
 
         ),
 
@@ -490,7 +490,7 @@ return array(
             | Date columns
             |--------------------------------------------------------------------------
             */
-            'columns' => array()
+            'columns' => array(),
         ),
 
         /*
@@ -511,11 +511,11 @@ return array(
 
             'test' => array(
 
-                'firstname' => 'A2'
+                'firstname' => 'A2',
 
-            )
+            ),
 
-        )
+        ),
     ),
 
     'views'      => array(
@@ -540,7 +540,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
-                )
+                ),
             ),
 
             /*
@@ -552,7 +552,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
-                )
+                ),
             ),
 
             /*
@@ -564,7 +564,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
-                )
+                ),
             ),
 
             /*
@@ -576,7 +576,7 @@ return array(
                 'font' => array(
                     'italic' => true,
                     'size'   => 12,
-                )
+                ),
             ),
 
             /*
@@ -588,7 +588,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 24,
-                )
+                ),
             ),
 
             /*
@@ -600,7 +600,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 18,
-                )
+                ),
             ),
 
             /*
@@ -612,7 +612,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 13.5,
-                )
+                ),
             ),
 
             /*
@@ -624,7 +624,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
-                )
+                ),
             ),
 
             /*
@@ -636,7 +636,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 10,
-                )
+                ),
             ),
 
             /*
@@ -648,7 +648,7 @@ return array(
                 'font' => array(
                     'bold' => true,
                     'size' => 7.5,
-                )
+                ),
             ),
 
             /*
@@ -660,7 +660,7 @@ return array(
                 'font' => array(
                     'underline' => true,
                     'color'     => array('argb' => 'FF0000FF'),
-                )
+                ),
             ),
 
             /*
@@ -672,12 +672,12 @@ return array(
                 'borders' => array(
                     'bottom' => array(
                         'style' => 'thin',
-                        'color' => array('FF000000')
+                        'color' => array('FF000000'),
                     ),
-                )
-            )
-        )
+                ),
+            ),
+        ),
 
-    )
+    ),
 
 );

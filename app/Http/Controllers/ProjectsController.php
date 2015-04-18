@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -100,8 +101,8 @@ class ProjectsController extends Controller
         foreach ($projects as $project) {
             // Calculate the progress
             $progress = $project->openIssuesCount + $project->closedIssuesCount;
-            $progress = (float)($project->closedIssuesCount / $progress) * 100;
-            $progressInt = (int)$progress;
+            $progress = (float) ($project->closedIssuesCount / $progress) * 100;
+            $progressInt = (int) $progress;
             if ($progressInt > 0) {
                 $progress = number_format($progress, 2);
                 $fraction = $progress - $progressInt;
@@ -123,7 +124,7 @@ class ProjectsController extends Controller
                 'html'  => '<div class="progress">'
                     . '<div class="progress-bar progress-bar-' . $color . '" role="progressbar" aria-valuenow="' . $progress . '" aria-valuemin="0" aria-valuemax="100">' . $progress . '%</div>'
                     . '</div>',
-                'value' => $progress
+                'value' => $progress,
             ];
         }
 

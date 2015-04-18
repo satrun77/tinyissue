@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Form;
 
 use Tinyissue\Model;
@@ -84,7 +85,7 @@ class Issue extends FormAbstract
                 'type'    => 'select',
                 'label'   => 'assigned_to',
                 'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id'),
-                'value'   => (int)$this->project->default_assignee,
+                'value'   => (int) $this->project->default_assignee,
             ];
         }
 
@@ -95,7 +96,7 @@ class Issue extends FormAbstract
                 'label' => 'attachments',
                 'data_message_success' => trans('tinyissue.success_upload'),
                 'data_message_failed' => trans('tinyissue.error_uploadfailed'),
-                'multiple' => null
+                'multiple' => null,
             ];
 
             $fields['upload_token'] = [
@@ -126,7 +127,7 @@ class Issue extends FormAbstract
                         'value'  => $this->extractQuoteValue('s'),
                     ],
                 ],
-                'addClass' => 'issue-quote'
+                'addClass' => 'issue-quote',
             ];
         }
 

@@ -18,7 +18,6 @@ use Illuminate\Database\Schema\Blueprint;
  */
 class DefaultProjectAssignee extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -42,5 +41,4 @@ class DefaultProjectAssignee extends Migration
             $table->dropColumn('default_assignee');
         });
     }
-
 }

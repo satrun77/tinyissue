@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model;
 
 use Hash;
@@ -22,12 +23,12 @@ use Mail;
 use Illuminate\Mail\Message as MailMessage;
 use Illuminate\Database\Query;
 use Tinyissue\Model\Project\Issue;
-use Tinyissue\Model\Permission;
 
 /**
  * User is model class for users
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int    $id
  * @property int    $deleted
  * @property int    $role_id
@@ -37,6 +38,7 @@ use Tinyissue\Model\Permission;
  * @property string $firstname
  * @property string $lastname
  * @property string $fullname
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
@@ -82,7 +84,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         $cdir = scandir(__DIR__ . '/../../resources/lang');
         foreach ($cdir as $value) {
-            if (!in_array($value, [".", ".."])) {
+            if (!in_array($value, ['.', '..'])) {
                 $languages[$value] = $value;
             }
         }
@@ -303,7 +305,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Whether or not the user has a valid permission in current context
      * e.g. can access the issue or the project
      *
-     * @param array  $params
+     * @param array $params
      *
      * @return bool
      */
@@ -346,7 +348,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @param array $info
      *
-     * @return boolean
+     * @return bool
      */
     public function createUser(array $info)
     {
@@ -418,7 +420,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             'firstname',
             'lastname',
             'language',
-            'password'
+            'password',
         ]));
 
         return $this->updateUser($update);

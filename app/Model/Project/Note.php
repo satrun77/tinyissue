@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -18,12 +19,14 @@ use Illuminate\Database\Query;
  * Note is model class for project notes
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int           $id
  * @property int           $project_id
  * @property int           $created_by
  * @property string        $body
  * @property Model\Project $project
  * @property Model\User    $createdBy
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Note extends BaseModel
@@ -80,7 +83,7 @@ class Note extends BaseModel
         $this->activity()->save(new Model\User\Activity([
             'type_id'   => Model\Activity::TYPE_NOTE,
             'parent_id' => $this->project->id,
-            'user_id'   => $this->createdBy->id
+            'user_id'   => $this->createdBy->id,
         ]));
 
         return $this;
@@ -100,6 +103,7 @@ class Note extends BaseModel
      * Delete a note
      *
      * @return bool|null
+     *
      * @throws \Exception
      */
     public function delete()

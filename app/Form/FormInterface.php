@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Form;
 
 use Illuminate\Database\Eloquent\Model;
@@ -68,7 +69,7 @@ interface FormInterface
     /**
      * Whether or not the form is in editing of a model
      *
-     * @return boolean
+     * @return bool
      */
     public function isEditing();
 

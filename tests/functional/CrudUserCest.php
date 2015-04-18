@@ -2,7 +2,6 @@
 
 class CrudUserCest
 {
-
     /**
      * @param FunctionalTester $I
      *

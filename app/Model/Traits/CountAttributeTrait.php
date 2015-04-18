@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Tinyissue package.
  *
@@ -7,13 +8,16 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model\Traits;
 
 /**
  * CountAttributeTrait is trait class for adding method to return count attribute
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property array $relations
+ *
  * @method \Illuminate\Database\Eloquent\Model load($relations)
  * @method \Illuminate\Database\Eloquent\Model getRelation($relation)
  */
@@ -36,6 +40,6 @@ trait CountAttributeTrait
         $related = $this->getRelation($field);
 
         // then return the count directly
-        return ($related) ? (int)$related->aggregate : 0;
+        return ($related) ? (int) $related->aggregate : 0;
     }
 }

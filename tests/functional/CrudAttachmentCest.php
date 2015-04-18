@@ -2,7 +2,6 @@
 
 class CrudAttachmentCest
 {
-
     public function _before()
     {
         exec('mkdir ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
@@ -34,7 +33,7 @@ class CrudAttachmentCest
         $project = $I->createProject(1);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project]);
         $uri = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
-            'project' => $project
+            'project' => $project,
         ]);
         $I->submitFormWithFileToUri('#content .form-horizontal', $uri, ['upload' => $fileName], [
             'title' => $title,
@@ -54,7 +53,7 @@ class CrudAttachmentCest
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
             'project'    => $project,
             'issue'      => $issue,
-            'attachment' => $attachment
+            'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
     }
@@ -83,7 +82,7 @@ class CrudAttachmentCest
         $I->seeResponseCodeIs(200);
 
         $uri = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
-            'project' => $project
+            'project' => $project,
         ]);
         $I->submitFormWithFileToUri('.new-comment form', $uri, ['upload' => [$fileName1, $fileName2]], [
             'comment' => $comment,
@@ -101,7 +100,7 @@ class CrudAttachmentCest
             $I->amOnAction('Project\IssueController@getDisplayAttachment', [
                 'project'    => $project,
                 'issue'      => $issue,
-                'attachment' => $attachment
+                'attachment' => $attachment,
             ]);
             $I->seeResponseCodeIs(200);
         }
@@ -128,7 +127,7 @@ class CrudAttachmentCest
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $uploadToken = $I->grabValueFrom('//form/input[@name="upload_token"]');
         $uri = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
-            'project' => $project
+            'project' => $project,
         ]);
         $I->submitFormWithFileToUri('.new-comment form', $uri, ['upload' => $fileName], [
             'comment' => 'Comment 1',
@@ -137,25 +136,25 @@ class CrudAttachmentCest
         $I->amOnAction('Project\IssueController@getDownloadAttachment', [
             'project'    => $project,
             'issue'      => $issue,
-            'attachment' => $attachment
+            'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeElement('.attachments a', ['title' => $fileName]);
         $uri = $I->getApplication()->url->action('Project\IssueController@postRemoveAttachment', [
-            'project' => $project
+            'project' => $project,
         ]);
         $I->sendAjaxPostRequest($uri, [
             '_token'       => csrf_token(),
             'upload_token' => $uploadToken,
-            'filename'     => $fileName
+            'filename'     => $fileName,
         ]);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->dontSeeElement('.attachments a', ['title' => $fileName]);
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
             'project'    => $project,
             'issue'      => $issue,
-            'attachment' => $attachment
+            'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(404);
     }

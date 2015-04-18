@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Http\Requests\FormRequest;
 
 use Tinyissue\Http\Requests\Request;

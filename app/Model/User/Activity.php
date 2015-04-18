@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
@@ -18,6 +19,7 @@ use Illuminate\Database\Query;
  * Activity is model class for user activities
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int    $id
  * @property string $data
  * @property int    $type_id
@@ -25,6 +27,7 @@ use Illuminate\Database\Query;
  * @property int    $user_id
  * @property int    $item_id
  * @property int    $action_id
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Activity extends Model

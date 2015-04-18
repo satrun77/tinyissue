@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Form;
 
 /**
@@ -32,7 +33,7 @@ class Login extends FormAbstract
                 'type' => 'group',
                 'addClass' => 'form-actions',
                 'label' => '',
-                'required' => false
+                'required' => false,
             ],
             'login' => [
                 'type' => 'primary_submit',
@@ -45,8 +46,8 @@ class Login extends FormAbstract
                 'inline' => null,
             ],
             'closeGroup' => [
-                'type' => 'closeGroup'
-            ]
+                'type' => 'closeGroup',
+            ],
         ];
 
         return $fields;

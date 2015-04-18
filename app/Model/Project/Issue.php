@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -23,6 +24,7 @@ use Tinyissue\Model\Traits\CountAttributeTrait;
  * Issue is model class for project issues
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int              $id
  * @property int              $created_by
  * @property int              $project_id
@@ -38,6 +40,7 @@ use Tinyissue\Model\Traits\CountAttributeTrait;
  * @property Model\Project    $project
  * @property Model\User       $user
  * @property Model\User       $updatedBy
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Issue extends BaseModel
@@ -258,7 +261,7 @@ class Issue extends BaseModel
      *
      * @param array $input
      *
-     * @return boolean
+     * @return bool
      */
     public function updateIssue(array $input)
     {
@@ -267,7 +270,7 @@ class Issue extends BaseModel
             'body'        => $input['body'],
             'assigned_to' => $input['assigned_to'],
             'time_quote'  => $input['time_quote'],
-            'updated_by'  => $this->updatedBy->id
+            'updated_by'  => $this->updatedBy->id,
         ];
 
         /* Add to activity log for assignment if changed */
@@ -292,8 +295,8 @@ class Issue extends BaseModel
     /**
      * Create new tags from a string "group:tag_name" and fetch tag from a tag id.
      *
-     * @param    array $tags
-     * @param bool     $isAdmin
+     * @param array $tags
+     * @param bool  $isAdmin
      *
      * @return Collection
      */
@@ -398,7 +401,7 @@ class Issue extends BaseModel
                 'type_id'   => Activity::TYPE_ISSUE_TAG,
                 'parent_id' => $this->project->id,
                 'user_id'   => $this->user->id,
-                'data'      => ['added_tags' => $addedTags, 'removed_tags' => $removedTags]
+                'data'      => ['added_tags' => $addedTags, 'removed_tags' => $removedTags],
             ]));
         }
 
@@ -498,6 +501,6 @@ class Issue extends BaseModel
             $seconds += isset($value['m']) ? ($value['m'] * 60) : 0;
             $seconds += isset($value['h']) ? ($value['h'] * 60 * 60) : 0;
         }
-        $this->attributes['time_quote'] = (int)$seconds;
+        $this->attributes['time_quote'] = (int) $seconds;
     }
 }

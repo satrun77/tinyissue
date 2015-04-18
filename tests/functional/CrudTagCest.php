@@ -4,7 +4,6 @@ use Tinyissue\Model\Tag;
 
 class CrudTagCest
 {
-
     /**
      * @param FunctionalTester $I
      *
@@ -17,7 +16,7 @@ class CrudTagCest
         $I->am('Admin User');
         $I->wantTo('add new tag');
 
-        $tag = new Tag;
+        $tag = new Tag();
         $group = $tag->getGroups()->random(1);
         $data = [
             'name'    => 'tag1',
@@ -44,9 +43,9 @@ class CrudTagCest
         $I->am('Admin User');
         $I->wantTo('edit an existing tag');
 
-        $tag = (new Tag)->where('group', '=', false)->get()->random(1);
+        $tag = (new Tag())->where('group', '=', false)->get()->random(1);
         $data = [
-            'name' => 'tag updated'
+            'name' => 'tag updated',
         ];
         $tagName = $tag->name;
 

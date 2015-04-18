@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Http\Controllers;
 
 use Tinyissue\Http\Requests\FormRequest;
@@ -57,6 +58,7 @@ class HomeController extends Controller
         if ($this->auth->user()) {
             return redirect('dashboard');
         }
+
         return view('user.login', ['form' => $form]);
     }
 

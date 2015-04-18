@@ -8,9 +8,9 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Form;
 
-use Tinyissue\Model;
 use Tinyissue\Services\Exporter;
 
 /**
@@ -27,7 +27,7 @@ class ExportIssues extends FilterIssue
                 'name'  => 'export-issue',
                 'label' => 'export',
                 'type'  => 'info_submit',
-            ]
+            ],
         ];
     }
 
@@ -53,7 +53,7 @@ class ExportIssues extends FilterIssue
                 Exporter::TYPE_XLS  => trans('tinyissue.xls'),
                 Exporter::TYPE_XLSX => trans('tinyissue.xlsx'),
                 Exporter::TYPE_CSV  => trans('tinyissue.csv'),
-            ]
+            ],
         ];
 
         return $fields;

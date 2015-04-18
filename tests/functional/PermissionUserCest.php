@@ -46,6 +46,7 @@ class PermissionUserCest
      * @param \FunctionalTester\UserSteps $I
      *
      * @actor FunctionalTester\UserSteps
+     *
      * @return void
      */
     public function createIssues(FunctionalTester\UserSteps $I)
@@ -60,7 +61,7 @@ class PermissionUserCest
         $I->login($user->email, '123', $user->firstname);
         $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags',
             ['term' => 'f']));
-        $tags = new Collection((array)$I->getJsonResponseContent());
+        $tags = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title' => 'issue 1',
             'body'  => 'body of issue 1',
@@ -81,6 +82,7 @@ class PermissionUserCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function cantCreateProject(FunctionalTester $I)
@@ -92,6 +94,7 @@ class PermissionUserCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function cantCreateUser(FunctionalTester $I)
@@ -103,6 +106,7 @@ class PermissionUserCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function cantCreateIssue(FunctionalTester $I)
@@ -112,7 +116,7 @@ class PermissionUserCest
             $I,
             [
                 'Project\IssueController@getNew',
-                ['project' => $project]
+                ['project' => $project],
             ],
             'create new issue in project not member of'
         );
@@ -122,6 +126,7 @@ class PermissionUserCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function cantCreateComment(FunctionalTester $I)
@@ -157,6 +162,7 @@ class PermissionUserCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function cantCreateNote(FunctionalTester $I)

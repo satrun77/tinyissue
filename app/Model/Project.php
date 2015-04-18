@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Builder;
@@ -21,14 +22,15 @@ use Tinyissue\Model\Traits\CountAttributeTrait;
 use Tinyissue\Model\User\Activity as UserActivity;
 use URL;
 
-
 /**
  * Project is model class for projects
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int    $id
  * @property string $name
  * @property int    $status
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Project extends Model
@@ -207,7 +209,7 @@ class Project extends Model
     public function setDefaultAssigneeAttribute($value)
     {
         if (!empty($value)) {
-            $this->attributes['default_assignee'] = (int)$value;
+            $this->attributes['default_assignee'] = (int) $value;
         }
 
         return $this;
@@ -237,8 +239,8 @@ class Project extends Model
     /**
      * Assign a user to a project
      *
-     * @param   int $userId
-     * @param int   $roleId
+     * @param int $userId
+     * @param int $roleId
      *
      * @return Model
      */
@@ -326,7 +328,7 @@ class Project extends Model
     {
         // Filter by assign to
         if (!empty($filter['assignto']) && $filter['assignto'] > 0) {
-            $query->where('assigned_to', '=', (int)$filter['assignto']);
+            $query->where('assigned_to', '=', (int) $filter['assignto']);
         }
 
         // Filter by tag
@@ -369,7 +371,7 @@ class Project extends Model
                     $status = $status == ProjectIssue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
                     $query->where('name', '!=', $status);
                     $query->orderBy('name', $sortOrder);
-                }
+                },
             ])
             ->where('status', '=', $status);
 
@@ -424,6 +426,7 @@ class Project extends Model
      *  Delete a project
      *
      * @return void
+     *
      * @throws \Exception
      */
     public function delete()

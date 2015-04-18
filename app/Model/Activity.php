@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,9 +18,11 @@ use Illuminate\Database\Query;
  * Activity is model class for activities
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int    $id
  * @property string $description
  * @property string $activity
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Activity extends Model

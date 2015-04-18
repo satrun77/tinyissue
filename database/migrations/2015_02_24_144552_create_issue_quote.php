@@ -16,13 +16,13 @@ use Illuminate\Database\Migrations\Migration;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class CreateIssueQuote extends Migration {
-
-	/**
-	 * Run the migrations.
-	 *
-	 * @return void
-	 */
+class CreateIssueQuote extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up()
     {
         Schema::table('projects_issues', function (Blueprint $table) {
@@ -41,5 +41,4 @@ class CreateIssueQuote extends Migration {
             $table->dropColumn('time_quote');
         });
     }
-
 }

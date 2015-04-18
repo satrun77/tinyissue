@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Export\Project\Issue;
 
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
@@ -29,14 +30,14 @@ class CsvHandler
         'tinyissue.label_created' => 'created_at',
         'tinyissue.updated'       => 'updated_at',
         'tinyissue.label_closed'  => 'closed_at',
-        'tinyissue.status'        => 'status'
+        'tinyissue.status'        => 'status',
     ];
 
     public function handle(Exporter $exporter)
     {
         /** @var Project $project */
         $project = $exporter->getParams('route.project');
-        $query = $project->issues()->select(array_filter($this->columns, function($column) {
+        $query = $project->issues()->select(array_filter($this->columns, function ($column) {
             return $column !== 'project';
         }));
 
@@ -50,7 +51,7 @@ class CsvHandler
                     return $project->name;
                 }
 
-                return (string)$issue->$column;
+                return (string) $issue->$column;
             }, $this->columns);
         });
 

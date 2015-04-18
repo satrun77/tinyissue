@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Form;
 
 use Request;
@@ -39,7 +40,7 @@ class FilterIssue extends FormAbstract
                 'name'  => 'filter',
                 'label' => 'filter',
                 'type'  => 'info_submit',
-            ]
+            ],
         ];
     }
 
@@ -49,6 +50,7 @@ class FilterIssue extends FormAbstract
         $tagGroups = Model\Tag::where('group', '=', 1)->get()->map(function ($group) {
             $group->keyname = 'tag:' . $group->id;
             $group->name = ucwords($group->name);
+
             return $group;
         })->lists('name', 'keyname');
 

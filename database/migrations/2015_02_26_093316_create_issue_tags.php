@@ -19,7 +19,6 @@ use Tinyissue\Model;
  */
 class CreateIssueTags extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -39,7 +38,7 @@ class CreateIssueTags extends Migration
 
             $groups = ['status', 'type', 'resolution'];
             foreach ($groups as $group) {
-                $model = new Model\Tag;
+                $model = new Model\Tag();
                 $model->name = $group;
                 $model->group = true;
                 $model->save();
@@ -83,7 +82,7 @@ class CreateIssueTags extends Migration
                 ],
             ];
             foreach ($tags as $tag) {
-                $model = new Model\Tag;
+                $model = new Model\Tag();
                 $model->name = $tag['name'];
                 $model->bgcolor = $tag['bgcolor'];
                 $model->parent_id = Model\Tag::where('name', '=', $tag['parent_id'])->first()->id;
@@ -130,5 +129,4 @@ class CreateIssueTags extends Migration
         Schema::drop('projects_issues_tags');
         Model\Activity::where('activity', '=', 'update-issue-tags')->delete();
     }
-
 }

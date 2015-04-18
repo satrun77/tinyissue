@@ -40,6 +40,7 @@ class LoginCest
      * @param FunctionalTester\UserSteps $I
      *
      * @actor FunctionalTester\UserSteps
+     *
      * @return void
      */
     public function successfulLoginAndLogout(FunctionalTester\UserSteps $I)
@@ -56,6 +57,7 @@ class LoginCest
      * @param FunctionalTester\UserSteps $I
      *
      * @actor FunctionalTester\UserSteps
+     *
      * @return void
      */
     public function redirectToDashboard(FunctionalTester\UserSteps $I)

@@ -6,8 +6,6 @@ namespace Codeception\Module;
 // all public methods declared in helper class will be available in $I
 use Codeception\Configuration;
 use Codeception\Exception\ElementNotFound;
-use Codeception\Module;
-use Codeception\TestCase;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\Form;
@@ -31,7 +29,7 @@ class FunctionalHelper extends \Codeception\Module
             'lastname'  => 'One',
             'password'  => Hash::make('123'),
             'role_id'   => $role,
-            'language'  => 'en'
+            'language'  => 'en',
         ]);
         $user->deleted = Model\User::NOT_DELETED_USERS;
         $user->save();
@@ -66,7 +64,7 @@ class FunctionalHelper extends \Codeception\Module
                 's' => 0,
             ],
             'upload_token' => '-',
-            'tag'          => ''
+            'tag'          => '',
         ];
         $issueData['assigned_to'] = null !== $assign ? $assign->id : '';
 
@@ -154,8 +152,8 @@ class FunctionalHelper extends \Codeception\Module
     /**
      * Fetch a user by column
      *
-     * @param string             $field
-     * @param int|string|boolean $value
+     * @param string          $field
+     * @param int|string|bool $value
      *
      * @return Model\User
      */
@@ -167,8 +165,8 @@ class FunctionalHelper extends \Codeception\Module
     /**
      * Fetch a project by column
      *
-     * @param string             $field
-     * @param int|string|boolean $value
+     * @param string          $field
+     * @param int|string|bool $value
      *
      * @return Model\Project
      */
@@ -180,8 +178,8 @@ class FunctionalHelper extends \Codeception\Module
     /**
      * Fetch an issue by column
      *
-     * @param string             $field
-     * @param int|string|boolean $value
+     * @param string          $field
+     * @param int|string|bool $value
      *
      * @return Model\Project\Issue
      */
@@ -204,6 +202,7 @@ class FunctionalHelper extends \Codeception\Module
      * Get response content
      *
      * @return string
+     *
      * @throws \Codeception\Exception\Module
      */
     public function getResponseContent()

@@ -48,7 +48,7 @@ class CrudProjectNotesCest
 
         $I->amOnAction('ProjectController@getNotes', ['project' => $project]);
         $I->submitForm('#new-note form', [
-            'note_body' => 'note one'
+            'note_body' => 'note one',
         ]);
         $I->amOnAction('ProjectController@getNotes', ['project' => $project]);
         $I->see('note one', '//li[@id="note' . $project->notes()->first()->id . '"]');

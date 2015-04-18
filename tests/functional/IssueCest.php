@@ -4,7 +4,6 @@ use Tinyissue\Model\Project;
 
 class IssueCest
 {
-
     /**
      * @param FunctionalTester $I
      *
@@ -35,7 +34,7 @@ class IssueCest
         $uri = $I->getApplication()->url->action('Project\IssueController@postChangeProject', ['issue' => $issue1]);
         $I->sendAjaxPostRequest($uri, [
                 'project_id' => $project1->id,
-                '_token'     => csrf_token()
+                '_token'     => csrf_token(),
             ]
         );
         $I->seeResponseCodeIs(200);

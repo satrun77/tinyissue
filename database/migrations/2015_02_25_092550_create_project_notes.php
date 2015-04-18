@@ -19,7 +19,6 @@ use Tinyissue\Model;
  */
 class CreateProjectNotes extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -53,5 +52,4 @@ class CreateProjectNotes extends Migration
         Schema::drop('activity');
         Model\Activity::where('activity', '=', 'note')->delete();
     }
-
 }

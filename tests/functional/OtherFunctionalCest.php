@@ -6,6 +6,7 @@ class OtherFunctionalCest
      * @param FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function ajaxRequestByGuest(FunctionalTester $I)

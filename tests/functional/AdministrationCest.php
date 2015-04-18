@@ -4,7 +4,6 @@ use Tinyissue\Model\Project;
 
 class AdministrationCest
 {
-
     /**
      * @param FunctionalTester $I
      *

@@ -43,7 +43,7 @@ class CreateDatabase extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id')->unsigned();
             $table->string('name', 255)->nullable();
-            $table->tinyInteger('status')->nullable()->default("1");
+            $table->tinyInteger('status')->nullable()->default('1');
             $table->timestamps();
         });
 
@@ -55,7 +55,7 @@ class CreateDatabase extends Migration
             $table->bigInteger('updated_by')->nullable();
             $table->bigInteger('assigned_to')->nullable();
             $table->bigInteger('project_id')->nullable();
-            $table->tinyInteger('status')->nullable()->default("1");
+            $table->tinyInteger('status')->nullable()->default('1');
             $table->string('title', 255)->nullable();
             $table->text('body')->nullable();
             $table->timestamps();
@@ -127,7 +127,7 @@ class CreateDatabase extends Migration
         // users
         Schema::create('users', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->bigInteger('role_id')->default("1")->unsigned();
+            $table->bigInteger('role_id')->default('1')->unsigned();
             $table->string('email', 255)->unique();
             $table->string('password', 60)->nullable();
             $table->string('firstname', 255)->nullable();

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Extensions\Html;
 
 use GrahamCampbell\Markdown\Facades\Markdown;
@@ -22,9 +23,9 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     /**
      * Render tab header from an array
      *
-     * @param array $tabs
+     * @param array       $tabs
      * @param string      $active
-     * @param string|null  $areaFor
+     * @param string|null $areaFor
      *
      * @return string
      */
@@ -36,7 +37,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
 
             $title = '';
             if (isset($tab['count'])) {
-                $title .= $tab['count'] === 1 ? 1 : (int)$tab['count'];
+                $title .= $tab['count'] === 1 ? 1 : (int) $tab['count'];
                 $title .= ' ';
             }
             $title .= trans('tinyissue.' . $tab['page']);
@@ -52,9 +53,9 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     /**
      * Render the open tags for box (e.g. blue box)
      *
-     * @param string $style
-     * @param string|null   $title
-     * @param array  $attrs
+     * @param string      $style
+     * @param string|null $title
+     * @param array       $attrs
      *
      * @return string
      */
@@ -100,11 +101,11 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     /**
      * Short cut method to call startBox() & endBox()
      *
-     * @param  string      $content
-     * @param string $style
-     * @param string|null   $title
-     * @param string|null   $moreLink
-     * @param string|null   $moreTitle
+     * @param string      $content
+     * @param string      $style
+     * @param string|null $title
+     * @param string|null $moreLink
+     * @param string|null $moreTitle
      *
      * @return string
      */
@@ -116,28 +117,29 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     /**
      * Format a date
      *
-     * @param  int|string      $date
-     * @param string $format
+     * @param int|string $date
+     * @param string     $format
      *
      * @return string
      */
     public function date($date, $format = 'F jS \a\t g:i A')
     {
         $dateObject = new \DateTime($date);
+
         return $dateObject->format($format);
     }
 
     /**
      * Limit the number of characters in a string, & remove <p> tag
      *
-     * @param  string   $content
-     * @param int $size
+     * @param string $content
+     * @param int    $size
      *
      * @return mixed
      */
     public function trim($content, $size = 60)
     {
-        return str_replace(["<p>", "</p>"], "", str_limit($content, $size));
+        return str_replace(['<p>', '</p>'], '', str_limit($content, $size));
     }
 
     /**
@@ -162,13 +164,15 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     public function filterIssueNo($content)
     {
         $link = $this->link('/project/issue/$3', '$1 #$3', ['title' => '$1 #$3', 'class' => 'issue-link']);
+
         return preg_replace('/((?:' . trans('tinyissue.issue') . ')?)(\s*)#(\d+)/i', $link, $content);
     }
 
     /**
      * Displays the timestamp's age in human readable format
      *
-     * @param  int $timestamp
+     * @param int $timestamp
+     *
      * @return string
      */
     public function age($timestamp)
@@ -188,6 +192,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
         if ($difference != 1) {
             $periods[$j] .= 's';
         }
+
         return $difference . ' ' . $periods[$j] . ' ago';
     }
 
@@ -240,7 +245,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     /**
      * Format issue tag in string into Html
      *
-     * @param  string    $tag
+     * @param string      $tag
      * @param string|null $group
      *
      * @return string

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -50,7 +51,7 @@ class ProjectController extends Controller
             'closed_issues_count'   => $project->closedIssuesCount()->count(),
             'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
             'notes_count'           => $project->notes()->count(),
-            'sidebar'               => 'project'
+            'sidebar'               => 'project',
         ]);
     }
 
@@ -108,7 +109,7 @@ class ProjectController extends Controller
             'closed_issues_count'   => $project->closedIssuesCount()->count(),
             'assigned_issues_count' => $issues->count(),
             'notes_count'           => $project->notes()->count(),
-            'sidebar'               => 'project'
+            'sidebar'               => 'project',
         ]);
     }
 
@@ -150,7 +151,7 @@ class ProjectController extends Controller
         return view('project.edit', [
             'form'    => $form,
             'project' => $project,
-            'sidebar' => 'project'
+            'sidebar' => 'project',
         ]);
     }
 

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -19,6 +20,7 @@ use Tinyissue\Model\User;
  * Attachment is model class for project attachments
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int           $id
  * @property int           $uploaded_by
  * @property int           $issue_id
@@ -28,6 +30,7 @@ use Tinyissue\Model\User;
  * @property int           $filesize
  * @property string        $upload_token
  * @property Project\Issue $issue
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Attachment extends BaseModel

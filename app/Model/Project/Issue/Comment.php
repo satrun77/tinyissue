@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -19,6 +20,7 @@ use Illuminate\Database\Query;
  * Comment is model class for project issue comments
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int                    $id
  * @property int                    $issue_id
  * @property int                    $project_id
@@ -28,6 +30,7 @@ use Illuminate\Database\Query;
  * @property Model\Project\Issue    $issue
  * @property Model\User             $user
  * @property Collection             $attachments
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Comment extends BaseModel
@@ -50,7 +53,6 @@ class Comment extends BaseModel
     {
         return $this->belongsTo('\Tinyissue\Model\User', 'created_by');
     }
-
 
     /**
      * Comment can have many attachments
@@ -114,6 +116,7 @@ class Comment extends BaseModel
      * Delete a comment and its attachments
      *
      * @return bool|null
+     *
      * @throws \Exception
      */
     public function deleteComment()

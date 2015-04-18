@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,10 +18,12 @@ use Illuminate\Database\Query;
  * Role is model class for roles
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int    $id
  * @property string $name
  * @property string $role
  * @property string $description
+ *
  * @method   array  lists()
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */

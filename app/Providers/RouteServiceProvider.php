@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -47,9 +48,9 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace], function (Router $router) {
-            $router->get("/", "HomeController@getIndex");
-            $router->get("logout", "HomeController@getLogout");
-            $router->post("signin", "HomeController@postSignin");
+            $router->get('/', 'HomeController@getIndex');
+            $router->get('logout', 'HomeController@getLogout');
+            $router->post('signin', 'HomeController@postSignin');
 
             $router->group(['middleware' => 'auth'], function (Router $router) {
                 $router->get('dashboard', 'HomeController@getDashboard');

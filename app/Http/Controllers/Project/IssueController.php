@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Http\Controllers\Project;
 
 use Illuminate\Http\Request;
@@ -29,7 +30,6 @@ use Tinyissue\Model\User\Activity as UserActivity;
  */
 class IssueController extends Controller
 {
-
     /**
      * Project issue index page (List project issues)
      *
@@ -72,7 +72,7 @@ class IssueController extends Controller
     public function postAssign(Issue $issue, Request $request)
     {
         $response = ['status' => false];
-        if ($issue->reassign((int)$request->input('user_id'), $this->auth->user()->id)) {
+        if ($issue->reassign((int) $request->input('user_id'), $this->auth->user()->id)) {
             $response['status'] = true;
         }
 
@@ -146,7 +146,7 @@ class IssueController extends Controller
         return view('project.issue.new', [
             'project' => $project,
             'form'    => $form,
-            'sidebar' => 'project'
+            'sidebar' => 'project',
         ]);
     }
 
@@ -190,7 +190,7 @@ class IssueController extends Controller
             'issue'   => $issue,
             'project' => $project,
             'form'    => $form,
-            'sidebar' => 'project'
+            'sidebar' => 'project',
         ]);
     }
 
@@ -261,10 +261,9 @@ class IssueController extends Controller
                         'name'      => $attachment->filename,
                         'size'      => $attachment->filesize,
                         'fileId'    => $attachment->id,
-                    ]
-                ]
+                    ],
+                ],
             ];
-
         } catch (\Exception $exception) {
             $file = $request->file('upload');
 
@@ -272,7 +271,7 @@ class IssueController extends Controller
                 'status' => false,
                 'name'   => $file->getClientOriginalName(),
                 'error'  => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString()
+                'trace' => $exception->getTraceAsString(),
             );
         }
 

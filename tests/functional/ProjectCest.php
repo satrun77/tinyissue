@@ -5,11 +5,9 @@ use Tinyissue\Model\Project;
 /**
  * -------
  * - get project progress ProjectsController::postProgress
- *
  */
 class ProjectCest
 {
-
     /**
      * @param FunctionalTester $I
      *
@@ -148,7 +146,7 @@ class ProjectCest
         $project1 = $I->createProject(1);
         $totalIssues = 4;
         $issues = [];
-        for($i = 0; $i < $totalIssues; $i++) {
+        for ($i = 0; $i < $totalIssues; $i++) {
             $issues[] = $I->createIssue($i, $admin, null, $project1);
         }
         $issues[0]->changeStatus(Project\Issue::STATUS_CLOSED, $admin);
@@ -158,7 +156,7 @@ class ProjectCest
         $uri = $I->getApplication()->url->action('ProjectsController@postProgress');
         $I->sendAjaxPostRequest($uri, [
             'ids'    => [
-                $project1->id
+                $project1->id,
             ],
             '_token' => csrf_token(),
         ]);
@@ -170,7 +168,7 @@ class ProjectCest
         $uri = $I->getApplication()->url->action('ProjectsController@postProgress');
         $I->sendAjaxPostRequest($uri, [
             'ids'    => [
-                $project1->id
+                $project1->id,
             ],
             '_token' => csrf_token(),
         ]);

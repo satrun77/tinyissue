@@ -5,7 +5,6 @@ use Tinyissue\Model\Project;
 
 class CrudIssueCest
 {
-
     /**
      * @param FunctionalTester\UserSteps $I
      *
@@ -25,7 +24,7 @@ class CrudIssueCest
         $project = $I->createProject(1, [$developer1]);
 
         $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f']));
-        $tags = new Collection((array)$I->getJsonResponseContent());
+        $tags = new Collection((array) $I->getJsonResponseContent());
 
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project]);
         $I->seeOptionIsSelected('assigned_to', $developer1->fullname);

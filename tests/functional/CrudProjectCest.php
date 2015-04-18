@@ -4,7 +4,6 @@ use Tinyissue\Model\Project;
 
 class CrudProjectCest
 {
-
     /**
      * @param FunctionalTester\UserSteps $I
      *
@@ -22,7 +21,7 @@ class CrudProjectCest
         $I->createUser(3, 1); // user
         $I->login($admin->email, '123', $admin->firstname);
         $I->sendAjaxGetRequest($I->getApplication()->url->action('ProjectController@getInactiveUsers'));
-        $users = (array)$I->getJsonResponseContent();
+        $users = (array) $I->getJsonResponseContent();
         $userId1 = key($users);
         $userName1 = current($users);
         next($users);
@@ -39,7 +38,7 @@ class CrudProjectCest
                 $userId2 => $userId2,
             ],
             'name'             => 'project1',
-            'default_assignee' => $userId2
+            'default_assignee' => $userId2,
         ];
         $I->submitForm('#submit-project', $params);
         $project = $I->fetchProjectBy('name', 'project1');

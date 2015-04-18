@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Export\Project\Issue;
 
 use Maatwebsite\Excel\Classes\LaravelExcelWorksheet;
@@ -48,7 +49,7 @@ class XlsHandler
         'created_at' => '',
         'updated_at' => '',
         'closed_at'  => '',
-        'status'     => ''
+        'status'     => '',
     ];
 
     /**
@@ -68,7 +69,7 @@ class XlsHandler
 
     public function handle(Exporter $exporter)
     {
-        /** @var Project $project */
+        /* @var Project $project */
         $this->project = $exporter->getParams('route.project');
         $query = $this->project->issues()->select(array_keys($this->columns));
         // Filter issues
@@ -143,9 +144,9 @@ class XlsHandler
     {
         // Setup row data
         array_walk($this->columns, function (&$column, $key, Project\Issue $issue) {
-            $column = (string)$issue->$key;
+            $column = (string) $issue->$key;
             if ($key === 'status') {
-                $column = (int)$issue->status === Project\Issue::STATUS_OPEN ? 'open' : 'closed';
+                $column = (int) $issue->status === Project\Issue::STATUS_OPEN ? 'open' : 'closed';
                 $column = trans('tinyissue.' . $column);
             }
         }, $issue);
@@ -155,7 +156,7 @@ class XlsHandler
 
         // Format last cell
         $sheet->cell('G' . $index, function (CellWriter $cell) use ($issue) {
-            $color = (int)$issue->status === Project\Issue::STATUS_CLOSED ? '#FF0000' : '#00FF00';
+            $color = (int) $issue->status === Project\Issue::STATUS_CLOSED ? '#FF0000' : '#00FF00';
             $cell->setBackground($color);
         });
     }

@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
@@ -17,6 +18,7 @@ use Illuminate\Database\Query;
  * Tag is model class for tags
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
  * @property int     $id
  * @property int     $parent_id
  * @property string  $name
@@ -24,6 +26,7 @@ use Illuminate\Database\Query;
  * @property string  $bgcolor
  * @property boolean $group
  * @property Tag     $parent
+ *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Tag extends Model
@@ -124,7 +127,7 @@ class Tag extends Model
      *
      * @param string $tagFullName
      *
-     * @return $this|boolean
+     * @return $this|bool
      */
     public function createTagFromString($tagFullName)
     {
@@ -144,10 +147,10 @@ class Tag extends Model
     /**
      * Create a new tag if valid or return existing one
      *
-     * @param   string $name
+     * @param string   $name
      * @param null|Tag $parent
      *
-     * @return boolean|$this
+     * @return bool|$this
      */
     public function validOrCreate($name, $parent = null)
     {

@@ -6,6 +6,7 @@ class UserCest
      * @param FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function updateFirstLastName(FunctionalTester $I)
@@ -29,6 +30,7 @@ class UserCest
      * @param FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function updateEmail(FunctionalTester $I)

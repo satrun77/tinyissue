@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Form;
 
 /**
@@ -58,7 +59,7 @@ class Comment extends FormAbstract
                 'type'  => 'FileUpload',
                 'data_message_success' => trans('tinyissue.success_upload'),
                 'data_message_failed' => trans('tinyissue.error_uploadfailed'),
-                'multiple' => null
+                'multiple' => null,
             ];
             $fields['upload_token'] = [
                 'type'  => 'hidden',

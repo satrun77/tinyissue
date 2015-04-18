@@ -46,6 +46,7 @@ class PermissionManagerCest
      * @param \FunctionalTester\UserSteps $I
      *
      * @actor FunctionalTester\UserSteps
+     *
      * @return void
      */
     public function createIssues(FunctionalTester\UserSteps $I)
@@ -60,7 +61,7 @@ class PermissionManagerCest
         $I->login($user->email, '123', $user->firstname);
         $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags',
             ['term' => 'f']));
-        $tags = new Collection((array)$I->getJsonResponseContent());
+        $tags = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title'      => 'issue 1',
             'body'       => 'body of issue 1',
@@ -69,7 +70,7 @@ class PermissionManagerCest
                 'h' => 1,
                 'm' => 1,
                 's' => 1,
-            ]
+            ],
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);
@@ -86,6 +87,7 @@ class PermissionManagerCest
      * @param \FunctionalTester\UserSteps $I
      *
      * @actor FunctionalTester\UserSteps
+     *
      * @return void
      */
     public function addCommentToIssue(FunctionalTester\UserSteps $I)
@@ -120,6 +122,7 @@ class PermissionManagerCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function createNote(FunctionalTester $I)
@@ -154,6 +157,7 @@ class PermissionManagerCest
      * @param \FunctionalTester $I
      *
      * @actor FunctionalTester
+     *
      * @return void
      */
     public function cantCreateUser(FunctionalTester $I)
@@ -165,5 +169,4 @@ class PermissionManagerCest
         $I->amOnAction('Administration\\UsersController@getAdd');
         $I->seeResponseCodeIs(401);
     }
-
 }

@@ -7,9 +7,9 @@ class UserSteps extends \FunctionalTester
     /**
      * Steps from the home page to login into the system
      *
-     * @param   string  $email
-     * @param    string $password
-     * @param null      $see
+     * @param string $email
+     * @param string $password
+     * @param null   $see
      *
      * @return $this
      */

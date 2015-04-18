@@ -8,6 +8,7 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
 namespace Tinyissue\Console\Commands;
 
 use Illuminate\Console\Command;
@@ -119,7 +120,7 @@ class Install extends Command
     /**
      * Execute the console command.
      *
-     * @return boolean
+     * @return bool
      */
     public function fire()
     {
@@ -132,7 +133,7 @@ class Install extends Command
         $this->loop('stageTwo');
         Artisan::call('up');
 
-        $this->line("<fg=green>Instalation complete.</fg=green>");
+        $this->line('<fg=green>Instalation complete.</fg=green>');
 
         return true;
     }
@@ -228,8 +229,8 @@ class Install extends Command
     /**
      * Format cell text color
      *
-     * @param string[]  $cells
-     * @param string $color
+     * @param string[] $cells
+     * @param string   $color
      *
      * @return array
      */
@@ -309,6 +310,7 @@ class Install extends Command
      * - Install the database
      *
      * @return void
+     *
      * @throws \Exception
      */
     protected function stageOne()
@@ -353,7 +355,7 @@ class Install extends Command
         $config['username'] = $this->data['dbUser'];
         $config['password'] = $this->data['dbPass'];
         $config['prefix'] = $this->data['dbPrefix'];
-        \Config::set("database.connections." . $this->data['dbDriver'], $config);
+        \Config::set('database.connections.' . $this->data['dbDriver'], $config);
         \Config::set('database.default', $this->data['dbDriver']);
 
         // Install the new database
@@ -448,4 +450,3 @@ class Install extends Command
         $this->info('Admin account created successfully.');
     }
 }
-
