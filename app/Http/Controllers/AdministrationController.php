@@ -12,8 +12,8 @@
 namespace Tinyissue\Http\Controllers;
 
 use Tinyissue\Model\Project;
-use Tinyissue\Model\User;
 use Tinyissue\Model\Tag;
+use Tinyissue\Model\User;
 
 /**
  * AdministrationController is the controller class for managing request related the application system admin
@@ -25,18 +25,22 @@ class AdministrationController extends Controller
     /**
      * Show general application stats
      *
+     * @param Tag     $tag
+     * @param Project $project
+     * @param User    $user
+     *
      * @return \Illuminate\View\View
      */
-    public function getIndex()
+    public function getIndex(Tag $tag, Project $project, User $user)
     {
         return view('administration.index', [
-            'users'             => User::countUsers(),
-            'active_projects'   => Project::countOpenProjects(),
-            'archived_projects' => Project::countArchivedProjects(),
-            'open_issues'       => Project::countOpenIssues(),
-            'closed_issues'     => Project::countClosedIssues(),
+            'users'             => $user->countUsers(),
+            'active_projects'   => $project->countOpenProjects(),
+            'archived_projects' => $project->countArchivedProjects(),
+            'open_issues'       => $project->countOpenIssues(),
+            'closed_issues'     => $project->countClosedIssues(),
             'projects'          => $this->auth->user()->projects()->get(),
-            'tags'              => Tag::where('group', '=', false)->count(),
+            'tags'              => $tag->count(),
         ]);
     }
 }

@@ -13,7 +13,7 @@ namespace Tinyissue\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Illuminate\Database\Query;
+use Tinyissue\Model\Traits\User\Activity\RelationTrait;
 
 /**
  * Activity is model class for user activities
@@ -27,87 +27,40 @@ use Illuminate\Database\Query;
  * @property int    $user_id
  * @property int    $item_id
  * @property int    $action_id
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Activity extends Model
 {
+    use RelationTrait;
+
+    /**
+     * Timestamp enabled
+     *
+     * @var bool
+     */
     public $timestamps = true;
+
+    /**
+     * Name of database table
+     *
+     * @var string
+     */
     protected $table = 'users_activity';
+
+    /**
+     * List of allowed columns to be used in $this->fill()
+     *
+     * @var array
+     */
     protected $fillable = ['type_id', 'parent_id', 'user_id', 'item_id', 'action_id', 'data'];
+
+    /**
+     * List of columns and their cast data-type
+     *
+     * @var array
+     */
     protected $casts = [
         'data' => 'array',
     ];
-
-    /**
-     * Returns the project issue this activity is belongs to by the item_id, which can hold the issue id
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function issue()
-    {
-        return $this->belongsTo('Tinyissue\Model\Project\Issue', 'item_id');
-    }
-
-    /**
-     * Returns the user this activity is belongs to
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo('\Tinyissue\Model\User', 'user_id');
-    }
-
-    /**
-     * Returns the user that was assigned to the issue. Only for reassign activity
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function assignTo()
-    {
-        return $this->belongsTo('\Tinyissue\Model\User', 'action_id');
-    }
-
-    /**
-     * User activity has one activity type
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function activity()
-    {
-        return $this->belongsTo('Tinyissue\Model\Activity', 'type_id');
-    }
-
-    /**
-     * Returns the comment this activity belongs to if any
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function comment()
-    {
-        return $this->belongsTo('Tinyissue\Model\Project\Issue\Comment', 'action_id');
-    }
-
-    /**
-     * Returns the project his activity belongs to
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project()
-    {
-        return $this->belongsTo('Tinyissue\Model\Project', 'parent_id');
-    }
-
-    /**
-     * Returns the note this activity belongs to if any
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function note()
-    {
-        return $this->belongsTo('\Tinyissue\Model\Project\Note', 'action_id');
-    }
 
     /**
      * Get a value from the data field using "dot" notation

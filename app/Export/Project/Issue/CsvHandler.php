@@ -45,14 +45,25 @@ class CsvHandler
      */
     public function handle(Exporter $exporter)
     {
+        // Translate export columns
+        $this->columns = array_combine(array_map('trans', array_keys($this->columns)), $this->columns);
+
+        // Export parameters
+        $params = $exporter->getParams();
+
         /** @var Project $project */
-        $project = $exporter->getParams('route.project');
+        $project = $params['route']['project'];
+
+        // Query issues select specific columns
         $query = $project->issues()->select(array_filter($this->columns, function ($column) {
             return $column !== 'project';
         }));
 
         // Filter issues
-        $project->filterIssues($query, $exporter->getParams());
+        $project->filterTags($query, $params['tags']);
+        $project->filterAssignTo($query, $params['assignto']);
+        $project->filterTitleOrBody($query, $params['keyword']);
+
         // Fetch issues
         $issues = $query->get()->map(function (Project\Issue $issue) use ($project) {
             return array_map(function ($column) use ($issue, $project) {

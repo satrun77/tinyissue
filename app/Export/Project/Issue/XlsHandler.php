@@ -67,13 +67,38 @@ class XlsHandler
         'tinyissue.status',
     ];
 
+    /**
+     * Set an instance of a project model
+     *
+     * @param Project $project
+     *
+     * @return $this
+     */
+    public function setProject(Project $project)
+    {
+        $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @param Exporter $exporter
+     *
+     * @return void
+     */
     public function handle(Exporter $exporter)
     {
-        /* @var Project $project */
-        $this->project = $exporter->getParams('route.project');
+        $params = $exporter->getParams();
+
+        $this->setProject($exporter->getParams('route.project'));
+
         $query = $this->project->issues()->select(array_keys($this->columns));
+
         // Filter issues
-        $this->project->filterIssues($query, $exporter->getParams());
+        $this->project->filterTitleOrBody($query, $params['keyword']);
+        $this->project->filterAssignTo($query, $params['keyword']);
+        $this->project->filterTitleOrBody($query, $params['keyword']);
+
         // Fetch issues
         $this->issues = $query->get();
 

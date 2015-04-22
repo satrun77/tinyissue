@@ -12,7 +12,6 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query;
 
 /**
  * Permission is model class for permissions
@@ -23,23 +22,84 @@ use Illuminate\Database\Query;
  * @property string $permission
  * @property string $description
  * @property string $auto_has
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Permission extends Model
 {
-    protected $table = 'permissions';
-    public $timestamps = false;
-
+    /**
+     * Permission to view issue
+     *
+     * @var string
+     */
     const PERM_ISSUE_VIEW = 'issue-view';
+
+    /**
+     * Permission to create issue
+     *
+     * @var string
+     */
     const PERM_ISSUE_CREATE = 'issue-create';
+
+    /**
+     * Permission to add/edit/delete comment in an issue
+     *
+     * @var string
+     */
     const PERM_ISSUE_COMMENT = 'issue-comment';
+
+    /**
+     * Permission to modify issue
+     *
+     * @var string
+     */
     const PERM_ISSUE_MODIFY = 'issue-modify';
+
+    /**
+     * Permission to modify all projects
+     *
+     * @var string
+     */
     const PERM_PROJECT_ALL = 'project-all';
+
+    /**
+     * Permission to create project
+     *
+     * @var string
+     */
     const PERM_PROJECT_CREATE = 'project-create';
+
+    /**
+     * Permission to modify project
+     *
+     * @var string
+     */
     const PERM_PROJECT_MODIFY = 'project-modify';
+
+    /**
+     * Permission as administrator
+     *
+     * @var string
+     */
     const PERM_ADMIN = 'administration';
 
+    /**
+     * Timestamp enabled
+     *
+     * @var bool
+     */
+    public $timestamps = false;
+
+    /**
+     * Name of database table
+     *
+     * @var string
+     */
+    protected $table = 'permissions';
+
+    /**
+     * List of group permissions
+     *
+     * @var array
+     */
     protected $groups = [
         self::PERM_PROJECT_ALL => [
             self::PERM_PROJECT_CREATE,

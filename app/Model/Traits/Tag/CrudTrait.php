@@ -1,0 +1,77 @@
+<?php
+
+/*
+ * This file is part of the Tinyissue package.
+ *
+ * (c) Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace Tinyissue\Model\Traits\Tag;
+
+use Illuminate\Database\Query;
+use Tinyissue\Model\Tag;
+
+/**
+ * CrudTrait is trait class containing the methods for adding/editing/deleting the Tag model
+ *
+ * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
+ */
+trait CrudTrait
+{
+    /**
+     * Create new tag from string of group name and tag name
+     *
+     * @param string $tagFullName
+     *
+     * @return $this|bool
+     */
+    public function createTagFromString($tagFullName)
+    {
+        list($groupName, $tagName) = explode(':', $tagFullName);
+
+        // Check if group name is valid
+        $groupTag = $this->validOrCreate($groupName);
+
+        if (!$groupTag) {
+            return false;
+        }
+
+        // Create new tag or return existing one
+        return $this->validOrCreate($tagName, $groupTag);
+    }
+
+    /**
+     * Create a new tag if valid or return existing one
+     *
+     * @param string   $name
+     * @param null|Tag $parent
+     *
+     * @return bool|$this
+     */
+    public function validOrCreate($name, $parent = null)
+    {
+        $group = $parent === null ? true : false;
+        $tag = $this->where('name', '=', $name)->first();
+        if ($tag && $tag->group != $group) {
+            return false;
+        }
+
+        if (!$tag) {
+            $tag = new Tag();
+            $tag->name = $name;
+            $tag->group = $group;
+            if (!is_null($parent)) {
+                $tag->parent_id = $parent->id;
+                $tag->setRelation('parent', $parent);
+            }
+            $tag->save();
+        }
+
+        return $tag;
+    }
+}

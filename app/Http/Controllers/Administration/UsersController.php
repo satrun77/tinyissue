@@ -11,11 +11,11 @@
 
 namespace Tinyissue\Http\Controllers\Administration;
 
-use Tinyissue\Http\Controllers\Controller;
-use Tinyissue\Model\User;
-use Tinyissue\Model\Role;
-use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Form\User as Form;
+use Tinyissue\Http\Controllers\Controller;
+use Tinyissue\Http\Requests\FormRequest;
+use Tinyissue\Model\Role;
+use Tinyissue\Model\User;
 
 /**
  * UsersController is the controller class for managing administration request related to users
@@ -27,13 +27,15 @@ class UsersController extends Controller
     /**
      * Users index page (List current users)
      *
+     * @param Role $role
+     *
      * @return \Illuminate\View\View
      */
-    public function getIndex()
+    public function getIndex(Role $role)
     {
         return view('administration.users.index', [
-            'projects'         => $this->auth->user()->projects()->get(),
-            'roles' => Role::with('users')->orderBy('id', 'DESC')->get(),
+            'projects' => $this->auth->user()->projects()->get(),
+            'roles'    => $role->rolesWithUsers(),
         ]);
     }
 

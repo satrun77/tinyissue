@@ -58,12 +58,7 @@ class FilterIssue extends FormAbstract
     public function fields()
     {
         // Prefix tag groups with "tag:"
-        $tagGroups = Model\Tag::where('group', '=', 1)->get()->map(function ($group) {
-            $group->keyname = 'tag:' . $group->id;
-            $group->name = ucwords($group->name);
-
-            return $group;
-        })->lists('name', 'keyname');
+        $tagGroups = (new Model\Tag())->groupsDropdown();
 
         // Array of sort optins
         $sort = ['updated' => trans('tinyissue.updated')] + $tagGroups;
@@ -73,14 +68,7 @@ class FilterIssue extends FormAbstract
 
         // On submit, generate list of selected tags to populate the field
         if (Request::has('tags')) {
-            $tagIds = array_map('trim', explode(',', Request::input('tags')));
-            $selectTags = Model\Tag::whereIn('id', $tagIds)->get()->map(function (Model\Tag $tag) {
-                return [
-                    'value'   => $tag->id,
-                    'label'   => $tag->fullname,
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toJson();
+            $selectTags = (new Model\Tag())->tagsToJson(Request::input('tags'));
         } else {
             $selectTags = '';
         }

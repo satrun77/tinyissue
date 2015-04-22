@@ -12,7 +12,7 @@
 namespace Tinyissue\Model\Role;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query;
+use Tinyissue\Model\Traits\Role\Permission\RelationTrait;
 
 /**
  * Permission is model class for role permissions
@@ -21,22 +21,21 @@ use Illuminate\Database\Query;
  *
  * @property int $role_id
  * @property int $permission_id
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Permission extends Model
 {
-    protected $table = 'roles_permissions';
-    protected $permission = [];
-    public $timestamps = false;
+    use RelationTrait;
 
     /**
-     * Returns the permission for a role
+     * Timestamp enabled
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @var bool
      */
-    public function permission()
-    {
-        return $this->hasOne('Tinyissue\Model\Permission', 'id', 'permission_id');
-    }
+    public $timestamps = false;
+    /**
+     * Name of database table
+     *
+     * @var string
+     */
+    protected $table = 'roles_permissions';
 }

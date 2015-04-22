@@ -12,8 +12,7 @@
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Project as Project;
-use Illuminate\Database\Query;
+use Tinyissue\Model\Traits\Project\User\RelationTrait;
 
 /**
  * User is model class for project users
@@ -23,35 +22,26 @@ use Illuminate\Database\Query;
  * @property int $user_id
  * @property int $project_id
  * @property int $role_id
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class User extends Model
 {
+    use RelationTrait;
+
+    /**
+     * Name of database table
+     *
+     * @var string
+     */
     protected $table = 'projects_users';
+
+    /**
+     * Timestamp enabled
+     *
+     * @var bool
+     */
     protected $fillable = [
         'user_id',
         'project_id',
         'role_id',
     ];
-
-    /**
-     * Returns the instance of the user in the project
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo('User', 'user_id')->orderBy('firstname', 'ASC');
-    }
-
-    /**
-     * Returns the instance of the project
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function project()
-    {
-        return $this->belongsTo('Tinyissue\Model\Project', 'project_id')->orderBy('name', 'ASC');
-    }
 }

@@ -12,7 +12,6 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query;
 
 /**
  * Role is model class for roles
@@ -23,52 +22,23 @@ use Illuminate\Database\Query;
  * @property string $name
  * @property string $role
  * @property string $description
- *
- * @method   array  lists()
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  */
 class Role extends Model
 {
-    protected $table = 'roles';
+    use Traits\Role\QueryTrait,
+        Traits\Role\RelationTrait;
+
+    /**
+     * Timestamp enabled
+     *
+     * @var bool
+     */
     public $timestamps = false;
 
     /**
-     * Drop down of all roles
+     * Name of database table
      *
-     * @return array
+     * @var string
      */
-    public static function dropdown()
-    {
-        return static::lists('name', 'id');
-    }
-
-    /**
-     * Role has many users (One-many relationship of User::role).
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function users()
-    {
-        return $this->hasMany('Tinyissue\Model\User', 'role_id', 'id')->where('deleted', '=', User::NOT_DELETED_USERS)->orderBy('firstname', 'asc');
-    }
-
-    /**
-     * Role has many users in a project_users.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function projectUsers()
-    {
-        return $this->hasMany('Tinyissue\Model\Project\User');
-    }
-
-    /**
-     * Role has many role permission.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function permissions()
-    {
-        return $this->belongsToMany('\Tinyissue\Model\Permission', 'roles_permissions', 'role_id', 'permission_id', 'role_id');
-    }
+    protected $table = 'roles';
 }
