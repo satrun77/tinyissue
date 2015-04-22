@@ -18,6 +18,10 @@ use Maatwebsite\Excel\Files\NewExcelFile;
  * Exporter is class for initialising the exporter, process data, and export the generated file
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * @method $this sheet($sheetID, $callback = null)
+ * @method $this store($ext = 'xls', $path = false, $returnInfo = false)
+ * @method $this setFileName($fileName)
  */
 class Exporter extends NewExcelFile
 {
@@ -52,7 +56,7 @@ class Exporter extends NewExcelFile
      *
      * @param string $key
      *
-     * @return array
+     * @return string|\Illuminate\Database\Eloquent\Model|null
      */
     public function getParams($key = null)
     {

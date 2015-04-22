@@ -92,42 +92,23 @@ class ProjectsController extends Controller
      */
     public function postProgress(Request $request, Project $project)
     {
-        $output = [];
-
         // Get all projects with count of closed and opened issues
-        $projects = $project->with('openIssuesCount', 'closedIssuesCount')
-            ->whereIn('id', $request->input('ids'))->get();
+        $projects = $project->projectsWithCountIssues((array) $request->input('ids'));
 
-        foreach ($projects as $project) {
-            // Calculate the progress
-            $progress = $project->openIssuesCount + $project->closedIssuesCount;
-            $progress = (float) ($project->closedIssuesCount / $progress) * 100;
-            $progressInt = (int) $progress;
-            if ($progressInt > 0) {
-                $progress = number_format($progress, 2);
-                $fraction = $progress - $progressInt;
-                if ($fraction === 0.0) {
-                    $progress = $progressInt;
-                }
-            }
+        // The project progress Html and value
+        $progress = $projects->transform(function (Project $project) {
+            $progress = $project->getProgress();
+            $view = view('partials/progress', ['text' => $progress . '%', 'progress' => $progress])->render();
 
-            // Choose color based on the progress
-            $color = 'success';
-            if ($progressInt < 50) {
-                $color = 'danger';
-            } elseif ($progressInt >= 50 && $progressInt < 60) {
-                $color = 'warning';
-            }
-
-            // The project progress Html and value
-            $output[$project->id] = [
-                'html'  => '<div class="progress">'
-                    . '<div class="progress-bar progress-bar-' . $color . '" role="progressbar" aria-valuenow="' . $progress . '" aria-valuemin="0" aria-valuemax="100">' . $progress . '%</div>'
-                    . '</div>',
-                'value' => $progress,
+            return [
+                'id'       => $project->id,
+                'progress' => [
+                    'html'  => $view,
+                    'value' => $progress,
+                ],
             ];
-        }
+        })->lists('progress', 'id');
 
-        return response()->json(['status' => true, 'progress' => $output]);
+        return response()->json(['status' => true, 'progress' => $progress]);
     }
 }

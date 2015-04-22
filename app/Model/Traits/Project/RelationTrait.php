@@ -55,6 +55,18 @@ trait RelationTrait
     }
 
     /**
+     * Return a user that is member of a project
+     *
+     * @param int $userId
+     *
+     * @return Eloquent\Relations\BelongsToMany
+     */
+    public function user($userId)
+    {
+        return $this->users()->where('user_id', '=', (int) $userId);
+    }
+
+    /**
      * Project has many project users
      *
      * @return Eloquent\Relations\HasMany

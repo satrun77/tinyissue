@@ -31,7 +31,8 @@ class Tag extends Model
     use Traits\Tag\CrudTrait,
         Traits\Tag\QueryTrait,
         Traits\Tag\RelationTrait,
-        Traits\Tag\CountTrait;
+        Traits\Tag\CountTrait,
+        Traits\Tag\DataMappingTrait;
 
     /**
      * Core tag: Open

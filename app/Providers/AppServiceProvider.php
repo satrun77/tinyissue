@@ -40,7 +40,7 @@ class AppServiceProvider extends ServiceProvider
                 'Illuminate\Contracts\Auth\Registrar', 'Tinyissue\Services\Registrar'
         );
 
-        $this->app['artisan.tinyissue.install'] = $this->app->share(function ($app) {
+        $this->app['artisan.tinyissue.install'] = $this->app->share(function () {
             return new \Tinyissue\Console\Commands\Install();
         });
 

@@ -51,10 +51,10 @@ class Authenticate
     {
         if ($this->auth->guest()) {
             if ($request->ajax()) {
-                return abort(401);
-            } else {
-                return redirect()->guest('/');
+                abort(401);
             }
+
+            return redirect()->guest('/');
         }
 
         return $next($request);

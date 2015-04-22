@@ -54,7 +54,7 @@ class Permission
         // Check if user has the permission
         // & if the user can access the current context (e.g. is one of the project users)
         if (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters())) {
-            return abort(401);
+            abort(401);
         }
 
         return $next($request);

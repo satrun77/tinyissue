@@ -85,22 +85,18 @@ trait QueryTrait
             $ids = array_map('trim', explode(',', $ids));
         }
 
-        return $this->whereIn('id', $ids)->get()->map([$this, 'mapTagDetails'])->toJson();
+        return $this->whereIn('id', $ids)->get()->map([$this, 'tokenFieldCallback'])->toJson();
     }
 
     /**
-     * Callback function to return tag details
+     * Return tag by name
      *
-     * @param Tag $tag
+     * @param string $name
      *
-     * @return array
+     * @return static
      */
-    public function mapTagDetails(Tag $tag)
+    public function getTagByName($name)
     {
-        return [
-            'value'   => $tag->id,
-            'label'   => $tag->fullname,
-            'bgcolor' => $tag->bgcolor,
-        ];
+        return static::where('name', '=', $name)->first();
     }
 }

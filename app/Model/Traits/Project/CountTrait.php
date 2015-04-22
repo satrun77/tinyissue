@@ -122,4 +122,19 @@ trait CountTrait
             ->where('status', '=', Project\Issue::STATUS_OPEN)
             ->groupBy('project_id');
     }
+
+    /**
+     * Return projects with count of open & closed issues
+     *
+     * @param array $projectIds
+     *
+     * @return Eloquent\Collection
+     */
+    public function projectsWithCountIssues(array $projectIds)
+    {
+        return $this
+            ->with('openIssuesCount', 'closedIssuesCount')
+            ->whereIn('id', $projectIds)
+            ->get();
+    }
 }

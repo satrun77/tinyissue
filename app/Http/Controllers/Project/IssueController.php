@@ -36,11 +36,10 @@ class IssueController extends Controller
      * @param Project     $project
      * @param Issue       $issue
      * @param CommentForm $form
-     * @param Request     $request
      *
      * @return \Illuminate\View\View
      */
-    public function getIndex(Project $project, Issue $issue, CommentForm $form, Request $request)
+    public function getIndex(Project $project, Issue $issue, CommentForm $form)
     {
         $issue->attachments->each(function (Attachment $attachment) use ($issue) {
             $attachment->setRelation('issue', $issue);
@@ -250,7 +249,7 @@ class IssueController extends Controller
     {
         try {
             if (!$this->auth->user()->permission('project-all')) {
-                return abort(404);
+                abort(404);
             }
 
             $attachment->upload($request->all(), $project, $this->auth->user());

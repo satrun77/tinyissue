@@ -87,7 +87,7 @@ trait CrudTrait
      *
      * @param array $info
      *
-     * @return array
+     * @return Eloquent\Model
      */
     public function updateSetting(array $info)
     {
@@ -107,7 +107,7 @@ trait CrudTrait
      *
      * @param array $info
      *
-     * @return bool|int
+     * @return Eloquent\Model
      */
     public function updateUser(array $info = [])
     {

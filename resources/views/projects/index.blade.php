@@ -18,14 +18,14 @@ active
     [
         'url' => URL::to('projects'),
         'page' => 'active',
-        'count' => $active_count,
+        'prefix' => $active_count,
     ],
     [
         'url' => URL::to('projects') . '/0',
         'page' => 'archived',
-        'count' => $archived_count
+        'prefix' => $archived_count
     ],
-], $active, 'project') !!}
+], $active) !!}
 
 <div class="inside-tabs">
 {!! Html::startBox() !!}

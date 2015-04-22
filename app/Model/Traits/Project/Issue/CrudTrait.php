@@ -14,11 +14,9 @@ namespace Tinyissue\Model\Traits\Project\Issue;
 use Illuminate\Database\Eloquent;
 use Tinyissue\Model;
 use Tinyissue\Model\Activity;
-use Tinyissue\Model\Tag;
-use Tinyissue\Model\User;
 use Tinyissue\Model\Project;
-use Illuminate\Support\Collection;
 use Tinyissue\Model\Project\Issue\Attachment;
+use Tinyissue\Model\User;
 
 /**
  * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue model
@@ -37,9 +35,9 @@ use Tinyissue\Model\Project\Issue\Attachment;
  * @property int              status
  * @property int              $updated_at
  * @property int              $updated_by
- * @property Model\Project    $project
- * @property Model\User       $user
- * @property Model\User       $updatedBy
+ * @property Project          $project
+ * @property User             $user
+ * @property User             $updatedBy
  *
  * @method   Eloquent\Model   save()
  * @method   Eloquent\Model   fill(array $attributes)
@@ -54,7 +52,7 @@ trait CrudTrait
      *
      * @param int $userId
      *
-     * @return bool
+     * @return Eloquent\Model
      */
     public function changeUpdatedBy($userId)
     {
@@ -68,10 +66,10 @@ trait CrudTrait
     /**
      * Reassign the issue to a new user
      *
-     * @param int|Model\User $assignTo
-     * @param int|Model\User $user
+     * @param int|User $assignTo
+     * @param int|User $user
      *
-     * @return $this
+     * @return Eloquent\Model
      */
     public function reassign($assignTo, $user)
     {
@@ -89,59 +87,11 @@ trait CrudTrait
     }
 
     /**
-     * Change the status of an issue
-     *
-     * @param int $status
-     * @param int $userId
-     *
-     * @return bool
-     */
-    public function changeStatus($status, $userId)
-    {
-        if ($status == 0) {
-            $time = new \DateTime();
-            $this->closed_by = $userId;
-            $this->closed_at = $time->format('Y-m-d H:i:s');
-
-            $activityType = Activity::TYPE_CLOSE_ISSUE;
-            $addTagName = Tag::STATUS_CLOSED;
-
-            // Remove all tags of type status
-            $statusGroup = Tag::where('name', '=', Tag::GROUP_STATUS)->first();
-            $ids = $this->tags()->where('parent_id', '!=', $statusGroup->id)->getRelatedIds();
-        } else {
-            $activityType = Activity::TYPE_REOPEN_ISSUE;
-            $removeTag = Tag::STATUS_CLOSED;
-            $addTagName = Tag::STATUS_OPEN;
-            $ids = $this->tags()->where('name', '!=', $removeTag)->getRelatedIds();
-        }
-
-        $addTag = $this->tags()->where('name', '=', $addTagName)->first();
-        if (!$addTag) {
-            $addTag = Tag::where('name', '=', $addTagName)->first();
-        }
-
-        $ids[] = $addTag->id;
-        $this->tags()->sync(array_unique($ids));
-
-        /* Add to activity log */
-        $this->activities()->save(new User\Activity([
-            'type_id'   => $activityType,
-            'parent_id' => $this->project->id,
-            'user_id'   => $userId,
-        ]));
-
-        $this->status = $status;
-
-        return $this->save();
-    }
-
-    /**
      * Update the given issue.
      *
      * @param array $input
      *
-     * @return bool
+     * @return Eloquent\Model
      */
     public function updateIssue(array $input)
     {
@@ -175,127 +125,11 @@ trait CrudTrait
     }
 
     /**
-     * Create new tags from a string "group:tag_name" and fetch tag from a tag id.
-     *
-     * @param array $tags
-     * @param bool  $isAdmin
-     *
-     * @return Collection
-     */
-    protected function createTags(array $tags, $isAdmin = false)
-    {
-        $newTags = new Collection($tags);
-
-        // Transform the user input tags into tag objects
-        $newTags->transform(function ($tagNameOrId) use ($isAdmin) {
-            if (strpos($tagNameOrId, ':') !== false && $isAdmin) {
-                return (new Tag())->createTagFromString($tagNameOrId);
-            } else {
-                return Tag::find($tagNameOrId);
-            }
-        });
-
-        // Filter out invalid tags entered by the user
-        $newTags = $newTags->filter(function ($tag) {
-            return $tag instanceof Tag;
-        });
-
-        return $newTags;
-    }
-
-    /**
-     * Sync the issue tags
-     *
-     * @param Collection $tags
-     * @param Collection $currentTags
-     *
-     * @return bool
-     */
-    public function syncTags(Collection $tags, Collection $currentTags = null)
-    {
-        $removedTags = [];
-        if (null === $currentTags) {
-            $openTag = Tag::where('name', '=', Tag::STATUS_OPEN)->first();
-
-            $addedTags = $tags->filter(function (Tag $tag) {
-                return $tag->name !== Tag::STATUS_OPEN;
-            })->map(function (Tag $tag) {
-                return [
-                    'id'      => $tag->id,
-                    'name'    => $tag->fullname,
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toArray();
-        } else {
-            $openTag = $currentTags->first(function ($index, Tag $tag) {
-                return $tag->name === Tag::STATUS_OPEN;
-            });
-
-            $removedTags = $currentTags->diff($tags)->filter(function (Tag $tag) {
-                return $tag->name !== Tag::STATUS_OPEN;
-            })->map(function (Tag $tag) {
-                return [
-                    'id'      => $tag->id,
-                    'name'    => $tag->fullname,
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toArray();
-
-            // Check if we are adding new tags
-            $addedTags = $tags->filter(function (Tag $tag) use ($currentTags) {
-                // Ignore open tag
-                if ($tag->name === Tag::STATUS_OPEN) {
-                    return false;
-                }
-
-                // Get new added tags that are not currently linked to the issue
-                $currentTag = $currentTags->first(function ($index, Tag $currentTag) use ($tag) {
-                    return $currentTag->id === $tag->id;
-                }, false);
-
-                return $currentTag === false;
-            })->map(function (Tag $tag) {
-                return [
-                    'id'      => $tag->id,
-                    'name'    => $tag->fullname,
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toArray();
-
-            // No new tags to add or remove
-            if (empty($removedTags) && empty($addedTags)) {
-                return true;
-            }
-        }
-
-        // Make sure open status exists
-        $tags->put($openTag->id, $openTag);
-
-        // Save relation
-        $this->tags()->sync($tags->map(function (Tag $tag) {
-            return $tag->id;
-        })->toArray());
-
-        // Activity is added when new issue create with tags or updated with tags excluding the open status tag
-        if (!empty($removedTags) || !empty($addedTags)) {
-            // Add to activity log for tags if changed
-            $this->activities()->save(new User\Activity([
-                'type_id'   => Activity::TYPE_ISSUE_TAG,
-                'parent_id' => $this->project->id,
-                'user_id'   => $this->user->id,
-                'data'      => ['added_tags' => $addedTags, 'removed_tags' => $removedTags],
-            ]));
-        }
-
-        return true;
-    }
-
-    /**
      * Create a new issue.
      *
      * @param array $input
      *
-     * @return Project\Issue
+     * @return CrudTrait
      */
     public function createIssue(array $input)
     {

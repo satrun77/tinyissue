@@ -49,7 +49,7 @@ class UsersController extends Controller
     public function getAdd(Form $form)
     {
         return view('administration.users.add', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
@@ -67,7 +67,7 @@ class UsersController extends Controller
         $user->createUser($request->all());
 
         return redirect('administration/users')
-                        ->with('notice', trans('tinyissue.user_added'));
+            ->with('notice', trans('tinyissue.user_added'));
     }
 
     /**
@@ -81,8 +81,8 @@ class UsersController extends Controller
     public function getEdit(User $user, Form $form)
     {
         return view('administration.users.edit', [
-            'user' => $user,
-            'form' => $form,
+            'user'     => $user,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
@@ -100,7 +100,7 @@ class UsersController extends Controller
         $user->updateUser($request->all());
 
         return redirect('administration/users')
-                        ->with('notice', trans('tinyissue.user_updated'));
+            ->with('notice', trans('tinyissue.user_updated'));
     }
 
     /**
@@ -115,6 +115,6 @@ class UsersController extends Controller
         $user->delete();
 
         return redirect('administration/users')
-                        ->with('notice', trans('tinyissue.user_deleted'));
+            ->with('notice', trans('tinyissue.user_deleted'));
     }
 }

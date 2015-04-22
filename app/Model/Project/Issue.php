@@ -16,7 +16,9 @@ use Tinyissue\Model;
 use Tinyissue\Model\Traits\CountAttributeTrait;
 use Tinyissue\Model\Traits\Project\Issue\CountTrait;
 use Tinyissue\Model\Traits\Project\Issue\CrudTrait;
+use Tinyissue\Model\Traits\Project\Issue\CrudTagTrait;
 use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
+use Tinyissue\Model\Traits\Project\Issue\QueryTrait;
 
 /**
  * Issue is model class for project issues
@@ -44,7 +46,9 @@ class Issue extends BaseModel
     use CountAttributeTrait,
         CountTrait,
         CrudTrait,
-        RelationTrait;
+        CrudTagTrait,
+        RelationTrait,
+        QueryTrait;
 
     /**
      * Issue status: Open

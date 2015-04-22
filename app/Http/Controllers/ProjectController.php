@@ -205,7 +205,7 @@ class ProjectController extends Controller
     {
         $status = false;
         if ($request->has('user_id')) {
-            $project->assignUser($request->input('user_id'));
+            $project->assignUser((int) $request->input('user_id'));
             $status = true;
         }
 
@@ -224,7 +224,7 @@ class ProjectController extends Controller
     {
         $status = false;
         if ($request->has('user_id')) {
-            $project->unassignUser($request->input('user_id'));
+            $project->unassignUser((int) $request->input('user_id'));
             $status = true;
         }
 

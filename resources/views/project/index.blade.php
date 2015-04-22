@@ -30,24 +30,24 @@
     [
         'url' => $project->to('issues'),
         'page' => 'open_issue',
-        'count' => $open_issues_count,
+        'prefix' => $open_issues_count,
     ],
     [
         'url' => $project->to('issues') . '/0',
         'page' => 'closed_issue',
-        'count' => $closed_issues_count,
+        'prefix' => $closed_issues_count,
     ],
     [
         'url' => $project->to('assigned'),
         'page' => 'issue_assigned_to_you',
-        'count' => $assigned_issues_count,
+        'prefix' => $assigned_issues_count,
     ],
     [
-    'url' => $project->to('notes'),
-    'page' => 'notes',
-    'count' => $notes_count,
+        'url' => $project->to('notes'),
+        'page' => 'notes',
+        'prefix' => $notes_count,
     ],
-], $active, 'activity') !!}
+], $active) !!}
 
     <div class="inside-tabs {{ $active }}">
 

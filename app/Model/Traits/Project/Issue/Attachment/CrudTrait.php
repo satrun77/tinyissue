@@ -45,7 +45,7 @@ trait CrudTrait
      * @param Project $project
      * @param User    $user
      *
-     * @return bool
+     * @return Eloquent\Model
      */
     public function upload(array $input, Project $project, User $user)
     {

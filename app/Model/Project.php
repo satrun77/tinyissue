@@ -19,10 +19,13 @@ use URL;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int             $id
- * @property string          $name
- * @property int             $status
+ * @property int              $id
+ * @property string           $name
+ * @property int              $status
+ * @property int              $default_assignee
  * @property Project\Issue[]  $issues
+ * @property int              $openIssuesCount
+ * @property int              $closedIssuesCount
  */
 class Project extends Model
 {
@@ -140,5 +143,38 @@ class Project extends Model
         }
 
         return $total;
+    }
+
+    /**
+     * Calculate the progress (open & closed issues)
+     *
+     * @return float|int
+     */
+    public function getProgress()
+    {
+        $total = $this->openIssuesCount + $this->closedIssuesCount;
+        $progress = (float) ($this->closedIssuesCount / $total) * 100;
+        $progressInt = (int) $progress;
+        if ($progressInt > 0) {
+            $progress = number_format($progress, 2);
+            $fraction = $progress - $progressInt;
+            if ($fraction === 0.0) {
+                $progress = $progressInt;
+            }
+        }
+
+        return $progress;
+    }
+
+    /**
+     * Whether or not a user is member of the project
+     *
+     * @param int $userId
+     *
+     * @return bool
+     */
+    public function isMember($userId)
+    {
+        return $this->user($userId)->count() > 0;
     }
 }

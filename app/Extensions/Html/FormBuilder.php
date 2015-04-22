@@ -117,7 +117,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
         $buttons = $form->actions();
         if (!empty($buttons)) {
             $actions = Former::actions()->addClass('form-actions');
-            foreach ($buttons as $name => $options) {
+            foreach ($buttons as $options) {
                 if (is_array($options)) {
                     $actions->{$options['type']}($options['label'], $options);
                 } else {

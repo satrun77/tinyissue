@@ -129,17 +129,17 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return true;
         }
 
-        $project = false;
-        if (!empty($params['project']) && $params['project'] instanceof Project) {
-            $project = $params['project'];
-        }
+        $project = array_get($params, 'project', function () use ($params) {
+            $issue = array_get($params, 'issue');
+            if ($issue instanceof Issue) {
+                return $issue->project;
+            }
 
-        if (!empty($params['issue']) && $params['issue'] instanceof Issue) {
-            $project = $params['issue']->project;
-        }
+            return;
+        });
 
         // Is member of the project
-        if ($project && $project->users()->where('user_id', '=', $this->id)->count() === 0) {
+        if ($project && !$project->isMember($this->id)) {
             return false;
         }
 

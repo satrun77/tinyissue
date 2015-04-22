@@ -83,7 +83,7 @@ trait CrudTrait
     /**
      * Delete a comment and its attachments
      *
-     * @return bool|null
+     * @return Eloquent\Model
      *
      * @throws \Exception
      */
