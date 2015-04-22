@@ -20,6 +20,9 @@ use Tinyissue\Services\Exporter;
  */
 class ExportIssues extends FilterIssue
 {
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -31,6 +34,9 @@ class ExportIssues extends FilterIssue
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $fields = parent::fields();
@@ -59,6 +65,9 @@ class ExportIssues extends FilterIssue
         return $fields;
     }
 
+    /**
+     * @return string
+     */
     public function openType()
     {
         return 'open';

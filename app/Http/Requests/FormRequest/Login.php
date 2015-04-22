@@ -20,8 +20,14 @@ use Tinyissue\Http\Requests\Request;
  */
 class Login extends Request
 {
+    /**
+     * @var string
+     */
     protected $formClassName = 'Tinyissue\Form\Login';
 
+    /**
+     * @return bool
+     */
     public function authorize()
     {
         return true;

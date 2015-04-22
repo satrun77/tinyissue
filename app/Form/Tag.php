@@ -20,6 +20,11 @@ use Tinyissue\Model;
  */
 class Tag extends FormAbstract
 {
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
     public function setup(array $params)
     {
         if (isset($params['tag'])) {
@@ -27,6 +32,9 @@ class Tag extends FormAbstract
         }
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -34,6 +42,9 @@ class Tag extends FormAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $tag = new Model\Tag();
@@ -56,6 +67,9 @@ class Tag extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -66,6 +80,9 @@ class Tag extends FormAbstract
         return $rules;
     }
 
+    /**
+     * @return mixed
+     */
     public function getRedirectUrl()
     {
         if ($this->isEditing()) {

@@ -20,5 +20,8 @@ use Tinyissue\Http\Requests\Request;
  */
 class User extends Request
 {
+    /**
+     * @var string
+     */
     protected $formClassName = 'Tinyissue\Form\User';
 }

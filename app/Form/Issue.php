@@ -27,6 +27,11 @@ class Issue extends FormAbstract
      */
     protected $project;
 
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
     public function setup(array $params)
     {
         $this->project = $params['project'];
@@ -35,6 +40,9 @@ class Issue extends FormAbstract
         }
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -42,6 +50,9 @@ class Issue extends FormAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $issueModify = \Auth::user()->permission('issue-modify');
@@ -134,6 +145,9 @@ class Issue extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -144,6 +158,9 @@ class Issue extends FormAbstract
         return $rules;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         if ($this->isEditing()) {

@@ -28,11 +28,19 @@ class FilterIssue extends FormAbstract
      */
     protected $project;
 
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
     public function setup(array $params)
     {
         $this->project = $params['project'];
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -44,6 +52,9 @@ class FilterIssue extends FormAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         // Prefix tag groups with "tag:"
@@ -116,11 +127,17 @@ class FilterIssue extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         return $this->project->to();
     }
 
+    /**
+     * @return string
+     */
     public function openType()
     {
         return 'inline_open';

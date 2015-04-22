@@ -20,6 +20,9 @@ use Tinyissue\Model\Role;
  */
 class User extends FormAbstract
 {
+    /**
+     * @return array
+     */
     public function actions()
     {
         if ($this->isEditing()) {
@@ -31,6 +34,9 @@ class User extends FormAbstract
         return ['submit' => 'add_user'];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $fields = [
@@ -98,6 +104,9 @@ class User extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -116,6 +125,9 @@ class User extends FormAbstract
         return $rules;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         if ($this->isEditing()) {

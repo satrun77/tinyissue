@@ -69,22 +69,36 @@ abstract class Request extends FormRequest
         return $this->formClassName;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         return $this->getForm()->rules();
     }
 
+    /**
+     * @return bool
+     */
     public function authorize()
     {
         // Only allow logged in users
         return \Auth::check();
     }
 
+    /**
+     * @param array $errors
+     *
+     * @return mixed
+     */
     public function response(array $errors)
     {
         return parent::response($errors)->with('notice-error', trans('tinyissue.we_have_some_errors'));
     }
 
+    /**
+     * @return string
+     */
     protected function getRedirectUrl()
     {
         return $this->getForm()->getRedirectUrl();

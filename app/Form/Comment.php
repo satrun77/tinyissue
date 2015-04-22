@@ -31,12 +31,20 @@ class Comment extends FormAbstract
      */
     protected $issue;
 
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
     public function setup(array $params)
     {
         $this->project = $params['project'];
         $this->issue = $params['issue'];
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -44,6 +52,9 @@ class Comment extends FormAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $fields = [
@@ -70,6 +81,9 @@ class Comment extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -79,6 +93,9 @@ class Comment extends FormAbstract
         return $rules;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         return $this->issue->to();

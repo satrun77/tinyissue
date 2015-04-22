@@ -22,6 +22,11 @@ use Tinyissue\Services\Exporter;
  */
 class CsvHandler
 {
+    /**
+     * CSV columns
+     *
+     * @var array
+     */
     protected $columns = [
         'tinyissue.id'            => 'id',
         'tinyissue.project'       => 'project',
@@ -33,6 +38,11 @@ class CsvHandler
         'tinyissue.status'        => 'status',
     ];
 
+    /**
+     * @param Exporter $exporter
+     *
+     * @return void
+     */
     public function handle(Exporter $exporter)
     {
         /** @var Project $project */

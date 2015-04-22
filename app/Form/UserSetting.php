@@ -20,11 +20,17 @@ use Illuminate\Contracts\Auth\Guard;
  */
 class UserSetting extends User
 {
+    /**
+     * @param Guard $model
+     */
     public function __construct(Guard $model)
     {
         $this->editingModel($model->user());
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -32,6 +38,9 @@ class UserSetting extends User
         ];
     }
 
+    /**
+     * @return array
+     */
     protected function innerFields()
     {
         $fields = [
@@ -46,6 +55,9 @@ class UserSetting extends User
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = parent::rules();

@@ -20,6 +20,9 @@ use Tinyissue\Model\Project as ProjectModel;
  */
 class Project extends FormAbstract
 {
+    /**
+     * @return array
+     */
     public function actions()
     {
         if ($this->isEditing()) {
@@ -40,6 +43,9 @@ class Project extends FormAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $fields = [
@@ -78,6 +84,9 @@ class Project extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -88,6 +97,9 @@ class Project extends FormAbstract
         return $rules;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         if ($this->isEditing()) {

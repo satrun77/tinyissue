@@ -18,6 +18,9 @@ namespace Tinyissue\Form;
  */
 class Login extends FormAbstract
 {
+    /**
+     * @return array
+     */
     public function fields()
     {
         $fields = [
@@ -53,6 +56,9 @@ class Login extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [

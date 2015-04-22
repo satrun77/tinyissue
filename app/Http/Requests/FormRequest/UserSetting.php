@@ -18,8 +18,14 @@ namespace Tinyissue\Http\Requests\FormRequest;
  */
 class UserSetting extends User
 {
+    /**
+     * @var string
+     */
     protected $formClassName = 'Tinyissue\Form\UserSetting';
 
+    /**
+     * @return string
+     */
     protected function getRedirectUrl()
     {
         return 'user/settings';

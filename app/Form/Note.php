@@ -25,11 +25,19 @@ class Note extends FormAbstract
      */
     protected $project;
 
+    /**
+     * @param array $params
+     *
+     * @return void
+     */
     public function setup(array $params)
     {
         $this->project = $params['project'];
     }
 
+    /**
+     * @return array
+     */
     public function actions()
     {
         return [
@@ -37,6 +45,9 @@ class Note extends FormAbstract
         ];
     }
 
+    /**
+     * @return array
+     */
     public function fields()
     {
         $fields = [
@@ -49,6 +60,9 @@ class Note extends FormAbstract
         return $fields;
     }
 
+    /**
+     * @return array
+     */
     public function rules()
     {
         $rules = [
@@ -58,6 +72,9 @@ class Note extends FormAbstract
         return $rules;
     }
 
+    /**
+     * @return string
+     */
     public function getRedirectUrl()
     {
         return $this->project->to('notes');
