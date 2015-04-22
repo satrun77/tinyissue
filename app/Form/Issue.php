@@ -102,18 +102,8 @@ class Issue extends FormAbstract
 
         // Only on creating new issue
         if (!$this->isEditing()) {
-            $fields['upload'] = [
-                'type'  => 'FileUpload',
-                'label' => 'attachments',
-                'data_message_success' => trans('tinyissue.success_upload'),
-                'data_message_failed' => trans('tinyissue.error_uploadfailed'),
-                'multiple' => null,
-            ];
-
-            $fields['upload_token'] = [
-                'type'  => 'hidden',
-                'value' => md5($this->project->id . time() . \Auth::user()->id . rand(1, 100)),
-            ];
+            $fields += $this->projectUploadFields('upload', $this->project, \Auth::user());
+            $fields['upload']['label'] = 'attachments';
         }
 
         // User with modify issue permission can add quote
