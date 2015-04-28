@@ -1,5 +1,11 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.1.0
+
+- Feature: Export project issues to CSV or XLS file
+- Code quality changes
+- Bug fixes
+
 ## Tiny Issue v2.0.0
 
 - Migrate to Laravel 5
