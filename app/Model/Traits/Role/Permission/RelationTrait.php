@@ -11,21 +11,21 @@
 
 namespace Tinyissue\Model\Traits\Role\Permission;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 
 /**
  * RelationTrait is trait class containing the relationship method for the Role\Permission model
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
+ * @method Relations\HasOne hasOne($related, $foreignKey = null, $localKey = null)
  */
 trait RelationTrait
 {
     /**
      * Returns the permission for a role
      *
-     * @return Eloquent\Relations\HasOne
+     * @return Relations\HasOne
      */
     public function permission()
     {

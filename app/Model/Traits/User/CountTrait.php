@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Traits\User;
 
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
@@ -19,9 +20,9 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method   User permission($key)
- * @method   RelationTrait projects($status = Project::STATUS_OPEN)
- * @method   RelationTrait issues()
+ * @method bool              permission($key)
+ * @method Relations\HasMany projects($status = Project::STATUS_OPEN)
+ * @method Relations\HasMany issues()
  */
 trait CountTrait
 {

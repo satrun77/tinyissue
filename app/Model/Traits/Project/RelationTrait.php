@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\Project;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
@@ -19,15 +19,15 @@ use Tinyissue\Model\Project;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\HasMany       hasMany($related, $foreignKey = null, $localKey = null)
+ * @method Relations\BelongsToMany belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * Returns all issues related to project.
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function issues()
     {
@@ -37,7 +37,7 @@ trait RelationTrait
     /**
      * Returns issues in the project with user details eager loaded
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function issuesByUser()
     {
@@ -47,7 +47,7 @@ trait RelationTrait
     /**
      * Returns all users assigned in the current project.
      *
-     * @return Eloquent\Relations\BelongsToMany
+     * @return Relations\BelongsToMany
      */
     public function users()
     {
@@ -59,7 +59,7 @@ trait RelationTrait
      *
      * @param int $userId
      *
-     * @return Eloquent\Relations\BelongsToMany
+     * @return Relations\BelongsToMany
      */
     public function user($userId)
     {
@@ -69,7 +69,7 @@ trait RelationTrait
     /**
      * Project has many project users
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function projectUsers()
     {
@@ -79,7 +79,7 @@ trait RelationTrait
     /**
      * Returns project activities
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function activities()
     {
@@ -89,7 +89,7 @@ trait RelationTrait
     /**
      * Returns notes in the project
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function notes()
     {

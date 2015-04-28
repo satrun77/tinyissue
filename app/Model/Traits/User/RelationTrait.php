@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\User;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
@@ -19,17 +19,16 @@ use Tinyissue\Model\Project;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
+ * @method Relations\HasMany       hasMany($related, $foreignKey = null, $localKey = null)
+ * @method Relations\BelongsToMany belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\BelongsTo     belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * A user has one role (inverse relationship of Role::users).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function role()
     {
@@ -39,7 +38,7 @@ trait RelationTrait
     /**
      * User has many comments (One-many relationship of Comment::user).
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function comments()
     {
@@ -49,7 +48,7 @@ trait RelationTrait
     /**
      * Returns issues created by the user
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function issuesCreatedBy()
     {
@@ -59,7 +58,7 @@ trait RelationTrait
     /**
      * Returns issues closed by the user
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function issuesClosedBy()
     {
@@ -69,7 +68,7 @@ trait RelationTrait
     /**
      * Returns issues updated by the user
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function issuesUpdatedBy()
     {
@@ -79,7 +78,7 @@ trait RelationTrait
     /**
      * User has many attachments (One-many relationship of Attachment::user).
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function attachments()
     {
@@ -91,7 +90,7 @@ trait RelationTrait
      *
      * @param int $status
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function projects($status = Project::STATUS_OPEN)
     {
@@ -104,7 +103,7 @@ trait RelationTrait
     /**
      * User has many issues assigned to (One-many relationship of Issue::assigned).
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function issues()
     {
@@ -114,7 +113,7 @@ trait RelationTrait
     /**
      * Returns all permission for the user
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function permissions()
     {

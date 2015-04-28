@@ -22,19 +22,19 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
- * @property int           $uploaded_by
- * @property int           $issue_id
- * @property int           $comment_id
- * @property string        $filename
- * @property string        $fileextension
- * @property int           $filesize
- * @property string        $upload_token
- * @property Project\Issue $issue
+ * @property int                $id
+ * @property int                $uploaded_by
+ * @property int                $issue_id
+ * @property int                $comment_id
+ * @property string             $filename
+ * @property string             $fileextension
+ * @property int                $filesize
+ * @property string             $upload_token
+ * @property Project\Issue      $issue
  *
- * @method   Eloquent\Model   save()
- * @method   Eloquent\Model   delete()
- * @method   Eloquent\Model   where()
+ * @method   Eloquent\Model     save()
+ * @method   Eloquent\Model     delete()
+ * @method   Eloquent\Model     where()
  */
 trait CrudTrait
 {

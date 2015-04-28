@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Traits\Project;
 
 use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
@@ -23,17 +24,17 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
+ * @property int                 $id
  *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
- * @method   Query\Builder join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
- * @method   RelationTrait users()
- * @method   RelationTrait issues()
- * @method   FilterTrait   filterAssignTo(Query\Builder $query, $userId)
- * @method   FilterTrait   filterTitleOrBody(Query\Builder $query, $keyword)
- * @method   FilterTrait   filterTags(Eloquent\Builder $query, array $tags)
- * @method   SortTrait     sortByUpdated(Query\Builder $query, $order = 'asc')
- * @method   SortTrait     sortByTag(Query\Builder $query, $tagGroup, $order = 'asc')
+ * @method   Eloquent\Model      where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method   Query\Builder       join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
+ * @method   Relations\HasMany   users()
+ * @method   Relations\HasMany   issues()
+ * @method   void                filterAssignTo(Query\Builder $query, $userId)
+ * @method   void                filterTitleOrBody(Query\Builder $query, $keyword)
+ * @method   void                filterTags(Eloquent\Builder $query, array $tags)
+ * @method   void                sortByUpdated(Query\Builder $query, $order = 'asc')
+ * @method   Eloquent\Collection sortByTag(Query\Builder $query, $tagGroup, $order = 'asc')
  */
 trait QueryTrait
 {

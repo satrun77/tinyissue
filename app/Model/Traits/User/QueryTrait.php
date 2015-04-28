@@ -23,8 +23,8 @@ use Tinyissue\Model\Project;
  * @property int                 $id
  * @property Eloquent\Collection $permission
  *
- * @method   RelationTrait projects($status = Project::STATUS_OPEN)
- * @method   RelationTrait permissions()
+ * @method   Relations\HasMany projects($status = Project::STATUS_OPEN)
+ * @method   Relations\HasMany permissions()
  */
 trait QueryTrait
 {

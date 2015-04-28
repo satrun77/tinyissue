@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\Role;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\User;
 
 /**
@@ -19,16 +19,15 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\HasMany       hasMany($related, $foreignKey = null, $localKey = null)
+ * @method Relations\BelongsToMany belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * Role has many users (One-many relationship of User::role).
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function users()
     {
@@ -41,7 +40,7 @@ trait RelationTrait
     /**
      * Role has many users in a project_users.
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function projectUsers()
     {
@@ -51,7 +50,7 @@ trait RelationTrait
     /**
      * Role has many role permission.
      *
-     * @return Eloquent\Relations\BelongsToMany
+     * @return Relations\BelongsToMany
      */
     public function permissions()
     {

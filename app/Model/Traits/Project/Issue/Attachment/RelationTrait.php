@@ -11,24 +11,21 @@
 
 namespace Tinyissue\Model\Traits\Project\Issue\Attachment;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 
 /**
  * RelationTrait is trait class containing the relationship methods for the Project\Issue\Attachment model
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * An attachment is belong to one issue  (inverse relationship of Project\Issue::attachments)
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function issue()
     {
@@ -38,7 +35,7 @@ trait RelationTrait
     /**
      * An attachment has one user upladed to (inverse relationship of User::attachments).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function user()
     {
@@ -48,7 +45,7 @@ trait RelationTrait
     /**
      * An attachment can belong to a comment (inverse relationship of Comments::attachments).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function comment()
     {

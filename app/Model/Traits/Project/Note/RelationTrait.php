@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\Project\Note;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
@@ -19,15 +19,15 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\HasOne    hasOne($related, $foreignKey = null, $localKey = null)
  */
 trait RelationTrait
 {
     /**
      * Note created by a user
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function createdBy()
     {
@@ -37,7 +37,7 @@ trait RelationTrait
     /**
      * Note belong to a project
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function project()
     {
@@ -47,7 +47,7 @@ trait RelationTrait
     /**
      * Note has a user activity record
      *
-     * @return Eloquent\Relations\HasOne
+     * @return Relations\HasOne
      */
     public function activity()
     {

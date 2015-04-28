@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\User\Activity;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
@@ -19,17 +19,14 @@ use Tinyissue\Model\Project;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
+ * @method Relations\BelongsTo     belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * Returns the project issue this activity is belongs to by the item_id, which can hold the issue id
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function issue()
     {
@@ -39,7 +36,7 @@ trait RelationTrait
     /**
      * Returns the user this activity is belongs to
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function user()
     {
@@ -49,7 +46,7 @@ trait RelationTrait
     /**
      * Returns the user that was assigned to the issue. Only for reassign activity
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function assignTo()
     {
@@ -59,7 +56,7 @@ trait RelationTrait
     /**
      * User activity has one activity type
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function activity()
     {
@@ -69,7 +66,7 @@ trait RelationTrait
     /**
      * Returns the comment this activity belongs to if any
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function comment()
     {
@@ -79,7 +76,7 @@ trait RelationTrait
     /**
      * Returns the project his activity belongs to
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function project()
     {
@@ -89,7 +86,7 @@ trait RelationTrait
     /**
      * Returns the note this activity belongs to if any
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function note()
     {

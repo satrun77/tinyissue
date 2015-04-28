@@ -21,7 +21,7 @@ use Tinyissue\Model\Project;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int   $id
+ * @property int           $id
  *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  * @method   Query\Builder join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)

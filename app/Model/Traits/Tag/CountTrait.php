@@ -11,14 +11,14 @@
 
 namespace Tinyissue\Model\Traits\Tag;
 
-use Illuminate\Database\Query;
+use Illuminate\Database\Eloquent;
 
 /**
  * CountTrait is trait class containing the methods for counting database records for the Tag model
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
+ * @method Eloquent\Model where($column, $operator = null, $value = null, $boolean = 'and')
  */
 trait CountTrait
 {

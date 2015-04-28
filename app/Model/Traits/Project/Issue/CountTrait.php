@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\Project\Issue;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
@@ -25,16 +25,14 @@ use Tinyissue\Model;
  * @property Model\Project      $project
  * @property Model\User         $createdBy
  *
- * @method   Eloquent\Model     belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method   Eloquent\Model     save()
- * @method   Model\Project\Note activity()
+ * @method Relations\HasOne     hasOne($related, $foreignKey = null, $localKey = null)
  */
 trait CountTrait
 {
     /**
      * Count number of comments in an issue
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return Relations\HasOne
      */
     public function countComments()
     {

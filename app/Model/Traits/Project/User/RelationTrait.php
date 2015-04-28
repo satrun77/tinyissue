@@ -11,21 +11,21 @@
 
 namespace Tinyissue\Model\Traits\Project\User;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 
 /**
  * RelationTrait is trait class containing the relationship methods for the Project\User model
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * Returns the instance of the user in the project
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function user()
     {
@@ -35,7 +35,7 @@ trait RelationTrait
     /**
      * Returns the instance of the project
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function project()
     {

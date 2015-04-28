@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Traits\Project\Note;
 
 use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
@@ -19,15 +20,15 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                $project_id
- * @property int                $created_by
- * @property string             $body
- * @property Model\Project      $project
- * @property Model\User         $createdBy
+ * @property int                  $project_id
+ * @property int                  $created_by
+ * @property string               $body
+ * @property Model\Project        $project
+ * @property Model\User           $createdBy
  *
- * @method   Eloquent\Model     belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method   Eloquent\Model     save()
- * @method   Model\Project\Note activity()
+ * @method   Relations\BelongsTo  belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method   Eloquent\Model       save()
+ * @method   Relations\HasOne     activity()
  */
 trait CrudTrait
 {

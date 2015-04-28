@@ -11,24 +11,23 @@
 
 namespace Tinyissue\Model\Traits\Project\Issue\Comment;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 
 /**
  * RelationTrait is trait class containing the relationship methods for the Project\Issue\Comment model
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\HasMany   hasMany($related, $foreignKey = null, $localKey = null)
+ * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\HasOne    hasOne($related, $foreignKey = null, $localKey = null)
  */
 trait RelationTrait
 {
     /**
      * A comment has one user (inverse relationship of User::comments).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function user()
     {
@@ -38,7 +37,7 @@ trait RelationTrait
     /**
      * Comment can have many attachments
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function attachments()
     {
@@ -48,7 +47,7 @@ trait RelationTrait
     /**
      * Comment can have one activity
      *
-     * @return Eloquent\Relations\HasOne
+     * @return Relations\HasOne
      */
     public function activity()
     {

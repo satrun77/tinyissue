@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Model\Traits\Project\Issue;
 
-use Illuminate\Database\Eloquent;
+use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
@@ -19,17 +19,16 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Model hasMany($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
- * @method Eloquent\Model belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Eloquent\Model belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\HasMany       hasMany($related, $foreignKey = null, $localKey = null)
+ * @method Relations\BelongsToMany belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+ * @method Relations\BelongsTo     belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
  */
 trait RelationTrait
 {
     /**
      * An issue has one user assigned to (inverse relationship of User::issues).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function assigned()
     {
@@ -39,7 +38,7 @@ trait RelationTrait
     /**
      * An issue has one user updated by (inverse relationship of User::issuesUpdatedBy).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function updatedBy()
     {
@@ -49,7 +48,7 @@ trait RelationTrait
     /**
      * An issue has one user closed it (inverse relationship of User::issuesClosedBy).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function closer()
     {
@@ -59,7 +58,7 @@ trait RelationTrait
     /**
      * An issue has one user created it (inverse relationship of User::issuesCreatedBy).
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function user()
     {
@@ -69,7 +68,7 @@ trait RelationTrait
     /**
      * Issue belong to a project
      *
-     * @return Eloquent\Relations\BelongsTo
+     * @return Relations\BelongsTo
      */
     public function project()
     {
@@ -79,7 +78,7 @@ trait RelationTrait
     /**
      * Issue can have many attachments
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function attachments()
     {
@@ -92,7 +91,7 @@ trait RelationTrait
     /**
      * Issue have many users activities
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function activities()
     {
@@ -104,7 +103,7 @@ trait RelationTrait
     /**
      * Issue have many tags
      *
-     * @return Eloquent\Relations\BelongsToMany
+     * @return Relations\BelongsToMany
      */
     public function tags()
     {
@@ -114,7 +113,7 @@ trait RelationTrait
     /**
      * Issue have many comments
      *
-     * @return Eloquent\Relations\HasMany
+     * @return Relations\HasMany
      */
     public function comments()
     {
