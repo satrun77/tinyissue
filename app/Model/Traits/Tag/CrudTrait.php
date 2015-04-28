@@ -53,7 +53,7 @@ trait CrudTrait
      *
      * @return bool|$this
      */
-    public function validOrCreate($name, $parent = null)
+    public function validOrCreate($name, Tag $parent = null)
     {
         $group = $parent === null ? true : false;
         $tag = $this->where('name', '=', $name)->first();
