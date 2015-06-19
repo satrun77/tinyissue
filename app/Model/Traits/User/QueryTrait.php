@@ -58,9 +58,12 @@ trait QueryTrait
         return $this
             ->projects($status)
             ->with([
-                'issues' => function (Relations\Relation $query) {
+                'issues' => function (Relations\Relation $query) use ($status) {
                     $query->with('updatedBy');
                     $query->where('assigned_to', '=', $this->id);
+                    if ($status === Project::STATUS_OPEN) {
+                        $query->where('status', '=', Project\Issue::STATUS_OPEN);
+                    }
                 },
                 'issues.user' => function () {},
                 'issues.countComments' => function () {},
