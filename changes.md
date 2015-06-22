@@ -1,5 +1,9 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.1.1
+
+- Bug fixes
+
 ## Tiny Issue v2.1.0
 
 - Feature: Export project issues to CSV or XLS file

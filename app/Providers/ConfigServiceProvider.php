@@ -30,8 +30,8 @@ class ConfigServiceProvider extends ServiceProvider
     public function register()
     {
         config([
-            'tinyissue.release_date' => '28-04-2015',
-            'tinyissue.version'      => '2.1.0',
+            'tinyissue.release_date' => '22-06-2015',
+            'tinyissue.version'      => '2.1.1',
             'tinyissue.uploads_dir'  => env('APP_UPLOAD_DIR', 'uploads'),
         ]);
     }
