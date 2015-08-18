@@ -26,29 +26,35 @@ elixir(function (mix) {
         .less([
             'base.less',
             'app.less',
-            'error.less',
-            'login.less',
             'tokenfield.less'
-        ], 'resources/css')
+        ], 'resources/css/app.css')
+
+        .less([
+            'login.less'
+        ], 'resources/css/login.css')
+
+        .less([
+            'error.less'
+        ], 'resources/css/error.css')
 
         .styles([
             'base.css',
             'tokenfield.css',
             'app.css'
-        ], 'public/css/tiny.css')
+        ], 'public/css/tiny.css', 'resources/css')
 
         .styles([
             'error.css'
-        ], 'public/css/tiny_error.css')
+        ], 'public/css/tiny_error.css', 'resources/css')
 
         .styles([
             'base.css',
             'login.css'
-        ], 'public/css/tiny_login.css')
+        ], 'public/css/tiny_login.css', 'resources/css')
 
-        .scripts(baseJs, 'public/js/tiny.js')
+        .scripts(baseJs, 'public/js/tiny.js', 'resources/js')
 
-        .scripts(baseJs.concat(['project.js']), 'public/js/tiny_project.js')
+        .scripts(baseJs.concat(['project.js']), 'public/js/tiny_project.js', 'resources/js')
 
         .scripts(baseJs.concat([
             'upload/jquery.iframe-transport.js',
@@ -56,9 +62,9 @@ elixir(function (mix) {
             'upload/jquery.fileupload.js',
             'upload/jquery.fileupload-process.js',
             'project.js'
-        ]), 'public/js/tiny_project_issue.js')
+        ]), 'public/js/tiny_project_issue.js', 'resources/js')
 
-        .scripts(baseJs.concat(['project-new.js']), 'public/js/tiny_project_new.js')
+        .scripts(baseJs.concat(['project-new.js']), 'public/js/tiny_project_new.js', 'resources/js')
 
         .version([
             'css/tiny.css',
