@@ -2,6 +2,7 @@
 
 .issue-actions {
   float: right;
+  padding: 0;
 
   li {
     .list-no-style;
@@ -9,14 +10,25 @@
 
   > li {
     float: left;
+    padding: 9px;
+    @media (min-width: 767px) {
+      padding: 0;
+    }
   }
 
   .assigned-to {
     border-right: 1px solid #b4b4b4;
     padding-right: 14px;
-    margin-right: 14px;
     position: relative;
     overflow: visible;
+
+    @media (min-width: 767px) {
+      margin-right: 14px;
+    }
+
+    &.last {
+      border-right: 0 none;
+    }
 
     &:hover .dropdown {
       display: block;

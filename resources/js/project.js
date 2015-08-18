@@ -2,11 +2,13 @@ $(function () {
     'use strict';
 
     Discussion().init({
-        name: 'comment'
+        name: 'comment',
+        selector: '.discussion.comments'
     });
 
     Discussion().init({
-        name: 'note'
+        name: 'note',
+        selector: '.discussion.notes'
     });
 
     // Left column assign users

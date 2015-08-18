@@ -338,7 +338,7 @@ function Discussion() {
         },
         save: function (el) {
             var id = getId(el);
-            var url = $('#' + options.name + id + ' .edit').attr('href');
+            var url = $('#' + options.name + id + ' .edit a').attr('href');
             var textarea = $('#' + options.name + id + ' textarea');
 
             textarea.attr('disabled', 'disabled');
