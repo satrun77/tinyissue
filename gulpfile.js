@@ -18,8 +18,8 @@ elixir(function (mix) {
         'jquery.cookie.js',
         'jquery-ui.js',
         'jquery.tokenfield.js',
+        'slideout.min.js',
         'bootstrap.js',
-        'jquery.mobile.js',
         'app.js'
     ];
     mix
@@ -30,16 +30,16 @@ elixir(function (mix) {
         ], 'resources/css/app.css')
 
         .less([
+            'base.less',
             'login.less'
         ], 'resources/css/login.css')
 
         .less([
+            'base.less',
             'error.less'
         ], 'resources/css/error.css')
 
         .styles([
-            'base.css',
-            'tokenfield.css',
             'app.css'
         ], 'public/css/tiny.css', 'resources/css')
 
@@ -48,7 +48,6 @@ elixir(function (mix) {
         ], 'public/css/tiny_error.css', 'resources/css')
 
         .styles([
-            'base.css',
             'login.css'
         ], 'public/css/tiny_login.css', 'resources/css')
 
