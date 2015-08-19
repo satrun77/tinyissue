@@ -58,7 +58,7 @@
         </nav>
 
         <div class="main row">
-            <div id="sidebar" class="col-sm-3 col-md-2 hidden-xs">
+            <div id="sidebar" class="col-sm-3 col-md-2">
                 <div class="inside">
                     @if (!isset($sidebar))
                         @include('layouts/sidebar/default')

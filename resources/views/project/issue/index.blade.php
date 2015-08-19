@@ -125,11 +125,11 @@ active
         </li>
     </ul>
 
-    <h4>
-        @lang('tinyissue.comment_on_this_issue')
-    </h4>
+    <div class="comment-form-wrap">
+        <h4>@lang('tinyissue.comment_on_this_issue')</h4>
 
-    {!! Form::form($commentForm, ['action'=> $issue->to('add_comment'),'secure'=>null]) !!}
+        {!! Form::form($commentForm, ['action'=> $issue->to('add_comment'),'secure'=>null]) !!}
+    </div>
 </div>
 @endpermission
 

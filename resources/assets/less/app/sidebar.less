@@ -1,18 +1,44 @@
 @import "mixins.less";
 
+@media (max-width: 767px) {
+
+  .slideout-menu {
+    position: fixed;
+    left: 0;
+    top: 50px;
+    bottom: 0;
+    right: 0;
+    z-index: 0;
+    width: 260px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    display: none;
+  }
+
+  .slideout-panel {
+    position: relative;
+    z-index: 1;
+  }
+
+  .slideout-open,
+  .slideout-open body,
+  .slideout-open .slideout-panel {
+    overflow: hidden;
+  }
+
+  .slideout-open .slideout-menu {
+    display: block;
+  }
+}
+
 #sidebar {
   padding: 0;
   background: #ededed;
   border-right: 1px solid #cecece;
   min-width: 240px;
 
-  &.sidebar-mobile {
-    position: fixed;
-    left: -500px;
-    z-index: 9;
-    height: 100%;
-    min-height: 100%;
-    overflow: auto;
+  @media (min-width: 767px) {
+    display: table-cell;
   }
 
   .pad {
@@ -94,7 +120,14 @@
           float: left;
           margin-right: 18px;
           font-size: 14px;
-          padding: 2px 0px;
+          padding: 2px 0;
+          -ms-word-break: break-all;
+          word-break: break-all;
+          // Non standard for webkit
+          word-break: break-word;
+          -webkit-hyphens: auto;
+          -moz-hyphens: auto;
+          hyphens: auto;
         }
       }
     }

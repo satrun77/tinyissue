@@ -10,7 +10,7 @@
 
   > li {
     float: left;
-    padding: 9px;
+    padding: 10px 9px;
     @media (min-width: 767px) {
       padding: 0;
     }
@@ -18,16 +18,12 @@
 
   .assigned-to {
     border-right: 1px solid #b4b4b4;
-    padding-right: 14px;
+    padding: 0 14px;
     position: relative;
     overflow: visible;
 
     @media (min-width: 767px) {
       margin-right: 14px;
-    }
-
-    &.last {
-      border-right: 0 none;
     }
 
     &:hover .dropdown {
@@ -40,10 +36,16 @@
   }
 
   .currently_assigned, .current_project {
-    display: inline-block;
+    display: block;
     background: url('../../images/layout/dropdown-arrow.png') no-repeat right center;
     min-height: 10px;
     padding-right: 19px;
+    margin-top: 5px;
+
+    @media (min-width: 767px) {
+      display: inline-block;
+      margin-top: 0;
+    }
   }
 
   .close-issue {
