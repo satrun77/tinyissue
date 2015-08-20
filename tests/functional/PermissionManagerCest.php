@@ -106,7 +106,8 @@ class PermissionManagerCest
         $I->fillField('comment', 'Comment one');
         $I->click(trans('tinyissue.comment'));
         $I->seeResponseCodeIs(200);
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2]);
+        $comment  = $issue2->comments->last();
+        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2->id . '#comment' . $comment->id]);
         $I->see('Comment one', '.comment .content');
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
         $I->see(trans('tinyissue.comment_on_this_issue'));

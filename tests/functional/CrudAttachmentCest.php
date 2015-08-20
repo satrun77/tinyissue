@@ -88,8 +88,8 @@ class CrudAttachmentCest
             'comment' => $comment,
         ]);
         $I->seeResponseCodeIs(200);
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
+        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->see($comment, '.comment .content');
         $I->seeLink($fileName1);
         $I->seeLink($fileName2);

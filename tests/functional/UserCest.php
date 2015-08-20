@@ -19,10 +19,10 @@ class UserCest
         $I->amLoggedAs($user);
         $I->amOnAction('UserController@getSettings');
         $I->fillField('firstname', 'First');
-        $I->fillField('lastname', 'Last');
-        $I->click('Update');
+//        $I->fillField('lastname', 'Last');
+        $I->click(trans('tinyissue.update'));
         $I->seeInField('firstname', 'First');
-        $I->seeInField('lastname', 'Last');
+//        $I->seeInField('lastname', 'Last');
         $I->seeLink('First', '/user/settings');
     }
 
@@ -43,10 +43,10 @@ class UserCest
         $I->amLoggedAs($user);
         $I->amOnAction('UserController@getSettings');
         $I->fillField('email', 'email');
-        $I->click('Update');
+        $I->click(trans('tinyissue.update'));
         $I->seeFormHasErrors();
         $I->fillField('email', 'email@email.com');
-        $I->click('Update');
+        $I->click(trans('tinyissue.update'));
         $I->seeInField('email', 'email@email.com');
     }
 
@@ -68,11 +68,11 @@ class UserCest
         $I->amOnAction('UserController@getSettings');
         $I->fillField('password', '123');
         $I->fillField('password_confirmation', '1234');
-        $I->click('Update');
+        $I->click(trans('tinyissue.update'));
         $I->seeFormHasErrors();
         $I->fillField('password', 'newpass');
         $I->fillField('password_confirmation', 'newpass');
-        $I->click('Update');
+        $I->click(trans('tinyissue.update'));
         $I->logout();
         $I->login($user->email, 'newpass', $user->firstname);
     }

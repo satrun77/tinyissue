@@ -26,7 +26,8 @@ class CrudIssueCommentCest
         $I->fillField('comment', 'Comment one');
         $I->click(trans('tinyissue.comment'));
         $I->seeResponseCodeIs(200);
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
+        $comment  = $issue->comments->last();
+        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue->id . '#comment' . $comment->id]);
         $I->see('Comment one', '.comment .content');
     }
 
