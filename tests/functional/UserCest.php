@@ -19,10 +19,11 @@ class UserCest
         $I->amLoggedAs($user);
         $I->amOnAction('UserController@getSettings');
         $I->fillField('firstname', 'First');
-//        $I->fillField('lastname', 'Last');
+        $I->fillField('lastname', 'Last');
+        $I->selectOption('language', 'en');
         $I->click(trans('tinyissue.update'));
         $I->seeInField('firstname', 'First');
-//        $I->seeInField('lastname', 'Last');
+        $I->seeInField('lastname', 'Last');
         $I->seeLink('First', '/user/settings');
     }
 
@@ -70,6 +71,7 @@ class UserCest
         $I->fillField('password_confirmation', '1234');
         $I->click(trans('tinyissue.update'));
         $I->seeFormHasErrors();
+        $I->selectOption('language', 'en');
         $I->fillField('password', 'newpass');
         $I->fillField('password_confirmation', 'newpass');
         $I->click(trans('tinyissue.update'));
