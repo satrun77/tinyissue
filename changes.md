@@ -1,5 +1,10 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.1.2
+
+- Bug fixes
+- Responsive fixes
+
 ## Tiny Issue v2.1.1
 
 - Bug fixes
