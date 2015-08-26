@@ -64,7 +64,7 @@ class FilterIssue extends FormAbstract
         $sort = ['updated' => trans('tinyissue.updated')] + $tagGroups;
 
         // Array of project users
-        $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->lists('fullname', 'id');
+        $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->lists('fullname', 'id')->all();
 
         // On submit, generate list of selected tags to populate the field
         if (Request::has('tags')) {

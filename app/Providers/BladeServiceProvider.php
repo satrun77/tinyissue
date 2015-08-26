@@ -12,7 +12,6 @@
 namespace Tinyissue\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\View\Compilers\BladeCompiler;
 
 /**
  * BladeServiceProvider is the blade service provider for extending blade template engine
@@ -26,35 +25,56 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Blade::extend(function ($view) {
-            $pattern = '/@(macro)\s*(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
+        \Blade::directive(
+            'macro',
+            function ($expression) {
+                $pattern = '/(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
+                $matches = [];
+                preg_match_all($pattern, $expression, $matches);
 
-            return preg_replace($pattern, "<?php \$___tiny['\$3']=function(\$4){ ob_start(); ?>\n", $view);
-        });
+                if (!isset($matches[3][0])) {
+                    throw new \InvalidArgumentException(sprintf('Invalid arguments in blade: macro%s', $expression));
+                }
 
-        \Blade::extend(function ($view, BladeCompiler $compiler) {
-            $pattern = $compiler->createPlainMatcher('endmacro');
+                return sprintf("<?php \$___tiny['%s']=function(%s){ ob_start(); ?>\n", $matches[2][0], $matches[3][0]);
+            }
+        );
 
-            return preg_replace($pattern, "\n<?php return ob_get_clean();} ?>\n", $view);
-        });
+        \Blade::directive(
+            'endmacro',
+            function ($expression) {
+                return "\n<?php return ob_get_clean();} ?>\n";
+            }
+        );
 
-        \Blade::extend(function ($view) {
-            $pattern = '/@(usemacro)\s*(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
+        \Blade::directive(
+            'usemacro',
+            function ($expression) {
+                $pattern = '/(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
+                $matches = [];
+                preg_match_all($pattern, $expression, $matches);
 
-            return preg_replace($pattern, "<?php echo \$___tiny['\$3'](\$4); ?>\n", $view);
-        });
+                if (!isset($matches[3][0])) {
+                    throw new \InvalidArgumentException(sprintf('Invalid arguments in blade: usemacro%s', $expression));
+                }
 
-        \Blade::extend(function ($view, BladeCompiler $compiler) {
-            $pattern = $compiler->createMatcher('permission');
+                return sprintf("<?php echo \$___tiny['%s'](%s); ?>\n", $matches[2][0], $matches[3][0]);
+            }
+        );
 
-            return preg_replace($pattern, "$1<?php if(Auth::user()->permission$2): ?>\n", $view);
-        });
+        \Blade::directive(
+            'permission',
+            function ($expression) {
+                return "<?php if(Auth::user()->permission{$expression}): ?>";
+            }
+        );
 
-        \Blade::extend(function ($view, BladeCompiler $compiler) {
-            $pattern = $compiler->createPlainMatcher('endpermission');
-
-            return preg_replace($pattern, "\n<?php endif; ?>\n", $view);
-        });
+        \Blade::directive(
+            'endpermission',
+            function ($expression) {
+                return "<?php endif; ?>";
+            }
+        );
     }
 
     /**

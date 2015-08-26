@@ -77,7 +77,7 @@ class Project extends FormAbstract
             $fields['default_assignee'] = [
                 'type'    => 'select',
                 'label'   => 'default_assignee',
-                'options' => [0 => ''] + $this->getModel()->users()->get()->lists('fullname', 'id'),
+                'options' => [0 => ''] + $this->getModel()->users()->get()->lists('fullname', 'id')->all(),
             ];
         }
 

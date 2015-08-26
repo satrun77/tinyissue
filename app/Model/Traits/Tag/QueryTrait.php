@@ -59,7 +59,7 @@ trait QueryTrait
             $group->name = ucwords($group->name);
 
             return $group;
-        })->lists('name', 'keyname');
+        })->lists('name', 'keyname')->all();
     }
 
     /**

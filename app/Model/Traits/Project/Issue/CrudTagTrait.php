@@ -64,18 +64,20 @@ trait CrudTagTrait
             $activityType = Activity::TYPE_CLOSE_ISSUE;
             $addTagName = Tag::STATUS_CLOSED;
 
+            /** @var \Illuminate\Support\Collection $ids */
             $ids = $this->getTagsExceptStatus()->getRelatedIds();
         } else {
             $activityType = Activity::TYPE_REOPEN_ISSUE;
             $removeTag = Tag::STATUS_CLOSED;
             $addTagName = Tag::STATUS_OPEN;
 
+            /** @var \Illuminate\Support\Collection $ids */
             $ids = $this->getTagsExcept($removeTag)->getRelatedIds();
         }
 
-        $ids[] = (new Tag())->getTagByName($addTagName)->id;
+        $ids->push((new Tag())->getTagByName($addTagName)->id);
 
-        $this->tags()->sync(array_unique($ids));
+        $this->tags()->sync($ids->unique()->all());
 
         /* Add to activity log */
         $this->activities()->save(new User\Activity([
@@ -143,7 +145,7 @@ trait CrudTagTrait
         $tags->put($openTag->id, $openTag);
 
         // Save relation
-        $this->tags()->sync($tags->lists('id'));
+        $this->tags()->sync($tags->lists('id')->all());
 
         // Activity is added when new issue create with tags or updated with tags excluding the open status tag
         if (!empty($removedTags) || !empty($addedTags)) {

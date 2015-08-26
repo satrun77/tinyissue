@@ -95,7 +95,7 @@ class Issue extends FormAbstract
             $fields['assigned_to'] = [
                 'type'    => 'select',
                 'label'   => 'assigned_to',
-                'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id'),
+                'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id')->all(),
                 'value'   => (int) $this->project->default_assignee,
             ];
         }
