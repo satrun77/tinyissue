@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'host'       => 'smtp.mailgun.org',
+    'host'       => env('MAIL_HOST', 'smtp.mailgun.org'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'port'       => 587,
+    'port'       => env('MAIL_PORT', 587),
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -75,7 +75,7 @@ return [
     |
     */
 
-    'username'   => null,
+    'username'   => env('MAIL_USERNAME', null),
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Password
@@ -87,7 +87,7 @@ return [
     |
     */
 
-    'password'   => null,
+    'password'   => env('MAIL_PASSWORD', null),
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
