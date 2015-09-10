@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string  $name
  * @property string  $fullname
  * @property string  $bgcolor
- * @property boolean $group
+ * @property bool $group
  * @property Tag     $parent
  */
 class Tag extends Model

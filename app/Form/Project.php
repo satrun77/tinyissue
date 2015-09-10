@@ -29,10 +29,10 @@ class Project extends FormAbstract
             return [
                 'submit' => 'update',
                 'delete' => [
-                    'type' => 'danger_submit',
-                    'label' => trans('tinyissue.delete_something', ['name' => $this->getModel()->name]),
-                    'class' => 'delete-project',
-                    'name' => 'delete-project',
+                    'type'         => 'danger_submit',
+                    'label'        => trans('tinyissue.delete_something', ['name' => $this->getModel()->name]),
+                    'class'        => 'delete-project',
+                    'name'         => 'delete-project',
                     'data-message' => trans('tinyissue.delete_project_confirm'),
                 ],
             ];
@@ -54,8 +54,8 @@ class Project extends FormAbstract
                 'label' => 'name',
             ],
             'default_assignee' => [
-                'type'  => 'hidden',
-                'id'    => 'default_assignee-id',
+                'type' => 'hidden',
+                'id'   => 'default_assignee-id',
             ],
         ];
 

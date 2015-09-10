@@ -72,7 +72,7 @@ class BladeServiceProvider extends ServiceProvider
         \Blade::directive(
             'endpermission',
             function ($expression) {
-                return "<?php endif; ?>";
+                return '<?php endif; ?>';
             }
         );
     }

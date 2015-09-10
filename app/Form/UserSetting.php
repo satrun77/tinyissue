@@ -60,7 +60,7 @@ class UserSetting extends User
      */
     public function rules()
     {
-        $rules = parent::rules();
+        $rules             = parent::rules();
         $rules['password'] = 'confirmed';
         $rules['language'] = 'required';
 

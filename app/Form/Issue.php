@@ -77,11 +77,11 @@ class Issue extends FormAbstract
                 'type'  => 'text',
                 'label' => 'title',
             ],
-            'body'  => [
+            'body' => [
                 'type'  => 'textarea',
                 'label' => 'issue',
             ],
-            'tag'   => [
+            'tag' => [
                 'type'        => 'text',
                 'label'       => 'tags',
                 'multiple'    => true,
@@ -109,9 +109,9 @@ class Issue extends FormAbstract
         // User with modify issue permission can add quote
         if ($issueModify) {
             $fields['time_quote'] = [
-                'type'     => 'groupField',
-                'label'    => 'quote',
-                'fields'   => [
+                'type'   => 'groupField',
+                'label'  => 'quote',
+                'fields' => [
                     'h' => [
                         'type'          => 'number',
                         'append'        => trans('tinyissue.hours'),

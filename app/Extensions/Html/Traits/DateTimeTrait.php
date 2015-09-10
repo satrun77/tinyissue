@@ -46,11 +46,11 @@ trait DateTimeTrait
             $timestamp = new \DateTime($timestamp);
         }
 
-        $timestamp = $timestamp->getTimestamp();
+        $timestamp  = $timestamp->getTimestamp();
         $difference = time() - $timestamp;
-        $periods = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
-        $lengths = ['60', '60', '24', '7', '4.35', '12', '10'];
-        for ($j = 0; $difference >= $lengths[$j]; $j++) {
+        $periods    = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
+        $lengths    = ['60', '60', '24', '7', '4.35', '12', '10'];
+        for ($j = 0; $difference >= $lengths[$j]; ++$j) {
             $difference /= $lengths[$j];
         }
         $difference = round($difference);
@@ -70,13 +70,13 @@ trait DateTimeTrait
      */
     public function duration($seconds)
     {
-        $hours = floor($seconds / 3600);
+        $hours   = floor($seconds / 3600);
         $minutes = ($seconds / 60) % 60;
         $seconds = $seconds % 60;
 
-        $output = '';
+        $output        = '';
         $separatorChar = ', ';
-        $separator = '';
+        $separator     = '';
         if ($hours > 0) {
             $output .= $hours . ' ' . trans('tinyissue.short_hours');
             $separator = $separatorChar;

@@ -65,7 +65,7 @@ trait QueryTrait
                         $query->where('status', '=', Project\Issue::STATUS_OPEN);
                     }
                 },
-                'issues.user' => function () {},
+                'issues.user'          => function () {},
                 'issues.countComments' => function () {},
             ]);
     }

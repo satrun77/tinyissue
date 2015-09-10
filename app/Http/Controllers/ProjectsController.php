@@ -34,12 +34,12 @@ class ProjectsController extends Controller
     {
         $projects = $this->auth->user()->projectsWithCountOpenIssues($status)->get();
         if ($status) {
-            $active = 'active';
-            $countActive = $projects->count();
+            $active        = 'active';
+            $countActive   = $projects->count();
             $countArchived = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
         } else {
-            $active = 'archived';
-            $countActive = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
+            $active        = 'archived';
+            $countActive   = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
             $countArchived = $projects->count();
         }
 

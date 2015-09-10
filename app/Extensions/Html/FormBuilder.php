@@ -42,7 +42,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
 
         // Start a form and add rules
         $formType = $form->openType();
-        $former = Former::$formType();
+        $former   = Former::$formType();
         array_walk($attrs, function ($value, $attr) use ($former) {
             if ($value === null) {
                 $former->$attr();
@@ -87,7 +87,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
     public function element($name, array $field)
     {
         $filterKeys = ['type'];
-        $attrs = array_diff_key($field, array_flip($filterKeys));
+        $attrs      = array_diff_key($field, array_flip($filterKeys));
 
         // Create field with name
         $element = Former::$field['type']($name);
@@ -113,7 +113,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
      */
     public function actions(FormInterface $form)
     {
-        $output = '';
+        $output  = '';
         $buttons = $form->actions();
         if (!empty($buttons)) {
             $actions = Former::actions()->addClass('form-actions');

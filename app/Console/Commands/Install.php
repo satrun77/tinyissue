@@ -25,7 +25,7 @@ use Tinyissue\Model;
 class Install extends Command
 {
     const COLOR_GOOD = 'green';
-    const COLOR_BAD = 'red';
+    const COLOR_BAD  = 'red';
     const COLOR_INFO = 'blue';
 
     /**
@@ -152,7 +152,7 @@ class Install extends Command
         $this->checkPhpExtension($this->dbDrivers, '{module} driver for pdo', false, 'Not Found');
 
         // Whether or not one or more valid drivers were found
-        $validDrivers = $this->getValidDbDrivers();
+        $validDrivers   = $this->getValidDbDrivers();
         $dbDriverStatus = !empty($validDrivers);
         if (!$dbDriverStatus) {
             $dbDriverTitle = 'Install one of the following pdo drivers ('
@@ -195,8 +195,8 @@ class Install extends Command
     protected function checkPhpExtension(array &$modules, $labelFormat, $required = true, $failedLabel = 'No')
     {
         foreach ($modules as $module => $status) {
-            $title = str_replace(['{module}'], [$module], $labelFormat);
-            $status = extension_loaded($module);
+            $title            = str_replace(['{module}'], [$module], $labelFormat);
+            $status           = extension_loaded($module);
             $modules[$module] = $status;
             $this->envRequirementsRow($title, $status, $required, $failedLabel);
         }
@@ -216,8 +216,8 @@ class Install extends Command
      */
     protected function envRequirementsRow($label, $status = false, $required = false, $failedLabel = 'No')
     {
-        $statusColor = $status ? static::COLOR_GOOD : ($required ? static::COLOR_BAD : static::COLOR_INFO);
-        $statusTitle = $status ? 'OK' : $failedLabel;
+        $statusColor             = $status ? static::COLOR_GOOD : ($required ? static::COLOR_BAD : static::COLOR_INFO);
+        $statusTitle             = $status ? 'OK' : $failedLabel;
         $this->envRequirements[] = $this->formatTableCells([$label, $statusTitle], $statusColor);
         if ($required) {
             $this->envStatus = $status;
@@ -261,13 +261,13 @@ class Install extends Command
     protected function isUploadDirectoryPublic()
     {
         $pathSegments = explode('/', base_path());
-        $count = count($pathSegments);
-        $indexes = [];
-        for ($i = 0; $i < $count; $i++) {
+        $count        = count($pathSegments);
+        $indexes      = [];
+        for ($i = 0; $i < $count; ++$i) {
             $indexes[] = $i;
-            $path = implode('/', array_except($pathSegments, $indexes));
-            $guessUrl = url($path . '/storage/app/uploads');
-            $curl = curl_init($guessUrl);
+            $path      = implode('/', array_except($pathSegments, $indexes));
+            $guessUrl  = url($path . '/storage/app/uploads');
+            $curl      = curl_init($guessUrl);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_HEADER, true);
             curl_exec($curl);
@@ -329,12 +329,12 @@ class Install extends Command
             'sysName'  => 'Email name used by the Tiny Issue for the email address above',
             'timezone' => 'The application timezone. Find your timezone from: http://php.net/manual/en/timezones.php)',
         ]);
-        $this->data['key'] = md5(str_random(40));
+        $this->data['key']      = md5(str_random(40));
         $this->data['dbDriver'] = substr($this->data['dbDriver'], 4);
 
         // Create .env from .env.example and populate with user data
         $filesystem = $this->getFilesystem();
-        $content = $filesystem->read('.env.example');
+        $content    = $filesystem->read('.env.example');
         if (empty($content)) {
             throw new \Exception('Unable to read .env.example to create .env file.');
         }
@@ -348,13 +348,13 @@ class Install extends Command
         $filesystem->put('.env', $content);
 
         // Update the current database connection
-        $config = \Config::get('database.connections.' . $this->data['dbDriver']);
-        $config['driver'] = $this->data['dbDriver'];
-        $config['host'] = $this->data['dbHost'];
+        $config             = \Config::get('database.connections.' . $this->data['dbDriver']);
+        $config['driver']   = $this->data['dbDriver'];
+        $config['host']     = $this->data['dbHost'];
         $config['database'] = $this->data['dbName'];
         $config['username'] = $this->data['dbUser'];
         $config['password'] = $this->data['dbPass'];
-        $config['prefix'] = $this->data['dbPrefix'];
+        $config['prefix']   = $this->data['dbPrefix'];
         \Config::set('database.connections.' . $this->data['dbDriver'], $config);
         \Config::set('database.default', $this->data['dbDriver']);
 
@@ -394,10 +394,10 @@ class Install extends Command
 
         foreach ($questions as $name => $question) {
             if (is_array($question)) {
-                $question[1][0] = $labelFormat($question[1][0], $this->data[$name]);
+                $question[1][0]    = $labelFormat($question[1][0], $this->data[$name]);
                 $this->data[$name] = call_user_func_array([$this, $question[0]], $question[1]);
             } else {
-                $question = $labelFormat($question, $this->data[$name]);
+                $question          = $labelFormat($question, $this->data[$name]);
                 $this->data[$name] = $this->ask($question, $this->data[$name]);
             }
         }

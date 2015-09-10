@@ -24,7 +24,7 @@ class Login extends FormAbstract
     public function fields()
     {
         $fields = [
-            'email'    => [
+            'email' => [
                 'type'  => 'text',
                 'label' => 'email',
             ],
@@ -33,20 +33,20 @@ class Login extends FormAbstract
                 'label' => 'password',
             ],
             'group' => [
-                'type' => 'group',
+                'type'     => 'group',
                 'addClass' => 'form-actions',
-                'label' => '',
+                'label'    => '',
                 'required' => false,
             ],
             'login' => [
-                'type' => 'primary_submit',
+                'type'  => 'primary_submit',
                 'value' => 'login',
             ],
             'remember' => [
-                'type'   => 'checkbox',
+                'type'     => 'checkbox',
                 'required' => false,
-                'text'   => 'remember_me',
-                'inline' => null,
+                'text'     => 'remember_me',
+                'inline'   => null,
             ],
             'closeGroup' => [
                 'type' => 'closeGroup',

@@ -119,8 +119,8 @@ class TagsController extends Controller
                 return !($tag->name == 'open' || $tag->name == 'closed');
             })->map(function (Tag $tag) {
                 return [
-                    'value' => $tag->id,
-                    'label' => $tag->fullname,
+                    'value'   => $tag->id,
+                    'label'   => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toArray();

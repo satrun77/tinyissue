@@ -44,11 +44,11 @@ class User extends FormAbstract
                 'type'  => 'text',
                 'label' => 'first_name',
             ],
-            'lastname'  => [
+            'lastname' => [
                 'type'  => 'text',
                 'label' => 'last_name',
             ],
-            'email'     => [
+            'email' => [
                 'type'  => 'text',
                 'label' => 'email',
             ],
@@ -66,7 +66,7 @@ class User extends FormAbstract
      */
     protected function passwordFields()
     {
-        $fields = [];
+        $fields                                       = [];
         $fields['only_complete_if_changing_password'] = [
             'type' => 'legend',
         ];

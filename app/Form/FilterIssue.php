@@ -74,12 +74,12 @@ class FilterIssue extends FormAbstract
         }
 
         $fields = [
-            'keyword'      => [
+            'keyword' => [
                 'type'            => 'text',
                 'placeholder'     => trans('tinyissue.keywords'),
                 'onGroupAddClass' => 'toolbar-item first',
             ],
-            'tags'      => [
+            'tags' => [
                 'type'            => 'text',
                 'placeholder'     => trans('tinyissue.tags'),
                 'multiple'        => true,
@@ -88,23 +88,23 @@ class FilterIssue extends FormAbstract
                 'onGroupAddClass' => 'toolbar-item',
             ],
             'sort' => [
-                'type'     => 'groupField',
+                'type'            => 'groupField',
                 'onGroupAddClass' => 'toolbar-item',
-                'fields'   => [
+                'fields'          => [
                     'sortby' => [
-                        'type'   => 'select',
-                        'placeholder'     => trans('tinyissue.sortby'),
-                        'options'         => $sort,
-                        'onGroupClass'    => 'control-inline control-sortby',
+                        'type'         => 'select',
+                        'placeholder'  => trans('tinyissue.sortby'),
+                        'options'      => $sort,
+                        'onGroupClass' => 'control-inline control-sortby',
                     ],
                     'sortorder' => [
-                        'type'            => 'select',
-                        'options'         => ['asc' => trans('tinyissue.sort_asc'), 'desc' => trans('tinyissue.sort_desc')],
-                        'onGroupClass'    => 'control-inline control-sortorder',
+                        'type'         => 'select',
+                        'options'      => ['asc' => trans('tinyissue.sort_asc'), 'desc' => trans('tinyissue.sort_desc')],
+                        'onGroupClass' => 'control-inline control-sortorder',
                     ],
                 ],
             ],
-            'assignto'  => [
+            'assignto' => [
                 'type'            => 'select',
                 'placeholder'     => trans('tinyissue.assigned_to'),
                 'options'         => $assignTo,

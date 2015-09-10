@@ -122,7 +122,7 @@ class XlsHandler
             $index = 3;
             foreach ($this->issues as $issue) {
                 $this->sheetRow($sheet, $index, $issue);
-                $index++;
+                ++$index;
             }
         });
     }

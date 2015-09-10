@@ -257,9 +257,9 @@ class IssueController extends Controller
             $response = [
                 'upload' => [
                     [
-                        'name'      => $attachment->filename,
-                        'size'      => $attachment->filesize,
-                        'fileId'    => $attachment->id,
+                        'name'   => $attachment->filename,
+                        'size'   => $attachment->filesize,
+                        'fileId' => $attachment->id,
                     ],
                 ],
             ];
@@ -270,7 +270,7 @@ class IssueController extends Controller
                 'status' => false,
                 'name'   => $file->getClientOriginalName(),
                 'error'  => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString(),
+                'trace'  => $exception->getTraceAsString(),
             );
         }
 
@@ -308,11 +308,11 @@ class IssueController extends Controller
         $issue->setRelation('project', $project);
         $attachment->setRelation('issue', $issue);
 
-        $path = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
+        $path    = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
         $storage = \Storage::disk('local');
-        $length = $storage->size($path);
-        $time = $storage->lastModified($path);
-        $type = $storage->getDriver()->getMimetype($path);
+        $length  = $storage->size($path);
+        $time    = $storage->lastModified($path);
+        $type    = $storage->getDriver()->getMimetype($path);
 
         $response = new Response();
         $response->setEtag(md5($time . $path));

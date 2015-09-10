@@ -56,14 +56,14 @@ trait CrudTrait
     public function validOrCreate($name, Tag $parent = null)
     {
         $group = $parent === null ? true : false;
-        $tag = $this->where('name', '=', $name)->first();
+        $tag   = $this->where('name', '=', $name)->first();
         if ($tag && $tag->group != $group) {
             return false;
         }
 
         if (!$tag) {
-            $tag = new Tag();
-            $tag->name = $name;
+            $tag        = new Tag();
+            $tag->name  = $name;
             $tag->group = $group;
             if (!is_null($parent)) {
                 $tag->parent_id = $parent->id;

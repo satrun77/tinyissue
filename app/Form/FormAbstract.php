@@ -144,7 +144,7 @@ abstract class FormAbstract implements FormInterface
     protected function projectUploadFields($name, Project $project, User $user)
     {
         return [
-            $name            => [
+            $name => [
                 'type'                 => 'FileUpload',
                 'data_message_success' => trans('tinyissue.success_upload'),
                 'data_message_failed'  => trans('tinyissue.error_uploadfailed'),
