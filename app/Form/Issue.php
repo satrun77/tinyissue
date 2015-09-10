@@ -113,22 +113,25 @@ class Issue extends FormAbstract
                 'label'    => 'quote',
                 'fields'   => [
                     'h' => [
-                        'type'   => 'number',
-                        'append' => trans('tinyissue.hours'),
-                        'value'  => $this->extractQuoteValue('h'),
+                        'type'          => 'number',
+                        'append'        => trans('tinyissue.hours'),
+                        'value'         => $this->extractQuoteValue('h'),
+                        'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                     'm' => [
-                        'type'   => 'number',
-                        'append' => trans('tinyissue.minutes'),
-                        'value'  => $this->extractQuoteValue('m'),
+                        'type'          => 'number',
+                        'append'        => trans('tinyissue.minutes'),
+                        'value'         => $this->extractQuoteValue('m'),
+                        'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                     's' => [
-                        'type'   => 'number',
-                        'append' => trans('tinyissue.seconds'),
-                        'value'  => $this->extractQuoteValue('s'),
+                        'type'          => 'number',
+                        'append'        => trans('tinyissue.seconds'),
+                        'value'         => $this->extractQuoteValue('s'),
+                        'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                 ],
-                'addClass' => 'issue-quote',
+                'addClass' => 'row issue-quote',
             ];
         }
 
