@@ -1,5 +1,13 @@
 @import "mixins";
 
+form {
+  overflow: hidden;
+
+  @media (min-width: 768px) {    
+    overflow: visible;
+  }
+}
+
 input, select, textarea {
   -moz-appearance: none;
   appearance: none;
