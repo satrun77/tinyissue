@@ -1,5 +1,11 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.2.0
+
+- Support Laravel 5.1+
+- Added smtp config to .env
+- Style fixes
+
 ## Tiny Issue v2.1.2
 
 - Bug fixes
