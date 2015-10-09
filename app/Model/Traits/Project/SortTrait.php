@@ -43,13 +43,13 @@ trait SortTrait
      * Sort by issues tag group
      * Note: this sort will return the collection
      *
-     * @param Query\Builder $query
-     * @param string        $tagGroup
-     * @param string        $order
+     * @param Eloquent\Relations\Relation $query
+     * @param string                      $tagGroup
+     * @param string                      $order
      *
      * @return Eloquent\Collection
      */
-    public function sortByTag(Query\Builder $query, $tagGroup, $order = 'asc')
+    public function sortByTag(Eloquent\Relations\Relation $query, $tagGroup, $order = 'asc')
     {
         // If tag group is string prefixed with tag:
         if (!is_numeric($tagGroup)) {
