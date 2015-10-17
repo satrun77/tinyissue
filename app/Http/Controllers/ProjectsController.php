@@ -13,6 +13,7 @@ namespace Tinyissue\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tinyissue\Form\Project as Form;
+use Tinyissue\Form\GlobalIssue as IssueForm;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 
@@ -34,21 +35,21 @@ class ProjectsController extends Controller
     {
         $projects = $this->auth->user()->projectsWithCountOpenIssues($status)->get();
         if ($status) {
-            $active        = 'active';
-            $countActive   = $projects->count();
+            $active = 'active';
+            $countActive = $projects->count();
             $countArchived = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
         } else {
-            $active        = 'archived';
-            $countActive   = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
+            $active = 'archived';
+            $countActive = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
             $countArchived = $projects->count();
         }
 
         return view('projects.index', [
             'content_projects' => $projects,
-            'active'           => $active,
-            'active_count'     => $countActive,
-            'archived_count'   => $countArchived,
-            'projects'         => $this->auth->user()->projects()->get(),
+            'active' => $active,
+            'active_count' => $countActive,
+            'archived_count' => $countArchived,
+            'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
@@ -62,7 +63,7 @@ class ProjectsController extends Controller
     public function getNew(Form $form)
     {
         return view('projects.new', [
-            'form'     => $form,
+            'form' => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
@@ -101,14 +102,56 @@ class ProjectsController extends Controller
             $view = view('partials/progress', ['text' => $progress . '%', 'progress' => $progress])->render();
 
             return [
-                'id'       => $project->id,
+                'id' => $project->id,
                 'progress' => [
-                    'html'  => $view,
+                    'html' => $view,
                     'value' => $progress,
                 ],
             ];
         })->lists('progress', 'id')->all();
 
         return response()->json(['status' => true, 'progress' => $progress]);
+    }
+
+    /**
+     * Add new issue form
+     *
+     * @param IssueForm $form
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getNewIssue(IssueForm $form)
+    {
+        return view('projects.new-issue', [
+            'form' => $form,
+            'projects' => $this->auth->user()->projects()->get(),
+        ]);
+    }
+
+    /**
+     * To create a new issue
+     *
+     * @param Project\Issue           $issue
+     * @param FormRequest\GlobalIssue $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postNewIssue(Project\Issue $issue, FormRequest\GlobalIssue $request)
+    {
+        $project = Project::find((int) $request->input('project'));
+
+        $issue->setRelation('project', $project);
+        $issue->setRelation('user', $this->auth->user());
+        $issue->createIssue([
+            'title' => $request->input('title'),
+            'body' => $request->input('body'),
+            'tag' => $request->input('tag'),
+            'upload_token' => $request->input('upload_token'),
+            'assigned_to' => (int) $project->default_assignee,
+            'time_quote' => 0,
+        ]);
+
+        return redirect($issue->to())
+            ->with('notice', trans('tinyissue.issue_has_been_created'));
     }
 }

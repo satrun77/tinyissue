@@ -57,7 +57,7 @@ trait CrudTrait
      */
     public function changeUpdatedBy($userId)
     {
-        $time             = new \DateTime();
+        $time = new \DateTime();
         $this->updated_at = $time->format('Y-m-d H:i:s');
         $this->updated_by = $userId;
 
@@ -74,8 +74,8 @@ trait CrudTrait
      */
     public function reassign($assignTo, $user)
     {
-        $assignToId        = !$assignTo instanceof User ? $assignTo : $assignTo->id;
-        $userId            = !$user instanceof User ? $user : $user->id;
+        $assignToId = !$assignTo instanceof User ? $assignTo : $assignTo->id;
+        $userId = !$user instanceof User ? $user : $user->id;
         $this->assigned_to = $assignToId;
         $this->save();
 
@@ -143,7 +143,7 @@ trait CrudTrait
 
         if ($this->user->permission('issue-modify')) {
             $fill['assigned_to'] = $input['assigned_to'];
-            $fill['time_quote']  = $input['time_quote'];
+            $fill['time_quote'] = $input['time_quote'];
         }
 
         $this->fill($fill)->save();

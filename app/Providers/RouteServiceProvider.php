@@ -60,6 +60,8 @@ class RouteServiceProvider extends ServiceProvider
 
                 // Projects area
                 $router->get('projects/{status?}', 'ProjectsController@getIndex')->where('status', '[0-1]');
+                $router->get('projects/new_issue', 'ProjectsController@getNewIssue');
+                $router->post('projects/new_issue', 'ProjectsController@postNewIssue');
                 $router->group(['middleware' => 'permission', 'permission' => 'project-create'], function (Router $router) {
                     $router->get('projects/new', 'ProjectsController@getNew');
                     $router->post('projects/new', 'ProjectsController@postNew');

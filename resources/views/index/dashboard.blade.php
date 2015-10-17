@@ -12,6 +12,10 @@ active
     @lang('tinyissue.dashboard_description')
 @stop
 
+@section('headingLink')
+    {!! link_to('projects/new_issue', trans('tinyissue.new_issue')) !!}
+@stop
+
 @section('content')
 @foreach($projects as $project)
 @if (count($project->activities) > 0)

@@ -59,7 +59,7 @@ trait QueryTrait
     {
         if ($this->id > 0) {
             $userIds = $this->users()->lists('user_id')->all();
-            $users   = User::where('deleted', '=', User::NOT_DELETED_USERS)->whereNotIn('id', $userIds)->get();
+            $users = User::where('deleted', '=', User::NOT_DELETED_USERS)->whereNotIn('id', $userIds)->get();
         } else {
             $users = User::where('deleted', '=', User::NOT_DELETED_USERS)->get();
         }
@@ -78,7 +78,7 @@ trait QueryTrait
     public function listIssues($status = Project\Issue::STATUS_OPEN, array $filter = [])
     {
         $sortOrder = array_get($filter, 'sort.sortorder', 'desc');
-        $sortBy    = array_get($filter, 'sort.sortby', null);
+        $sortBy = array_get($filter, 'sort.sortby', null);
 
         $query = $this->issues()
             ->with('countComments', 'user', 'updatedBy', 'tags', 'tags.parent')

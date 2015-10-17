@@ -55,13 +55,13 @@ trait CrudTrait
 
         /* @var $uploadedFile \Symfony\Component\HttpFoundation\File\UploadedFile */
         $uploadedFile = $input['upload'];
-        $file         = $uploadedFile->move($path, $uploadedFile->getClientOriginalName());
+        $file = $uploadedFile->move($path, $uploadedFile->getClientOriginalName());
 
-        $this->uploaded_by   = $user->id;
-        $this->filename      = $file->getFilename();
+        $this->uploaded_by = $user->id;
+        $this->filename = $file->getFilename();
         $this->fileextension = $file->getExtension();
-        $this->filesize      = $file->getSize();
-        $this->upload_token  = $input['upload_token'];
+        $this->filesize = $file->getSize();
+        $this->upload_token = $input['upload_token'];
 
         return $this->save();
     }

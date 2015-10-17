@@ -71,10 +71,10 @@ class ProjectController extends Controller
         $issues = $project->listIssues($status, $request->all());
         if ($status == Issue::STATUS_OPEN) {
             $closedIssuesCount = $project->closedIssuesCount()->count();
-            $openIssuesCount   = $issues->count();
+            $openIssuesCount = $issues->count();
         } else {
             $closedIssuesCount = $issues->count();
-            $openIssuesCount   = $project->openIssuesCount()->count();
+            $openIssuesCount = $project->openIssuesCount()->count();
         }
 
         return view('project.index', [

@@ -57,14 +57,73 @@ class Issue extends FormAbstract
     {
         $issueModify = \Auth::user()->permission('issue-modify');
 
+        $fields = $this->fieldTitle();
+        $fields += $this->fieldBody();
+        $fields += $this->fieldTags();
+
+        // User with modify issue permission can assign users
+        if ($issueModify) {
+            $fields += $this->fieldAssignedTo();
+        }
+
+        // Only on creating new issue
+        if (!$this->isEditing()) {
+            $fields += $this->fieldUpload();
+        }
+
+        // User with modify issue permission can add quote
+        if ($issueModify) {
+            $fields += $this->fieldTimeQuote();
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Returns title field
+     *
+     * @return array
+     */
+    protected function fieldTitle()
+    {
+        return [
+            'title' => [
+                'type' => 'text',
+                'label' => 'title',
+            ],
+        ];
+    }
+
+    /**
+     * Returns body field
+     *
+     * @return array
+     */
+    protected function fieldBody()
+    {
+        return [
+            'body' => [
+                'type' => 'textarea',
+                'label' => 'issue',
+            ],
+        ];
+    }
+
+    /**
+     * Returns tags field
+     *
+     * @return array
+     */
+    protected function fieldTags()
+    {
         // Populate tag fields with the submitted tags
         if ($this->isEditing()) {
             $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function (Model\Tag $tag) {
                 return !($tag->name == Model\Tag::STATUS_OPEN || $tag->name == Model\Tag::STATUS_CLOSED);
             })->map(function (Model\Tag $tag) {
                 return [
-                    'value'   => $tag->id,
-                    'label'   => ($tag->fullname),
+                    'value' => $tag->id,
+                    'label' => ($tag->fullname),
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toJson();
@@ -72,70 +131,81 @@ class Issue extends FormAbstract
             $selectTags = '';
         }
 
-        $fields = [
-            'title' => [
-                'type'  => 'text',
-                'label' => 'title',
-            ],
-            'body' => [
-                'type'  => 'textarea',
-                'label' => 'issue',
-            ],
+        return [
             'tag' => [
-                'type'        => 'text',
-                'label'       => 'tags',
-                'multiple'    => true,
-                'class'       => 'tagit',
+                'type' => 'text',
+                'label' => 'tags',
+                'multiple' => true,
+                'class' => 'tagit',
                 'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
             ],
         ];
+    }
 
-        // User with modify issue permission can assign users
-        if ($issueModify) {
-            $fields['assigned_to'] = [
-                'type'    => 'select',
-                'label'   => 'assigned_to',
+    /**
+     * Returns assigned to field
+     *
+     * @return array
+     */
+    protected function fieldAssignedTo()
+    {
+        return [
+            'assigned_to' => [
+                'type' => 'select',
+                'label' => 'assigned_to',
                 'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id')->all(),
-                'value'   => (int) $this->project->default_assignee,
-            ];
-        }
+                'value' => (int) $this->project->default_assignee,
+            ],
+        ];
+    }
 
-        // Only on creating new issue
-        if (!$this->isEditing()) {
-            $fields += $this->projectUploadFields('upload', $this->project, \Auth::user());
-            $fields['upload']['label'] = 'attachments';
-        }
+    /**
+     * Returns upload field
+     *
+     * @return array
+     */
+    protected function fieldUpload()
+    {
+        $fields = $this->projectUploadFields('upload', $this->project, \Auth::user());
+        $fields['upload']['label'] = 'attachments';
 
-        // User with modify issue permission can add quote
-        if ($issueModify) {
-            $fields['time_quote'] = [
-                'type'   => 'groupField',
-                'label'  => 'quote',
+        return $fields;
+    }
+
+    /**
+     * Returns time quote field
+     *
+     * @return array
+     */
+    protected function fieldTimeQuote()
+    {
+        return [
+            'time_quote' => [
+                'type' => 'groupField',
+                'label' => 'quote',
                 'fields' => [
                     'h' => [
-                        'type'          => 'number',
-                        'append'        => trans('tinyissue.hours'),
-                        'value'         => $this->extractQuoteValue('h'),
+                        'type' => 'number',
+                        'append' => trans('tinyissue.hours'),
+                        'value' => $this->extractQuoteValue('h'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                     'm' => [
-                        'type'          => 'number',
-                        'append'        => trans('tinyissue.minutes'),
-                        'value'         => $this->extractQuoteValue('m'),
+                        'type' => 'number',
+                        'append' => trans('tinyissue.minutes'),
+                        'value' => $this->extractQuoteValue('m'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                     's' => [
-                        'type'          => 'number',
-                        'append'        => trans('tinyissue.seconds'),
-                        'value'         => $this->extractQuoteValue('s'),
+                        'type' => 'number',
+                        'append' => trans('tinyissue.seconds'),
+                        'value' => $this->extractQuoteValue('s'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                 ],
                 'addClass' => 'row issue-quote',
-            ];
-        }
-
-        return $fields;
+            ],
+        ];
     }
 
     /**
@@ -145,7 +215,7 @@ class Issue extends FormAbstract
     {
         $rules = [
             'title' => 'required|max:200',
-            'body'  => 'required',
+            'body' => 'required',
         ];
 
         return $rules;

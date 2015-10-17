@@ -50,7 +50,7 @@ class Permission
     public function handle(Request $request, Closure $next)
     {
         $permission = $this->getPermission($request);
-        $user       = $this->auth->user();
+        $user = $this->auth->user();
         // Check if user has the permission
         // & if the user can access the current context (e.g. is one of the project users)
         if (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters())) {

@@ -66,7 +66,7 @@ class User extends FormAbstract
      */
     protected function passwordFields()
     {
-        $fields                                       = [];
+        $fields = [];
         $fields['only_complete_if_changing_password'] = [
             'type' => 'legend',
         ];

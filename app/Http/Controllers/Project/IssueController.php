@@ -308,11 +308,11 @@ class IssueController extends Controller
         $issue->setRelation('project', $project);
         $attachment->setRelation('issue', $issue);
 
-        $path    = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
+        $path = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
         $storage = \Storage::disk('local');
-        $length  = $storage->size($path);
-        $time    = $storage->lastModified($path);
-        $type    = $storage->getDriver()->getMimetype($path);
+        $length = $storage->size($path);
+        $time = $storage->lastModified($path);
+        $type = $storage->getDriver()->getMimetype($path);
 
         $response = new Response();
         $response->setEtag(md5($time . $path));

@@ -50,7 +50,7 @@ trait BlueBoxTrait
     public function startBox($style = 'blue-box', $title = null, array $attrs = [])
     {
         $attrs['class'] = isset($attrs['class']) ? $attrs['class'] . ' ' . $style : $style;
-        $output         = '<div ' . $this->attributes($attrs) . '><div class="inside-pad">';
+        $output = '<div ' . $this->attributes($attrs) . '><div class="inside-pad">';
 
         if (!empty($title)) {
             if (is_array($title)) {

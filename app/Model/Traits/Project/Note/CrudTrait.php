@@ -41,7 +41,7 @@ trait CrudTrait
      */
     public function createNote(array $input)
     {
-        $this->body       = $input['note_body'];
+        $this->body = $input['note_body'];
         $this->project_id = $this->project->id;
         $this->created_by = $this->createdBy->id;
         $this->save();

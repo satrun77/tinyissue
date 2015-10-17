@@ -47,7 +47,7 @@ class Project
     {
         // Current callback
         $callback = current($this->callbacks);
-        $method   = 'handle' . $callback . 'Request';
+        $method = 'handle' . $callback . 'Request';
 
         if ($callback && !$this->$method($request)) {
 

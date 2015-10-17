@@ -47,7 +47,7 @@ class Tag extends FormAbstract
      */
     public function fields()
     {
-        $tag    = new Model\Tag();
+        $tag = new Model\Tag();
         $fields = [
             'name' => [
                 'type'  => 'text',

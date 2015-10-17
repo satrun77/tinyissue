@@ -26,8 +26,8 @@ use Maatwebsite\Excel\Files\NewExcelFile;
 class Exporter extends NewExcelFile
 {
     /** Current supported files type */
-    const TYPE_CSV  = 'csv';
-    const TYPE_XLS  = 'xls';
+    const TYPE_CSV = 'csv';
+    const TYPE_XLS = 'xls';
     const TYPE_XLSX = 'xlsx';
 
     /**
@@ -79,9 +79,9 @@ class Exporter extends NewExcelFile
     public function exportFile($className, $format = self::TYPE_CSV, array $params = [])
     {
         $params['route'] = $this->app->request->route()->parameters();
-        $this->format    = $format;
-        $this->params    = $params;
-        $this->type      = $className;
+        $this->format = $format;
+        $this->params = $params;
+        $this->type = $className;
 
         // Update file name
         $this->setFileName($this->getFilename());

@@ -49,6 +49,7 @@ return [
     'delete'                            => 'Delete',
     'delete_project_confirm'            => 'Are you sure you want to delete this project? There is no going back!',
     'create_a_new_issue'                => 'Create A New Issue',
+    'create_a_new_issue_description'    => 'Create a new issue for any of your projects.',
     'create_a_new_issue_in'             => 'Create a new issue in project',
     'title'                             => 'Title',
     'issue'                             => 'Issue',

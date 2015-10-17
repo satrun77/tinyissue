@@ -62,14 +62,14 @@ trait CrudTagTrait
             $this->closed_at = (new \DateTime())->format('Y-m-d H:i:s');
 
             $activityType = Activity::TYPE_CLOSE_ISSUE;
-            $addTagName   = Tag::STATUS_CLOSED;
+            $addTagName = Tag::STATUS_CLOSED;
 
             /** @var \Illuminate\Support\Collection $ids */
             $ids = $this->getTagsExceptStatus()->getRelatedIds();
         } else {
             $activityType = Activity::TYPE_REOPEN_ISSUE;
-            $removeTag    = Tag::STATUS_CLOSED;
-            $addTagName   = Tag::STATUS_OPEN;
+            $removeTag = Tag::STATUS_CLOSED;
+            $addTagName = Tag::STATUS_OPEN;
 
             /** @var \Illuminate\Support\Collection $ids */
             $ids = $this->getTagsExcept($removeTag)->getRelatedIds();

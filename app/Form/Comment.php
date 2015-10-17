@@ -39,7 +39,7 @@ class Comment extends FormAbstract
     public function setup(array $params)
     {
         $this->project = $params['project'];
-        $this->issue   = $params['issue'];
+        $this->issue = $params['issue'];
     }
 
     /**
