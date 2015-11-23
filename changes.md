@@ -1,5 +1,10 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.3.0
+
+- Bug fixes
+- Generic form to add new issue from dashboard
+
 ## Tiny Issue v2.2.0
 
 - Support Laravel 5.1+
