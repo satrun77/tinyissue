@@ -88,7 +88,7 @@ class Install extends Command
         'dbName'         => 'tinyissue',
         'dbUser'         => 'root',
         'dbPass'         => 'root',
-        'dbDriver'       => 'mysql',
+        'dbDriver'       => 'pdo_mysql',
         'dbPrefix'       => '',
         'sysEmail'       => '',
         'sysName'        => '',
@@ -319,7 +319,7 @@ class Install extends Command
 
         $validDbDrivers = $this->getValidDbDrivers();
         $this->askQuestions([
-            'dbDriver' => ['choice', ['Select a database driver', $validDbDrivers, $validDbDrivers[0]]],
+            'dbDriver' => ['choice', ['Select a database driver', $validDbDrivers, 0]],
             'dbHost'   => 'Enter the database host',
             'dbName'   => 'Enter the database name',
             'dbUser'   => 'Enter the database username',
@@ -394,7 +394,6 @@ class Install extends Command
 
         foreach ($questions as $name => $question) {
             if (is_array($question)) {
-                $question[1][0] = $labelFormat($question[1][0], $this->data[$name]);
                 $this->data[$name] = call_user_func_array([$this, $question[0]], $question[1]);
             } else {
                 $question = $labelFormat($question, $this->data[$name]);
