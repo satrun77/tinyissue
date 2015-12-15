@@ -87,8 +87,8 @@ class Install extends Command
         'dbHost'         => 'localhost',
         'dbName'         => 'tinyissue',
         'dbUser'         => 'root',
-        'dbPass'         => 'root',
-        'dbDriver'       => 'pdo_mysql',
+        'dbPass'         => '',
+        'dbDriver'       => 'mysql',
         'dbPrefix'       => '',
         'sysEmail'       => '',
         'sysName'        => '',
@@ -248,9 +248,14 @@ class Install extends Command
      */
     protected function getValidDbDrivers()
     {
-        return array_keys(array_filter($this->dbDrivers, function ($item) {
-            return $item === true;
-        }));
+        return array_map(
+                function ($pdo_name){
+                    return substr($pdo_name, strlen('pod_'));
+                },
+                array_keys(array_filter($this->dbDrivers, function ($item) {
+                    return $item === true;
+                }))
+        );
     }
 
     /**
