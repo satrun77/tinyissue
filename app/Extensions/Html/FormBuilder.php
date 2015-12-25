@@ -90,7 +90,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
         $attrs = array_diff_key($field, array_flip($filterKeys));
 
         // Create field with name
-        $element = Former::$field['type']($name);
+        $element = Former::{$field['type']}($name);
 
         // Create field attributes
         array_walk($attrs, function ($value, $attr) use ($element) {
