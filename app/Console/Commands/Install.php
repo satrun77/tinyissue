@@ -248,14 +248,9 @@ class Install extends Command
      */
     protected function getValidDbDrivers()
     {
-        return array_map(
-                function ($pdo_name){
-                    return substr($pdo_name, strlen('pod_'));
-                },
-                array_keys(array_filter($this->dbDrivers, function ($item) {
-                    return $item === true;
-                }))
-        );
+        return array_keys(array_filter($this->dbDrivers, function ($item) {
+            return $item === true;
+        }));
     }
 
     /**
@@ -399,6 +394,7 @@ class Install extends Command
 
         foreach ($questions as $name => $question) {
             if (is_array($question)) {
+                $question[1][0] = $labelFormat($question[1][0], $this->data[$name]);
                 $this->data[$name] = call_user_func_array([$this, $question[0]], $question[1]);
             } else {
                 $question = $labelFormat($question, $this->data[$name]);
