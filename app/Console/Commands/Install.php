@@ -27,6 +27,7 @@ class Install extends Command
     const COLOR_GOOD = 'green';
     const COLOR_BAD = 'red';
     const COLOR_INFO = 'blue';
+    const EMPTY_VALUE = 'empty value';
 
     /**
      * The console command name.
@@ -87,7 +88,7 @@ class Install extends Command
         'dbHost'         => 'localhost',
         'dbName'         => 'tinyissue',
         'dbUser'         => 'root',
-        'dbPass'         => '',
+        'dbPass'         => self::EMPTY_VALUE,
         'dbDriver'       => 'mysql',
         'dbPrefix'       => '',
         'sysEmail'       => '',
@@ -339,7 +340,9 @@ class Install extends Command
             throw new \Exception('Unable to read .env.example to create .env file.');
         }
 
+        $dbPass = $this->getInputValue('dbPass');
         foreach ($this->data as $key => $value) {
+            $value = $key == 'dbPass' ? $dbPass : $value;
             $content = str_replace('{' . $key . '}', $value, $content);
         }
         if ($filesystem->has('.env')) {
@@ -353,7 +356,7 @@ class Install extends Command
         $config['host'] = $this->data['dbHost'];
         $config['database'] = $this->data['dbName'];
         $config['username'] = $this->data['dbUser'];
-        $config['password'] = $this->data['dbPass'];
+        $config['password'] = $dbPass;
         $config['prefix'] = $this->data['dbPrefix'];
         \Config::set('database.connections.' . $this->data['dbDriver'], $config);
         \Config::set('database.default', $this->data['dbDriver']);
@@ -448,5 +451,16 @@ class Install extends Command
         ]);
 
         $this->info('Admin account created successfully.');
+    }
+
+    /**
+     * Returns the actual value of user input
+     *
+     * @param $name
+     * @return string
+     */
+    protected function getInputValue($name)
+    {
+        return $this->data[$name] === self::EMPTY_VALUE ? '' : $this->data[$name];
     }
 }
