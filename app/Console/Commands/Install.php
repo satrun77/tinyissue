@@ -62,7 +62,7 @@ class Install extends Command
      *
      * @var string
      */
-    protected $phpVersion = '5.4.0';
+    protected $phpVersion = '5.5.0';
 
     /**
      * Supported drivers
