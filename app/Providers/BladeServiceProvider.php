@@ -65,7 +65,7 @@ class BladeServiceProvider extends ServiceProvider
         \Blade::directive(
             'permission',
             function ($expression) {
-                return "<?php if(Auth::user()->permission{$expression}): ?>";
+                return "<?php if(!Auth::guest() && Auth::user()->permission{$expression}): ?>";
             }
         );
 

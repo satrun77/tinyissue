@@ -44,14 +44,11 @@ class ProjectController extends Controller
             ->get();
 
         return view('project.index', [
-            'project'               => $project,
-            'active'                => 'activity',
-            'activities'            => $activities,
-            'open_issues_count'     => $project->openIssuesCount()->count(),
-            'closed_issues_count'   => $project->closedIssuesCount()->count(),
-            'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
-            'notes_count'           => $project->notes()->count(),
-            'sidebar'               => 'project',
+            'tabs'       => $this->projectMainViewTabs($project, 'index'),
+            'project'    => $project,
+            'active'     => 'activity',
+            'activities' => $activities,
+            'sidebar'    => 'project',
         ]);
     }
 
@@ -69,24 +66,14 @@ class ProjectController extends Controller
     {
         $active = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
         $issues = $project->listIssues($status, $request->all());
-        if ($status == Issue::STATUS_OPEN) {
-            $closedIssuesCount = $project->closedIssuesCount()->count();
-            $openIssuesCount = $issues->count();
-        } else {
-            $closedIssuesCount = $issues->count();
-            $openIssuesCount = $project->openIssuesCount()->count();
-        }
 
         return view('project.index', [
-            'project'               => $project,
-            'active'                => $active,
-            'issues'                => $issues,
-            'open_issues_count'     => $openIssuesCount,
-            'closed_issues_count'   => $closedIssuesCount,
-            'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
-            'notes_count'           => $project->notes()->count(),
-            'sidebar'               => 'project',
-            'filterForm'            => $filterForm,
+            'tabs'       => $this->projectMainViewTabs($project, 'issues', $issues, $status),
+            'project'    => $project,
+            'active'     => $active,
+            'issues'     => $issues,
+            'sidebar'    => 'project',
+            'filterForm' => $filterForm,
         ]);
     }
 
@@ -102,14 +89,11 @@ class ProjectController extends Controller
         $issues = $project->listAssignedIssues($this->auth->user()->id);
 
         return view('project.index', [
-            'project'               => $project,
-            'active'                => 'issue_assigned_to_you',
-            'issues'                => $issues,
-            'open_issues_count'     => $project->openIssuesCount()->count(),
-            'closed_issues_count'   => $project->closedIssuesCount()->count(),
-            'assigned_issues_count' => $issues->count(),
-            'notes_count'           => $project->notes()->count(),
-            'sidebar'               => 'project',
+            'tabs'    => $this->projectMainViewTabs($project, 'assigned', $issues),
+            'project' => $project,
+            'active'  => 'issue_assigned_to_you',
+            'issues'  => $issues,
+            'sidebar' => 'project',
         ]);
     }
 
@@ -126,16 +110,75 @@ class ProjectController extends Controller
         $notes = $project->notes()->with('createdBy')->get();
 
         return view('project.index', [
-            'project'               => $project,
-            'active'                => 'notes',
-            'notes'                 => $notes,
-            'open_issues_count'     => $project->openIssuesCount()->count(),
-            'closed_issues_count'   => $project->closedIssuesCount()->count(),
-            'assigned_issues_count' => $this->auth->user()->assignedIssuesCount($project->id),
-            'notes_count'           => $notes->count(),
-            'sidebar'               => 'project',
-            'noteForm'              => $form,
+            'tabs'     => $this->projectMainViewTabs($project, 'notes', $notes),
+            'project'  => $project,
+            'active'   => 'notes',
+            'notes'    => $notes,
+            'sidebar'  => 'project',
+            'noteForm' => $form,
         ]);
+    }
+
+    /**
+     * @param Project $project
+     * @param $view
+     * @param null $data
+     * @param bool $status
+     * @return array
+     */
+    protected function projectMainViewTabs(Project $project, $view, $data = null, $status = false)
+    {
+        $notesCount = $view === 'note'? $data->count() : $project->notes()->count();
+
+        $assignedIssuesCount = 0;
+        if ($view !== 'assigned' && !$this->auth->guest()) {
+            $assignedIssuesCount = $this->auth->user()->assignedIssuesCount($project->id);
+        } else if  ($view === 'assigned') {
+            $assignedIssuesCount = $data->count();
+        }
+
+        if ($view === 'issues') {
+            if ($status == Issue::STATUS_OPEN) {
+                $closedIssuesCount = $project->closedIssuesCount()->count();
+                $openIssuesCount = $data->count();
+            } else {
+                $closedIssuesCount = $data->count();
+                $openIssuesCount = $project->openIssuesCount()->count();
+            }
+        } else {
+            $openIssuesCount = $project->openIssuesCount()->count();
+            $closedIssuesCount =  $project->closedIssuesCount()->count();
+        }
+
+        $tabs = [];
+        $tabs[] = [
+            'url'  => $project->to(),
+            'page' => 'activity',
+        ];
+        $tabs[] = [
+            'url'    => $project->to('issues'),
+            'page'   => 'open_issue',
+            'prefix' => $openIssuesCount,
+        ];
+        $tabs[] = [
+            'url'    => $project->to('issues') . '/0',
+            'page'   => 'closed_issue',
+            'prefix' => $closedIssuesCount,
+        ];
+        if (!$this->auth->guest()) {
+            $tabs[] = [
+                'url'    => $project->to('assigned'),
+                'page'   => 'issue_assigned_to_you',
+                'prefix' => $assignedIssuesCount,
+            ];
+        }
+        $tabs[] = [
+            'url'    => $project->to('notes'),
+            'page'   => 'notes',
+            'prefix' => $notesCount,
+        ];
+
+        return $tabs;
     }
 
     /**

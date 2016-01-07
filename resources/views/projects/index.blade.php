@@ -9,7 +9,11 @@ active
 @stop
 
 @section('headingSubTitle')
-    @lang('tinyissue.projects_description')
+    @if (!Auth::guest())
+        @lang('tinyissue.projects_description')
+    @else
+        @lang('tinyissue.projects_description_guest')
+    @endif
 @stop
 
 @section('content')

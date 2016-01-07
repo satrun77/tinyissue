@@ -33,6 +33,7 @@ class Project
         'Issue',
         'IssueFilter',
         'Note',
+        'Project'
     ];
 
     /**
@@ -139,5 +140,24 @@ class Project
     protected function handleNoteRequest(Request $request)
     {
         return $this->isBelongToProject($request, 'note');
+    }
+
+    /**
+     * Whether or not the incoming request is valid project note request
+     *
+     * @param Request $request
+     *
+     * @return bool
+     */
+    protected function handleProjectRequest(Request $request)
+    {
+        /** @var ProjectModel|null $project */
+        $project = $request->route()->getParameter('project');
+
+        if (!$project instanceof ProjectModel || $project->isPrivate()) {
+            abort(401);
+        }
+
+        return true;
     }
 }

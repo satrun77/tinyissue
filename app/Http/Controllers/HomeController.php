@@ -11,9 +11,10 @@
 
 namespace Tinyissue\Http\Controllers;
 
+use Tinyissue\Form\Login as LoginForm;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
-use Tinyissue\Form\Login as LoginForm;
+use Tinyissue\Model\User;
 
 /**
  * HomeController is the controller class for login, logout, dashboard pages
@@ -22,6 +23,22 @@ use Tinyissue\Form\Login as LoginForm;
  */
 class HomeController extends Controller
 {
+    /**
+     * Public issues view
+     *
+     * @param User $user
+     * @param Project $project
+     * @return \Illuminate\View\View
+     */
+    public function getIssues(User $user, Project $project)
+    {
+        return view('index.issues', [
+            'activeUsers' => $user->activeUsers(),
+            'projects'    => $project->projectsWidthIssues(Project::STATUS_OPEN, Project::PRIVATE_NO)->get(),
+            'sidebar'     => 'public',
+        ]);
+    }
+
     /**
      * User dashboard
      *

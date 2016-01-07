@@ -166,7 +166,8 @@ class Issue extends FormAbstract
      */
     protected function fieldUpload()
     {
-        $fields = $this->projectUploadFields('upload', $this->project, \Auth::user());
+        $user = \Auth::guest()? new Model\User : \Auth::user();
+        $fields = $this->projectUploadFields('upload', $this->project, $user);
         $fields['upload']['label'] = 'attachments';
 
         return $fields;

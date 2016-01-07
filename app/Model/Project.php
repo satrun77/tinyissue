@@ -38,6 +38,27 @@ class Project extends Model
         Traits\Project\QueryTrait;
 
     /**
+     * Project not public to view and create issue
+     *
+     * @var int
+     */
+    const PRIVATE_YES = 1;
+
+    /**
+     * Project public to view and create issue
+     *
+     * @var int
+     */
+    const PRIVATE_NO = 0;
+
+    /**
+     * All projects
+     *
+     * @var int
+     */
+    const PRIVATE_ALL = -1;
+
+    /**
      * Project status Open
      *
      * @var int
@@ -70,7 +91,7 @@ class Project extends Model
      *
      * @var array
      */
-    protected $fillable = ['name', 'default_assignee', 'status'];
+    protected $fillable = ['name', 'default_assignee', 'status', 'private'];
 
     /**
      * Generate a URL for the active project
@@ -176,5 +197,15 @@ class Project extends Model
     public function isMember($userId)
     {
         return $this->user($userId)->count() > 0;
+    }
+
+    /**
+     * Whether or not the project is private or public
+     *
+     * @return bool
+     */
+    public function isPrivate()
+    {
+        return $this->private === true;
     }
 }

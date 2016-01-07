@@ -21,7 +21,9 @@ active
 @stop
 
 @section('headingLink')
-    {!! link_to($project->to('issue/new'), trans('tinyissue.new_issue')) !!}
+    @if (!Auth::guest())
+        {!! link_to($project->to('issue/new'), trans('tinyissue.new_issue')) !!}
+    @endif
 @stop
 
 @section('content')

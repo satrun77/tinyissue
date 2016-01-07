@@ -12,6 +12,7 @@
 namespace Tinyissue\Form;
 
 use Tinyissue\Model\Role;
+use Tinyissue\Model\User as UserModel;
 
 /**
  * User is a class to defines fields & rules for add/edit user form
@@ -51,6 +52,11 @@ class User extends FormAbstract
             'email' => [
                 'type'  => 'text',
                 'label' => 'email',
+            ],
+            'private' => [
+                'type'    => 'select',
+                'label'   => 'visibility',
+                'options' => [UserModel::PRIVATE_YES => trans('tinyissue.private'), UserModel::PRIVATE_NO => trans('tinyissue.public')],
             ],
         ];
 

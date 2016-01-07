@@ -29,6 +29,17 @@ use Tinyissue\Model\Project;
 trait QueryTrait
 {
     /**
+     * Returns public users
+     *
+     * @return Eloquent\Collection
+     */
+    public function activeUsers()
+    {
+        return $this->where('private', '=', false)
+            ->orderBy('firstname', 'ASC')->get();
+    }
+
+    /**
      * Returns user projects with activities details eager loaded
      *
      * @param int $status

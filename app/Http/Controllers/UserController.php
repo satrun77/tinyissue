@@ -14,6 +14,7 @@ namespace Tinyissue\Http\Controllers;
 use Tinyissue\Form\UserSetting as Form;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\User;
 
 /**
  * UserController is the controller class for managing request related to logged in user account

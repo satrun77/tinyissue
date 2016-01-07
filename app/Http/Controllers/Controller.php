@@ -15,6 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesCommands;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Contracts\Auth\Guard;
+use Tinyissue\Model;
 
 /**
  * Controller is an abstract class for the controller classes
@@ -40,5 +41,15 @@ abstract class Controller extends BaseController
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
+    }
+
+    protected function sidebarProjects()
+    {
+        if (!$this->auth->guest()) {
+            return $this->auth->user()->projects()->get();
+        }
+
+        $project = new Model\Project;
+        return $project->publicProjects();
     }
 }

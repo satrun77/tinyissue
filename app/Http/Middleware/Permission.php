@@ -30,6 +30,15 @@ class Permission
     protected $auth;
 
     /**
+     * List of permissions that can be accessed by public users
+     *
+     * @var array
+     */
+    protected $publicAccess = [
+        'issue-view'
+    ];
+
+    /**
      * Create a new filter instance.
      *
      * @param Guard $auth
@@ -51,9 +60,15 @@ class Permission
     {
         $permission = $this->getPermission($request);
         $user = $this->auth->user();
+        /** @var ProjectModel|null $project */
+        $project = $request->route()->getParameter('project');
+
         // Check if user has the permission
         // & if the user can access the current context (e.g. is one of the project users)
-        if (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters())) {
+        if (in_array($permission, $this->publicAccess) && $project instanceof ProjectModel && !$project->isPrivate()) {
+            // Ignore we are ok to view issues in public project
+        } else if (!$this->auth->guest()
+            && (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters()))) {
             abort(401);
         }
 

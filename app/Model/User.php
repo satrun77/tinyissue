@@ -44,6 +44,20 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         Traits\User\QueryTrait;
 
     /**
+     * User name is private
+     *
+     * @var int
+     */
+    const PRIVATE_YES = 1;
+
+    /**
+     * User name is public
+     *
+     * @var int
+     */
+    const PRIVATE_NO = 0;
+
+    /**
      * User status Deleted
      *
      * @var int
@@ -69,7 +83,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['deleted', 'email', 'password', 'firstname', 'lastname', 'role_id'];
+    protected $fillable = ['deleted', 'email', 'password', 'firstname', 'lastname', 'role_id', 'private'];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -172,6 +186,10 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getFullNameAttribute()
     {
+        if ($this->private && !\Auth::user()->permission('administration')) {
+            return trans('tinyissue.anonymous');
+        }
+
         return $this->attributes['firstname'] . ' ' . $this->attributes['lastname'];
     }
 }

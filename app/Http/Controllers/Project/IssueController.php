@@ -50,13 +50,19 @@ class IssueController extends Controller
             $activity->setRelation('issue', $issue);
         });
 
+        // Projects should be limited to issue-modify
+        $projects = null;
+        if (!$this->auth->guest() && $this->auth->user()->permission('issue-modify')) {
+            $projects = $this->auth->user()->projects()->get();
+        }
+
         return view('project.issue.index', [
             'issue'       => $issue,
             'project'     => $project,
             'commentForm' => $form,
             'activities'  => $activities,
             'sidebar'     => 'project',
-            'projects'    => $this->auth->user()->projects()->get(),
+            'projects'    => $projects,
         ]);
     }
 

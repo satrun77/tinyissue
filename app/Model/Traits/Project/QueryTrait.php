@@ -51,6 +51,18 @@ trait QueryTrait
     }
 
     /**
+     * Returns collection of public projects
+     *
+     * @return Eloquent\Collection
+     */
+    public function publicProjects()
+    {
+        return $this->where('private', '=', Project::PRIVATE_NO)
+            ->orderBy('name', 'ASC')
+            ->get();
+    }
+
+    /**
      * Returns all users that are not assigned in the current project.
      *
      * @return array
@@ -123,4 +135,39 @@ trait QueryTrait
             ->orderBy('updated_at', 'DESC')
             ->get();
     }
+
+    /**
+     * Returns projects with issues details eager loaded
+     *
+     * @param int $status
+     * @param int $private
+     *
+     * @return Relations\HasMany
+     */
+    public function projectsWidthIssues($status = Project::STATUS_OPEN, $private = Project::PRIVATE_NO)
+    {
+        $query = $this
+            ->where('status', '=', $status)
+            ->orderBy('name');
+
+        if ($private !== Project::PRIVATE_ALL) {
+            $query->where('private', '=', $private);
+        }
+
+        $query->with([
+            'issues'               => function (Relations\Relation $query) use ($status) {
+                $query->with('updatedBy');
+                if ($status === Project::STATUS_OPEN) {
+                    $query->where('status', '=', Project\Issue::STATUS_OPEN);
+                }
+            },
+            'issues.user'          => function () {
+            },
+            'issues.countComments' => function () {
+            },
+        ]);
+
+        return $query;
+    }
+
 }

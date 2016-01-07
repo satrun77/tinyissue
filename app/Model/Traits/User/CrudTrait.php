@@ -48,6 +48,7 @@ trait CrudTrait
             'firstname' => $info['firstname'],
             'lastname'  => $info['lastname'],
             'role_id'   => $info['role_id'],
+            'private'   => (boolean)$info['private'],
             'password'  => Hash::make($password = Str::random(6)),
         ];
 
@@ -96,6 +97,7 @@ trait CrudTrait
             'lastname',
             'language',
             'password',
+            'private',
         ]));
 
         return $this->updateUser($update);

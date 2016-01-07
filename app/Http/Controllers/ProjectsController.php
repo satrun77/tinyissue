@@ -16,6 +16,7 @@ use Tinyissue\Form\Project as Form;
 use Tinyissue\Form\GlobalIssue as IssueForm;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\User;
 
 /**
  * ProjectsController is the controller class for managing request related to projects
@@ -33,24 +34,37 @@ class ProjectsController extends Controller
      */
     public function getIndex($status = Project::STATUS_OPEN)
     {
-        $projects = $this->auth->user()->projectsWithCountOpenIssues($status)->get();
-        if ($status) {
-            $active = 'active';
-            $countActive = $projects->count();
-            $countArchived = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
+        $viewData = [];
+        if (!$this->auth->guest()) {
+            $projects = $this->auth->user()->projectsWithCountOpenIssues($status)->get();
+            if ($status) {
+                $countActive = $projects->count();
+                $countArchived = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
+            } else {
+                $countActive = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
+                $countArchived = $projects->count();
+            }
+            $viewData['projects'] = $this->auth->user()->projects()->get();
         } else {
-            $active = 'archived';
-            $countActive = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
-            $countArchived = $projects->count();
+            $viewData['sidebar'] = 'public';
+            $project = new Project();
+            $projects = $project->projectsWithOpenIssuesCount($status, Project::PRIVATE_NO)->get();
+            if ($status) {
+                $countActive = $projects->count();
+                $countArchived = $project->projectsWithOpenIssuesCount(Project::STATUS_ARCHIVED, Project::PRIVATE_NO)->count();
+            } else {
+                $countActive = $project->projectsWithOpenIssuesCount(Project::STATUS_OPEN, Project::PRIVATE_NO)->count();
+                $countArchived = $projects->count();
+            }
+            $user = new User();
+            $viewData['activeUsers'] = $user->activeUsers();
         }
+        $viewData['content_projects'] = $projects;
+        $viewData['active'] = $status === Project::STATUS_OPEN? 'active' : 'archived';
+        $viewData['active_count'] = $countActive;
+        $viewData['archived_count'] = $countArchived;
 
-        return view('projects.index', [
-            'content_projects' => $projects,
-            'active' => $active,
-            'active_count' => $countActive,
-            'archived_count' => $countArchived,
-            'projects' => $this->auth->user()->projects()->get(),
-        ]);
+        return view('projects.index', $viewData);
     }
 
     /**

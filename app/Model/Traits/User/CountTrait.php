@@ -65,7 +65,8 @@ trait CountTrait
     public function projectsWithCountOpenIssues($status = Project::STATUS_OPEN)
     {
         if ($this->permission('project-all')) {
-            return Project::with('openIssuesCount')->where('status', '=', $status);
+            $project = new Project();
+            return $project->projectsWithOpenIssuesCount($status, Project::PRIVATE_ALL);
         }
 
         return $this->projects($status)->with('openIssuesCount');

@@ -29,6 +29,16 @@ use Tinyissue\Model\Project;
 trait CountTrait
 {
     /**
+     * Count number of private projects
+     *
+     * @return int
+     */
+    public function countPrivateProjects()
+    {
+        return $this->where('private', '=', Project::PRIVATE_YES)->count();
+    }
+
+    /**
      * Count number of open projects
      *
      * @return int
@@ -136,5 +146,24 @@ trait CountTrait
             ->with('openIssuesCount', 'closedIssuesCount')
             ->whereIn('id', $projectIds)
             ->get();
+    }
+
+    /**
+     * Returns projects with open issue count
+     *
+     * @param int $status
+     * @param int $private
+     * @return mixed
+     */
+    public function projectsWithOpenIssuesCount($status = Project::STATUS_OPEN, $private = Project::PRIVATE_YES)
+    {
+        $query = $this->with('openIssuesCount')
+            ->where('status', '=', $status);
+
+        if ($private !== Project::PRIVATE_ALL) {
+            $query->where('private', '=', $private);
+        }
+
+        return $query;
     }
 }
