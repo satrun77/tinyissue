@@ -191,6 +191,5 @@ return [
     'xlsx'                              => 'Excel 2007',
     'download_export'                   => 'Download Export',
     'id'                                => 'ID',
-    'export_xls_title'                  => 'Issues for project: :
-    name(total: :count)',
+    'export_xls_title'                  => 'Issues for project: :name (total: :count)',
 ];

@@ -18,6 +18,7 @@ use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Model\Project\Issue;
+use Auth as Auth;
 
 /**
  * User is model class for users
@@ -186,7 +187,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getFullNameAttribute()
     {
-        if ($this->private && !\Auth::user()->permission('administration')) {
+        if ($this->private && (Auth::guest() || !Auth::user()->permission('administration'))) {
             return trans('tinyissue.anonymous');
         }
 

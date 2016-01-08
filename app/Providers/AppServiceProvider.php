@@ -45,5 +45,10 @@ class AppServiceProvider extends ServiceProvider
         });
 
         $this->commands('artisan.tinyissue.install');
+
+        $this->app['tinyissue.settings'] = $this->app->share(function () {
+            return new \Tinyissue\Model\Settings();
+        });
+
     }
 }

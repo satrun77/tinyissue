@@ -1,7 +1,7 @@
 @extends('layouts.wrapper')
 
-@section('nav/dashboard/class')
-    issues
+@section('nav/issues/class')
+active
 @stop
 
 @section('headingTitle')

@@ -154,7 +154,7 @@ class Project
         /** @var ProjectModel|null $project */
         $project = $request->route()->getParameter('project');
 
-        if (!$project instanceof ProjectModel || $project->isPrivate()) {
+        if (auth()->guest() && $project instanceof ProjectModel && $project->isPrivate()) {
             abort(401);
         }
 

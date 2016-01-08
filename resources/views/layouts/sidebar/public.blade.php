@@ -7,7 +7,8 @@
     @forelse ($activeUsers as $user)
         <li>
             <h3>
-                <span>{{ $user->fullname }}</span>
+                {{ $user->fullname }}<br />
+                <span class="label label-{{ $user->role->className() }}">{{ $user->role->name }}</span>
             </h3>
         </li>
     @empty

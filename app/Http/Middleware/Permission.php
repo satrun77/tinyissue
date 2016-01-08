@@ -14,6 +14,7 @@ namespace Tinyissue\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
+use Tinyissue\Model\Project as ProjectModel;
 
 /**
  * Permission is a Middleware class to for checking if current user has the permission to access the request
@@ -65,7 +66,9 @@ class Permission
 
         // Check if user has the permission
         // & if the user can access the current context (e.g. is one of the project users)
-        if (in_array($permission, $this->publicAccess) && $project instanceof ProjectModel && !$project->isPrivate()) {
+        if (app('tinyissue.settings')->isPublicProjectsEnabled()
+            && in_array($permission, $this->publicAccess)
+            && $project instanceof ProjectModel && !$project->isPrivate()) {
             // Ignore we are ok to view issues in public project
         } else if (!$this->auth->guest()
             && (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters()))) {

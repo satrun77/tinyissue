@@ -35,7 +35,8 @@ trait QueryTrait
      */
     public function activeUsers()
     {
-        return $this->where('private', '=', false)
+        return $this->with('role')
+            ->where('private', '=', false)
             ->orderBy('firstname', 'ASC')->get();
     }
 

@@ -52,42 +52,9 @@ class RouteServiceProvider extends ServiceProvider
             $router->get('logout', 'HomeController@getLogout');
             $router->post('signin', 'HomeController@postSignin');
 
-            // View issues
-            $router->get('issues', 'HomeController@getIssues');
-
-            // View projects
-            $router->post('projects/progress', ['middleware' => 'ajax', 'uses' => 'ProjectsController@postProgress']);
-            $router->get('projects/{status?}', 'ProjectsController@getIndex')->where('status', '[0-1]');
-
-            $router->group(['middleware' => 'project'], function (Router $router) {
-                $router->model('project', 'Tinyissue\Model\Project');
-                $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
-                $router->pattern('comment', '[0-9]+');
-                $router->pattern('issue', '[0-9]+');
-                $router->pattern('limit', '[0-9]+');
-                $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
-                $router->pattern('project', '[0-9]+');
-                $router->pattern('attachment', '[0-9]+');
-                $router->pattern('note', '[0-9]+');
-                $router->model('note', 'Tinyissue\Model\Project\Note');
-
-                // Tags autocomplete
-                $router->get('administration/tags/suggestions/{term?}', ['middleware' => 'ajax', 'uses' => 'Administration\TagsController@getTags']);
-
-                // View project
-                $router->get('project/{project}', 'ProjectController@getIndex');
-                $router->get('project/{project}/issues/{status?}', 'ProjectController@getIssues')->where('status', '[0-1]');
-                $router->get('project/{project}/notes', 'ProjectController@getNotes');
-
-                // View issue
-                $router->model('issue', 'Tinyissue\Model\Project\Issue');
-                $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function (Router $router) {
-                    $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
-                    $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
-                    $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
-                    $router->get('project/{project}/issue/{issue}/display/{attachment}', 'Project\IssueController@getDisplayAttachment');
-                });
-            });
+            if (app('tinyissue.settings')->isPublicProjectsEnabled()) {
+                $this->addPublicRoutes($router);
+            }
 
             $router->group(['middleware' => 'auth'], function (Router $router) {
                 $router->get('dashboard', 'HomeController@getDashboard');
@@ -96,6 +63,9 @@ class RouteServiceProvider extends ServiceProvider
                 $router->controller('user', 'UserController');
 
                 // Projects area
+                if (!app('tinyissue.settings')->isPublicProjectsEnabled()) {
+                    $this->addPublicProjectsRoutes($router);
+                }
                 $router->get('projects/new_issue', 'ProjectsController@getNewIssue');
                 $router->post('projects/new_issue', 'ProjectsController@postNewIssue');
                 $router->group(['middleware' => 'permission', 'permission' => 'project-create'], function (Router $router) {
@@ -115,6 +85,10 @@ class RouteServiceProvider extends ServiceProvider
                     $router->pattern('note', '[0-9]+');
                     $router->pattern('term', '\w+');
                     $router->model('note', 'Tinyissue\Model\Project\Note');
+
+                    if (!app('tinyissue.settings')->isPublicProjectsEnabled()) {
+                        $this->addPublicProjectRoutes($router);
+                    }
 
                     // View project
                     $router->get('project/{project}/assigned', 'ProjectController@getAssigned');
@@ -177,8 +151,69 @@ class RouteServiceProvider extends ServiceProvider
                     $router->post('administration/tag/new', 'Administration\TagsController@postNew');
                     $router->get('administration/tag/{tag}/edit', 'Administration\TagsController@getEdit');
                     $router->post('administration/tag/{tag}/edit', 'Administration\TagsController@postEdit');
+
+                    // Settings
+                    $router->get('administration/settings', 'AdministrationController@getSettings');
+                    $router->post('administration/settings', 'AdministrationController@postSettings');
                 });
             });
+        });
+    }
+
+    /**
+     * All of the routes that can be made public
+     *
+     * @param Router $router
+     * @return void
+     */
+    protected function addPublicRoutes(Router $router)
+    {
+        // View issues
+        $router->get('issues', 'HomeController@getIssues');
+
+        // View projects
+        $this->addPublicProjectsRoutes($router);
+
+        $router->group(['middleware' => 'project'], function (Router $router) {
+            $this->addPublicProjectRoutes($router);
+        });
+    }
+
+    /**
+     * Routes related to projects controller that can be made public or private
+     *
+     * @param Router $router
+     * @return void
+     */
+    protected function addPublicProjectsRoutes(Router $router)
+    {
+        $router->post('projects/progress', ['middleware' => 'ajax', 'uses' => 'ProjectsController@postProgress']);
+        $router->get('projects/{status?}', 'ProjectsController@getIndex')->where('status', '[0-1]');
+    }
+
+    /**
+     * Routes related to project (issue, comment, notes, etc..) that can be made public or private
+     *
+     * @param Router $router
+     * @return void
+     */
+    protected function addPublicProjectRoutes(Router $router)
+    {
+        // Tags autocomplete
+        $router->get('administration/tags/suggestions/{term?}', ['middleware' => 'ajax', 'uses' => 'Administration\TagsController@getTags']);
+
+        // View project
+        $router->get('project/{project}', 'ProjectController@getIndex');
+        $router->get('project/{project}/issues/{status?}', 'ProjectController@getIssues')->where('status', '[0-1]');
+        $router->get('project/{project}/notes', 'ProjectController@getNotes');
+
+        // View issue
+        $router->model('issue', 'Tinyissue\Model\Project\Issue');
+        $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function (Router $router) {
+            $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
+            $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
+            $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
+            $router->get('project/{project}/issue/{issue}/display/{attachment}', 'Project\IssueController@getDisplayAttachment');
         });
     }
 }

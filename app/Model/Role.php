@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int    $id
+ * @property int $id
  * @property string $name
  * @property string $role
  * @property string $description
@@ -27,6 +27,11 @@ class Role extends Model
 {
     use Traits\Role\QueryTrait,
         Traits\Role\RelationTrait;
+
+    const ROLE_USER = 'user';
+    const ROLE_DEVELOPER = 'developer';
+    const ROLE_MANAGER = 'manager';
+    const ROLE_ADMIN = 'administrator';
 
     /**
      * Timestamp enabled
@@ -41,4 +46,25 @@ class Role extends Model
      * @var string
      */
     protected $table = 'roles';
+
+    /**
+     * Returns a class name based on role type
+     *
+     * @return string
+     */
+    public function className()
+    {
+        switch (strtolower($this->name)) {
+            case self::ROLE_USER:
+                return 'tag';
+            case self::ROLE_MANAGER:
+                return 'success';
+            case self::ROLE_DEVELOPER:
+                return 'info';
+            case self::ROLE_ADMIN:
+                return 'primary';
+        }
+
+        return 'primary';
+    }
 }
