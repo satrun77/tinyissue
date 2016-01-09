@@ -8,4 +8,3 @@ storage/*.sqlite
 tests/_output/*
 /node_modules/
 storage/exports/*
-.DS_Store
