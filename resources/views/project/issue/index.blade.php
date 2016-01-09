@@ -38,7 +38,7 @@ active
 </div>
 
 <span class="clearfix"></span>
-<ul class="discussion">
+<ul class="discussion comments">
     <li>
         <div class="insides">
             <div class="topbar">

@@ -3,7 +3,7 @@
         <div class="topbar">
             @permission('issue-modify')
             <ul>
-                <li>
+                <li class="edit">
                     <a href="{{ Url::to('project/issue/edit_comment/' . $comment->id) }}" class="edit" data-comment-id="{{ $comment->id }}">Edit</a>
                 </li>
                 <li>
