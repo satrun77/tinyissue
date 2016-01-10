@@ -33,6 +33,6 @@ active
     @usemacro('list_item', $closed_issues, 'closed_issues')
     @usemacro('list_item', 'v' . config('tinyissue.version'), 'version')
     @usemacro('list_item', config('tinyissue.release_date'), 'version_release_date')
-    @usemacro('list_item', '&#x276f;', link_to('administration/settings', trans('tinyissue.settings')))
+    @usemacro('list_item', '&#x276f;', link_to('administration/settings', trans('tinyissue.settings')), false)
 </ul>
 @stop

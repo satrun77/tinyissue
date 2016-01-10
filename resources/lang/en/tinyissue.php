@@ -192,4 +192,8 @@ return [
     'download_export'                   => 'Download Export',
     'id'                                => 'ID',
     'export_xls_title'                  => 'Issues for project: :name (total: :count)',
+    'settings'                          => 'Settings',
+    'enable'                            => 'Enable',
+    'disable'                           => 'Disable',
+    'manage_settings_description'       => 'Update the application global settings.',
 ];

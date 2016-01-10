@@ -33,7 +33,7 @@ class Settings extends FormAbstract
     public function actions()
     {
         return [
-            'submit' => 'update_settings',
+            'submit' => 'save',
         ];
     }
 
