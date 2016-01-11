@@ -17,7 +17,7 @@
     "maatwebsite/excel": "~2.0"
   },
   "require-dev": {
-    "codeception/codeception": "~2.0",
+    "codeception/codeception": "~2.1.0",
     "codeception/c3": "~2.0",
     "barryvdh/laravel-debugbar": "~2.0",
     "phpspec/phpspec": "~2.1"
