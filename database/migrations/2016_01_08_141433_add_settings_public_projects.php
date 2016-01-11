@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Migrations\Migration;
-use Tinyissue\Model\Settings;
+use Tinyissue\Model\Setting;
 
 class AddSettingsPublicProjects extends Migration
 {
@@ -25,7 +25,7 @@ class AddSettingsPublicProjects extends Migration
     public function up()
     {
         foreach ($this->data as $key => $row) {
-            $settings = new Settings;
+            $settings = new Setting();
             $settings->fill([
                 'name'  => $row['name'],
                 'value' => $row['value'],
@@ -43,7 +43,7 @@ class AddSettingsPublicProjects extends Migration
     public function down()
     {
         foreach ($this->data as $key => $row) {
-            $settings = new Settings();
+            $settings = new Setting();
             $setting = $settings->where('key', '=', $key)->first();
             if ($setting) {
                 $setting->delete();

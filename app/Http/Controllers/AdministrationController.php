@@ -14,7 +14,6 @@ namespace Tinyissue\Http\Controllers;
 use Tinyissue\Form\Settings as FormSettings;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Settings;
 use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
 
@@ -65,26 +64,14 @@ class AdministrationController extends Controller
     /**
      * To create new tag
      *
-     * @param Settings $settings
      * @param FormRequest\Settings $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postSettings(Settings $settings, FormRequest\Settings $request)
+    public function postSettings(FormRequest\Settings $request)
     {
-        $settingsToSave = $request->except('_token');
-
-        foreach ($settingsToSave as $name => $value) {
-            $settings = new Settings();
-            $setting = $settings->where('key', '=', $name)->first();
-            if ($setting) {
-                $setting->value = $value;
-                $setting->save();
-            }
-            unset($settings, $setting);
-        }
+        app('tinyissue.settings')->save($request->except('_token'));
 
         return redirect('administration/settings')->with('notice', trans('tinyissue.settings_saved'));
     }
-
 }

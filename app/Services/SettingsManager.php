@@ -9,13 +9,14 @@
  * file that was distributed with this source code.
  */
 
-namespace Tinyissue\Model;
+namespace Tinyissue\Services;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Tinyissue\Model\Setting;
 
 /**
- * User is model class for users
+ * SettingsManager singleton class to maintain a collection of all settings
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -24,58 +25,34 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $value
  * @property string $key
  */
-class Settings extends Model
+class SettingsManager extends Collection
 {
-    const ENABLE = 1;
-    const DISABLE = 0;
-
-    /**
-     * Indicates if the model should be timestamped.
-     *
-     * @var bool
-     */
-    public $timestamps = false;
-
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'settings';
-
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = ['key', 'name', 'value'];
-
-    /**
-     * Collection of all settings
-     *
-     * @var \Illuminate\Database\Eloquent\Collection
-     */
-    protected $settings = null;
+    public function __construct($items = [])
+    {
+        parent::__construct($items);
+        $this->load();
+    }
 
     /**
      * Load all settings
      *
      * @return \Illuminate\Database\Eloquent\Collection|boolean
      */
-    protected function loadSettings()
+    protected function load()
     {
-        if (null === $this->settings) {
+        if ($this->count() === 0) {
             // Skip exception if table does not exists
             // This method called from RouteServiceProvider, which is called within command line 'artisan migrate'
             // before the table exists.
             try {
-                $this->settings = static::all();
+                $items = Setting::all();
+                $this->items = is_array($items) ? $items : $this->getArrayableItems($items);
             } catch (\Exception $e) {
                 return false;
             }
         }
 
-        return $this->settings;
+        return $this;
     }
 
     /**
@@ -87,8 +64,8 @@ class Settings extends Model
      */
     public function get($name, $default = null)
     {
-        if ($this->loadSettings()) {
-            foreach ($this->settings as $setting) {
+        if ($this->load()) {
+            foreach ($this->all() as $setting) {
                 if ($setting->key === $name) {
                     return $setting->value;
                 }
@@ -106,5 +83,30 @@ class Settings extends Model
     public function isPublicProjectsEnabled()
     {
         return (boolean)$this->get('enable_public_projects') === true;
+    }
+
+    /**
+     * Save a collection of settings
+     *
+     * @param $values
+     * @return boolean
+     */
+    public function save($values)
+    {
+        foreach ($values as $name => $value) {
+            $settings = new Setting();
+            $setting = $settings->where('key', '=', $name)->first();
+            if ($setting) {
+                $setting->value = $value;
+                $setting->save();
+            }
+            unset($settings, $setting);
+        }
+
+        // Reload items
+        $this->items = [];
+        $this->load();
+
+        return true;
     }
 }

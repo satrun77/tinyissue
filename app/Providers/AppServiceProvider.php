@@ -12,6 +12,7 @@
 namespace Tinyissue\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use Tinyissue\Services;
 
 /**
  * AppServiceProvider is the application service provider for bootstrapping and registering global services
@@ -47,8 +48,7 @@ class AppServiceProvider extends ServiceProvider
         $this->commands('artisan.tinyissue.install');
 
         $this->app['tinyissue.settings'] = $this->app->share(function () {
-            return new \Tinyissue\Model\Settings();
+            return new Services\SettingsManager();
         });
-
     }
 }
