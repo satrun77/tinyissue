@@ -1,5 +1,11 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.4.0
+
+- Compatible with PHP 5.5, PHP 5.6, & PHP 7
+- Minor improvements & bug fixes
+- The ability to set projects as private or not. Based on https://github.com/mikelbring/tinyissue/pull/173
+
 ## Tiny Issue v2.3.0
 
 - Bug fixes
