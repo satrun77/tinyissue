@@ -75,21 +75,6 @@ class BladeServiceProvider extends ServiceProvider
                 return '<?php endif; ?>';
             }
         );
-
-        \Blade::directive(
-            'settings',
-            function ($expression) {
-                $expression = substr(substr($expression, 0, -2), 2);
-                return "<?php if(with(new \\Tinyissue\\Model\\Settings)->{$expression}()): ?>";
-            }
-        );
-
-        \Blade::directive(
-            'endsettings',
-            function ($expression) {
-                return '<?php endif; ?>';
-            }
-        );
     }
 
     /**
