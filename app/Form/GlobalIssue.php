@@ -35,12 +35,7 @@ class GlobalIssue extends Issue
     protected function getProjects()
     {
         if (!$this->projects) {
-            if (!\Auth::guest()) {
-                $this->projects = \Auth::user()->projects()->get()->lists('name', 'id');
-            } else {
-                $project = new Model\Project;
-                $this->projects = $project->publicProjects()->lists('name', 'id');
-            }
+            $this->projects = \Auth::user()->projects()->get()->lists('name', 'id');
         }
 
         return $this->projects;
@@ -81,9 +76,7 @@ class GlobalIssue extends Issue
 
         $fields += $this->fieldBody();
 
-        if (!\Auth::guest()) {
-            $fields += $this->fieldTags();
-        }
+        $fields += $this->fieldTags();
 
         // Only on creating new issue
         $fields += $this->fieldUpload();
