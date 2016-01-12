@@ -26,7 +26,7 @@ class CrudIssueCest
         $I->sendAjaxGetRequest(
             $I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f'])
         );
-        $tags = new Collection((array)$I->getJsonResponseContent());
+        $tags = new Collection((array) $I->getJsonResponseContent());
 
         $I->amOnAction('ProjectsController@getNewIssue');
 
@@ -69,11 +69,11 @@ class CrudIssueCest
         $I->seeOptionIsSelected('assigned_to', $developer1->fullname);
 
         $params = [
-            'title'       => 'issue 1',
-            'body'        => 'body of issue 1',
-            'tag'         => $tags->forPage(0, 2)->implode('value', ','),
+            'title' => 'issue 1',
+            'body' => 'body of issue 1',
+            'tag' => $tags->forPage(0, 2)->implode('value', ','),
             'assigned_to' => $developer1->id,
-            'time_quote'  => [
+            'time_quote' => [
                 'h' => 1,
                 'm' => 2,
                 's' => 3,

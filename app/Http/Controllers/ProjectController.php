@@ -44,11 +44,11 @@ class ProjectController extends Controller
             ->get();
 
         return view('project.index', [
-            'tabs'       => $this->projectMainViewTabs($project, 'index'),
-            'project'    => $project,
-            'active'     => 'activity',
+            'tabs' => $this->projectMainViewTabs($project, 'index'),
+            'project' => $project,
+            'active' => 'activity',
             'activities' => $activities,
-            'sidebar'    => 'project',
+            'sidebar' => 'project',
         ]);
     }
 
@@ -68,11 +68,11 @@ class ProjectController extends Controller
         $issues = $project->listIssues($status, $request->all());
 
         return view('project.index', [
-            'tabs'       => $this->projectMainViewTabs($project, 'issues', $issues, $status),
-            'project'    => $project,
-            'active'     => $active,
-            'issues'     => $issues,
-            'sidebar'    => 'project',
+            'tabs' => $this->projectMainViewTabs($project, 'issues', $issues, $status),
+            'project' => $project,
+            'active' => $active,
+            'issues' => $issues,
+            'sidebar' => 'project',
             'filterForm' => $filterForm,
         ]);
     }
@@ -89,10 +89,10 @@ class ProjectController extends Controller
         $issues = $project->listAssignedIssues($this->auth->user()->id);
 
         return view('project.index', [
-            'tabs'    => $this->projectMainViewTabs($project, 'assigned', $issues),
+            'tabs' => $this->projectMainViewTabs($project, 'assigned', $issues),
             'project' => $project,
-            'active'  => 'issue_assigned_to_you',
-            'issues'  => $issues,
+            'active' => 'issue_assigned_to_you',
+            'issues' => $issues,
             'sidebar' => 'project',
         ]);
     }
@@ -110,11 +110,11 @@ class ProjectController extends Controller
         $notes = $project->notes()->with('createdBy')->get();
 
         return view('project.index', [
-            'tabs'     => $this->projectMainViewTabs($project, 'notes', $notes),
-            'project'  => $project,
-            'active'   => 'notes',
-            'notes'    => $notes,
-            'sidebar'  => 'project',
+            'tabs' => $this->projectMainViewTabs($project, 'notes', $notes),
+            'project' => $project,
+            'active' => 'notes',
+            'notes' => $notes,
+            'sidebar' => 'project',
             'noteForm' => $form,
         ]);
     }
@@ -124,16 +124,17 @@ class ProjectController extends Controller
      * @param $view
      * @param null $data
      * @param bool $status
+     *
      * @return array
      */
     protected function projectMainViewTabs(Project $project, $view, $data = null, $status = false)
     {
-        $notesCount = $view === 'note'? $data->count() : $project->notes()->count();
+        $notesCount = $view === 'note' ? $data->count() : $project->notes()->count();
 
         $assignedIssuesCount = 0;
         if ($view !== 'assigned' && !$this->auth->guest()) {
             $assignedIssuesCount = $this->auth->user()->assignedIssuesCount($project->id);
-        } else if  ($view === 'assigned') {
+        } elseif ($view === 'assigned') {
             $assignedIssuesCount = $data->count();
         }
 
@@ -147,34 +148,34 @@ class ProjectController extends Controller
             }
         } else {
             $openIssuesCount = $project->openIssuesCount()->count();
-            $closedIssuesCount =  $project->closedIssuesCount()->count();
+            $closedIssuesCount = $project->closedIssuesCount()->count();
         }
 
         $tabs = [];
         $tabs[] = [
-            'url'  => $project->to(),
+            'url' => $project->to(),
             'page' => 'activity',
         ];
         $tabs[] = [
-            'url'    => $project->to('issues'),
-            'page'   => 'open_issue',
+            'url' => $project->to('issues'),
+            'page' => 'open_issue',
             'prefix' => $openIssuesCount,
         ];
         $tabs[] = [
-            'url'    => $project->to('issues') . '/0',
-            'page'   => 'closed_issue',
+            'url' => $project->to('issues') . '/0',
+            'page' => 'closed_issue',
             'prefix' => $closedIssuesCount,
         ];
         if (!$this->auth->guest()) {
             $tabs[] = [
-                'url'    => $project->to('assigned'),
-                'page'   => 'issue_assigned_to_you',
+                'url' => $project->to('assigned'),
+                'page' => 'issue_assigned_to_you',
                 'prefix' => $assignedIssuesCount,
             ];
         }
         $tabs[] = [
-            'url'    => $project->to('notes'),
-            'page'   => 'notes',
+            'url' => $project->to('notes'),
+            'page' => 'notes',
             'prefix' => $notesCount,
         ];
 
@@ -192,7 +193,7 @@ class ProjectController extends Controller
     public function getEdit(Project $project, Form $form)
     {
         return view('project.edit', [
-            'form'    => $form,
+            'form' => $form,
             'project' => $project,
             'sidebar' => 'project',
         ]);
@@ -355,10 +356,10 @@ class ProjectController extends Controller
         );
 
         return response()->json([
-            'link'  => $link,
+            'link' => $link,
             'title' => $info['title'],
-            'file'  => $info['file'],
-            'ext'   => $info['ext'],
+            'file' => $info['file'],
+            'ext' => $info['ext'],
         ]);
     }
 

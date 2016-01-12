@@ -47,41 +47,41 @@ return [
     'connections' => [
 
         'sqlite' => [
-            'driver'   => 'sqlite',
+            'driver' => 'sqlite',
             'database' => env('DB_DATABASE', storage_path().'/database.sqlite'),
-            'prefix'   => env('DB_PREFIX', ''),
+            'prefix' => env('DB_PREFIX', ''),
         ],
 
         'mysql' => [
-            'driver'    => 'mysql',
-            'host'      => env('DB_HOST', 'localhost'),
-            'database'  => env('DB_DATABASE', 'forge'),
-            'username'  => env('DB_USERNAME', 'forge'),
-            'password'  => env('DB_PASSWORD', ''),
-            'charset'   => 'utf8',
+            'driver' => 'mysql',
+            'host' => env('DB_HOST', 'localhost'),
+            'database' => env('DB_DATABASE', 'forge'),
+            'username' => env('DB_USERNAME', 'forge'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
-            'prefix'    => env('DB_PREFIX', ''),
-            'strict'    => false,
+            'prefix' => env('DB_PREFIX', ''),
+            'strict' => false,
         ],
 
         'pgsql' => [
-            'driver'   => 'pgsql',
-            'host'     => env('DB_HOST', 'localhost'),
+            'driver' => 'pgsql',
+            'host' => env('DB_HOST', 'localhost'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'charset'  => 'utf8',
-            'prefix'   => env('DB_PREFIX', ''),
-            'schema'   => 'public',
+            'charset' => 'utf8',
+            'prefix' => env('DB_PREFIX', ''),
+            'schema' => 'public',
         ],
 
         'sqlsrv' => [
-            'driver'   => 'sqlsrv',
-            'host'     => env('DB_HOST', 'localhost'),
+            'driver' => 'sqlsrv',
+            'host' => env('DB_HOST', 'localhost'),
             'database' => env('DB_DATABASE', 'forge'),
             'username' => env('DB_USERNAME', 'forge'),
             'password' => env('DB_PASSWORD', ''),
-            'prefix'   => env('DB_PREFIX', ''),
+            'prefix' => env('DB_PREFIX', ''),
         ],
 
     ],
@@ -115,8 +115,8 @@ return [
         'cluster' => false,
 
         'default' => [
-            'host'     => '127.0.0.1',
-            'port'     => 6379,
+            'host' => '127.0.0.1',
+            'port' => 6379,
             'database' => 0,
         ],
 

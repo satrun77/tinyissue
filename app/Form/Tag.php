@@ -50,16 +50,16 @@ class Tag extends FormAbstract
         $tag = new Model\Tag();
         $fields = [
             'name' => [
-                'type'  => 'text',
+                'type' => 'text',
                 'label' => 'name',
             ],
             'group' => [
-                'type'    => 'select',
-                'label'   => 'group',
+                'type' => 'select',
+                'label' => 'group',
                 'options' => [0 => ''] + $tag->getGroups()->lists('name', 'id')->all(),
             ],
             'bgcolor' => [
-                'type'  => 'color',
+                'type' => 'color',
                 'label' => 'bgcolor',
             ],
         ];
@@ -73,7 +73,7 @@ class Tag extends FormAbstract
     public function rules()
     {
         $rules = [
-            'name'    => 'required|max:200',
+            'name' => 'required|max:200',
             'bgcolor' => 'required',
         ];
 

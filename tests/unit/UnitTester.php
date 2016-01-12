@@ -6,7 +6,6 @@
 // You should not change it manually as it will be overwritten on next build
 // @codingStandardsIgnoreFile
 
-
 /**
  * Inherited Methods
  *

@@ -80,9 +80,9 @@ trait CrudTrait
         $this->save();
 
         return $this->activities()->save(new User\Activity([
-            'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
+            'type_id' => Activity::TYPE_REASSIGN_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id'   => $userId,
+            'user_id' => $userId,
             'action_id' => $this->assigned_to,
         ]));
     }
@@ -97,19 +97,19 @@ trait CrudTrait
     public function updateIssue(array $input)
     {
         $fill = [
-            'title'       => $input['title'],
-            'body'        => $input['body'],
+            'title' => $input['title'],
+            'body' => $input['body'],
             'assigned_to' => $input['assigned_to'],
-            'time_quote'  => $input['time_quote'],
-            'updated_by'  => $this->updatedBy->id,
+            'time_quote' => $input['time_quote'],
+            'updated_by' => $this->updatedBy->id,
         ];
 
         /* Add to activity log for assignment if changed */
         if ($input['assigned_to'] != $this->assigned_to) {
             $this->activities()->save(new User\Activity([
-                'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
+                'type_id' => Activity::TYPE_REASSIGN_ISSUE,
                 'parent_id' => $this->project->id,
-                'user_id'   => $this->updatedBy->id,
+                'user_id' => $this->updatedBy->id,
                 'action_id' => $this->assigned_to,
             ]));
         }
@@ -137,8 +137,8 @@ trait CrudTrait
         $fill = [
             'created_by' => $this->user->id,
             'project_id' => $this->project->id,
-            'title'      => $input['title'],
-            'body'       => $input['body'],
+            'title' => $input['title'],
+            'body' => $input['body'],
         ];
 
         if ($this->user->permission('issue-modify')) {
@@ -150,9 +150,9 @@ trait CrudTrait
 
         /* Add to user's activity log */
         $this->activities()->save(new User\Activity([
-            'type_id'   => Activity::TYPE_CREATE_ISSUE,
+            'type_id' => Activity::TYPE_CREATE_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]));
 
         /* Add attachments to issue */

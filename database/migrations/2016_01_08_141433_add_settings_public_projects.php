@@ -12,7 +12,7 @@ class AddSettingsPublicProjects extends Migration
      */
     protected $data = [
         'enable_public_projects' => [
-            'name'  => 'enable_public_projects',
+            'name' => 'enable_public_projects',
             'value' => false,
         ],
     ];
@@ -27,9 +27,9 @@ class AddSettingsPublicProjects extends Migration
         foreach ($this->data as $key => $row) {
             $settings = new Setting();
             $settings->fill([
-                'name'  => $row['name'],
+                'name' => $row['name'],
                 'value' => $row['value'],
-                'key'   => $key,
+                'key' => $key,
             ])->save();
             unset($settings);
         }

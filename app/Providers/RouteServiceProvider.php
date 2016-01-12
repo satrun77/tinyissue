@@ -164,6 +164,7 @@ class RouteServiceProvider extends ServiceProvider
      * All of the routes that can be made public
      *
      * @param Router $router
+     *
      * @return void
      */
     protected function addPublicRoutes(Router $router)
@@ -183,6 +184,7 @@ class RouteServiceProvider extends ServiceProvider
      * Routes related to projects controller that can be made public or private
      *
      * @param Router $router
+     *
      * @return void
      */
     protected function addPublicProjectsRoutes(Router $router)
@@ -195,6 +197,7 @@ class RouteServiceProvider extends ServiceProvider
      * Routes related to project (issue, comment, notes, etc..) that can be made public or private
      *
      * @param Router $router
+     *
      * @return void
      */
     protected function addPublicProjectRoutes(Router $router)

@@ -155,13 +155,13 @@ trait QueryTrait
         }
 
         $query->with([
-            'issues'               => function (Relations\Relation $query) use ($status) {
+            'issues' => function (Relations\Relation $query) use ($status) {
                 $query->with('updatedBy');
                 if ($status === Project::STATUS_OPEN) {
                     $query->where('status', '=', Project\Issue::STATUS_OPEN);
                 }
             },
-            'issues.user'          => function () {
+            'issues.user' => function () {
             },
             'issues.countComments' => function () {
             },
@@ -169,5 +169,4 @@ trait QueryTrait
 
         return $query;
     }
-
 }

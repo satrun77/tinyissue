@@ -55,8 +55,8 @@ trait CrudTrait
         $fill = [
             'created_by' => $this->user->id,
             'project_id' => $this->project->id,
-            'issue_id'   => $this->issue->id,
-            'comment'    => $input['comment'],
+            'issue_id' => $this->issue->id,
+            'comment' => $input['comment'],
         ];
 
         $this->fill($fill);
@@ -64,10 +64,10 @@ trait CrudTrait
 
         /* Add to user's activity log */
         $this->activity()->save(new User\Activity([
-            'type_id'   => Activity::TYPE_COMMENT,
+            'type_id' => Activity::TYPE_COMMENT,
             'parent_id' => $this->project->id,
-            'item_id'   => $this->issue->id,
-            'user_id'   => $this->user->id,
+            'item_id' => $this->issue->id,
+            'user_id' => $this->user->id,
         ]));
 
         /* Add attachments to issue */

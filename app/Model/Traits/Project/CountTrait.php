@@ -153,6 +153,7 @@ trait CountTrait
      *
      * @param int $status
      * @param int $private
+     *
      * @return mixed
      */
     public function projectsWithOpenIssuesCount($status = Project::STATUS_OPEN, $private = Project::PRIVATE_YES)

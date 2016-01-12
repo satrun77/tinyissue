@@ -77,10 +77,10 @@ class ExportProjectIssueCest
             'project' => $project,
         ]);
         $I->sendAjaxPostRequest($uri, array_merge([
-            '_token'   => csrf_token(),
-            'keyword'  => '',
+            '_token' => csrf_token(),
+            'keyword' => '',
             'assignto' => '',
-            'tags'     => '',
+            'tags' => '',
         ], $params));
         $I->seeResponseCodeIs(200);
     }
@@ -104,7 +104,7 @@ class ExportProjectIssueCest
 
         $I->amOnAction('ProjectController@getDownloadExport', [
             'project' => $project,
-            'file'    => $file,
+            'file' => $file,
         ]);
     }
 
@@ -179,7 +179,7 @@ class ExportProjectIssueCest
 
         $this->_exportIssues($I, $project, [
             'assignto' => $developer->id,
-            'tags'     => $tags->implode('value', ','),
+            'tags' => $tags->implode('value', ','),
         ]);
         $this->_downloadExport($I, $project);
         $this->_assertExport($I, $project, $issues1, $issues2);
@@ -201,7 +201,7 @@ class ExportProjectIssueCest
         $I->amLoggedAs($manager);
         $this->_exportIssues($I, $project, [
             'keyword' => 'Issue 1',
-            'format'  => Exporter::TYPE_XLS,
+            'format' => Exporter::TYPE_XLS,
         ]);
         $this->_downloadExport($I, $project);
         $this->_assertExport($I, $project, $issues1, $issues2);

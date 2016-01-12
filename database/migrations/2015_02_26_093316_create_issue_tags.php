@@ -46,39 +46,39 @@ class CreateIssueTags extends Migration
 
             $tags = [
                 [
-                    'name'      => 'open',
+                    'name' => 'open',
                     'parent_id' => 'status',
-                    'bgcolor'   => '#c43c35',
+                    'bgcolor' => '#c43c35',
                 ],
                 [
-                    'name'      => 'testing',
+                    'name' => 'testing',
                     'parent_id' => 'status',
-                    'bgcolor'   => '#6c8307',
+                    'bgcolor' => '#6c8307',
                 ],
                 [
-                    'name'      => 'closed',
+                    'name' => 'closed',
                     'parent_id' => 'status',
-                    'bgcolor'   => '#46a546',
+                    'bgcolor' => '#46a546',
                 ],
                 [
-                    'name'      => 'feature',
+                    'name' => 'feature',
                     'parent_id' => 'type',
-                    'bgcolor'   => '#62cffc',
+                    'bgcolor' => '#62cffc',
                 ],
                 [
-                    'name'      => 'bug',
+                    'name' => 'bug',
                     'parent_id' => 'type',
-                    'bgcolor'   => '#f89406',
+                    'bgcolor' => '#f89406',
                 ],
                 [
-                    'name'      => 'won\'t fix',
+                    'name' => 'won\'t fix',
                     'parent_id' => 'resolution',
-                    'bgcolor'   => '#812323',
+                    'bgcolor' => '#812323',
                 ],
                 [
-                    'name'      => 'fixed',
+                    'name' => 'fixed',
                     'parent_id' => 'resolution',
-                    'bgcolor'   => '#048383',
+                    'bgcolor' => '#048383',
                 ],
             ];
             foreach ($tags as $tag) {

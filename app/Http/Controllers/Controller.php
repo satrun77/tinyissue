@@ -49,7 +49,8 @@ abstract class Controller extends BaseController
             return $this->auth->user()->projects()->get();
         }
 
-        $project = new Model\Project;
+        $project = new Model\Project();
+
         return $project->publicProjects();
     }
 }

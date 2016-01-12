@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Model;
 
-use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 
 /**

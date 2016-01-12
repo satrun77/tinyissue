@@ -2,14 +2,14 @@
 
 return array(
 
-    'cache'      => array(
+    'cache' => array(
 
         /*
         |--------------------------------------------------------------------------
         | Enable/Disable cell caching
         |--------------------------------------------------------------------------
         */
-        'enable'   => true,
+        'enable' => true,
 
         /*
         |--------------------------------------------------------------------------
@@ -22,7 +22,7 @@ return array(
         | memory|gzip|serialized|igbinary|discISAM|apc|memcache|temp|wincache|sqlite|sqlite3
         |
         */
-        'driver'   => 'memory',
+        'driver' => 'memory',
 
         /*
         |--------------------------------------------------------------------------
@@ -32,7 +32,7 @@ return array(
         'settings' => array(
 
             'memoryCacheSize' => '32MB',
-            'cacheTime'       => 600,
+            'cacheTime' => 600,
 
         ),
 
@@ -54,19 +54,19 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'dir'      => storage_path('cache'),
+        'dir' => storage_path('cache'),
     ),
 
     'properties' => array(
-        'creator'        => 'Maatwebsite',
+        'creator' => 'Maatwebsite',
         'lastModifiedBy' => 'Maatwebsite',
-        'title'          => 'Spreadsheet',
-        'description'    => 'Default spreadsheet export',
-        'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
-        'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'title' => 'Spreadsheet',
+        'description' => 'Default spreadsheet export',
+        'subject' => 'Spreadsheet export',
+        'keywords' => 'maatwebsite, excel, export',
+        'category' => 'Excel',
+        'manager' => 'Maatwebsite',
+        'company' => 'Maatwebsite',
     ),
 
     /*
@@ -74,7 +74,7 @@ return array(
     | Sheets settings
     |--------------------------------------------------------------------------
     */
-    'sheets'     => array(
+    'sheets' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -82,18 +82,18 @@ return array(
         |--------------------------------------------------------------------------
         */
         'pageSetup' => array(
-            'orientation'           => 'portrait',
-            'paperSize'             => '9',
-            'scale'                 => '100',
-            'fitToPage'             => false,
-            'fitToHeight'           => true,
-            'fitToWidth'            => true,
+            'orientation' => 'portrait',
+            'paperSize' => '9',
+            'scale' => '100',
+            'fitToPage' => false,
+            'fitToHeight' => true,
+            'fitToWidth' => true,
             'columnsToRepeatAtLeft' => array('', ''),
-            'rowsToRepeatAtTop'     => array(0, 0),
-            'horizontalCentered'    => false,
-            'verticalCentered'      => false,
-            'printArea'             => null,
-            'firstPageNumber'       => null,
+            'rowsToRepeatAtTop' => array(0, 0),
+            'horizontalCentered' => false,
+            'verticalCentered' => false,
+            'printArea' => null,
+            'firstPageNumber' => null,
         ),
     ),
 
@@ -106,9 +106,9 @@ return array(
     |
     */
 
-    'creator'    => 'Maatwebsite',
+    'creator' => 'Maatwebsite',
 
-    'csv'        => array(
+    'csv' => array(
         /*
        |--------------------------------------------------------------------------
        | Delimiter
@@ -118,7 +118,7 @@ return array(
        |
        */
 
-        'delimiter'   => ',',
+        'delimiter' => ',',
 
         /*
         |--------------------------------------------------------------------------
@@ -126,7 +126,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'enclosure'   => '"',
+        'enclosure' => '"',
 
         /*
         |--------------------------------------------------------------------------
@@ -137,7 +137,7 @@ return array(
         'line_ending' => "\r\n",
     ),
 
-    'export'     => array(
+    'export' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -148,7 +148,7 @@ return array(
         | an array of columns ( array('A', 'B') )
         |
         */
-        'autosize'                    => true,
+        'autosize' => true,
 
         /*
         |--------------------------------------------------------------------------
@@ -171,7 +171,7 @@ return array(
         | having the appropriate fonts installed.
         |
         */
-        'autosize-method'             => PHPExcel_Shared_Font::AUTOSIZE_METHOD_APPROX,
+        'autosize-method' => PHPExcel_Shared_Font::AUTOSIZE_METHOD_APPROX,
 
         /*
         |--------------------------------------------------------------------------
@@ -189,28 +189,28 @@ return array(
         | Auto set alignment on merged cells
         |--------------------------------------------------------------------------
         */
-        'merged_cell_alignment'       => 'left',
+        'merged_cell_alignment' => 'left',
 
         /*
         |--------------------------------------------------------------------------
         | Pre-calculate formulas during export
         |--------------------------------------------------------------------------
         */
-        'calculate'                   => false,
+        'calculate' => false,
 
         /*
         |--------------------------------------------------------------------------
         | Include Charts during export
         |--------------------------------------------------------------------------
         */
-        'includeCharts'               => false,
+        'includeCharts' => false,
 
         /*
         |--------------------------------------------------------------------------
         | Default sheet settings
         |--------------------------------------------------------------------------
         */
-        'sheets'                      => array(
+        'sheets' => array(
 
             /*
             |--------------------------------------------------------------------------
@@ -224,21 +224,21 @@ return array(
             |    Default order: array(top, right, bottom, left)
             |
             */
-            'page_margin'          => false,
+            'page_margin' => false,
 
             /*
             |--------------------------------------------------------------------------
             | Value in source array that stands for blank cell
             |--------------------------------------------------------------------------
             */
-            'nullValue'            => null,
+            'nullValue' => null,
 
             /*
             |--------------------------------------------------------------------------
             | Insert array starting from this cell address as the top left coordinate
             |--------------------------------------------------------------------------
             */
-            'startCell'            => 'A1',
+            'startCell' => 'A1',
 
             /*
             |--------------------------------------------------------------------------
@@ -254,7 +254,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'store'                       => array(
+        'store' => array(
 
             /*
             |--------------------------------------------------------------------------
@@ -264,7 +264,7 @@ return array(
             | The path we want to save excel file to
             |
             */
-            'path'       => storage_path('exports'),
+            'path' => storage_path('exports'),
 
             /*
             |--------------------------------------------------------------------------
@@ -283,7 +283,7 @@ return array(
         | PDF Settings
         |--------------------------------------------------------------------------
         */
-        'pdf'                         => array(
+        'pdf' => array(
 
             /*
             |--------------------------------------------------------------------------
@@ -291,7 +291,7 @@ return array(
             |--------------------------------------------------------------------------
             | Supported: DomPDF, tcPDF, mPDF
             */
-            'driver'  => 'DomPDF',
+            'driver' => 'DomPDF',
 
             /*
             |--------------------------------------------------------------------------
@@ -314,7 +314,7 @@ return array(
                 | tcPDF settings
                 |--------------------------------------------------------------------------
                 */
-                'tcPDF'  => array(
+                'tcPDF' => array(
                     'path' => base_path('vendor/tecnick.com/tcpdf/'),
                 ),
 
@@ -323,14 +323,14 @@ return array(
                 | mPDF settings
                 |--------------------------------------------------------------------------
                 */
-                'mPDF'   => array(
+                'mPDF' => array(
                     'path' => base_path('vendor/mpdf/mpdf/'),
                 ),
             ),
         ),
     ),
 
-    'filters'    => array(
+    'filters' => array(
         /*
         |--------------------------------------------------------------------------
         | Register read filters
@@ -347,10 +347,10 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'enabled'    => array(),
+        'enabled' => array(),
     ),
 
-    'import'     => array(
+    'import' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -363,7 +363,7 @@ return array(
         |
         */
 
-        'heading'                 => 'slugged',
+        'heading' => 'slugged',
 
         /*
         |--------------------------------------------------------------------------
@@ -375,7 +375,7 @@ return array(
         |
         */
 
-        'startRow'                => 1,
+        'startRow' => 1,
 
         /*
         |--------------------------------------------------------------------------
@@ -387,7 +387,7 @@ return array(
         |
         */
 
-        'separator'               => '_',
+        'separator' => '_',
 
         /*
         |--------------------------------------------------------------------------
@@ -395,7 +395,7 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'includeCharts'           => false,
+        'includeCharts' => false,
 
         /*
         |--------------------------------------------------------------------------
@@ -407,7 +407,7 @@ return array(
         |
         */
 
-        'to_ascii'                => true,
+        'to_ascii' => true,
 
         /*
         |--------------------------------------------------------------------------
@@ -415,9 +415,9 @@ return array(
         |--------------------------------------------------------------------------
         */
 
-        'encoding'                => array(
+        'encoding' => array(
 
-            'input'  => 'UTF-8',
+            'input' => 'UTF-8',
             'output' => 'UTF-8',
 
         ),
@@ -431,7 +431,7 @@ return array(
         |
         */
 
-        'calculate'               => true,
+        'calculate' => true,
 
         /*
         |--------------------------------------------------------------------------
@@ -442,7 +442,7 @@ return array(
         |
         */
 
-        'ignoreEmpty'             => false,
+        'ignoreEmpty' => false,
 
         /*
         |--------------------------------------------------------------------------
@@ -466,7 +466,7 @@ return array(
         |
         */
 
-        'dates'                   => array(
+        'dates' => array(
 
             /*
             |--------------------------------------------------------------------------
@@ -483,7 +483,7 @@ return array(
             | If set to false, a carbon object will return
             |
             */
-            'format'  => false,
+            'format' => false,
 
             /*
             |--------------------------------------------------------------------------
@@ -498,7 +498,7 @@ return array(
         | Import sheets by config
         |--------------------------------------------------------------------------
         */
-        'sheets'                  => array(
+        'sheets' => array(
 
             /*
             |--------------------------------------------------------------------------
@@ -518,7 +518,7 @@ return array(
         ),
     ),
 
-    'views'      => array(
+    'views' => array(
 
         /*
         |--------------------------------------------------------------------------
@@ -536,7 +536,7 @@ return array(
             | Table headings
             |--------------------------------------------------------------------------
             */
-            'th'     => array(
+            'th' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
@@ -560,7 +560,7 @@ return array(
             | Bold tags
             |--------------------------------------------------------------------------
             */
-            'b'      => array(
+            'b' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
@@ -572,10 +572,10 @@ return array(
             | Italic tags
             |--------------------------------------------------------------------------
             */
-            'i'      => array(
+            'i' => array(
                 'font' => array(
                     'italic' => true,
-                    'size'   => 12,
+                    'size' => 12,
                 ),
             ),
 
@@ -584,7 +584,7 @@ return array(
             | Heading 1
             |--------------------------------------------------------------------------
             */
-            'h1'     => array(
+            'h1' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 24,
@@ -596,7 +596,7 @@ return array(
             | Heading 2
             |--------------------------------------------------------------------------
             */
-            'h2'     => array(
+            'h2' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 18,
@@ -608,7 +608,7 @@ return array(
             | Heading 2
             |--------------------------------------------------------------------------
             */
-            'h3'     => array(
+            'h3' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 13.5,
@@ -620,7 +620,7 @@ return array(
              | Heading 4
              |--------------------------------------------------------------------------
              */
-            'h4'     => array(
+            'h4' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 12,
@@ -632,7 +632,7 @@ return array(
              | Heading 5
              |--------------------------------------------------------------------------
              */
-            'h5'     => array(
+            'h5' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 10,
@@ -644,7 +644,7 @@ return array(
              | Heading 6
              |--------------------------------------------------------------------------
              */
-            'h6'     => array(
+            'h6' => array(
                 'font' => array(
                     'bold' => true,
                     'size' => 7.5,
@@ -656,10 +656,10 @@ return array(
              | Hyperlinks
              |--------------------------------------------------------------------------
              */
-            'a'      => array(
+            'a' => array(
                 'font' => array(
                     'underline' => true,
-                    'color'     => array('argb' => 'FF0000FF'),
+                    'color' => array('argb' => 'FF0000FF'),
                 ),
             ),
 
@@ -668,7 +668,7 @@ return array(
              | Horizontal rules
              |--------------------------------------------------------------------------
              */
-            'hr'     => array(
+            'hr' => array(
                 'borders' => array(
                     'bottom' => array(
                         'style' => 'thin',

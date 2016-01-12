@@ -66,6 +66,7 @@ trait CountTrait
     {
         if ($this->permission('project-all')) {
             $project = new Project();
+
             return $project->projectsWithOpenIssuesCount($status, Project::PRIVATE_ALL);
         }
 

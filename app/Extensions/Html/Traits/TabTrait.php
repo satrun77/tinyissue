@@ -31,10 +31,10 @@ trait TabTrait
     public function tab(array $tabs, $active)
     {
         $defaultTab = [
-            'title'  => '',
+            'title' => '',
             'prefix' => '',
             'active' => false,
-            'url'    => '',
+            'url' => '',
         ];
 
         $output = '<ul class="nav nav-tabs">';

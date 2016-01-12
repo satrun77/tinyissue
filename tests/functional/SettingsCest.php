@@ -1,6 +1,5 @@
 <?php
 
-use Tinyissue\Model\Project;
 
 class SettingsCest
 {
@@ -31,5 +30,4 @@ class SettingsCest
         $I->click($settingsString);
         $I->seeOptionIsSelected('enable_public_projects', $enableString);
     }
-
 }

@@ -37,7 +37,7 @@ class CrudAttachmentCest
         ]);
         $I->submitFormWithFileToUri('#content .form-horizontal', $uri, ['upload' => $fileName], [
             'title' => $title,
-            'body'  => $body,
+            'body' => $body,
         ]);
         $I->seeResponseCodeIs(200);
         $issue = $I->fetchIssueBy('title', $title);
@@ -51,8 +51,8 @@ class CrudAttachmentCest
         $I->seeElement('.attachments a', ['title' => $fileName]);
         $attachment = $issue->attachments->first();
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
-            'project'    => $project,
-            'issue'      => $issue,
+            'project' => $project,
+            'issue' => $issue,
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
@@ -98,8 +98,8 @@ class CrudAttachmentCest
         $attachments = $issue->comments->first()->attachments;
         foreach ($attachments as $attachment) {
             $I->amOnAction('Project\IssueController@getDisplayAttachment', [
-                'project'    => $project,
-                'issue'      => $issue,
+                'project' => $project,
+                'issue' => $issue,
                 'attachment' => $attachment,
             ]);
             $I->seeResponseCodeIs(200);
@@ -134,8 +134,8 @@ class CrudAttachmentCest
         ]);
         $attachment = $issue->comments->first()->attachments->first();
         $I->amOnAction('Project\IssueController@getDownloadAttachment', [
-            'project'    => $project,
-            'issue'      => $issue,
+            'project' => $project,
+            'issue' => $issue,
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
@@ -145,15 +145,15 @@ class CrudAttachmentCest
             'project' => $project,
         ]);
         $I->sendAjaxPostRequest($uri, [
-            '_token'       => csrf_token(),
+            '_token' => csrf_token(),
             'upload_token' => $uploadToken,
-            'filename'     => $fileName,
+            'filename' => $fileName,
         ]);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->dontSeeElement('.attachments a', ['title' => $fileName]);
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
-            'project'    => $project,
-            'issue'      => $issue,
+            'project' => $project,
+            'issue' => $issue,
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(404);

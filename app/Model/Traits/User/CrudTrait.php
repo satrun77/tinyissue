@@ -44,19 +44,19 @@ trait CrudTrait
     public function createUser(array $info)
     {
         $insert = [
-            'email'     => $info['email'],
+            'email' => $info['email'],
             'firstname' => $info['firstname'],
-            'lastname'  => $info['lastname'],
-            'role_id'   => $info['role_id'],
-            'private'   => (boolean)$info['private'],
-            'password'  => Hash::make($password = Str::random(6)),
+            'lastname' => $info['lastname'],
+            'role_id' => $info['role_id'],
+            'private' => (boolean) $info['private'],
+            'password' => Hash::make($password = Str::random(6)),
         ];
 
         $this->fill($insert)->save();
 
         /* Send Activation email */
         $viewData = [
-            'email'    => $info['email'],
+            'email' => $info['email'],
             'password' => $password,
         ];
         Mail::send('email.new_user', $viewData, function (MailMessage $message) {
@@ -74,7 +74,7 @@ trait CrudTrait
     public function delete()
     {
         $this->update([
-            'email'   => '',
+            'email' => '',
             'deleted' => User::DELETED_USERS,
         ]);
         Project\User::where('user_id', '=', $this->id)->delete();

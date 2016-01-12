@@ -45,9 +45,9 @@ class FilterIssue extends FormAbstract
     {
         return [
             'filter' => [
-                'name'  => 'filter',
+                'name' => 'filter',
                 'label' => 'filter',
-                'type'  => 'info_submit',
+                'type' => 'info_submit',
             ],
         ];
     }
@@ -75,39 +75,39 @@ class FilterIssue extends FormAbstract
 
         $fields = [
             'keyword' => [
-                'type'            => 'text',
-                'placeholder'     => trans('tinyissue.keywords'),
+                'type' => 'text',
+                'placeholder' => trans('tinyissue.keywords'),
                 'onGroupAddClass' => 'toolbar-item first',
             ],
             'tags' => [
-                'type'            => 'text',
-                'placeholder'     => trans('tinyissue.tags'),
-                'multiple'        => true,
-                'class'           => 'tagit',
-                'data_tokens'     => htmlentities($selectTags, ENT_QUOTES),
+                'type' => 'text',
+                'placeholder' => trans('tinyissue.tags'),
+                'multiple' => true,
+                'class' => 'tagit',
+                'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
                 'onGroupAddClass' => 'toolbar-item',
             ],
             'sort' => [
-                'type'            => 'groupField',
+                'type' => 'groupField',
                 'onGroupAddClass' => 'toolbar-item',
-                'fields'          => [
+                'fields' => [
                     'sortby' => [
-                        'type'         => 'select',
-                        'placeholder'  => trans('tinyissue.sortby'),
-                        'options'      => $sort,
+                        'type' => 'select',
+                        'placeholder' => trans('tinyissue.sortby'),
+                        'options' => $sort,
                         'onGroupClass' => 'control-inline control-sortby',
                     ],
                     'sortorder' => [
-                        'type'         => 'select',
-                        'options'      => ['asc' => trans('tinyissue.sort_asc'), 'desc' => trans('tinyissue.sort_desc')],
+                        'type' => 'select',
+                        'options' => ['asc' => trans('tinyissue.sort_asc'), 'desc' => trans('tinyissue.sort_desc')],
                         'onGroupClass' => 'control-inline control-sortorder',
                     ],
                 ],
             ],
             'assignto' => [
-                'type'            => 'select',
-                'placeholder'     => trans('tinyissue.assigned_to'),
-                'options'         => $assignTo,
+                'type' => 'select',
+                'placeholder' => trans('tinyissue.assigned_to'),
+                'options' => $assignTo,
                 'onGroupAddClass' => 'toolbar-item last',
             ],
         ];

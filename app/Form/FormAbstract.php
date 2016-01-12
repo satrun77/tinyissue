@@ -145,13 +145,13 @@ abstract class FormAbstract implements FormInterface
     {
         return [
             $name => [
-                'type'                 => 'FileUpload',
+                'type' => 'FileUpload',
                 'data_message_success' => trans('tinyissue.success_upload'),
-                'data_message_failed'  => trans('tinyissue.error_uploadfailed'),
-                'multiple'             => null,
+                'data_message_failed' => trans('tinyissue.error_uploadfailed'),
+                'multiple' => null,
             ],
             $name . '_token' => [
-                'type'  => 'hidden',
+                'type' => 'hidden',
                 'value' => md5($project->id . time() . $user->id . rand(1, 100)),
             ],
         ];

@@ -12,7 +12,6 @@
 namespace Tinyissue\Form;
 
 use Tinyissue\Model;
-use Tinyissue\Services\SettingsManager;
 
 /**
  * Settings is a class to defines fields & rules for editing system settings
@@ -58,14 +57,15 @@ class Settings extends FormAbstract
      * Select enable/disable for public projects
      *
      * @param Model\Setting $setting
+     *
      * @return array
      */
     protected function fieldEnablePublicProjects(Model\Setting $setting)
     {
         return [
-            'type'    => 'select',
-            'label'   => $setting->name,
-            'value'   => $setting->value,
+            'type' => 'select',
+            'label' => $setting->name,
+            'value' => $setting->value,
             'options' => [Model\Setting::ENABLE => trans('tinyissue.enable'), Model\Setting::DISABLE => trans('tinyissue.disable')],
         ];
     }

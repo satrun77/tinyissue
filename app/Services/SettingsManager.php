@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Services;
 
-use Illuminate\Database\Eloquent;
 use Illuminate\Support\Collection;
 use Tinyissue\Model\Setting;
 
@@ -36,7 +35,7 @@ class SettingsManager extends Collection
     /**
      * Load all settings
      *
-     * @return \Illuminate\Database\Eloquent\Collection|boolean
+     * @return \Illuminate\Database\Eloquent\Collection|bool
      */
     protected function load()
     {
@@ -60,6 +59,7 @@ class SettingsManager extends Collection
      *
      * @param $name
      * @param mixed|null $default
+     *
      * @return mixed
      */
     public function get($name, $default = null)
@@ -82,14 +82,15 @@ class SettingsManager extends Collection
      */
     public function isPublicProjectsEnabled()
     {
-        return (boolean)$this->get('enable_public_projects') === true;
+        return (boolean) $this->get('enable_public_projects') === true;
     }
 
     /**
      * Save a collection of settings
      *
      * @param $values
-     * @return boolean
+     *
+     * @return bool
      */
     public function save($values)
     {

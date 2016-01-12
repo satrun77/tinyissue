@@ -64,8 +64,8 @@ class PermissionUserCest
         $tags = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title' => 'issue 1',
-            'body'  => 'body of issue 1',
-            'tag'   => $tags->forPage(0, 1)->implode('value', ','),
+            'body' => 'body of issue 1',
+            'tag' => $tags->forPage(0, 1)->implode('value', ','),
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);

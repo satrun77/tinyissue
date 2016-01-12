@@ -33,11 +33,11 @@ class CrudProjectCest
         $I->fillField('name', 'project1');
 
         $params = [
-            'user'             => [
+            'user' => [
                 $userId1 => $userId1,
                 $userId2 => $userId2,
             ],
-            'name'             => 'project1',
+            'name' => 'project1',
             'default_assignee' => $userId2,
         ];
         $I->submitForm('#submit-project', $params);

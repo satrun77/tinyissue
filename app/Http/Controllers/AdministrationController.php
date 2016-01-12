@@ -27,22 +27,22 @@ class AdministrationController extends Controller
     /**
      * Show general application stats
      *
-     * @param Tag $tag
+     * @param Tag     $tag
      * @param Project $project
-     * @param User $user
+     * @param User    $user
      *
      * @return \Illuminate\View\View
      */
     public function getIndex(Tag $tag, Project $project, User $user)
     {
         return view('administration.index', [
-            'users'             => $user->countUsers(),
-            'active_projects'   => $project->countOpenProjects(),
+            'users' => $user->countUsers(),
+            'active_projects' => $project->countOpenProjects(),
             'archived_projects' => $project->countArchivedProjects(),
-            'open_issues'       => $project->countOpenIssues(),
-            'closed_issues'     => $project->countClosedIssues(),
-            'projects'          => $this->auth->user()->projects()->get(),
-            'tags'              => $tag->count(),
+            'open_issues' => $project->countOpenIssues(),
+            'closed_issues' => $project->countClosedIssues(),
+            'projects' => $this->auth->user()->projects()->get(),
+            'tags' => $tag->count(),
         ]);
     }
 
@@ -56,7 +56,7 @@ class AdministrationController extends Controller
     public function getSettings(FormSettings $form)
     {
         return view('administration.settings', [
-            'form'     => $form,
+            'form' => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }

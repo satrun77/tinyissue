@@ -24,12 +24,12 @@ class FunctionalHelper extends \Codeception\Module
     public function createUser($index = 0, $role = 1)
     {
         $user = new Model\User([
-            'email'     => 'user' . $index . '@user.com',
+            'email' => 'user' . $index . '@user.com',
             'firstname' => 'User ' . $index,
-            'lastname'  => 'One',
-            'password'  => Hash::make('123'),
-            'role_id'   => $role,
-            'language'  => 'en',
+            'lastname' => 'One',
+            'password' => Hash::make('123'),
+            'role_id' => $role,
+            'language' => 'en',
         ]);
         $user->deleted = Model\User::NOT_DELETED_USERS;
         $user->save();
@@ -56,15 +56,15 @@ class FunctionalHelper extends \Codeception\Module
         $project = $project ?: $this->createProject($index, [$assign]);
 
         $issueData = [
-            'title'        => 'Issue ' . $index,
-            'body'         => 'body of issue ' . $index,
-            'time_quote'   => [
+            'title' => 'Issue ' . $index,
+            'body' => 'body of issue ' . $index,
+            'time_quote' => [
                 'h' => 0,
                 'm' => 0,
                 's' => 0,
             ],
             'upload_token' => '-',
-            'tag'          => '',
+            'tag' => '',
         ];
         $issueData['assigned_to'] = null !== $assign ? $assign->id : '';
 
@@ -121,7 +121,7 @@ class FunctionalHelper extends \Codeception\Module
         $comment->setRelation('issue', $issue);
         $comment->setRelation('user', $user);
         $comment->createComment([
-            'comment'      => 'Comment ' . $index,
+            'comment' => 'Comment ' . $index,
             'upload_token' => '-',
         ]);
 
@@ -142,7 +142,7 @@ class FunctionalHelper extends \Codeception\Module
         $project = $project ?: $this->createProject($index);
 
         $note = $project->notes()->firstOrCreate([
-            'body'       => 'Note ' . $index,
+            'body' => 'Note ' . $index,
             'created_by' => $user->id,
         ]);
 

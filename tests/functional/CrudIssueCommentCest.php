@@ -26,7 +26,7 @@ class CrudIssueCommentCest
         $I->fillField('comment', 'Comment one');
         $I->click(trans('tinyissue.comment'));
         $I->seeResponseCodeIs(200);
-        $comment  = $issue->comments->last();
+        $comment = $issue->comments->last();
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue->id . '#comment' . $comment->id]);
         $I->see('Comment one', '.comment .content');
     }
@@ -52,7 +52,7 @@ class CrudIssueCommentCest
 
         $uri = $I->getApplication()->url->action('Project\IssueController@postEditComment', ['comment' => $comment]);
         $I->sendAjaxPostRequest($uri, [
-            'body'   => 'Comment one updated',
+            'body' => 'Comment one updated',
             '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);

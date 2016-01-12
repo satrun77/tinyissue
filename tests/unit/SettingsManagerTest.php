@@ -2,7 +2,6 @@
 
 class SettingsManagerTest extends \Codeception\TestCase\Test
 {
-
     public function testGetDefaultValue()
     {
         /** @var \Tinyissue\Services\SettingsManager $settings */

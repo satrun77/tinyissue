@@ -63,8 +63,8 @@ class PermissionDeveloperCest
         $tags = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title' => 'issue 1',
-            'body'  => 'body of issue 1',
-            'tag'   => $tags->forPage(0, 1)->implode('value', ','),
+            'body' => 'body of issue 1',
+            'tag' => $tags->forPage(0, 1)->implode('value', ','),
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);
@@ -129,7 +129,7 @@ class PermissionDeveloperCest
         $I->fillField('comment', 'Comment one');
         $I->click(trans('tinyissue.comment'));
         $I->seeResponseCodeIs(200);
-        $comment  = $issue2->comments->last();
+        $comment = $issue2->comments->last();
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2->id . '#comment' . $comment->id]);
         $I->see('Comment one', '.comment .content');
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);

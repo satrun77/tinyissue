@@ -34,7 +34,7 @@ class TagsController extends Controller
     public function getIndex(Tag $tag)
     {
         return view('administration.tags.index', [
-            'tags'     => $tag->getGroupTags(),
+            'tags' => $tag->getGroupTags(),
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
@@ -49,7 +49,7 @@ class TagsController extends Controller
     public function getNew(Form $form)
     {
         return view('administration.tags.new', [
-            'form'     => $form,
+            'form' => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
@@ -80,8 +80,8 @@ class TagsController extends Controller
     public function getEdit(Tag $tag, Form $form)
     {
         return view('administration.tags.edit', [
-            'tag'      => $tag,
-            'form'     => $form,
+            'tag' => $tag,
+            'form' => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
@@ -119,8 +119,8 @@ class TagsController extends Controller
                 return !($tag->name == 'open' || $tag->name == 'closed');
             })->map(function (Tag $tag) {
                 return [
-                    'value'   => $tag->id,
-                    'label'   => $tag->fullname,
+                    'value' => $tag->id,
+                    'label' => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toArray();

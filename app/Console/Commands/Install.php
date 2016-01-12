@@ -49,13 +49,13 @@ class Install extends Command
      * @var array
      */
     protected $modules = [
-        'pdo'      => 0,
-        'mcrypt'   => 0,
-        'openssl'  => 0,
-        'curl'     => 0,
-        'json'     => 0,
+        'pdo' => 0,
+        'mcrypt' => 0,
+        'openssl' => 0,
+        'curl' => 0,
+        'json' => 0,
         'mbstring' => 0,
-        'xml'      => 0,
+        'xml' => 0,
     ];
 
     /**
@@ -72,8 +72,8 @@ class Install extends Command
      */
     protected $dbDrivers = [
         'pdo_sqlite' => 0,
-        'pdo_mysql'  => 0,
-        'pdo_pgsql'  => 0,
+        'pdo_mysql' => 0,
+        'pdo_pgsql' => 0,
         'pdo_sqlsrv' => 0,
     ];
 
@@ -83,20 +83,20 @@ class Install extends Command
      * @var array
      */
     protected $data = [
-        'key'            => '',
-        'timezone'       => 'Pacific/Auckland',
-        'dbHost'         => 'localhost',
-        'dbName'         => 'tinyissue',
-        'dbUser'         => 'root',
-        'dbPass'         => self::EMPTY_VALUE,
-        'dbDriver'       => 'mysql',
-        'dbPrefix'       => '',
-        'sysEmail'       => '',
-        'sysName'        => '',
-        'adminEmail'     => '',
+        'key' => '',
+        'timezone' => 'Pacific/Auckland',
+        'dbHost' => 'localhost',
+        'dbName' => 'tinyissue',
+        'dbUser' => 'root',
+        'dbPass' => self::EMPTY_VALUE,
+        'dbDriver' => 'mysql',
+        'dbPrefix' => '',
+        'sysEmail' => '',
+        'sysName' => '',
+        'adminEmail' => '',
         'adminFirstName' => '',
-        'adminLastName'  => '',
-        'adminPass'      => '',
+        'adminLastName' => '',
+        'adminPass' => '',
     ];
 
     /**
@@ -321,13 +321,13 @@ class Install extends Command
         $validDbDrivers = $this->getValidDbDrivers();
         $this->askQuestions([
             'dbDriver' => ['choice', ['Select a database driver', $validDbDrivers, 0]],
-            'dbHost'   => 'Enter the database host',
-            'dbName'   => 'Enter the database name',
-            'dbUser'   => 'Enter the database username',
-            'dbPass'   => 'Enter the database password',
+            'dbHost' => 'Enter the database host',
+            'dbName' => 'Enter the database name',
+            'dbUser' => 'Enter the database username',
+            'dbPass' => 'Enter the database password',
             'dbPrefix' => 'Enter the tables prefix',
             'sysEmail' => 'Email address used by the Tiny Issue to send emails from',
-            'sysName'  => 'Email name used by the Tiny Issue for the email address above',
+            'sysName' => 'Email name used by the Tiny Issue for the email address above',
             'timezone' => 'The application timezone. Find your timezone from: http://php.net/manual/en/timezones.php)',
         ]);
         $this->data['key'] = md5(str_random(40));
@@ -434,20 +434,20 @@ class Install extends Command
         $this->section('Setting up the admin account:');
 
         $this->askQuestions([
-            'adminEmail'     => 'Email address',
+            'adminEmail' => 'Email address',
             'adminFirstName' => 'First Name',
-            'adminLastName'  => 'Last Name',
-            'adminPass'      => 'Password',
+            'adminLastName' => 'Last Name',
+            'adminPass' => 'Password',
         ]);
 
         Model\User::updateOrCreate(['email' => $this->data['adminEmail']], [
-            'email'     => $this->data['adminEmail'],
+            'email' => $this->data['adminEmail'],
             'firstname' => $this->data['adminFirstName'],
-            'lastname'  => $this->data['adminLastName'],
-            'password'  => \Hash::make($this->data['adminPass']),
-            'deleted'   => Model\User::NOT_DELETED_USERS,
-            'role_id'   => 4,
-            'language'  => 'en',
+            'lastname' => $this->data['adminLastName'],
+            'password' => \Hash::make($this->data['adminPass']),
+            'deleted' => Model\User::NOT_DELETED_USERS,
+            'role_id' => 4,
+            'language' => 'en',
         ]);
 
         $this->info('Admin account created successfully.');
@@ -457,6 +457,7 @@ class Install extends Command
      * Returns the actual value of user input
      *
      * @param $name
+     *
      * @return string
      */
     protected function getInputValue($name)

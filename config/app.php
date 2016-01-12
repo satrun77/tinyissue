@@ -13,7 +13,7 @@ return [
       |
      */
 
-    'debug'           => env('APP_DEBUG'),
+    'debug' => env('APP_DEBUG'),
     /*
       |--------------------------------------------------------------------------
       | Application URL
@@ -24,7 +24,7 @@ return [
       | your application so that it is used when running Artisan tasks.
       |
      */
-    'url'             => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost'),
     /*
       |--------------------------------------------------------------------------
       | Application Timezone
@@ -35,7 +35,7 @@ return [
       | ahead and set this to a sensible default for you out of the box.
       |
      */
-    'timezone'        => env('APP_TIMEZONE', 'UTC'),
+    'timezone' => env('APP_TIMEZONE', 'UTC'),
     /*
       |--------------------------------------------------------------------------
       | Application Locale Configuration
@@ -46,7 +46,7 @@ return [
       | to any of the locales which will be supported by the application.
       |
      */
-    'locale'          => 'en',
+    'locale' => 'en',
     /*
       |--------------------------------------------------------------------------
       | Application Fallback Locale
@@ -68,8 +68,8 @@ return [
       | will not be safe. Please do this before deploying an application!
       |
      */
-    'key'             => env('APP_KEY', 'SomeRandomString'),
-    'cipher'          => MCRYPT_RIJNDAEL_128,
+    'key' => env('APP_KEY', 'SomeRandomString'),
+    'cipher' => MCRYPT_RIJNDAEL_128,
     /*
       |--------------------------------------------------------------------------
       | Logging Configuration
@@ -82,7 +82,7 @@ return [
       | Available Settings: "single", "daily", "syslog", "errorlog"
       |
      */
-    'log'             => 'daily',
+    'log' => 'daily',
     /*
       |--------------------------------------------------------------------------
       | Autoloaded Service Providers
@@ -93,7 +93,7 @@ return [
       | this array to grant expanded functionality to your applications.
       |
      */
-    'providers'       => [
+    'providers' => [
 
         /*
          * Laravel Framework Service Providers...
@@ -147,45 +147,45 @@ return [
       | the aliases are "lazy" loaded so they don't hinder performance.
       |
      */
-    'aliases'         => [
+    'aliases' => [
 
-        'App'       => 'Illuminate\Support\Facades\App',
-        'Artisan'   => 'Illuminate\Support\Facades\Artisan',
-        'Auth'      => 'Illuminate\Support\Facades\Auth',
-        'Blade'     => 'Illuminate\Support\Facades\Blade',
-        'Bus'       => 'Illuminate\Support\Facades\Bus',
-        'Cache'     => 'Illuminate\Support\Facades\Cache',
-        'Config'    => 'Illuminate\Support\Facades\Config',
-        'Cookie'    => 'Illuminate\Support\Facades\Cookie',
-        'Crypt'     => 'Illuminate\Support\Facades\Crypt',
-        'DB'        => 'Illuminate\Support\Facades\DB',
-        'Eloquent'  => 'Illuminate\Database\Eloquent\Model',
-        'Event'     => 'Illuminate\Support\Facades\Event',
-        'File'      => 'Illuminate\Support\Facades\File',
-        'Hash'      => 'Illuminate\Support\Facades\Hash',
-        'Input'     => 'Illuminate\Support\Facades\Input',
+        'App' => 'Illuminate\Support\Facades\App',
+        'Artisan' => 'Illuminate\Support\Facades\Artisan',
+        'Auth' => 'Illuminate\Support\Facades\Auth',
+        'Blade' => 'Illuminate\Support\Facades\Blade',
+        'Bus' => 'Illuminate\Support\Facades\Bus',
+        'Cache' => 'Illuminate\Support\Facades\Cache',
+        'Config' => 'Illuminate\Support\Facades\Config',
+        'Cookie' => 'Illuminate\Support\Facades\Cookie',
+        'Crypt' => 'Illuminate\Support\Facades\Crypt',
+        'DB' => 'Illuminate\Support\Facades\DB',
+        'Eloquent' => 'Illuminate\Database\Eloquent\Model',
+        'Event' => 'Illuminate\Support\Facades\Event',
+        'File' => 'Illuminate\Support\Facades\File',
+        'Hash' => 'Illuminate\Support\Facades\Hash',
+        'Input' => 'Illuminate\Support\Facades\Input',
         'Inspiring' => 'Illuminate\Foundation\Inspiring',
-        'Lang'      => 'Illuminate\Support\Facades\Lang',
-        'Log'       => 'Illuminate\Support\Facades\Log',
-        'Mail'      => 'Illuminate\Support\Facades\Mail',
-        'Password'  => 'Illuminate\Support\Facades\Password',
-        'Queue'     => 'Illuminate\Support\Facades\Queue',
-        'Redirect'  => 'Illuminate\Support\Facades\Redirect',
-        'Redis'     => 'Illuminate\Support\Facades\Redis',
-        'Request'   => 'Illuminate\Support\Facades\Request',
-        'Response'  => 'Illuminate\Support\Facades\Response',
-        'Route'     => 'Illuminate\Support\Facades\Route',
-        'Schema'    => 'Illuminate\Support\Facades\Schema',
-        'Session'   => 'Illuminate\Support\Facades\Session',
-        'Storage'   => 'Illuminate\Support\Facades\Storage',
-        'URL'       => 'Illuminate\Support\Facades\URL',
+        'Lang' => 'Illuminate\Support\Facades\Lang',
+        'Log' => 'Illuminate\Support\Facades\Log',
+        'Mail' => 'Illuminate\Support\Facades\Mail',
+        'Password' => 'Illuminate\Support\Facades\Password',
+        'Queue' => 'Illuminate\Support\Facades\Queue',
+        'Redirect' => 'Illuminate\Support\Facades\Redirect',
+        'Redis' => 'Illuminate\Support\Facades\Redis',
+        'Request' => 'Illuminate\Support\Facades\Request',
+        'Response' => 'Illuminate\Support\Facades\Response',
+        'Route' => 'Illuminate\Support\Facades\Route',
+        'Schema' => 'Illuminate\Support\Facades\Schema',
+        'Session' => 'Illuminate\Support\Facades\Session',
+        'Storage' => 'Illuminate\Support\Facades\Storage',
+        'URL' => 'Illuminate\Support\Facades\URL',
         'Validator' => 'Illuminate\Support\Facades\Validator',
-        'View'      => 'Illuminate\Support\Facades\View',
-        'Debugbar'  => 'Barryvdh\Debugbar\Facade',
-        'Form'      => 'Illuminate\Html\FormFacade',
-        'Html'      => 'Illuminate\Html\HtmlFacade',
-        'Former'    => 'Former\Facades\Former',
-        'Markdown'  => 'GrahamCampbell\Markdown\Facades\Markdown',
-        'Excel'     => 'Maatwebsite\Excel\Facades\Excel',
+        'View' => 'Illuminate\Support\Facades\View',
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
+        'Form' => 'Illuminate\Html\FormFacade',
+        'Html' => 'Illuminate\Html\HtmlFacade',
+        'Former' => 'Former\Facades\Former',
+        'Markdown' => 'GrahamCampbell\Markdown\Facades\Markdown',
+        'Excel' => 'Maatwebsite\Excel\Facades\Excel',
     ],
 ];

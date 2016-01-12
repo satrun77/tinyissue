@@ -36,7 +36,7 @@ class Permission
      * @var array
      */
     protected $publicAccess = [
-        'issue-view'
+        'issue-view',
     ];
 
     /**
@@ -70,7 +70,7 @@ class Permission
             && in_array($permission, $this->publicAccess)
             && $project instanceof ProjectModel && !$project->isPrivate()) {
             // Ignore we are ok to view issues in public project
-        } else if (!$this->auth->guest()
+        } elseif (!$this->auth->guest()
             && (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters()))) {
             abort(401);
         }

@@ -81,9 +81,9 @@ trait CrudTagTrait
 
         /* Add to activity log */
         $this->activities()->save(new User\Activity([
-            'type_id'   => $activityType,
+            'type_id' => $activityType,
             'parent_id' => $this->project->id,
-            'user_id'   => $userId,
+            'user_id' => $userId,
         ]));
 
         $this->status = $status;
@@ -151,10 +151,10 @@ trait CrudTagTrait
         if (!empty($removedTags) || !empty($addedTags)) {
             // Add to activity log for tags if changed
             $this->activities()->save(new User\Activity([
-                'type_id'   => Activity::TYPE_ISSUE_TAG,
+                'type_id' => Activity::TYPE_ISSUE_TAG,
                 'parent_id' => $this->project->id,
-                'user_id'   => $this->user->id,
-                'data'      => ['added_tags' => $addedTags, 'removed_tags' => $removedTags],
+                'user_id' => $this->user->id,
+                'data' => ['added_tags' => $addedTags, 'removed_tags' => $removedTags],
             ]));
         }
 

@@ -33,7 +33,7 @@ class Project
         'Issue',
         'IssueFilter',
         'Note',
-        'Project'
+        'Project',
     ];
 
     /**

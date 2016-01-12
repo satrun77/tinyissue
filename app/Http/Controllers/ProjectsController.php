@@ -60,7 +60,7 @@ class ProjectsController extends Controller
             $viewData['activeUsers'] = $user->activeUsers();
         }
         $viewData['content_projects'] = $projects;
-        $viewData['active'] = $status === Project::STATUS_OPEN? 'active' : 'archived';
+        $viewData['active'] = $status === Project::STATUS_OPEN ? 'active' : 'archived';
         $viewData['active_count'] = $countActive;
         $viewData['archived_count'] = $countArchived;
 

@@ -34,7 +34,7 @@ class IssueCest
         $uri = $I->getApplication()->url->action('Project\IssueController@postChangeProject', ['issue' => $issue1]);
         $I->sendAjaxPostRequest($uri, [
                 'project_id' => $project1->id,
-                '_token'     => csrf_token(),
+                '_token' => csrf_token(),
             ]
         );
         $I->seeResponseCodeIs(200);
@@ -102,7 +102,7 @@ class IssueCest
         $I->dontSee($developer1->fullname, '.assigned-to .currently_assigned');
         $uri = $I->getApplication()->url->action('Project\IssueController@postAssign', ['project' => $project]);
         $I->sendAjaxPostRequest($uri, [
-            'user_id'   => $developer1->id,
+            'user_id' => $developer1->id,
             '_token' => csrf_token(),
         ]);
         $I->comment($I->getResponseContent());

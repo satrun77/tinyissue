@@ -166,7 +166,7 @@ class Issue extends FormAbstract
      */
     protected function fieldUpload()
     {
-        $user = \Auth::guest()? new Model\User : \Auth::user();
+        $user = \Auth::guest() ? new Model\User() : \Auth::user();
         $fields = $this->projectUploadFields('upload', $this->project, $user);
         $fields['upload']['label'] = 'attachments';
 
@@ -250,7 +250,7 @@ class Issue extends FormAbstract
             }
 
             if ($part === 'm') {
-                return (($seconds / 60) % 60);
+                return ($seconds / 60) % 60;
             }
 
             if ($part === 's') {

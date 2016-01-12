@@ -77,7 +77,7 @@ class CrudProjectNotesCest
 
         $uri = $I->getApplication()->url->action('ProjectController@postEditNote', ['project' => $project, 'note' => $note]);
         $I->sendAjaxPostRequest($uri, [
-            'body'   => 'note one updated',
+            'body' => 'note one updated',
             '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);

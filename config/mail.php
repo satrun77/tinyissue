@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'driver'     => 'smtp',
+    'driver' => 'smtp',
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Address
@@ -27,7 +27,7 @@ return [
     |
     */
 
-    'host'       => env('MAIL_HOST', 'smtp.mailgun.org'),
+    'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'port'       => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 587),
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -51,7 +51,7 @@ return [
     |
     */
 
-    'from'       => ['address' => env('MAIL_ADDRESS', ''), 'name' => env('MAIL_NAME', '')],
+    'from' => ['address' => env('MAIL_ADDRESS', ''), 'name' => env('MAIL_NAME', '')],
     /*
     |--------------------------------------------------------------------------
     | E-Mail Encryption Protocol
@@ -75,7 +75,7 @@ return [
     |
     */
 
-    'username'   => env('MAIL_USERNAME', null),
+    'username' => env('MAIL_USERNAME', null),
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Password
@@ -87,7 +87,7 @@ return [
     |
     */
 
-    'password'   => env('MAIL_PASSWORD', null),
+    'password' => env('MAIL_PASSWORD', null),
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
@@ -99,7 +99,7 @@ return [
     |
     */
 
-    'sendmail'   => '/usr/sbin/sendmail -bs',
+    'sendmail' => '/usr/sbin/sendmail -bs',
     /*
     |--------------------------------------------------------------------------
     | Mail "Pretend"
@@ -111,6 +111,6 @@ return [
     |
     */
 
-    'pretend'    => false,
+    'pretend' => false,
 
 ];

@@ -91,7 +91,7 @@ class ProjectCest
         $uri = $I->getApplication()->url->action('ProjectController@postAssign', ['project' => $project]);
         $I->sendAjaxPostRequest($uri, [
             'user_id' => $developer1->id,
-            '_token'  => csrf_token(),
+            '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
         $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
@@ -121,7 +121,7 @@ class ProjectCest
         $uri = $I->getApplication()->url->action('ProjectController@postUnassign', ['project' => $project]);
         $I->sendAjaxPostRequest($uri, [
             'user_id' => $developer1->id,
-            '_token'  => csrf_token(),
+            '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
         $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
@@ -146,7 +146,7 @@ class ProjectCest
         $project1 = $I->createProject(1);
         $totalIssues = 4;
         $issues = [];
-        for ($i = 0; $i < $totalIssues; $i++) {
+        for ($i = 0; $i < $totalIssues; ++$i) {
             $issues[] = $I->createIssue($i, $admin, null, $project1);
         }
         $issues[0]->changeStatus(Project\Issue::STATUS_CLOSED, $admin);
@@ -155,7 +155,7 @@ class ProjectCest
         $I->amOnAction('ProjectController@getIssues', ['project' => $project1]);
         $uri = $I->getApplication()->url->action('ProjectsController@postProgress');
         $I->sendAjaxPostRequest($uri, [
-            'ids'    => [
+            'ids' => [
                 $project1->id,
             ],
             '_token' => csrf_token(),
@@ -167,7 +167,7 @@ class ProjectCest
 
         $uri = $I->getApplication()->url->action('ProjectsController@postProgress');
         $I->sendAjaxPostRequest($uri, [
-            'ids'    => [
+            'ids' => [
                 $project1->id,
             ],
             '_token' => csrf_token(),

@@ -57,12 +57,12 @@ class IssueController extends Controller
         }
 
         return view('project.issue.index', [
-            'issue'       => $issue,
-            'project'     => $project,
+            'issue' => $issue,
+            'project' => $project,
             'commentForm' => $form,
-            'activities'  => $activities,
-            'sidebar'     => 'project',
-            'projects'    => $projects,
+            'activities' => $activities,
+            'sidebar' => 'project',
+            'projects' => $projects,
         ]);
     }
 
@@ -150,7 +150,7 @@ class IssueController extends Controller
     {
         return view('project.issue.new', [
             'project' => $project,
-            'form'    => $form,
+            'form' => $form,
             'sidebar' => 'project',
         ]);
     }
@@ -192,9 +192,9 @@ class IssueController extends Controller
         }
 
         return view('project.issue.edit', [
-            'issue'   => $issue,
+            'issue' => $issue,
             'project' => $project,
-            'form'    => $form,
+            'form' => $form,
             'sidebar' => 'project',
         ]);
     }
@@ -263,8 +263,8 @@ class IssueController extends Controller
             $response = [
                 'upload' => [
                     [
-                        'name'   => $attachment->filename,
-                        'size'   => $attachment->filesize,
+                        'name' => $attachment->filename,
+                        'size' => $attachment->filesize,
                         'fileId' => $attachment->id,
                     ],
                 ],
@@ -274,9 +274,9 @@ class IssueController extends Controller
 
             $response = array(
                 'status' => false,
-                'name'   => $file->getClientOriginalName(),
-                'error'  => $exception->getMessage(),
-                'trace'  => $exception->getTraceAsString(),
+                'name' => $file->getClientOriginalName(),
+                'error' => $exception->getMessage(),
+                'trace' => $exception->getTraceAsString(),
             );
         }
 

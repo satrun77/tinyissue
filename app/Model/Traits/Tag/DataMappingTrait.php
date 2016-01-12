@@ -46,8 +46,8 @@ trait DataMappingTrait
     public function toArrayCallback(Tag $tag)
     {
         return [
-            'id'      => $tag->id,
-            'name'    => $tag->fullname,
+            'id' => $tag->id,
+            'name' => $tag->fullname,
             'bgcolor' => $tag->bgcolor,
         ];
     }

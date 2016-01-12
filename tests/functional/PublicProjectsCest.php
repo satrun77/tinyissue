@@ -1,6 +1,5 @@
 <?php
 
-use Tinyissue\Model\Project;
 use Tinyissue\Model\Setting;
 
 class PublicProjectsCest

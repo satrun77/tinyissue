@@ -56,7 +56,6 @@ class AnonymousUserCest
         $I->am('Anonymous User');
         $I->wantTo('To view all of the active users with their roles');
 
-
         /** @var \Tinyissue\Services\SettingsManager $settings */
         $settings = app('tinyissue.settings');
         $settings->save(
@@ -69,7 +68,6 @@ class AnonymousUserCest
         $mananger = $I->createUser(2, 3); // manager
         $developer = $I->createUser(3, 2); // developer
         $user = $I->createUser(4, 1); // user
-
 
         $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('HomeController@getIssues');

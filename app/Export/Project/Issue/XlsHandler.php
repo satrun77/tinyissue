@@ -43,13 +43,13 @@ class XlsHandler
      * @var array
      */
     protected $columns = [
-        'id'         => '',
-        'title'      => '',
+        'id' => '',
+        'title' => '',
         'time_quote' => '',
         'created_at' => '',
         'updated_at' => '',
-        'closed_at'  => '',
-        'status'     => '',
+        'closed_at' => '',
+        'status' => '',
     ];
 
     /**

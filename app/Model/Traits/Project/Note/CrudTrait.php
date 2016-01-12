@@ -48,9 +48,9 @@ trait CrudTrait
 
         // Add to user's activity log
         $this->activity()->save(new Model\User\Activity([
-            'type_id'   => Model\Activity::TYPE_NOTE,
+            'type_id' => Model\Activity::TYPE_NOTE,
             'parent_id' => $this->project->id,
-            'user_id'   => $this->createdBy->id,
+            'user_id' => $this->createdBy->id,
         ]));
 
         return $this;

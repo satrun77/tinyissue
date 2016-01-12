@@ -33,7 +33,7 @@ class UserController extends Controller
     public function getSettings(Form $form)
     {
         return view('user.settings', [
-            'form'     => $form,
+            'form' => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }

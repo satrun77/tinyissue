@@ -29,10 +29,10 @@ class Project extends FormAbstract
             return [
                 'submit' => 'update',
                 'delete' => [
-                    'type'         => 'danger_submit',
-                    'label'        => trans('tinyissue.delete_something', ['name' => $this->getModel()->name]),
-                    'class'        => 'delete-project',
-                    'name'         => 'delete-project',
+                    'type' => 'danger_submit',
+                    'label' => trans('tinyissue.delete_something', ['name' => $this->getModel()->name]),
+                    'class' => 'delete-project',
+                    'name' => 'delete-project',
                     'data-message' => trans('tinyissue.delete_project_confirm'),
                 ],
             ];
@@ -50,17 +50,17 @@ class Project extends FormAbstract
     {
         $fields = [
             'name' => [
-                'type'  => 'text',
+                'type' => 'text',
                 'label' => 'name',
             ],
             'private' => [
-                'type'    => 'select',
-                'label'   => 'visibility',
+                'type' => 'select',
+                'label' => 'visibility',
                 'options' => [ProjectModel::PRIVATE_YES => trans('tinyissue.private'), ProjectModel::PRIVATE_NO => trans('tinyissue.public')],
             ],
             'default_assignee' => [
                 'type' => 'hidden',
-                'id'   => 'default_assignee-id',
+                'id' => 'default_assignee-id',
             ],
         ];
 
@@ -68,20 +68,20 @@ class Project extends FormAbstract
         // On edit project can change status or default assignee
         if (!$this->isEditing()) {
             $fields['user'] = [
-                'type'        => 'selectUser',
-                'label'       => 'assign_users',
-                'id'          => 'add-user-project',
+                'type' => 'selectUser',
+                'label' => 'assign_users',
+                'id' => 'add-user-project',
                 'placeholder' => trans('tinyissue.assign_a_user'),
             ];
         } else {
             $fields['status'] = [
-                'type'    => 'select',
-                'label'   => 'status',
+                'type' => 'select',
+                'label' => 'status',
                 'options' => [ProjectModel::STATUS_OPEN => trans('tinyissue.open'), ProjectModel::STATUS_ARCHIVED => trans('tinyissue.archived')],
             ];
             $fields['default_assignee'] = [
-                'type'    => 'select',
-                'label'   => 'default_assignee',
+                'type' => 'select',
+                'label' => 'default_assignee',
                 'options' => [0 => ''] + $this->getModel()->users()->get()->lists('fullname', 'id')->all(),
             ];
         }

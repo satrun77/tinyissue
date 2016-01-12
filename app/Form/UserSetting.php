@@ -45,8 +45,8 @@ class UserSetting extends User
     {
         $fields = [
             'language' => [
-                'type'    => 'select',
-                'label'   => 'language',
+                'type' => 'select',
+                'label' => 'language',
                 'options' => $this->getModel()->getLanguages(),
             ],
         ];

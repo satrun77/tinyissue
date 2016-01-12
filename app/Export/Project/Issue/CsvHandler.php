@@ -28,14 +28,14 @@ class CsvHandler
      * @var array
      */
     protected $columns = [
-        'tinyissue.id'            => 'id',
-        'tinyissue.project'       => 'project',
-        'tinyissue.title'         => 'title',
-        'tinyissue.time_quote'    => 'time_quote',
+        'tinyissue.id' => 'id',
+        'tinyissue.project' => 'project',
+        'tinyissue.title' => 'title',
+        'tinyissue.time_quote' => 'time_quote',
         'tinyissue.label_created' => 'created_at',
-        'tinyissue.updated'       => 'updated_at',
-        'tinyissue.label_closed'  => 'closed_at',
-        'tinyissue.status'        => 'status',
+        'tinyissue.updated' => 'updated_at',
+        'tinyissue.label_closed' => 'closed_at',
+        'tinyissue.status' => 'status',
     ];
 
     /**
