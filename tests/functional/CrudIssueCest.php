@@ -12,6 +12,45 @@ class CrudIssueCest
      *
      * @return void
      */
+    public function addGlobalIssue(FunctionalTester\UserSteps $I)
+    {
+        $I->am('Admin User');
+        $I->wantTo('add new global issue to a project');
+
+        $admin = $I->createUser(1, 4);
+        $developer1 = $I->createUser(2, 2); // developer
+        $I->amLoggedAs($admin);
+
+        $project = $I->createProject(1, [$developer1, $admin]);
+
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f'])
+        );
+        $tags = new Collection((array)$I->getJsonResponseContent());
+
+        $I->amOnAction('ProjectsController@getNewIssue');
+
+        $params = [
+            'title' => 'issue 1',
+            'body' => 'body of issue 1',
+            'tag' => $tags->forPage(0, 2)->implode('value', ','),
+            'project' => $project->id,
+        ];
+        $I->submitForm('#content .form-horizontal', $params);
+        $issue = $I->fetchIssueBy('title', $params['title']);
+        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
+        $I->seeResponseCodeIs(200);
+        $I->seeLink($params['title']);
+        $I->see($params['body'], '.content');
+    }
+
+    /**
+     * @param FunctionalTester\UserSteps $I
+     *
+     * @actor FunctionalTester\UserSteps
+     *
+     * @return void
+     */
     public function addIssue(FunctionalTester\UserSteps $I)
     {
         $I->am('Admin User');

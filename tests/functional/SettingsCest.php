@@ -5,13 +5,13 @@ use Tinyissue\Model\Project;
 class SettingsCest
 {
     /**
-     * @param FunctionalTester\UserSteps $I
+     * @param FunctionalTester $I
      *
-     * @actor FunctionalTester\UserSteps
+     * @actor FunctionalTester
      *
      * @return void
      */
-    public function updateSettings(FunctionalTester\UserSteps $I)
+    public function updateSettings(FunctionalTester $I)
     {
         $settingsString = trans('tinyissue.settings');
         $enableString = trans('tinyissue.enable');
@@ -19,8 +19,7 @@ class SettingsCest
         $I->wantTo('edit the application settings');
 
         $admin = $I->createUser(1, 4);
-//        $I->amLoggedAs($admin);
-        $I->login($admin->email, '123');
+        $I->amLoggedAs($admin);
         $I->amOnAction('AdministrationController@getIndex');
         $I->seeLink($settingsString);
         $I->click($settingsString);
