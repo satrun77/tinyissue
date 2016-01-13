@@ -71,6 +71,24 @@ class Settings extends FormAbstract
     }
 
     /**
+     * Select enable/disable for public projects
+     *
+     * @param Model\Setting $setting
+     *
+     * @return array
+     */
+    protected function fieldDateFormat(Model\Setting $setting)
+    {
+        return [
+            'type' => 'text',
+            'label' => 'date_format',
+            'value' => $setting->value,
+            'placeholder' => 'F jS \a\t g:i A',
+            'help' => 'Format characters can be found --> <a href="http://php.net/manual/en/function.date.php" target="_blank">PHP date</a>',
+        ];
+    }
+
+    /**
      * @return array
      */
     public function rules()

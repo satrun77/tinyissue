@@ -26,9 +26,13 @@ trait DateTimeTrait
      *
      * @return string
      */
-    public function date($date, $format = 'F jS \a\t g:i A')
+    public function date($date, $format = null)
     {
         $dateObject = new \DateTime($date);
+
+        if (null === $format) {
+            $format = app('tinyissue.settings')->getDateFormat();
+        }
 
         return $dateObject->format($format);
     }

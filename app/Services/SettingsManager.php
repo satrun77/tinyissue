@@ -86,6 +86,16 @@ class SettingsManager extends Collection
     }
 
     /**
+     * Returns date format
+     *
+     * @return string
+     */
+    public function getDateFormat()
+    {
+        return (string) $this->get('date_format');
+    }
+
+    /**
      * Save a collection of settings
      *
      * @param $values
