@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Database\Migrations\Migration;
+use Tinyissue\Model\Setting;
+
 class AddSettingsDateFormat extends Migration
 {
     /**
