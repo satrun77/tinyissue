@@ -1,6 +1,6 @@
 <?php
 
-class AddSettingsDateFormat extends AddSettingsPublicProjects
+class AddSettingsDateFormat extends Migration
 {
     /**
      * List of settings to insert
@@ -13,4 +13,39 @@ class AddSettingsDateFormat extends AddSettingsPublicProjects
             'value' => 'F jS \a\t g:i A',
         ],
     ];
+
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        foreach ($this->data as $key => $row) {
+            $settings = new Setting();
+            $settings->fill([
+                'name' => $row['name'],
+                'value' => $row['value'],
+                'key' => $key,
+            ])->save();
+            unset($settings);
+        }
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        foreach ($this->data as $key => $row) {
+            $settings = new Setting();
+            $setting = $settings->where('key', '=', $key)->first();
+            if ($setting) {
+                $setting->delete();
+            }
+            unset($settings);
+        }
+    }
 }
