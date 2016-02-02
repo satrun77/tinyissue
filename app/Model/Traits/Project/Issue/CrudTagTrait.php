@@ -26,21 +26,21 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int              $id
- * @property int              $created_by
- * @property int              $project_id
- * @property string           $title
- * @property string           $body
- * @property int              $assigned_to
- * @property int              $time_quote
- * @property int              $closed_by
- * @property int              $closed_at
- * @property int              status
- * @property int              $updated_at
- * @property int              $updated_by
- * @property Model\Project    $project
- * @property Model\User       $user
- * @property Model\User       $updatedBy
+ * @property int $id
+ * @property int $created_by
+ * @property int $project_id
+ * @property string $title
+ * @property string $body
+ * @property int $assigned_to
+ * @property int $time_quote
+ * @property int $closed_by
+ * @property int $closed_at
+ * @property int status
+ * @property int $updated_at
+ * @property int $updated_by
+ * @property Model\Project $project
+ * @property Model\User $user
+ * @property Model\User $updatedBy
  */
 trait CrudTagTrait
 {
@@ -81,9 +81,9 @@ trait CrudTagTrait
 
         /* Add to activity log */
         $this->activities()->save(new User\Activity([
-            'type_id' => $activityType,
+            'type_id'   => $activityType,
             'parent_id' => $this->project->id,
-            'user_id' => $userId,
+            'user_id'   => $userId,
         ]));
 
         $this->status = $status;
@@ -151,10 +151,10 @@ trait CrudTagTrait
         if (!empty($removedTags) || !empty($addedTags)) {
             // Add to activity log for tags if changed
             $this->activities()->save(new User\Activity([
-                'type_id' => Activity::TYPE_ISSUE_TAG,
+                'type_id'   => Activity::TYPE_ISSUE_TAG,
                 'parent_id' => $this->project->id,
-                'user_id' => $this->user->id,
-                'data' => ['added_tags' => $addedTags, 'removed_tags' => $removedTags],
+                'user_id'   => $this->user->id,
+                'data'      => ['added_tags' => $addedTags, 'removed_tags' => $removedTags],
             ]));
         }
 
@@ -165,7 +165,7 @@ trait CrudTagTrait
      * Create new tags from a string "group:tag_name" and fetch tag from a tag id.
      *
      * @param array $tags
-     * @param bool  $isAdmin
+     * @param bool $isAdmin
      *
      * @return Collection
      */
@@ -188,5 +188,31 @@ trait CrudTagTrait
         });
 
         return $newTags;
+    }
+
+    /**
+     * Add tag to the issue & close issue if added tag is Closed
+     *
+     * @param Tag $newTag
+     * @param Tag $oldTag
+     * @param User $user
+     * @return $this
+     */
+    public function setCurrentTag(Tag $newTag, Tag $oldTag, User $user)
+    {
+        if ($newTag->name === Tag::STATUS_CLOSED || $newTag === Tag::STATUS_OPEN) {
+            $status = $newTag->name === Tag::STATUS_CLOSED ? 0 : 1;
+            $this->changeStatus($status, $user->id);
+        } else {
+            $this->tags()->detach($oldTag);
+            $this->tags()->attach($newTag);
+            // remove old add new
+//            $tags = new Collection([$tag]);
+//            $this->project->kanbanTags(); // remove any
+//            // remoove current tag adn remoace it with another one
+//            $this->syncTags($tags, $this->tags()->with('parent')->get());
+        }
+
+        return $this;
     }
 }

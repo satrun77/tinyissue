@@ -14,13 +14,15 @@ namespace Tinyissue\Model\Traits\Project;
 use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
+use Illuminate\Support\Collection;
+use Tinyissue\Model\Tag;
 
 /**
  * CrudTrait is trait class containing the methods for adding/editing/deleting the Project model
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
+ * @property int $id
  *
  * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
  * @method   Query\Builder join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
@@ -50,6 +52,12 @@ trait CrudTrait
      */
     public function createProject(array $input = [])
     {
+        if (!empty($input['columns'])) {
+            $this->saveTags($input['columns']);
+
+            unset($input['columns']);
+        }
+
         $this->fill($input)->save();
 
         /* Assign selected users to the project */
@@ -60,6 +68,56 @@ trait CrudTrait
         }
 
         return $this;
+    }
+
+    /**
+     * Update project details
+     *
+     * @param array $attributes
+     * @return bool
+     */
+    public function update(array $attributes = array())
+    {
+        if (!empty($attributes['columns'])) {
+            $this->saveTags($attributes['columns']);
+
+            unset($attributes['columns']);
+        }
+
+        return parent::update($attributes);
+    }
+
+    /**
+     * Save the project tags
+     *
+     * @param string $tagString
+     *
+     * @return bool
+     */
+    public function saveTags($tagString)
+    {
+        // Transform the user input tags into tag objects
+        // Filter out invalid tags entered by the user
+        $tags = new Collection(array_map('trim', explode(',', $tagString)));
+        $tags = $tags->transform(function ($tagNameOrId) {
+            return Tag::find($tagNameOrId);
+        })->filter(function ($tag) {
+            return $tag instanceof Tag;
+        })->merge((new Tag())->getOpenAndCloseTags());
+
+        // Delete all existing
+        $this->kanbanTags()->detach();
+
+        // Save tags
+        $kanbanTags = $this->kanbanTags();
+        $count = $tags->count();
+        foreach ($tags as $position => $tag) {
+            $position = $tag->name === Tag::STATUS_OPEN ? -1 : $position;
+            $position = $tag->name === Tag::STATUS_CLOSED ? $count+1 : $position;
+            $kanbanTags->attach([$tag->id => ['position' => $position]]);
+        }
+
+        return true;
     }
 
     /**

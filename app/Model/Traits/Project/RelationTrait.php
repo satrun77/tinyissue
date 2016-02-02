@@ -95,4 +95,15 @@ trait RelationTrait
     {
         return $this->hasMany('Tinyissue\Model\Project\Note', 'project_id');
     }
+
+    /**
+     * Project have many kanban tags
+     *
+     * @return Relations\BelongsToMany
+     */
+    public function kanbanTags()
+    {
+        return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')->orderBy('position');
+    }
+
 }

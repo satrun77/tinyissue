@@ -55,12 +55,31 @@ class UserController extends Controller
     /**
      * Shows the user's assigned issues
      *
+     * @param string $display
+     * @param Project $project
+     *
      * @return \Illuminate\View\View
      */
-    public function getIssues()
+    public function getIssues($display = 'list', Project $project = null)
     {
-        return view('user.issues', [
-            'projects' => $this->auth->user()->projectsWidthIssues(Project::STATUS_OPEN)->get(),
-        ]);
+        $view = $display === 'kanban' ? 'kanban' : 'list';
+        $data = [];
+
+        if ($display === 'kanban') {
+            $data['columns'] = [];
+            $data['issues'] = [];
+            if ($project->id) {
+                $data['columns'] = $project->getKanbanTags();
+                $ids = $data['columns']->lists('id')->all();
+                $data['issues'] = $project->issuesGroupByTags($ids);
+            }
+
+            $data['project'] = $project;
+            $data['projects'] = $this->auth->user()->projects()->get();
+        } else {
+            $data['projects'] = $this->auth->user()->projectsWidthIssues(Project::STATUS_OPEN)->get();
+        }
+
+        return view('user.issues-' . $view, $data);
     }
 }

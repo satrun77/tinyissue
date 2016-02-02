@@ -21,6 +21,7 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\Project\Issue\Comment;
+use Tinyissue\Model\Tag;
 use Tinyissue\Model\User\Activity as UserActivity;
 
 /**
@@ -375,5 +376,22 @@ class IssueController extends Controller
         $issue->changeProject($request->input('project_id'));
 
         return response()->json(['status' => true, 'url' => $issue->to()]);
+    }
+
+    /**
+     * Ajax: change status of an issue
+     *
+     * @param Issue   $issue
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function postChangeStatusTag(Issue $issue, Request $request)
+    {
+        $newTag = Tag::find((int)$request->input('newtag'));
+        $oldTag = Tag::find((int)$request->input('oldtag'));
+        $issue->setCurrentTag($newTag, $oldTag, $this->auth->user());
+
+        return response()->json(['status' => true, 'issue' => $issue->id]);
     }
 }

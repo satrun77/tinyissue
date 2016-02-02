@@ -84,7 +84,7 @@ active
     <ul class="issue-actions">
         <li class="assigned-to">
             @lang('tinyissue.change_project')
-            <a href="" class="current_project">
+            <a href="" class="current current_project">
                 {{ $project->name }}
             </a>
             <div class="dropdown">
@@ -105,11 +105,11 @@ active
             @lang('tinyissue.assigned_to')
 
             @if($issue->assigned)
-            <a href="" class="currently_assigned">
+            <a href="" class="current currently_assigned">
                 {{ $issue->assigned->fullname }}
             </a>
             @else
-            <a href="" class="currently_assigned">
+            <a href="" class="current currently_assigned">
                 @lang('tinyissue.no_one')
             </a>
             @endif

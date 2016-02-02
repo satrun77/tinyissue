@@ -90,6 +90,9 @@ $(function () {
 
     // Mobile/Tablet screen
     SidebarEvents().init();
+
+    // Kanban board
+    Kanban().init();
 });
 
 var GlobalSaving = {
@@ -483,6 +486,40 @@ function SidebarEvents() {
                 'padding': 260,
                 'tolerance': 70
             });
+
+            return this;
+        }
+    }
+}
+
+function Kanban() {
+    var kanban, container, task;
+
+    return {
+        init: function () {
+            kanban = $('.kanban');
+            if (!kanban.length > 0) {
+                return;
+            }
+
+            container = kanban.find(".column .content");
+            task = kanban.find('.issue');
+
+            container.sortable({
+                connectWith: ".kanban .column .content",
+                placeholder: "ui-state-highlight",
+                receive: function (event, ui) {
+                    var url = ui.item.data('url');
+                    var data = {
+                        newtag: ui.item.parents('.content').data('column'),
+                        oldtag: ui.item.data('column'),
+                        _token: TINY.token
+                    };
+                    Ajax.relPost(url, data, function (data) {
+                        GlobalSaving.hide();
+                    });
+                }
+            }).disableSelection();
 
             return this;
         }

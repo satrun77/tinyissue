@@ -101,5 +101,6 @@ return [
     'attributes' => [
         'only_complete_if_changing_password' => 'Only complete if changing password',
         'remember_me' => 'Remember me?',
+        'kanban_board' => 'Kanban board',
     ],
 ];

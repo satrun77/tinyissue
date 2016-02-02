@@ -12,6 +12,19 @@ active
     @lang('tinyissue.your_issues_description')
 @stop
 
+@section('headingLink')
+    <a href="{!! url('user/issues/list') !!}" class="list-issues-btn">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
+    <a href="{!! url('user/issues/kanban') !!}" class="kanban-columns-btn">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </a>
+@stop
+
 @section('content')
 
 @foreach($projects as $project)

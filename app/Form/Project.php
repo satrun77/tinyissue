@@ -12,6 +12,8 @@
 namespace Tinyissue\Form;
 
 use Tinyissue\Model\Project as ProjectModel;
+use Tinyissue\Model\Tag as TagModel;
+use Tinyissue\Model\Tag;
 
 /**
  * Project is a class to defines fields & rules for add/edit project form
@@ -85,6 +87,34 @@ class Project extends FormAbstract
                 'options' => [0 => ''] + $this->getModel()->users()->get()->lists('fullname', 'id')->all(),
             ];
         }
+
+        $fields['kanban_board'] = [
+            'type' => 'legend',
+        ];
+
+        $statusTags = (new TagModel())->getStatusTags()->tags()->get()->implode('fullname', ', ');
+        if ($this->isEditing()) {
+            $selectTags = $this->getModel()->kanbanTags()->get()->filter(function (TagModel $tag) {
+                return !($tag->name == TagModel::STATUS_OPEN || $tag->name == TagModel::STATUS_CLOSED);
+            })->map(function (TagModel $tag) {
+                return [
+                    'value' => $tag->id,
+                    'label' => ($tag->fullname),
+                    'bgcolor' => $tag->bgcolor,
+                ];
+            })->toJson();
+        } else {
+            $selectTags = (new TagModel())->tagsToJson(\Request::input('tags'));
+        }
+        $fields['columns'] = [
+            'type' => 'text',
+            'label' => 'columns',
+            'placeholder' => trans('tinyissue.tags'),
+            'multiple' => true,
+            'class' => 'tagit',
+            'help' => trans('tinyissue.columns_help', ['status' => $statusTags]),
+            'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
+        ];
 
         return $fields;
     }

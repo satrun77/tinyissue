@@ -53,4 +53,14 @@ trait RelationTrait
     {
         return $this->belongsToMany('Tinyissue\Model\Project\Issue', 'projects_issues_tags', 'issue_id', 'tag_id');
     }
+
+    /**
+     * Returns projects for the Tag. Tag can belong to many projects & project can have many tags
+     *
+     * @return Relations\BelongsToMany
+     */
+    public function projects()
+    {
+        return $this->belongsToMany('Tinyissue\Model\Project', 'projects_kanban_tags', 'project_id', 'tag_id');
+    }
 }

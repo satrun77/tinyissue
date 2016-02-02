@@ -48,6 +48,11 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace], function (Router $router) {
+            $router->model('project', 'Tinyissue\Model\Project');
+            $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
+            $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
+            $router->model('note', 'Tinyissue\Model\Project\Note');
+
             $router->get('/', 'HomeController@getIndex');
             $router->get('logout', 'HomeController@getLogout');
             $router->post('signin', 'HomeController@postSignin');
@@ -60,6 +65,7 @@ class RouteServiceProvider extends ServiceProvider
                 $router->get('dashboard', 'HomeController@getDashboard');
 
                 // Login user area
+                $router->get('user/issues/{display?}/{project?}', 'UserController@getIssues');
                 $router->controller('user', 'UserController');
 
                 // Projects area
@@ -74,17 +80,13 @@ class RouteServiceProvider extends ServiceProvider
                 });
 
                 $router->group(['middleware' => 'project'], function (Router $router) {
-                    $router->model('project', 'Tinyissue\Model\Project');
-                    $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
                     $router->pattern('comment', '[0-9]+');
                     $router->pattern('issue', '[0-9]+');
                     $router->pattern('limit', '[0-9]+');
-                    $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
                     $router->pattern('project', '[0-9]+');
                     $router->pattern('attachment', '[0-9]+');
                     $router->pattern('note', '[0-9]+');
                     $router->pattern('term', '\w+');
-                    $router->model('note', 'Tinyissue\Model\Project\Note');
 
                     if (!app('tinyissue.settings')->isPublicProjectsEnabled()) {
                         $this->addPublicProjectRoutes($router);
@@ -124,6 +126,7 @@ class RouteServiceProvider extends ServiceProvider
                         $router->post('project/{project}/issue/upload_attachment', 'Project\IssueController@postUploadAttachment');
                         $router->post('project/{project}/issue/remove_attachment', 'Project\IssueController@postRemoveAttachment');
                         $router->post('project/issue/{issue}/change_project', 'Project\IssueController@postChangeProject');
+                        $router->post('project/issue/{issue}/change_tag', ['uses' => 'Project\IssueController@postChangeStatusTag']);
 
                         // Edit comment
                         $router->post('project/issue/edit_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postEditComment']);

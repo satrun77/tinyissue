@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Traits\Tag;
 
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Query;
+use Tinyissue\Model\Tag as TagModel;
 
 /**
  * QueryTrait is trait class containing the database queries methods for the Tag model
@@ -99,5 +100,28 @@ trait QueryTrait
     public function getTagByName($name)
     {
         return static::where('name', '=', $name)->first();
+    }
+
+    /**
+     * Returns collection of tags in status group
+     *
+     * @return Eloquent\Collection
+     */
+    public function getStatusTags()
+    {
+        return $this->getTagByName('status');
+    }
+
+    /**
+     * Returns collection of open and closed tags
+     *
+     * @return mixed
+     */
+    public function getOpenAndCloseTags()
+    {
+        return static::where('name', '=', TagModel::STATUS_OPEN)
+            ->orWhere('name', '=', TagModel::STATUS_CLOSED)
+            ->orderBy('name', 'DESC')
+            ->get();
     }
 }
