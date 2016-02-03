@@ -206,11 +206,6 @@ trait CrudTagTrait
         } else {
             $this->tags()->detach($oldTag);
             $this->tags()->attach($newTag);
-            // remove old add new
-//            $tags = new Collection([$tag]);
-//            $this->project->kanbanTags(); // remove any
-//            // remoove current tag adn remoace it with another one
-//            $this->syncTags($tags, $this->tags()->with('parent')->get());
         }
 
         return $this;
