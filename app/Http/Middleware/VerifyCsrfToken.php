@@ -15,7 +15,7 @@ use Closure;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
 
 /**
- * VerifyCsrfToken is a Middleware class verify the session token
+ * VerifyCsrfToken is a Middleware class verify the session token.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

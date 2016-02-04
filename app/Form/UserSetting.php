@@ -14,7 +14,7 @@ namespace Tinyissue\Form;
 use Illuminate\Contracts\Auth\Guard;
 
 /**
- * UserSetting is a class to defines fields & rules for add/edit user settings form
+ * UserSetting is a class to defines fields & rules for add/edit user settings form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -45,8 +45,8 @@ class UserSetting extends User
     {
         $fields = [
             'language' => [
-                'type' => 'select',
-                'label' => 'language',
+                'type'    => 'select',
+                'label'   => 'language',
                 'options' => $this->getModel()->getLanguages(),
             ],
         ];
@@ -60,7 +60,7 @@ class UserSetting extends User
      */
     public function rules()
     {
-        $rules = parent::rules();
+        $rules             = parent::rules();
         $rules['password'] = 'confirmed';
         $rules['language'] = 'required';
 

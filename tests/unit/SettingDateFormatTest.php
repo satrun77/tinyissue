@@ -8,14 +8,14 @@ class SettingDateFormatTest extends \Codeception\TestCase\Test
     {
         /** @var \Tinyissue\Services\SettingsManager $settings */
         $settings = app('tinyissue.settings');
-        $format1 = $settings->getDateFormat();
-        $date1 = \Html::date($this->timestamp);
+        $format1  = $settings->getDateFormat();
+        $date1    = \Html::date($this->timestamp);
 
         $this->assertEquals($date1, $this->getDate($format1));
 
         $format2 = 'Y-m-d';
         $settings->save([
-            'date_format' => $format2
+            'date_format' => $format2,
         ]);
 
         $this->assertNotEquals($date1, $this->getDate($format2));
@@ -23,14 +23,16 @@ class SettingDateFormatTest extends \Codeception\TestCase\Test
     }
 
     /**
-     * Returns formatted date
+     * Returns formatted date.
      *
      * @param $format
+     *
      * @return string
      */
     protected function getDate($format)
     {
         $date = new \DateTime($this->timestamp);
+
         return $date->format($format);
     }
 }

@@ -18,14 +18,14 @@ use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
 
 /**
- * AdministrationController is the controller class for managing request related the application system admin
+ * AdministrationController is the controller class for managing request related the application system admin.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class AdministrationController extends Controller
 {
     /**
-     * Show general application stats
+     * Show general application stats.
      *
      * @param Tag     $tag
      * @param Project $project
@@ -36,18 +36,18 @@ class AdministrationController extends Controller
     public function getIndex(Tag $tag, Project $project, User $user)
     {
         return view('administration.index', [
-            'users' => $user->countUsers(),
-            'active_projects' => $project->countOpenProjects(),
+            'users'             => $user->countUsers(),
+            'active_projects'   => $project->countOpenProjects(),
             'archived_projects' => $project->countArchivedProjects(),
-            'open_issues' => $project->countOpenIssues(),
-            'closed_issues' => $project->countClosedIssues(),
-            'projects' => $this->auth->user()->projects()->get(),
-            'tags' => $tag->count(),
+            'open_issues'       => $project->countOpenIssues(),
+            'closed_issues'     => $project->countClosedIssues(),
+            'projects'          => $this->auth->user()->projects()->get(),
+            'tags'              => $tag->count(),
         ]);
     }
 
     /**
-     * Add new tag page
+     * Add new tag page.
      *
      * @param FormSettings $form
      *
@@ -56,13 +56,13 @@ class AdministrationController extends Controller
     public function getSettings(FormSettings $form)
     {
         return view('administration.settings', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To create new tag
+     * To create new tag.
      *
      * @param FormRequest\Settings $request
      *

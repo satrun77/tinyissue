@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\User;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Role model
+ * RelationTrait is trait class containing the relationship methods for the Role model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *

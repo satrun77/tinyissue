@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
- * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Note model
+ * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Note model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -33,7 +33,7 @@ use Tinyissue\Model;
 trait CrudTrait
 {
     /**
-     * Create a new note
+     * Create a new note.
      *
      * @param array $input
      *
@@ -41,23 +41,23 @@ trait CrudTrait
      */
     public function createNote(array $input)
     {
-        $this->body = $input['note_body'];
+        $this->body       = $input['note_body'];
         $this->project_id = $this->project->id;
         $this->created_by = $this->createdBy->id;
         $this->save();
 
         // Add to user's activity log
         $this->activity()->save(new Model\User\Activity([
-            'type_id' => Model\Activity::TYPE_NOTE,
+            'type_id'   => Model\Activity::TYPE_NOTE,
             'parent_id' => $this->project->id,
-            'user_id' => $this->createdBy->id,
+            'user_id'   => $this->createdBy->id,
         ]));
 
         return $this;
     }
 
     /**
-     * Delete a note
+     * Delete a note.
      *
      * @return bool|null
      *

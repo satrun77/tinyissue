@@ -21,8 +21,8 @@ class CrudAttachmentCest
      */
     public function addIssue(FunctionalTester $I)
     {
-        $title = 'Issue 1';
-        $body = 'Issue 1 description';
+        $title    = 'Issue 1';
+        $body     = 'Issue 1 description';
         $fileName = 'upload1.txt';
 
         $I->am('Manager User');
@@ -37,7 +37,7 @@ class CrudAttachmentCest
         ]);
         $I->submitFormWithFileToUri('#content .form-horizontal', $uri, ['upload' => $fileName], [
             'title' => $title,
-            'body' => $body,
+            'body'  => $body,
         ]);
         $I->seeResponseCodeIs(200);
         $issue = $I->fetchIssueBy('title', $title);
@@ -51,8 +51,8 @@ class CrudAttachmentCest
         $I->seeElement('.attachments a', ['title' => $fileName]);
         $attachment = $issue->attachments->first();
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
-            'project' => $project,
-            'issue' => $issue,
+            'project'    => $project,
+            'issue'      => $issue,
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
@@ -67,7 +67,7 @@ class CrudAttachmentCest
      */
     public function addIssueComment(FunctionalTester $I)
     {
-        $comment = 'Comment 1';
+        $comment   = 'Comment 1';
         $fileName1 = 'upload1.txt';
         $fileName2 = 'upload2.txt';
 
@@ -76,7 +76,7 @@ class CrudAttachmentCest
 
         $manager = $I->createUser(1, 3);
         $I->amLoggedAs($manager);
-        $issue = $I->createIssue(1, $manager);
+        $issue   = $I->createIssue(1, $manager);
         $project = $issue->project;
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeResponseCodeIs(200);
@@ -98,8 +98,8 @@ class CrudAttachmentCest
         $attachments = $issue->comments->first()->attachments;
         foreach ($attachments as $attachment) {
             $I->amOnAction('Project\IssueController@getDisplayAttachment', [
-                'project' => $project,
-                'issue' => $issue,
+                'project'    => $project,
+                'issue'      => $issue,
                 'attachment' => $attachment,
             ]);
             $I->seeResponseCodeIs(200);
@@ -122,11 +122,11 @@ class CrudAttachmentCest
 
         $manager = $I->createUser(1, 3);
         $I->amLoggedAs($manager);
-        $issue = $I->createIssue(1, $manager);
+        $issue   = $I->createIssue(1, $manager);
         $project = $issue->project;
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $uploadToken = $I->grabValueFrom('//form/input[@name="upload_token"]');
-        $uri = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
+        $uri         = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
             'project' => $project,
         ]);
         $I->submitFormWithFileToUri('.new-comment form', $uri, ['upload' => $fileName], [
@@ -134,8 +134,8 @@ class CrudAttachmentCest
         ]);
         $attachment = $issue->comments->first()->attachments->first();
         $I->amOnAction('Project\IssueController@getDownloadAttachment', [
-            'project' => $project,
-            'issue' => $issue,
+            'project'    => $project,
+            'issue'      => $issue,
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
@@ -145,15 +145,15 @@ class CrudAttachmentCest
             'project' => $project,
         ]);
         $I->sendAjaxPostRequest($uri, [
-            '_token' => csrf_token(),
+            '_token'       => csrf_token(),
             'upload_token' => $uploadToken,
-            'filename' => $fileName,
+            'filename'     => $fileName,
         ]);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->dontSeeElement('.attachments a', ['title' => $fileName]);
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
-            'project' => $project,
-            'issue' => $issue,
+            'project'    => $project,
+            'issue'      => $issue,
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(404);

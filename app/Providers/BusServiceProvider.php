@@ -18,7 +18,7 @@ use Tinyissue\Http\Requests\Request as FormRequest;
 use Illuminate\Foundation\Application;
 
 /**
- * BusServiceProvider is the request service provider for bootstrapping and registering services in current request
+ * BusServiceProvider is the request service provider for bootstrapping and registering services in current request.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

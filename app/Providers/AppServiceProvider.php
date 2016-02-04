@@ -15,7 +15,7 @@ use Illuminate\Support\ServiceProvider;
 use Tinyissue\Services;
 
 /**
- * AppServiceProvider is the application service provider for bootstrapping and registering global services
+ * AppServiceProvider is the application service provider for bootstrapping and registering global services.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

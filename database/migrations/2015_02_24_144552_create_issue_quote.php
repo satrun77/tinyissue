@@ -12,7 +12,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
 /**
- * CreateIssueQuote is a migration class for upgrading the database to use issue quote feature
+ * CreateIssueQuote is a migration class for upgrading the database to use issue quote feature.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

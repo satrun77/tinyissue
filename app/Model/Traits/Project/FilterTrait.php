@@ -17,7 +17,7 @@ use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
 
 /**
- * FilterTrait is trait class containing the methods for filtering database queries of the Project model
+ * FilterTrait is trait class containing the methods for filtering database queries of the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -29,7 +29,7 @@ use Tinyissue\Model\Project;
 trait FilterTrait
 {
     /**
-     * Filter by assign to
+     * Filter by assign to.
      *
      * @param Relations\HasMany $query
      * @param int               $userId
@@ -44,7 +44,7 @@ trait FilterTrait
     }
 
     /**
-     * Filter by tag
+     * Filter by tag.
      *
      * @param Relations\HasMany $query
      * @param string            $tags
@@ -62,7 +62,7 @@ trait FilterTrait
     }
 
     /**
-     * Filter the title or body by keyword
+     * Filter the title or body by keyword.
      *
      * @param Relations\HasMany $query
      * @param string            $keyword

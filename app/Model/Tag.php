@@ -14,7 +14,7 @@ namespace Tinyissue\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Tag is model class for tags
+ * Tag is model class for tags.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -35,49 +35,49 @@ class Tag extends Model
         Traits\Tag\DataMappingTrait;
 
     /**
-     * Core tag: Open
+     * Core tag: Open.
      *
      * @var string
      */
     const STATUS_OPEN = 'open';
 
     /**
-     * Core tag: Closed
+     * Core tag: Closed.
      *
      * @var string
      */
     const STATUS_CLOSED = 'closed';
 
     /**
-     * Core tag group: Status
+     * Core tag group: Status.
      *
      * @var string
      */
     const GROUP_STATUS = 'status';
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */
     public $fillable = ['parent_id', 'name', 'bgcolor', 'group'];
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'tags';
 
     /**
-     * Generate a URL for the tag
+     * Generate a URL for the tag.
      *
      * @param string $url
      *
@@ -89,7 +89,7 @@ class Tag extends Model
     }
 
     /**
-     * Returns tag full name with prefix group name and ":" in between
+     * Returns tag full name with prefix group name and ":" in between.
      *
      * @return string
      */

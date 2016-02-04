@@ -14,14 +14,14 @@ namespace Tinyissue\Model\Traits\Tag;
 use Tinyissue\Model\Tag;
 
 /**
- * FilterTrait is trait class containing the methods for filtering database queries of the Tag model
+ * FilterTrait is trait class containing the methods for filtering database queries of the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 trait FilterTrait
 {
     /**
-     * Callback to check if a tag name is not 'open'
+     * Callback to check if a tag name is not 'open'.
      *
      * @param Tag $tag
      *
@@ -33,7 +33,7 @@ trait FilterTrait
     }
 
     /**
-     * Callback to check if tag name is 'open'
+     * Callback to check if tag name is 'open'.
      *
      * @param int $index
      * @param Tag $tag

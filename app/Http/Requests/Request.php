@@ -15,28 +15,28 @@ use Tinyissue\Form\FormInterface;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Request is an abstract class for Form Request classes
+ * Request is an abstract class for Form Request classes.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 abstract class Request extends FormRequest
 {
     /**
-     * An instance of Form
+     * An instance of Form.
      *
      * @var FormInterface
      */
     protected $form;
 
     /**
-     * Class name of the form
+     * Class name of the form.
      *
      * @var string
      */
     protected $formClassName;
 
     /**
-     * Set the instance of the form
+     * Set the instance of the form.
      *
      * @param FormInterface $form
      *
@@ -50,7 +50,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Returns an instance of the form
+     * Returns an instance of the form.
      *
      * @return FormInterface
      */
@@ -60,7 +60,7 @@ abstract class Request extends FormRequest
     }
 
     /**
-     * Returns the class name of the form
+     * Returns the class name of the form.
      *
      * @return string
      */

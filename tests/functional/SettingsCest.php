@@ -13,7 +13,7 @@ class SettingsCest
     public function updateSettings(FunctionalTester $I)
     {
         $settingsString = trans('tinyissue.settings');
-        $enableString = trans('tinyissue.enable');
+        $enableString   = trans('tinyissue.enable');
         $I->am('Admin User');
         $I->wantTo('edit the application settings');
 

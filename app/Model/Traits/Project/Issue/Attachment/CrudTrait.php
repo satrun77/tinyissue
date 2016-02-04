@@ -18,7 +18,7 @@ use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model;
 
 /**
- * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue\Attachment model
+ * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue\Attachment model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -39,7 +39,7 @@ use Tinyissue\Model;
 trait CrudTrait
 {
     /**
-     * Upload the attachment
+     * Upload the attachment.
      *
      * @param array   $input
      * @param Project $project
@@ -55,19 +55,19 @@ trait CrudTrait
 
         /* @var $uploadedFile \Symfony\Component\HttpFoundation\File\UploadedFile */
         $uploadedFile = $input['upload'];
-        $file = $uploadedFile->move($path, $uploadedFile->getClientOriginalName());
+        $file         = $uploadedFile->move($path, $uploadedFile->getClientOriginalName());
 
-        $this->uploaded_by = $user->id;
-        $this->filename = $file->getFilename();
+        $this->uploaded_by   = $user->id;
+        $this->filename      = $file->getFilename();
         $this->fileextension = $file->getExtension();
-        $this->filesize = $file->getSize();
-        $this->upload_token = $input['upload_token'];
+        $this->filesize      = $file->getSize();
+        $this->upload_token  = $input['upload_token'];
 
         return $this->save();
     }
 
     /**
-     * Remove a attachment that is pending from a issue/comment
+     * Remove a attachment that is pending from a issue/comment.
      *
      * @param array   $input
      * @param Project $project

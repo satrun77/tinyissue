@@ -13,7 +13,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Tinyissue\Model;
 
 /**
- * CreateIssueTags is a migration class for upgrading the database to use issue tags feature
+ * CreateIssueTags is a migration class for upgrading the database to use issue tags feature.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -38,55 +38,55 @@ class CreateIssueTags extends Migration
 
             $groups = ['status', 'type', 'resolution'];
             foreach ($groups as $group) {
-                $model = new Model\Tag();
-                $model->name = $group;
+                $model        = new Model\Tag();
+                $model->name  = $group;
                 $model->group = true;
                 $model->save();
             }
 
             $tags = [
                 [
-                    'name' => 'open',
+                    'name'      => 'open',
                     'parent_id' => 'status',
-                    'bgcolor' => '#c43c35',
+                    'bgcolor'   => '#c43c35',
                 ],
                 [
-                    'name' => 'testing',
+                    'name'      => 'testing',
                     'parent_id' => 'status',
-                    'bgcolor' => '#6c8307',
+                    'bgcolor'   => '#6c8307',
                 ],
                 [
-                    'name' => 'closed',
+                    'name'      => 'closed',
                     'parent_id' => 'status',
-                    'bgcolor' => '#46a546',
+                    'bgcolor'   => '#46a546',
                 ],
                 [
-                    'name' => 'feature',
+                    'name'      => 'feature',
                     'parent_id' => 'type',
-                    'bgcolor' => '#62cffc',
+                    'bgcolor'   => '#62cffc',
                 ],
                 [
-                    'name' => 'bug',
+                    'name'      => 'bug',
                     'parent_id' => 'type',
-                    'bgcolor' => '#f89406',
+                    'bgcolor'   => '#f89406',
                 ],
                 [
-                    'name' => 'won\'t fix',
+                    'name'      => 'won\'t fix',
                     'parent_id' => 'resolution',
-                    'bgcolor' => '#812323',
+                    'bgcolor'   => '#812323',
                 ],
                 [
-                    'name' => 'fixed',
+                    'name'      => 'fixed',
                     'parent_id' => 'resolution',
-                    'bgcolor' => '#048383',
+                    'bgcolor'   => '#048383',
                 ],
             ];
             foreach ($tags as $tag) {
-                $model = new Model\Tag();
-                $model->name = $tag['name'];
-                $model->bgcolor = $tag['bgcolor'];
+                $model            = new Model\Tag();
+                $model->name      = $tag['name'];
+                $model->bgcolor   = $tag['bgcolor'];
                 $model->parent_id = Model\Tag::where('name', '=', $tag['parent_id'])->first()->id;
-                $model->group = false;
+                $model->group     = false;
                 $model->save();
             }
         }
@@ -112,9 +112,9 @@ class CreateIssueTags extends Migration
         }
 
         // Create activity type for tag update
-        $activity = new Model\Activity();
+        $activity              = new Model\Activity();
         $activity->description = 'Updated issue tags';
-        $activity->activity = 'update-issue-tags';
+        $activity->activity    = 'update-issue-tags';
         $activity->save();
     }
 

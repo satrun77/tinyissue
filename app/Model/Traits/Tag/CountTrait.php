@@ -14,7 +14,7 @@ namespace Tinyissue\Model\Traits\Tag;
 use Illuminate\Database\Eloquent;
 
 /**
- * CountTrait is trait class containing the methods for counting database records for the Tag model
+ * CountTrait is trait class containing the methods for counting database records for the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent;
 trait CountTrait
 {
     /**
-     * Count number of tags
+     * Count number of tags.
      *
      * @return int
      */

@@ -16,13 +16,13 @@ class IssueCest
         $I->am('Admin User');
         $I->wantTo('To move a issue to another project');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$developer1]);
-        $issue1 = $I->createIssue(1, $admin, null, $project2);
+        $issue1   = $I->createIssue(1, $admin, null, $project2);
         $comment1 = $I->createComment(1, $admin, $issue1);
         $issue1->reassign($developer1->id, $admin->id);
 
@@ -34,7 +34,7 @@ class IssueCest
         $uri = $I->getApplication()->url->action('Project\IssueController@postChangeProject', ['issue' => $issue1]);
         $I->sendAjaxPostRequest($uri, [
                 'project_id' => $project1->id,
-                '_token' => csrf_token(),
+                '_token'     => csrf_token(),
             ]
         );
         $I->seeResponseCodeIs(200);
@@ -60,12 +60,12 @@ class IssueCest
         $I->am('Admin User');
         $I->wantTo('not be able to edit closed issue');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
         $project = $I->createProject(1, [$developer1]);
-        $issue = $I->createIssue(1, $admin, $developer1, $project);
+        $issue   = $I->createIssue(1, $admin, $developer1, $project);
 
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->click('Issue 1', '.edit-issue');
@@ -91,19 +91,19 @@ class IssueCest
         $I->am('Admin User');
         $I->wantTo('not be able to assign an issue to a user');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
         $project = $I->createProject(1, [$developer1]);
-        $issue = $I->createIssue(1, $admin, null, $project);
+        $issue   = $I->createIssue(1, $admin, null, $project);
 
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->dontSee($developer1->fullname, '.assigned-to .currently_assigned');
         $uri = $I->getApplication()->url->action('Project\IssueController@postAssign', ['project' => $project]);
         $I->sendAjaxPostRequest($uri, [
             'user_id' => $developer1->id,
-            '_token' => csrf_token(),
+            '_token'  => csrf_token(),
         ]);
         $I->comment($I->getResponseContent());
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);

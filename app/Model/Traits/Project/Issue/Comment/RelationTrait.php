@@ -14,7 +14,7 @@ namespace Tinyissue\Model\Traits\Project\Issue\Comment;
 use Illuminate\Database\Eloquent\Relations;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Project\Issue\Comment model
+ * RelationTrait is trait class containing the relationship methods for the Project\Issue\Comment model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -35,7 +35,7 @@ trait RelationTrait
     }
 
     /**
-     * Comment can have many attachments
+     * Comment can have many attachments.
      *
      * @return Relations\HasMany
      */
@@ -45,7 +45,7 @@ trait RelationTrait
     }
 
     /**
-     * Comment can have one activity
+     * Comment can have one activity.
      *
      * @return Relations\HasOne
      */

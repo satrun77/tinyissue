@@ -24,13 +24,13 @@ return [
     ],
 
     'ses' => [
-        'key' => '',
+        'key'    => '',
         'secret' => '',
         'region' => 'us-east-1',
     ],
 
     'stripe' => [
-        'model' => 'User',
+        'model'  => 'User',
         'secret' => '',
     ],
 

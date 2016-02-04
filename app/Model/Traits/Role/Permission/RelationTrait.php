@@ -14,7 +14,7 @@ namespace Tinyissue\Model\Traits\Role\Permission;
 use Illuminate\Database\Eloquent\Relations;
 
 /**
- * RelationTrait is trait class containing the relationship method for the Role\Permission model
+ * RelationTrait is trait class containing the relationship method for the Role\Permission model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations;
 trait RelationTrait
 {
     /**
-     * Returns the permission for a role
+     * Returns the permission for a role.
      *
      * @return Relations\HasOne
      */

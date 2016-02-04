@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Project model
+ * RelationTrait is trait class containing the relationship methods for the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -35,7 +35,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns issues in the project with user details eager loaded
+     * Returns issues in the project with user details eager loaded.
      *
      * @return Relations\HasMany
      */
@@ -55,7 +55,7 @@ trait RelationTrait
     }
 
     /**
-     * Return a user that is member of a project
+     * Return a user that is member of a project.
      *
      * @param int $userId
      *
@@ -67,7 +67,7 @@ trait RelationTrait
     }
 
     /**
-     * Project has many project users
+     * Project has many project users.
      *
      * @return Relations\HasMany
      */
@@ -77,7 +77,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns project activities
+     * Returns project activities.
      *
      * @return Relations\HasMany
      */
@@ -87,7 +87,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns notes in the project
+     * Returns notes in the project.
      *
      * @return Relations\HasMany
      */
@@ -97,7 +97,7 @@ trait RelationTrait
     }
 
     /**
-     * Project have many kanban tags
+     * Project have many kanban tags.
      *
      * @return Relations\BelongsToMany
      */
@@ -105,5 +105,4 @@ trait RelationTrait
     {
         return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')->orderBy('position');
     }
-
 }

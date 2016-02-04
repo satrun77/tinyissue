@@ -43,7 +43,7 @@ class CrudUserCest
         $I->wantTo('edit an existing user details');
 
         $admin = $I->createUser(1, 4);
-        $user = $I->createUser(2, 1);
+        $user  = $I->createUser(2, 1);
 
         $I->amLoggedAs($admin);
         $I->amOnAction('Administration\\UsersController@getIndex');
@@ -68,7 +68,7 @@ class CrudUserCest
         $I->wantTo('delete an existing user details');
 
         $admin = $I->createUser(1, 4);
-        $user = $I->createUser(2, 1);
+        $user  = $I->createUser(2, 1);
         $user1 = $I->createUser(3, 2);
 
         $I->amLoggedAs($admin);

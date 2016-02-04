@@ -16,7 +16,7 @@ use Tinyissue\Model\Traits\Project\Issue\Comment\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\Comment\RelationTrait;
 
 /**
- * Comment is model class for project issue comments
+ * Comment is model class for project issue comments.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -32,21 +32,21 @@ class Comment extends BaseModel
         RelationTrait;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'projects_issues_comments';
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */

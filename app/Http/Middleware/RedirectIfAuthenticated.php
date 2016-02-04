@@ -17,7 +17,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 /**
- * RedirectIfAuthenticated is a Middleware class to redirect logged user to dashboard instead of login page
+ * RedirectIfAuthenticated is a Middleware class to redirect logged user to dashboard instead of login page.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

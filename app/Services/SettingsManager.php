@@ -15,7 +15,7 @@ use Illuminate\Support\Collection;
 use Tinyissue\Model\Setting;
 
 /**
- * SettingsManager singleton class to maintain a collection of all settings
+ * SettingsManager singleton class to maintain a collection of all settings.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -33,7 +33,7 @@ class SettingsManager extends Collection
     }
 
     /**
-     * Load all settings
+     * Load all settings.
      *
      * @return \Illuminate\Database\Eloquent\Collection|bool
      */
@@ -44,7 +44,7 @@ class SettingsManager extends Collection
             // This method called from RouteServiceProvider, which is called within command line 'artisan migrate'
             // before the table exists.
             try {
-                $items = Setting::all();
+                $items       = Setting::all();
                 $this->items = is_array($items) ? $items : $this->getArrayableItems($items);
             } catch (\Exception $e) {
                 return false;
@@ -55,7 +55,7 @@ class SettingsManager extends Collection
     }
 
     /**
-     * Returns a setting value
+     * Returns a setting value.
      *
      * @param $name
      * @param mixed|null $default
@@ -76,7 +76,7 @@ class SettingsManager extends Collection
     }
 
     /**
-     * Whether or not the public projects enabled
+     * Whether or not the public projects enabled.
      *
      * @return bool
      */
@@ -86,7 +86,7 @@ class SettingsManager extends Collection
     }
 
     /**
-     * Returns date format
+     * Returns date format.
      *
      * @return string
      */
@@ -96,7 +96,7 @@ class SettingsManager extends Collection
     }
 
     /**
-     * Save a collection of settings
+     * Save a collection of settings.
      *
      * @param $values
      *
@@ -106,7 +106,7 @@ class SettingsManager extends Collection
     {
         foreach ($values as $name => $value) {
             $settings = new Setting();
-            $setting = $settings->where('key', '=', $name)->first();
+            $setting  = $settings->where('key', '=', $name)->first();
             if ($setting) {
                 $setting->value = $value;
                 $setting->save();

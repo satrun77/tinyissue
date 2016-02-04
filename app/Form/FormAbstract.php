@@ -16,21 +16,21 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
 /**
- * FormAbstract is an abstract class for Form classes
+ * FormAbstract is an abstract class for Form classes.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 abstract class FormAbstract implements FormInterface
 {
     /**
-     * An instance of Model
+     * An instance of Model.
      *
      * @var Model
      */
     protected $model;
 
     /**
-     * Set an instance of model currently being edited
+     * Set an instance of model currently being edited.
      *
      * @param Model $model
      *
@@ -44,7 +44,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Setup the object from the route parameters
+     * Setup the object from the route parameters.
      *
      * @param array $params
      *
@@ -63,7 +63,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Whether or not the form is in editing of a model
+     * Whether or not the form is in editing of a model.
      *
      * @return bool
      */
@@ -73,7 +73,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Return an instance of the model being edited
+     * Return an instance of the model being edited.
      *
      * @return Model
      */
@@ -83,7 +83,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Returns form type
+     * Returns form type.
      *
      * @return string
      */
@@ -93,7 +93,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Returns an array of form actions
+     * Returns an array of form actions.
      *
      * @return array
      */
@@ -103,7 +103,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Returns an array of form fields
+     * Returns an array of form fields.
      *
      * @return array
      */
@@ -113,7 +113,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Returns an array form rules
+     * Returns an array form rules.
      *
      * @return array
      */
@@ -123,7 +123,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Returns the form redirect url on error
+     * Returns the form redirect url on error.
      *
      * @return string
      */
@@ -133,7 +133,7 @@ abstract class FormAbstract implements FormInterface
     }
 
     /**
-     * Returns project upload fields
+     * Returns project upload fields.
      *
      * @param string  $name
      * @param Project $project
@@ -145,13 +145,13 @@ abstract class FormAbstract implements FormInterface
     {
         return [
             $name => [
-                'type' => 'FileUpload',
+                'type'                 => 'FileUpload',
                 'data_message_success' => trans('tinyissue.success_upload'),
-                'data_message_failed' => trans('tinyissue.error_uploadfailed'),
-                'multiple' => null,
+                'data_message_failed'  => trans('tinyissue.error_uploadfailed'),
+                'multiple'             => null,
             ],
             $name . '_token' => [
-                'type' => 'hidden',
+                'type'  => 'hidden',
                 'value' => md5($project->id . time() . $user->id . rand(1, 100)),
             ],
         ];

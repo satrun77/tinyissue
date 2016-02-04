@@ -4,7 +4,7 @@ use Tinyissue\Model\Project;
 
 /**
  * -------
- * - get project progress ProjectsController::postProgress
+ * - get project progress ProjectsController::postProgress.
  */
 class ProjectCest
 {
@@ -24,9 +24,9 @@ class ProjectCest
         $I->amLoggedAs($admin);
 
         $project1 = $I->createProject(1);
-        $issue1 = $I->createIssue(1, $admin, null, $project1);
-        $issue2 = $I->createIssue(2, $admin, null, $project1);
-        $issue3 = $I->createIssue(3, $admin, null, $project1);
+        $issue1   = $I->createIssue(1, $admin, null, $project1);
+        $issue2   = $I->createIssue(2, $admin, null, $project1);
+        $issue3   = $I->createIssue(3, $admin, null, $project1);
         $issue2->changeStatus(Project\Issue::STATUS_CLOSED, $admin);
 
         $I->amOnAction('ProjectController@getIssues', ['project' => $project1]);
@@ -53,14 +53,14 @@ class ProjectCest
         $I->am('Admin User');
         $I->wantTo('view issues assigned to logged user');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2);
         $I->amLoggedAs($developer1);
 
         $project1 = $I->createProject(1);
-        $issue1 = $I->createIssue(1, $admin, $developer1, $project1);
-        $issue2 = $I->createIssue(2, $admin, $developer1, $project1);
-        $issue3 = $I->createIssue(3, $admin, null, $project1);
+        $issue1   = $I->createIssue(1, $admin, $developer1, $project1);
+        $issue2   = $I->createIssue(2, $admin, $developer1, $project1);
+        $issue3   = $I->createIssue(3, $admin, null, $project1);
 
         $I->amOnAction('ProjectController@getAssigned', ['project' => $project1]);
         $I->seeLink($issue1->title);
@@ -80,7 +80,7 @@ class ProjectCest
         $I->am('Admin User');
         $I->wantTo('not be able to add user to a project');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
@@ -91,7 +91,7 @@ class ProjectCest
         $uri = $I->getApplication()->url->action('ProjectController@postAssign', ['project' => $project]);
         $I->sendAjaxPostRequest($uri, [
             'user_id' => $developer1->id,
-            '_token' => csrf_token(),
+            '_token'  => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
         $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
@@ -110,7 +110,7 @@ class ProjectCest
         $I->am('Admin User');
         $I->wantTo('not be able to remove user to a project');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
@@ -121,7 +121,7 @@ class ProjectCest
         $uri = $I->getApplication()->url->action('ProjectController@postUnassign', ['project' => $project]);
         $I->sendAjaxPostRequest($uri, [
             'user_id' => $developer1->id,
-            '_token' => csrf_token(),
+            '_token'  => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
         $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
@@ -143,9 +143,9 @@ class ProjectCest
         $admin = $I->createUser(1, 4);
         $I->amLoggedAs($admin);
 
-        $project1 = $I->createProject(1);
+        $project1    = $I->createProject(1);
         $totalIssues = 4;
-        $issues = [];
+        $issues      = [];
         for ($i = 0; $i < $totalIssues; ++$i) {
             $issues[] = $I->createIssue($i, $admin, null, $project1);
         }

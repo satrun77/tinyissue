@@ -12,14 +12,14 @@
 namespace Tinyissue\Form;
 
 /**
- * Note is a class to defines fields & rules for add/edit note form
+ * Note is a class to defines fields & rules for add/edit note form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class Note extends FormAbstract
 {
     /**
-     * An instance of project model
+     * An instance of project model.
      *
      * @var \Tinyissue\Model\Project
      */

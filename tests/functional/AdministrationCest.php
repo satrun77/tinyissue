@@ -18,8 +18,8 @@ class AdministrationCest
 
         $admin = $I->createUser(1, 4);
 
-        $project1 = $I->createProject(1);
-        $project2 = $I->createProject(2);
+        $project1         = $I->createProject(1);
+        $project2         = $I->createProject(2);
         $project2->status = Tinyissue\Model\Project::STATUS_ARCHIVED;
         $project2->save();
         $I->createProject(3);

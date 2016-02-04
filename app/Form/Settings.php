@@ -14,14 +14,14 @@ namespace Tinyissue\Form;
 use Tinyissue\Model;
 
 /**
- * Settings is a class to defines fields & rules for editing system settings
+ * Settings is a class to defines fields & rules for editing system settings.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class Settings extends FormAbstract
 {
     /**
-     * An instance of project model
+     * An instance of project model.
      *
      * @var Model\Settings
      */
@@ -46,7 +46,7 @@ class Settings extends FormAbstract
 
         $settingsManager = app('tinyissue.settings');
         foreach ($settingsManager as $setting) {
-            $method = camel_case('field_' . $setting->key);
+            $method                = camel_case('field_' . $setting->key);
             $fields[$setting->key] = $this->{$method}($setting);
         }
 
@@ -54,7 +54,7 @@ class Settings extends FormAbstract
     }
 
     /**
-     * Select enable/disable for public projects
+     * Select enable/disable for public projects.
      *
      * @param Model\Setting $setting
      *
@@ -63,15 +63,15 @@ class Settings extends FormAbstract
     protected function fieldEnablePublicProjects(Model\Setting $setting)
     {
         return [
-            'type' => 'select',
-            'label' => $setting->name,
-            'value' => $setting->value,
+            'type'    => 'select',
+            'label'   => $setting->name,
+            'value'   => $setting->value,
             'options' => [Model\Setting::ENABLE => trans('tinyissue.enable'), Model\Setting::DISABLE => trans('tinyissue.disable')],
         ];
     }
 
     /**
-     * Select enable/disable for public projects
+     * Select enable/disable for public projects.
      *
      * @param Model\Setting $setting
      *
@@ -80,11 +80,11 @@ class Settings extends FormAbstract
     protected function fieldDateFormat(Model\Setting $setting)
     {
         return [
-            'type' => 'text',
-            'label' => 'date_format',
-            'value' => $setting->value,
+            'type'        => 'text',
+            'label'       => 'date_format',
+            'value'       => $setting->value,
             'placeholder' => 'F jS \a\t g:i A',
-            'help' => 'Format characters can be found --> <a href="http://php.net/manual/en/function.date.php" target="_blank">PHP date</a>',
+            'help'        => 'Format characters can be found --> <a href="http://php.net/manual/en/function.date.php" target="_blank">PHP date</a>',
         ];
     }
 

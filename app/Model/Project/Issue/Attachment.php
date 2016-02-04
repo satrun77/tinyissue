@@ -17,7 +17,7 @@ use Tinyissue\Model\Traits\Project\Issue\Attachment\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\Attachment\RelationTrait;
 
 /**
- * Attachment is model class for project attachments
+ * Attachment is model class for project attachments.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -37,21 +37,21 @@ class Attachment extends BaseModel
         RelationTrait;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'projects_issues_attachments';
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */
@@ -64,7 +64,7 @@ class Attachment extends BaseModel
     ];
 
     /**
-     * Whether or not the file extension is supported image type
+     * Whether or not the file extension is supported image type.
      *
      * @return bool
      */
@@ -83,7 +83,7 @@ class Attachment extends BaseModel
     }
 
     /**
-     * Url to attachment download
+     * Url to attachment download.
      *
      * @return string
      */
@@ -93,7 +93,7 @@ class Attachment extends BaseModel
     }
 
     /**
-     * Url to display attachment
+     * Url to display attachment.
      *
      * @return string
      */

@@ -17,43 +17,43 @@ use Tinyissue\Model\Project;
 use Tinyissue\Services\Exporter;
 
 /**
- * XlsHandler is an export class for exporting a project issues into a Xls or Xlsx file
+ * XlsHandler is an export class for exporting a project issues into a Xls or Xlsx file.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class XlsHandler
 {
     /**
-     * Instance of the project
+     * Instance of the project.
      *
      * @var Project
      */
     protected $project;
 
     /**
-     * Collection of project issues
+     * Collection of project issues.
      *
      * @var Project\Issue[]
      */
     protected $issues;
 
     /**
-     * Columns to export from the issues table
+     * Columns to export from the issues table.
      *
      * @var array
      */
     protected $columns = [
-        'id' => '',
-        'title' => '',
+        'id'         => '',
+        'title'      => '',
         'time_quote' => '',
         'created_at' => '',
         'updated_at' => '',
-        'closed_at' => '',
-        'status' => '',
+        'closed_at'  => '',
+        'status'     => '',
     ];
 
     /**
-     * Columns in the output file
+     * Columns in the output file.
      *
      * @var array
      */
@@ -68,7 +68,7 @@ class XlsHandler
     ];
 
     /**
-     * Set an instance of a project model
+     * Set an instance of a project model.
      *
      * @param Project $project
      *
@@ -128,7 +128,7 @@ class XlsHandler
     }
 
     /**
-     * Setup sheet global styles
+     * Setup sheet global styles.
      *
      * @param LaravelExcelWorksheet $sheet
      *
@@ -142,7 +142,7 @@ class XlsHandler
     }
 
     /**
-     * Sheet title in the first row
+     * Sheet title in the first row.
      *
      * @param CellWriter $cell
      *
@@ -157,7 +157,7 @@ class XlsHandler
     }
 
     /**
-     * Sheet data row
+     * Sheet data row.
      *
      * @param LaravelExcelWorksheet $sheet
      * @param int                   $index

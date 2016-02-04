@@ -14,7 +14,7 @@ namespace Tinyissue\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Permission is model class for permissions
+ * Permission is model class for permissions.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -26,77 +26,77 @@ use Illuminate\Database\Eloquent\Model;
 class Permission extends Model
 {
     /**
-     * Permission to view issue
+     * Permission to view issue.
      *
      * @var string
      */
     const PERM_ISSUE_VIEW = 'issue-view';
 
     /**
-     * Permission to create issue
+     * Permission to create issue.
      *
      * @var string
      */
     const PERM_ISSUE_CREATE = 'issue-create';
 
     /**
-     * Permission to add/edit/delete comment in an issue
+     * Permission to add/edit/delete comment in an issue.
      *
      * @var string
      */
     const PERM_ISSUE_COMMENT = 'issue-comment';
 
     /**
-     * Permission to modify issue
+     * Permission to modify issue.
      *
      * @var string
      */
     const PERM_ISSUE_MODIFY = 'issue-modify';
 
     /**
-     * Permission to modify all projects
+     * Permission to modify all projects.
      *
      * @var string
      */
     const PERM_PROJECT_ALL = 'project-all';
 
     /**
-     * Permission to create project
+     * Permission to create project.
      *
      * @var string
      */
     const PERM_PROJECT_CREATE = 'project-create';
 
     /**
-     * Permission to modify project
+     * Permission to modify project.
      *
      * @var string
      */
     const PERM_PROJECT_MODIFY = 'project-modify';
 
     /**
-     * Permission as administrator
+     * Permission as administrator.
      *
      * @var string
      */
     const PERM_ADMIN = 'administration';
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = false;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'permissions';
 
     /**
-     * List of group permissions
+     * List of group permissions.
      *
      * @var array
      */
@@ -108,7 +108,7 @@ class Permission extends Model
     ];
 
     /**
-     * Compare if the permission is match
+     * Compare if the permission is match.
      *
      * @param string $permission
      *

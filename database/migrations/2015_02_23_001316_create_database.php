@@ -13,7 +13,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Tinyissue\Model;
 
 /**
- * CreateDatabase is a migration class for creating new database
+ * CreateDatabase is a migration class for creating new database.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -153,44 +153,44 @@ class CreateDatabase extends Migration
         // Insert Permisions Data
         $permissions = [
             [
-                'permission' => 'issue-view',
+                'permission'  => 'issue-view',
                 'description' => 'View issues in project assigned to',
-                'auto_has' => null,
+                'auto_has'    => null,
             ],
             [
-                'permission' => 'issue-create',
+                'permission'  => 'issue-create',
                 'description' => 'Create issues in projects assigned to',
-                'auto_has' => null,
+                'auto_has'    => null,
             ],
             [
-                'permission' => 'issue-comment',
+                'permission'  => 'issue-comment',
                 'description' => 'Comment in issues in projects assigned to',
-                'auto_has' => '1',
+                'auto_has'    => '1',
             ],
             [
-                'permission' => 'issue-modify',
+                'permission'  => 'issue-modify',
                 'description' => 'Modify issues in projects assigned to',
-                'auto_has' => '1',
+                'auto_has'    => '1',
             ],
             [
-                'permission' => 'administration',
+                'permission'  => 'administration',
                 'description' => 'Administration tools, such as user management and application settings',
-                'auto_has' => null,
+                'auto_has'    => null,
             ],
             [
-                'permission' => 'project-create',
+                'permission'  => 'project-create',
                 'description' => 'Create a new project',
-                'auto_has' => null,
+                'auto_has'    => null,
             ],
             [
-                'permission' => 'project-modify',
+                'permission'  => 'project-modify',
                 'description' => 'Modify a project assigned to',
-                'auto_has' => null,
+                'auto_has'    => null,
             ],
             [
-                'permission' => 'project-all',
+                'permission'  => 'project-all',
                 'description' => 'View, modify all projects and issues',
-                'auto_has' => '1,2,3,4',
+                'auto_has'    => '1,2,3,4',
             ],
         ];
         foreach ($permissions as $permission) {
@@ -200,23 +200,23 @@ class CreateDatabase extends Migration
         // Insert Roles Data
         $roles = [
             [
-                'name' => 'User',
-                'role' => 'user',
+                'name'        => 'User',
+                'role'        => 'user',
                 'description' => 'Only can read the issues in the projects they are assigned to',
             ],
             [
-                'name' => 'Developer',
-                'role' => 'developer',
+                'name'        => 'Developer',
+                'role'        => 'developer',
                 'description' => 'Can update issues in the projects they are assigned to',
             ],
             [
-                'name' => 'Manager',
-                'role' => 'manager',
+                'name'        => 'Manager',
+                'role'        => 'manager',
                 'description' => 'Can update issues in all projects, even if they aren\'t assigned',
             ],
             [
-                'name' => 'Administrator',
-                'role' => 'administrator',
+                'name'        => 'Administrator',
+                'role'        => 'administrator',
                 'description' => 'Can update all issues in all projects, create users and view administration',
             ],
         ];

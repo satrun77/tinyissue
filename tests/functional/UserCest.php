@@ -91,19 +91,19 @@ class UserCest
         $I->am('Developer User');
         $I->wantTo('view issues assigned to logged user in all projects');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2);
         $I->amLoggedAs($developer1);
 
         $project1 = $I->createProject(1, [$developer1]);
-        $issue1 = $I->createIssue(1, $admin, $developer1, $project1);
-        $issue2 = $I->createIssue(2, $admin, $developer1, $project1);
-        $issue3 = $I->createIssue(3, $developer1, $developer1, $project1);
+        $issue1   = $I->createIssue(1, $admin, $developer1, $project1);
+        $issue2   = $I->createIssue(2, $admin, $developer1, $project1);
+        $issue3   = $I->createIssue(3, $developer1, $developer1, $project1);
 
         $project2 = $I->createProject(2, [$developer1]);
-        $issue4 = $I->createIssue(4, $admin, $developer1, $project2);
-        $issue5 = $I->createIssue(5, $admin, $developer1, $project2);
-        $issue6 = $I->createIssue(6, $admin, null, $project2);
+        $issue4   = $I->createIssue(4, $admin, $developer1, $project2);
+        $issue5   = $I->createIssue(5, $admin, $developer1, $project2);
+        $issue6   = $I->createIssue(6, $admin, null, $project2);
 
         $I->amOnAction('HomeController@getIndex');
         $I->click(trans('tinyissue.your_issues'));

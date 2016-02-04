@@ -15,7 +15,7 @@ use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 /**
- * Handler is a class to handler all of the application exceptions (reporting and rendering)
+ * Handler is a class to handler all of the application exceptions (reporting and rendering).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent;
 use Tinyissue\Model\Tag;
 
 /**
- * CrudTrait is trait class containing the methods for adding/editing/deleting the Tag model
+ * CrudTrait is trait class containing the methods for adding/editing/deleting the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -24,7 +24,7 @@ use Tinyissue\Model\Tag;
 trait CrudTrait
 {
     /**
-     * Create new tag from string of group name and tag name
+     * Create new tag from string of group name and tag name.
      *
      * @param string $tagFullName
      *
@@ -46,7 +46,7 @@ trait CrudTrait
     }
 
     /**
-     * Create a new tag if valid or return existing one
+     * Create a new tag if valid or return existing one.
      *
      * @param string   $name
      * @param null|Tag $parent
@@ -56,14 +56,14 @@ trait CrudTrait
     public function validOrCreate($name, Tag $parent = null)
     {
         $group = $parent === null ? true : false;
-        $tag = $this->where('name', '=', $name)->first();
+        $tag   = $this->where('name', '=', $name)->first();
         if ($tag && $tag->group != $group) {
             return false;
         }
 
         if (!$tag) {
-            $tag = new Tag();
-            $tag->name = $name;
+            $tag        = new Tag();
+            $tag->name  = $name;
             $tag->group = $group;
             if (!is_null($parent)) {
                 $tag->parent_id = $parent->id;

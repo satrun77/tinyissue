@@ -16,13 +16,13 @@ class CrudProjectNotesCest
         $I->am('Admin User');
         $I->wantTo('view existing notes in a project');
 
-        $user1 = $I->createUser(1, 1);
+        $user1      = $I->createUser(1, 1);
         $developer1 = $I->createUser(2, 2);
         $I->amLoggedAs($developer1);
 
         $project = $I->createProject(1);
-        $note1 = $I->createNote(1, $user1, $project);
-        $note2 = $I->createNote(2, $developer1, $project);
+        $note1   = $I->createNote(1, $user1, $project);
+        $note2   = $I->createNote(2, $developer1, $project);
 
         $I->amOnAction('ProjectController@getNotes', ['project' => $project]);
         $I->see('Note 1', '//li[@id="note' . $note1->id . '"]');
@@ -69,7 +69,7 @@ class CrudProjectNotesCest
         $admin = $I->createUser(1, 4);
         $I->amLoggedAs($admin);
 
-        $note = $I->createNote(1, $admin);
+        $note    = $I->createNote(1, $admin);
         $project = $note->project;
 
         $I->amOnAction('ProjectController@getNotes', ['project' => $project]);
@@ -77,7 +77,7 @@ class CrudProjectNotesCest
 
         $uri = $I->getApplication()->url->action('ProjectController@postEditNote', ['project' => $project, 'note' => $note]);
         $I->sendAjaxPostRequest($uri, [
-            'body' => 'note one updated',
+            'body'   => 'note one updated',
             '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
@@ -101,8 +101,8 @@ class CrudProjectNotesCest
         $I->amLoggedAs($admin);
 
         $project = $I->createProject(1);
-        $note1 = $I->createNote(1, $admin, $project);
-        $note2 = $I->createNote(2, $admin, $project);
+        $note1   = $I->createNote(1, $admin, $project);
+        $note2   = $I->createNote(2, $admin, $project);
 
         $I->amOnAction('ProjectController@getNotes', ['project' => $project]);
         $I->see('Note 1', '//li[@id="note' . $note1->id . '"]');

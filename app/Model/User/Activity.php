@@ -16,7 +16,7 @@ use Illuminate\Support\Collection;
 use Tinyissue\Model\Traits\User\Activity\RelationTrait;
 
 /**
- * Activity is model class for user activities
+ * Activity is model class for user activities.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -33,28 +33,28 @@ class Activity extends Model
     use RelationTrait;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'users_activity';
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */
     protected $fillable = ['type_id', 'parent_id', 'user_id', 'item_id', 'action_id', 'data'];
 
     /**
-     * List of columns and their cast data-type
+     * List of columns and their cast data-type.
      *
      * @var array
      */
@@ -63,7 +63,7 @@ class Activity extends Model
     ];
 
     /**
-     * Get a value from the data field using "dot" notation
+     * Get a value from the data field using "dot" notation.
      *
      * @param string $name
      *
@@ -75,7 +75,7 @@ class Activity extends Model
     }
 
     /**
-     * Get a value from the data field using "dot" notation
+     * Get a value from the data field using "dot" notation.
      *
      * @param string $name
      *

@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Model\Traits\Project\User\RelationTrait;
 
 /**
- * User is model class for project users
+ * User is model class for project users.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -28,14 +28,14 @@ class User extends Model
     use RelationTrait;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'projects_users';
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */

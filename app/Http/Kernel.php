@@ -14,7 +14,7 @@ namespace Tinyissue\Http;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 /**
- * Kernel is the Http kernel class
+ * Kernel is the Http kernel class.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -40,11 +40,11 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
-        'auth' => 'Tinyissue\Http\Middleware\Authenticate',
+        'auth'       => 'Tinyissue\Http\Middleware\Authenticate',
         'auth.basic' => 'Illuminate\Auth\Middleware\AuthenticateWithBasicAuth',
-        'guest' => 'Tinyissue\Http\Middleware\RedirectIfAuthenticated',
+        'guest'      => 'Tinyissue\Http\Middleware\RedirectIfAuthenticated',
         'permission' => 'Tinyissue\Http\Middleware\Permission',
-        'ajax' => 'Tinyissue\Http\Middleware\VerifyAjaxRequest',
-        'project' => 'Tinyissue\Http\Middleware\Project',
+        'ajax'       => 'Tinyissue\Http\Middleware\VerifyAjaxRequest',
+        'project'    => 'Tinyissue\Http\Middleware\Project',
     ];
 }

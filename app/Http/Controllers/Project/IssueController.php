@@ -25,14 +25,14 @@ use Tinyissue\Model\Tag;
 use Tinyissue\Model\User\Activity as UserActivity;
 
 /**
- * IssueController is the controller class for managing request related to projects issues
+ * IssueController is the controller class for managing request related to projects issues.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class IssueController extends Controller
 {
     /**
-     * Project issue index page (List project issues)
+     * Project issue index page (List project issues).
      *
      * @param Project     $project
      * @param Issue       $issue
@@ -58,17 +58,17 @@ class IssueController extends Controller
         }
 
         return view('project.issue.index', [
-            'issue' => $issue,
-            'project' => $project,
+            'issue'       => $issue,
+            'project'     => $project,
             'commentForm' => $form,
-            'activities' => $activities,
-            'sidebar' => 'project',
-            'projects' => $projects,
+            'activities'  => $activities,
+            'sidebar'     => 'project',
+            'projects'    => $projects,
         ]);
     }
 
     /**
-     * Ajax: Assign new user to an issue
+     * Ajax: Assign new user to an issue.
      *
      * @param Issue   $issue
      * @param Request $request
@@ -86,7 +86,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Ajax: save comment
+     * Ajax: save comment.
      *
      * @param Comment $comment
      * @param Request $request
@@ -105,7 +105,7 @@ class IssueController extends Controller
     }
 
     /**
-     * To add new comment to an issue
+     * To add new comment to an issue.
      *
      * @param Project             $project
      * @param Issue               $issue
@@ -126,7 +126,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Ajax: to delete a comment
+     * Ajax: to delete a comment.
      *
      * @param Comment $comment
      *
@@ -140,7 +140,7 @@ class IssueController extends Controller
     }
 
     /**
-     * New issue form
+     * New issue form.
      *
      * @param Project   $project
      * @param IssueForm $form
@@ -151,13 +151,13 @@ class IssueController extends Controller
     {
         return view('project.issue.new', [
             'project' => $project,
-            'form' => $form,
+            'form'    => $form,
             'sidebar' => 'project',
         ]);
     }
 
     /**
-     * To create a new issue
+     * To create a new issue.
      *
      * @param Project           $project
      * @param Issue             $issue
@@ -176,7 +176,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Edit an existing issue form
+     * Edit an existing issue form.
      *
      * @param Project   $project
      * @param Issue     $issue
@@ -193,15 +193,15 @@ class IssueController extends Controller
         }
 
         return view('project.issue.edit', [
-            'issue' => $issue,
+            'issue'   => $issue,
             'project' => $project,
-            'form' => $form,
+            'form'    => $form,
             'sidebar' => 'project',
         ]);
     }
 
     /**
-     * To update an existing issue details
+     * To update an existing issue details.
      *
      * @param Project           $project
      * @param Issue             $issue
@@ -220,7 +220,7 @@ class IssueController extends Controller
     }
 
     /**
-     * To close or reopen an issue
+     * To close or reopen an issue.
      *
      * @param Project $project
      * @param Issue   $issue
@@ -244,7 +244,7 @@ class IssueController extends Controller
     }
 
     /**
-     * To upload an attachment file
+     * To upload an attachment file.
      *
      * @param Project    $project
      * @param Attachment $attachment
@@ -264,8 +264,8 @@ class IssueController extends Controller
             $response = [
                 'upload' => [
                     [
-                        'name' => $attachment->filename,
-                        'size' => $attachment->filesize,
+                        'name'   => $attachment->filename,
+                        'size'   => $attachment->filesize,
                         'fileId' => $attachment->id,
                     ],
                 ],
@@ -273,19 +273,19 @@ class IssueController extends Controller
         } catch (\Exception $exception) {
             $file = $request->file('upload');
 
-            $response = array(
+            $response = [
                 'status' => false,
-                'name' => $file->getClientOriginalName(),
-                'error' => $exception->getMessage(),
-                'trace' => $exception->getTraceAsString(),
-            );
+                'name'   => $file->getClientOriginalName(),
+                'error'  => $exception->getMessage(),
+                'trace'  => $exception->getTraceAsString(),
+            ];
         }
 
         return response()->json($response);
     }
 
     /**
-     * Ajax: to remove an attachment file
+     * Ajax: to remove an attachment file.
      *
      * @param Project    $project
      * @param Attachment $attachment
@@ -301,7 +301,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Display an attachment file such as image
+     * Display an attachment file such as image.
      *
      * @param Project    $project
      * @param Issue      $issue
@@ -315,11 +315,11 @@ class IssueController extends Controller
         $issue->setRelation('project', $project);
         $attachment->setRelation('issue', $issue);
 
-        $path = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
+        $path    = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
         $storage = \Storage::disk('local');
-        $length = $storage->size($path);
-        $time = $storage->lastModified($path);
-        $type = $storage->getDriver()->getMimetype($path);
+        $length  = $storage->size($path);
+        $time    = $storage->lastModified($path);
+        $type    = $storage->getDriver()->getMimetype($path);
 
         $response = new Response();
         $response->setEtag(md5($time . $path));
@@ -345,7 +345,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Download an attachment file
+     * Download an attachment file.
      *
      * @param Project    $project
      * @param Issue      $issue
@@ -364,7 +364,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Ajax: move an issue to another project
+     * Ajax: move an issue to another project.
      *
      * @param Issue   $issue
      * @param Request $request
@@ -379,7 +379,7 @@ class IssueController extends Controller
     }
 
     /**
-     * Ajax: change status of an issue
+     * Ajax: change status of an issue.
      *
      * @param Issue   $issue
      * @param Request $request
@@ -388,8 +388,8 @@ class IssueController extends Controller
      */
     public function postChangeStatusTag(Issue $issue, Request $request)
     {
-        $newTag = Tag::find((int)$request->input('newtag'));
-        $oldTag = Tag::find((int)$request->input('oldtag'));
+        $newTag = Tag::find((int) $request->input('newtag'));
+        $oldTag = Tag::find((int) $request->input('oldtag'));
         $issue->setCurrentTag($newTag, $oldTag, $this->auth->user());
 
         return response()->json(['status' => true, 'issue' => $issue->id]);

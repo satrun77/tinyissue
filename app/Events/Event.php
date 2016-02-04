@@ -12,7 +12,7 @@
 namespace Tinyissue\Events;
 
 /**
- * Event is an abstract class for the Event classes
+ * Event is an abstract class for the Event classes.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

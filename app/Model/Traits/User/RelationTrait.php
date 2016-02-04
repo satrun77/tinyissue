@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the User model
+ * RelationTrait is trait class containing the relationship methods for the User model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -46,7 +46,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns issues created by the user
+     * Returns issues created by the user.
      *
      * @return Relations\HasMany
      */
@@ -56,7 +56,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns issues closed by the user
+     * Returns issues closed by the user.
      *
      * @return Relations\HasMany
      */
@@ -66,7 +66,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns issues updated by the user
+     * Returns issues updated by the user.
      *
      * @return Relations\HasMany
      */
@@ -86,7 +86,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns all projects the user can access
+     * Returns all projects the user can access.
      *
      * @param int $status
      *
@@ -111,7 +111,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns all permission for the user
+     * Returns all permission for the user.
      *
      * @return Relations\HasMany
      */

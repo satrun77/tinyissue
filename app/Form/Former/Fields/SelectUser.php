@@ -14,21 +14,21 @@ namespace Tinyissue\Form\Former\Fields;
 use Former\Traits\Field;
 
 /**
- * SelectUser is a Former field class for selecting project users
+ * SelectUser is a Former field class for selecting project users.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class SelectUser extends Field
 {
     /**
-     * Properties to be injected as attributes
+     * Properties to be injected as attributes.
      *
      * @var array
      */
     protected $injectedProperties = [];
 
     /**
-     * Prints out the current tag
+     * Prints out the current tag.
      *
      * @return string An input tag
      */
@@ -51,7 +51,7 @@ class SelectUser extends Field
     }
 
     /**
-     * Returns Html of selected users
+     * Returns Html of selected users.
      *
      * @param string $id
      *
@@ -71,7 +71,7 @@ class SelectUser extends Field
     }
 
     /**
-     * Returns Html of a selected user row
+     * Returns Html of a selected user row.
      *
      * @param int    $id
      * @param string $name
@@ -88,7 +88,7 @@ class SelectUser extends Field
     }
 
     /**
-     * Returns an array of selected users
+     * Returns an array of selected users.
      *
      * @return array
      */

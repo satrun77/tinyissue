@@ -14,14 +14,14 @@ namespace Tinyissue\Model\Traits\Tag;
 use Tinyissue\Model\Tag;
 
 /**
- * DataMappingTrait is trait class containing methods to manipulate the data of the Tag model
+ * DataMappingTrait is trait class containing methods to manipulate the data of the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 trait DataMappingTrait
 {
     /**
-     * Callback to return tag details for JS library tokenfield
+     * Callback to return tag details for JS library tokenfield.
      *
      * @param Tag $tag
      *
@@ -37,7 +37,7 @@ trait DataMappingTrait
     }
 
     /**
-     * Callback to return tag details as array
+     * Callback to return tag details as array.
      *
      * @param Tag $tag
      *
@@ -46,8 +46,8 @@ trait DataMappingTrait
     public function toArrayCallback(Tag $tag)
     {
         return [
-            'id' => $tag->id,
-            'name' => $tag->fullname,
+            'id'      => $tag->id,
+            'name'    => $tag->fullname,
             'bgcolor' => $tag->bgcolor,
         ];
     }

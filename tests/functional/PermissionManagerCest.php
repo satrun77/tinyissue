@@ -16,12 +16,12 @@ class PermissionManagerCest
         $I->am('Manager User');
         $I->expectTo('view issues in all projects');
 
-        $user = $I->createUser(1, 3);
-        $admin = $I->createUser(2, 4);
+        $user     = $I->createUser(1, 3);
+        $admin    = $I->createUser(2, 4);
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$user]);
-        $issue1 = $I->createIssue(1, $admin, null, $project1);
-        $issue2 = $I->createIssue(2, $admin, null, $project2);
+        $issue1   = $I->createIssue(1, $admin, null, $project1);
+        $issue2   = $I->createIssue(2, $admin, null, $project2);
         $comment1 = $I->createComment(1, $admin, $issue2);
 
         $I->amLoggedAs($user);
@@ -54,18 +54,18 @@ class PermissionManagerCest
         $I->am('Manager User');
         $I->expectTo('create issues in all projects');
 
-        $user = $I->createUser(1, 3);
+        $user     = $I->createUser(1, 3);
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$user]);
 
         $I->login($user->email, '123', $user->firstname);
         $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags',
             ['term' => 'f']));
-        $tags = new Collection((array) $I->getJsonResponseContent());
+        $tags   = new Collection((array) $I->getJsonResponseContent());
         $params = [
-            'title' => 'issue 1',
-            'body' => 'body of issue 1',
-            'tag' => $tags->forPage(0, 1)->implode('value', ','),
+            'title'      => 'issue 1',
+            'body'       => 'body of issue 1',
+            'tag'        => $tags->forPage(0, 1)->implode('value', ','),
             'time_quote' => [
                 'h' => 1,
                 'm' => 1,
@@ -95,12 +95,12 @@ class PermissionManagerCest
         $I->am('Manager User');
         $I->expectTo('add comments to all issues in all projects');
 
-        $user = $I->createUser(1, 3);
-        $admin = $I->createUser(2, 4);
+        $user     = $I->createUser(1, 3);
+        $admin    = $I->createUser(2, 4);
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$user]);
-        $issue1 = $I->createIssue(1, $admin, null, $project1);
-        $issue2 = $I->createIssue(2, $admin, null, $project2);
+        $issue1   = $I->createIssue(1, $admin, null, $project1);
+        $issue2   = $I->createIssue(2, $admin, null, $project2);
         $I->amLoggedAs($user);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2]);
         $I->fillField('comment', 'Comment one');
@@ -131,7 +131,7 @@ class PermissionManagerCest
         $I->am('Manager User');
         $I->expectTo('be able to add notes to all projects');
 
-        $user = $I->createUser(2, 3);
+        $user     = $I->createUser(2, 3);
         $project1 = $I->createProject(1, [$user]);
         $project2 = $I->createProject(2);
         $I->amLoggedAs($user);
@@ -140,7 +140,7 @@ class PermissionManagerCest
         $I->see(trans('tinyissue.add_note'));
         $I->sendPostRequest(
             'ProjectController@postAddNote',
-            ['project' => $project1],
+            ['project'   => $project1],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
         $I->seeResponseCodeIs(200);
@@ -148,7 +148,7 @@ class PermissionManagerCest
         $I->see(trans('tinyissue.add_note'));
         $I->sendPostRequest(
             'ProjectController@postAddNote',
-            ['project' => $project2],
+            ['project'   => $project2],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
         $I->seeResponseCodeIs(200);

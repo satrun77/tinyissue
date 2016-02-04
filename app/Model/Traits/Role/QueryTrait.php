@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent;
 use Tinyissue\Model\Role;
 
 /**
- * QueryTrait is trait class containing the database queries methods for the Role model
+ * QueryTrait is trait class containing the database queries methods for the Role model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -24,7 +24,7 @@ use Tinyissue\Model\Role;
 trait QueryTrait
 {
     /**
-     * Drop down of all roles
+     * Drop down of all roles.
      *
      * @return array
      */
@@ -34,7 +34,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns all roles with users of each role
+     * Returns all roles with users of each role.
      *
      * @return Eloquent\Collection
      */

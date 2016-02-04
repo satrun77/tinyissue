@@ -12,7 +12,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
 /**
- * DefaultProjectAssignee is a migration class for upgrading the database to use default project assignee feature
+ * DefaultProjectAssignee is a migration class for upgrading the database to use default project assignee feature.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

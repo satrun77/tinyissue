@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Project\Issue model
+ * RelationTrait is trait class containing the relationship methods for the Project\Issue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -66,7 +66,7 @@ trait RelationTrait
     }
 
     /**
-     * Issue belong to a project
+     * Issue belong to a project.
      *
      * @return Relations\BelongsTo
      */
@@ -76,7 +76,7 @@ trait RelationTrait
     }
 
     /**
-     * Issue can have many attachments
+     * Issue can have many attachments.
      *
      * @return Relations\HasMany
      */
@@ -89,7 +89,7 @@ trait RelationTrait
     }
 
     /**
-     * Issue have many users activities
+     * Issue have many users activities.
      *
      * @return Relations\HasMany
      */
@@ -101,7 +101,7 @@ trait RelationTrait
     }
 
     /**
-     * Issue have many tags
+     * Issue have many tags.
      *
      * @return Relations\BelongsToMany
      */
@@ -111,7 +111,7 @@ trait RelationTrait
     }
 
     /**
-     * Issue have many comments
+     * Issue have many comments.
      *
      * @return Relations\HasMany
      */

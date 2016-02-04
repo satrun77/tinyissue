@@ -14,7 +14,7 @@ namespace Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Http\Requests\Request;
 
 /**
- * Login is a Form Request class for managing login submission (validating, redirect, response, ...)
+ * Login is a Form Request class for managing login submission (validating, redirect, response, ...).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

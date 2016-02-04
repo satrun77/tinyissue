@@ -18,14 +18,14 @@ use Tinyissue\Model\Role;
 use Tinyissue\Model\User;
 
 /**
- * UsersController is the controller class for managing administration request related to users
+ * UsersController is the controller class for managing administration request related to users.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class UsersController extends Controller
 {
     /**
-     * Users index page (List current users)
+     * Users index page (List current users).
      *
      * @param Role $role
      *
@@ -35,12 +35,12 @@ class UsersController extends Controller
     {
         return view('administration.users.index', [
             'projects' => $this->auth->user()->projects()->get(),
-            'roles' => $role->rolesWithUsers(),
+            'roles'    => $role->rolesWithUsers(),
         ]);
     }
 
     /**
-     * Add new user
+     * Add new user.
      *
      * @param Form $form
      *
@@ -49,13 +49,13 @@ class UsersController extends Controller
     public function getAdd(Form $form)
     {
         return view('administration.users.add', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To save new user
+     * To save new user.
      *
      * @param User             $user
      * @param FormRequest\User $request
@@ -71,7 +71,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Edit existing user
+     * Edit existing user.
      *
      * @param User $user
      * @param Form $form
@@ -81,14 +81,14 @@ class UsersController extends Controller
     public function getEdit(User $user, Form $form)
     {
         return view('administration.users.edit', [
-            'user' => $user,
-            'form' => $form,
+            'user'     => $user,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To update existing user
+     * To update existing user.
      *
      * @param User             $user
      * @param FormRequest\User $request
@@ -104,7 +104,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Delete an existing user
+     * Delete an existing user.
      *
      * @param User $user
      *

@@ -14,7 +14,7 @@ namespace Tinyissue\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Activity is model class for activities
+ * Activity is model class for activities.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -25,63 +25,63 @@ use Illuminate\Database\Eloquent\Model;
 class Activity extends Model
 {
     /**
-     * Activity Id: create issue
+     * Activity Id: create issue.
      *
      * @var int
      */
     const TYPE_CREATE_ISSUE = 1;
 
     /**
-     * Activity Id: add comment to an issue
+     * Activity Id: add comment to an issue.
      *
      * @var int
      */
     const TYPE_COMMENT = 2;
 
     /**
-     * Activity Id: close issue
+     * Activity Id: close issue.
      *
      * @var int
      */
     const TYPE_CLOSE_ISSUE = 3;
 
     /**
-     * Activity Id: reopen issue
+     * Activity Id: reopen issue.
      *
      * @var int
      */
     const TYPE_REOPEN_ISSUE = 4;
 
     /**
-     * Activity Id: re-assign issue
+     * Activity Id: re-assign issue.
      *
      * @var int
      */
     const TYPE_REASSIGN_ISSUE = 5;
 
     /**
-     * Activity Id: add note to an issue
+     * Activity Id: add note to an issue.
      *
      * @var int
      */
     const TYPE_NOTE = 6;
 
     /**
-     * Activity Id: modify issue tags
+     * Activity Id: modify issue tags.
      *
      * @var int
      */
     const TYPE_ISSUE_TAG = 7;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = false;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */

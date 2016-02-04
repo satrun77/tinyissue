@@ -21,7 +21,7 @@ use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
 use Tinyissue\Model\Traits\Project\Issue\QueryTrait;
 
 /**
- * Issue is model class for project issues
+ * Issue is model class for project issues.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -51,42 +51,42 @@ class Issue extends BaseModel
         QueryTrait;
 
     /**
-     * Issue status: Open
+     * Issue status: Open.
      *
      * @var int
      */
     const STATUS_OPEN = 1;
 
     /**
-     * Issue status: Closed
+     * Issue status: Closed.
      *
      * @var int
      */
     const STATUS_CLOSED = 0;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'projects_issues';
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */
     protected $fillable = ['created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote'];
 
     /**
-     * Returns the aggregate value of number of comments in an issue
+     * Returns the aggregate value of number of comments in an issue.
      *
      * @return int
      */
@@ -108,7 +108,7 @@ class Issue extends BaseModel
     }
 
     /**
-     * Convert time quote from an array into seconds
+     * Convert time quote from an array into seconds.
      *
      * @param array $value
      */

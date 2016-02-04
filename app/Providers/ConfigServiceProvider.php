@@ -14,7 +14,7 @@ namespace Tinyissue\Providers;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * ConfigServiceProvider is for defining & overriding configurations
+ * ConfigServiceProvider is for defining & overriding configurations.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -31,8 +31,8 @@ class ConfigServiceProvider extends ServiceProvider
     {
         config([
             'tinyissue.release_date' => '12-01-2016',
-            'tinyissue.version' => '2.4.0',
-            'tinyissue.uploads_dir' => env('APP_UPLOAD_DIR', 'uploads'),
+            'tinyissue.version'      => '2.4.0',
+            'tinyissue.uploads_dir'  => env('APP_UPLOAD_DIR', 'uploads'),
         ]);
     }
 }

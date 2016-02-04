@@ -20,7 +20,7 @@ use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
 
 /**
- * QueryTrait is trait class containing the database queries methods for the Project model
+ * QueryTrait is trait class containing the database queries methods for the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -39,7 +39,7 @@ use Tinyissue\Model\User;
 trait QueryTrait
 {
     /**
-     * Returns collection of active projects
+     * Returns collection of active projects.
      *
      * @return Eloquent\Collection
      */
@@ -51,7 +51,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns collection of public projects
+     * Returns collection of public projects.
      *
      * @return Eloquent\Collection
      */
@@ -71,7 +71,7 @@ trait QueryTrait
     {
         if ($this->id > 0) {
             $userIds = $this->users()->lists('user_id')->all();
-            $users = User::where('deleted', '=', User::NOT_DELETED_USERS)->whereNotIn('id', $userIds)->get();
+            $users   = User::where('deleted', '=', User::NOT_DELETED_USERS)->whereNotIn('id', $userIds)->get();
         } else {
             $users = User::where('deleted', '=', User::NOT_DELETED_USERS)->get();
         }
@@ -80,9 +80,9 @@ trait QueryTrait
     }
 
     /**
-     * Fetch and filter issues in the project
+     * Fetch and filter issues in the project.
      *
-     * @param int $status
+     * @param int   $status
      * @param array $filter
      *
      * @return \Illuminate\Database\Eloquent\Collection
@@ -90,7 +90,7 @@ trait QueryTrait
     public function listIssues($status = Project\Issue::STATUS_OPEN, array $filter = [])
     {
         $sortOrder = array_get($filter, 'sort.sortorder', 'desc');
-        $sortBy = array_get($filter, 'sort.sortby', null);
+        $sortBy    = array_get($filter, 'sort.sortby', null);
 
         $query = $this->issues()
             ->with('countComments', 'user', 'updatedBy', 'tags', 'tags.parent')
@@ -120,7 +120,7 @@ trait QueryTrait
     }
 
     /**
-     * Fetch issues assigned to a user
+     * Fetch issues assigned to a user.
      *
      * @param int $userId
      *
@@ -137,7 +137,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns projects with issues details eager loaded
+     * Returns projects with issues details eager loaded.
      *
      * @param int $status
      * @param int $private
@@ -170,9 +170,8 @@ trait QueryTrait
         return $query;
     }
 
-
     /**
-     * Returns collection of tags for Kanban view
+     * Returns collection of tags for Kanban view.
      *
      * @return mixed
      */
@@ -180,7 +179,7 @@ trait QueryTrait
     {
         $tags = $this->kanbanTags()->get();
         if (!$tags->count()) {
-            $tags = (new Tag)->getOpenAndCloseTags();
+            $tags       = (new Tag())->getOpenAndCloseTags();
             $kanbanTags = $this->kanbanTags();
             foreach ($tags as $position => $tag) {
                 $position = $tag->name === Tag::STATUS_OPEN ? -1 : $position;
@@ -193,9 +192,10 @@ trait QueryTrait
     }
 
     /**
-     * Returns collection of issues grouped by tags
+     * Returns collection of issues grouped by tags.
      *
      * @param $tagIds
+     *
      * @return mixed
      */
     public function issuesGroupByTags($tagIds)
@@ -213,8 +213,9 @@ trait QueryTrait
                 $tag = $issue->tags->last();
                 if (!$tag) {
                     // Workaround: Some older issues before the tags feature may not have open/close tag
-                    return $issue->status === Project\Issue::STATUS_OPEN? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
+                    return $issue->status === Project\Issue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
                 }
+
                 return $tag->name;
             });
 

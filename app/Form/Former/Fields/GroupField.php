@@ -14,35 +14,35 @@ namespace Tinyissue\Form\Former\Fields;
 use Former\Traits\Field;
 
 /**
- * GroupField is a Former field class to generate a group of fields as one field
+ * GroupField is a Former field class to generate a group of fields as one field.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class GroupField extends Field
 {
     /**
-     * A list of class properties to be added to attributes
+     * A list of class properties to be added to attributes.
      *
      * @var array
      */
     protected $injectedProperties = [];
 
     /**
-     * The field's default element
+     * The field's default element.
      *
      * @var string
      */
     protected $element = 'div';
 
     /**
-     * List of managed fields
+     * List of managed fields.
      *
      * @var array
      */
     protected $fields = [];
 
     /**
-     * Set managed fields
+     * Set managed fields.
      *
      * @param array $fields
      *
@@ -60,7 +60,7 @@ class GroupField extends Field
     }
 
     /**
-     * Render the field
+     * Render the field.
      *
      * @return string
      */
@@ -74,7 +74,7 @@ class GroupField extends Field
     }
 
     /**
-     * Render the field content. Rendering the managed fields
+     * Render the field content. Rendering the managed fields.
      *
      * @return string
      */
@@ -89,7 +89,7 @@ class GroupField extends Field
     }
 
     /**
-     * Returns values stored in managed fields
+     * Returns values stored in managed fields.
      *
      * @return array
      */
@@ -106,7 +106,7 @@ class GroupField extends Field
 
     /**
      * Set the matching ID on a field if possible
-     * Override to prefix the id with group-
+     * Override to prefix the id with group-.
      *
      * @param string $name
      *

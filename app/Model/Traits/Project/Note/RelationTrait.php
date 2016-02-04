@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Project\Note model
+ * RelationTrait is trait class containing the relationship methods for the Project\Note model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -25,7 +25,7 @@ use Tinyissue\Model;
 trait RelationTrait
 {
     /**
-     * Note created by a user
+     * Note created by a user.
      *
      * @return Relations\BelongsTo
      */
@@ -35,7 +35,7 @@ trait RelationTrait
     }
 
     /**
-     * Note belong to a project
+     * Note belong to a project.
      *
      * @return Relations\BelongsTo
      */
@@ -45,7 +45,7 @@ trait RelationTrait
     }
 
     /**
-     * Note has a user activity record
+     * Note has a user activity record.
      *
      * @return Relations\HasOne
      */

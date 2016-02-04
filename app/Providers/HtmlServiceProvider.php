@@ -14,7 +14,7 @@ namespace Tinyissue\Providers;
 use Tinyissue\Extensions\Html;
 
 /**
- * HtmlServiceProvider for extending Laravel Html service provider
+ * HtmlServiceProvider for extending Laravel Html service provider.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

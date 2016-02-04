@@ -14,7 +14,7 @@ namespace Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Http\Requests\Request;
 
 /**
- * Settings is a Form Request class for managing editing settings submission (validating, redirect, response, ...)
+ * Settings is a Form Request class for managing editing settings submission (validating, redirect, response, ...).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

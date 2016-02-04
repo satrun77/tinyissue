@@ -20,7 +20,7 @@ class CrudIssueCommentCest
         $I->amLoggedAs($admin);
 
         $project = $I->createProject(1, [$admin]);
-        $issue = $I->createIssue(1, $admin, $admin, $project);
+        $issue   = $I->createIssue(1, $admin, $admin, $project);
 
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->fillField('comment', 'Comment one');
@@ -47,12 +47,12 @@ class CrudIssueCommentCest
         $I->login($admin->email, '123', $admin->firstname);
 
         $project = $I->createProject(1, [$admin]);
-        $issue = $I->createIssue(1, $admin, $admin, $project);
+        $issue   = $I->createIssue(1, $admin, $admin, $project);
         $comment = $I->createComment(1, $admin, $issue);
 
         $uri = $I->getApplication()->url->action('Project\IssueController@postEditComment', ['comment' => $comment]);
         $I->sendAjaxPostRequest($uri, [
-            'body' => 'Comment one updated',
+            'body'   => 'Comment one updated',
             '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
@@ -75,8 +75,8 @@ class CrudIssueCommentCest
         $admin = $I->createUser(2, 4);
         $I->amLoggedAs($admin);
 
-        $project = $I->createProject(1, [$admin]);
-        $issue = $I->createIssue(1, $admin, $admin, $project);
+        $project  = $I->createProject(1, [$admin]);
+        $issue    = $I->createIssue(1, $admin, $admin, $project);
         $comment1 = $I->createComment(1, $admin, $issue);
         $comment2 = $I->createComment(2, $admin, $issue);
 

@@ -16,7 +16,7 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
 /**
- * CountTrait is trait class containing the methods for counting database records for the User model
+ * CountTrait is trait class containing the methods for counting database records for the User model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -37,7 +37,7 @@ trait CountTrait
     }
 
     /**
-     * Count number of assigned issues in a project
+     * Count number of assigned issues in a project.
      *
      * @param int $projectId
      *
@@ -56,7 +56,7 @@ trait CountTrait
     }
 
     /**
-     * Returns all projects with open issue count
+     * Returns all projects with open issue count.
      *
      * @param int $status
      *

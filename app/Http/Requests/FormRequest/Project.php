@@ -14,7 +14,7 @@ namespace Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Http\Requests\Request;
 
 /**
- * Project is a Form Request class for managing add/edit project submission (validating, redirect, response, ...)
+ * Project is a Form Request class for managing add/edit project submission (validating, redirect, response, ...).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

@@ -6,13 +6,13 @@ use Tinyissue\Model\Setting;
 class AddSettingsPublicProjects extends Migration
 {
     /**
-     * List of settings to insert
+     * List of settings to insert.
      *
      * @var array
      */
     protected $data = [
         'enable_public_projects' => [
-            'name' => 'enable_public_projects',
+            'name'  => 'enable_public_projects',
             'value' => false,
         ],
     ];
@@ -27,9 +27,9 @@ class AddSettingsPublicProjects extends Migration
         foreach ($this->data as $key => $row) {
             $settings = new Setting();
             $settings->fill([
-                'name' => $row['name'],
+                'name'  => $row['name'],
                 'value' => $row['value'],
-                'key' => $key,
+                'key'   => $key,
             ])->save();
             unset($settings);
         }
@@ -44,7 +44,7 @@ class AddSettingsPublicProjects extends Migration
     {
         foreach ($this->data as $key => $row) {
             $settings = new Setting();
-            $setting = $settings->where('key', '=', $key)->first();
+            $setting  = $settings->where('key', '=', $key)->first();
             if ($setting) {
                 $setting->delete();
             }

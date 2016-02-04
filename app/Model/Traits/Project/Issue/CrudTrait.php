@@ -20,7 +20,7 @@ use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\User;
 
 /**
- * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue model
+ * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -49,7 +49,7 @@ use Tinyissue\Model\User;
 trait CrudTrait
 {
     /**
-     * Set the issue is updated by a user
+     * Set the issue is updated by a user.
      *
      * @param int $userId
      *
@@ -57,7 +57,7 @@ trait CrudTrait
      */
     public function changeUpdatedBy($userId)
     {
-        $time = new \DateTime();
+        $time             = new \DateTime();
         $this->updated_at = $time->format('Y-m-d H:i:s');
         $this->updated_by = $userId;
 
@@ -65,7 +65,7 @@ trait CrudTrait
     }
 
     /**
-     * Reassign the issue to a new user
+     * Reassign the issue to a new user.
      *
      * @param int|User $assignTo
      * @param int|User $user
@@ -74,15 +74,15 @@ trait CrudTrait
      */
     public function reassign($assignTo, $user)
     {
-        $assignToId = !$assignTo instanceof User ? $assignTo : $assignTo->id;
-        $userId = !$user instanceof User ? $user : $user->id;
+        $assignToId        = !$assignTo instanceof User ? $assignTo : $assignTo->id;
+        $userId            = !$user instanceof User ? $user : $user->id;
         $this->assigned_to = $assignToId;
         $this->save();
 
         return $this->activities()->save(new User\Activity([
-            'type_id' => Activity::TYPE_REASSIGN_ISSUE,
+            'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id' => $userId,
+            'user_id'   => $userId,
             'action_id' => $this->assigned_to,
         ]));
     }
@@ -97,19 +97,19 @@ trait CrudTrait
     public function updateIssue(array $input)
     {
         $fill = [
-            'title' => $input['title'],
-            'body' => $input['body'],
+            'title'       => $input['title'],
+            'body'        => $input['body'],
             'assigned_to' => $input['assigned_to'],
-            'time_quote' => $input['time_quote'],
-            'updated_by' => $this->updatedBy->id,
+            'time_quote'  => $input['time_quote'],
+            'updated_by'  => $this->updatedBy->id,
         ];
 
         /* Add to activity log for assignment if changed */
         if ($input['assigned_to'] != $this->assigned_to) {
             $this->activities()->save(new User\Activity([
-                'type_id' => Activity::TYPE_REASSIGN_ISSUE,
+                'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
                 'parent_id' => $this->project->id,
-                'user_id' => $this->updatedBy->id,
+                'user_id'   => $this->updatedBy->id,
                 'action_id' => $this->assigned_to,
             ]));
         }
@@ -137,22 +137,22 @@ trait CrudTrait
         $fill = [
             'created_by' => $this->user->id,
             'project_id' => $this->project->id,
-            'title' => $input['title'],
-            'body' => $input['body'],
+            'title'      => $input['title'],
+            'body'       => $input['body'],
         ];
 
         if ($this->user->permission('issue-modify')) {
             $fill['assigned_to'] = $input['assigned_to'];
-            $fill['time_quote'] = $input['time_quote'];
+            $fill['time_quote']  = $input['time_quote'];
         }
 
         $this->fill($fill)->save();
 
         /* Add to user's activity log */
         $this->activities()->save(new User\Activity([
-            'type_id' => Activity::TYPE_CREATE_ISSUE,
+            'type_id'   => Activity::TYPE_CREATE_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id' => $this->user->id,
+            'user_id'   => $this->user->id,
         ]));
 
         /* Add attachments to issue */
@@ -171,7 +171,7 @@ trait CrudTrait
     }
 
     /**
-     * Move the issue (comments & activities) to another project
+     * Move the issue (comments & activities) to another project.
      *
      * @param int $projectId
      *

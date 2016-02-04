@@ -14,21 +14,21 @@ namespace Tinyissue\Form;
 use Tinyissue\Model;
 
 /**
- * GlobalIssue is a class to defines fields & rules for adding an issue form
+ * GlobalIssue is a class to defines fields & rules for adding an issue form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class GlobalIssue extends Issue
 {
     /**
-     * List of projects
+     * List of projects.
      *
      * @var array
      */
     protected $projects = [];
 
     /**
-     * Returns list of logged in user projects
+     * Returns list of logged in user projects.
      *
      * @return array
      */
@@ -69,8 +69,8 @@ class GlobalIssue extends Issue
         $fields = $this->fieldTitle();
 
         $fields['project'] = [
-            'type' => 'select',
-            'label' => 'project',
+            'type'    => 'select',
+            'label'   => 'project',
             'options' => $this->getProjects()->all(),
         ];
 
@@ -89,7 +89,7 @@ class GlobalIssue extends Issue
      */
     public function rules()
     {
-        $rules = parent::rules();
+        $rules            = parent::rules();
         $rules['project'] = 'required|in:' . $this->getProjects()->keys()->implode(',');
 
         return $rules;

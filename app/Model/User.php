@@ -21,7 +21,7 @@ use Tinyissue\Model\Project\Issue;
 use Auth as Auth;
 
 /**
- * User is model class for users
+ * User is model class for users.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -45,28 +45,28 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         Traits\User\QueryTrait;
 
     /**
-     * User name is private
+     * User name is private.
      *
      * @var int
      */
     const PRIVATE_YES = 1;
 
     /**
-     * User name is public
+     * User name is public.
      *
      * @var int
      */
     const PRIVATE_NO = 0;
 
     /**
-     * User status Deleted
+     * User status Deleted.
      *
      * @var int
      */
     const DELETED_USERS = 1;
 
     /**
-     * User status not deleted
+     * User status not deleted.
      *
      * @var int
      */
@@ -94,7 +94,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * Collection of user permissions
+     * Collection of user permissions.
      *
      * @var Eloquent\Collection
      */
@@ -131,7 +131,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
     /**
      * Whether or not the user has a valid permission in current context
-     * e.g. can access the issue or the project
+     * e.g. can access the issue or the project.
      *
      * @param array $params
      *
@@ -162,7 +162,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Whether or not the user has a permission
+     * Whether or not the user has a permission.
      *
      * @param string $key
      *
@@ -181,7 +181,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Return user full name with property "fullname"
+     * Return user full name with property "fullname".
      *
      * @return string
      */

@@ -14,7 +14,7 @@ namespace Tinyissue\Model\Traits\Project\User;
 use Illuminate\Database\Eloquent\Relations;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Project\User model
+ * RelationTrait is trait class containing the relationship methods for the Project\User model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations;
 trait RelationTrait
 {
     /**
-     * Returns the instance of the user in the project
+     * Returns the instance of the user in the project.
      *
      * @return Relations\BelongsTo
      */
@@ -33,7 +33,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns the instance of the project
+     * Returns the instance of the project.
      *
      * @return Relations\BelongsTo
      */

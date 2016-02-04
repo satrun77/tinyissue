@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Model\Traits\Role\Permission\RelationTrait;
 
 /**
- * Permission is model class for role permissions
+ * Permission is model class for role permissions.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -27,13 +27,13 @@ class Permission extends Model
     use RelationTrait;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = false;
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */

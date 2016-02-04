@@ -17,14 +17,14 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
 /**
- * HomeController is the controller class for login, logout, dashboard pages
+ * HomeController is the controller class for login, logout, dashboard pages.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class HomeController extends Controller
 {
     /**
-     * Public issues view
+     * Public issues view.
      *
      * @param User    $user
      * @param Project $project
@@ -35,13 +35,13 @@ class HomeController extends Controller
     {
         return view('index.issues', [
             'activeUsers' => $user->activeUsers(),
-            'projects' => $project->projectsWidthIssues(Project::STATUS_OPEN, Project::PRIVATE_NO)->get(),
-            'sidebar' => 'public',
+            'projects'    => $project->projectsWidthIssues(Project::STATUS_OPEN, Project::PRIVATE_NO)->get(),
+            'sidebar'     => 'public',
         ]);
     }
 
     /**
-     * User dashboard
+     * User dashboard.
      *
      * @return \Illuminate\View\View
      */
@@ -53,7 +53,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Logout user and redirect to login page
+     * Logout user and redirect to login page.
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -65,7 +65,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Login page
+     * Login page.
      *
      * @param LoginForm $form
      *
@@ -81,7 +81,7 @@ class HomeController extends Controller
     }
 
     /**
-     * Attempt to log user in or redirect to login page with error
+     * Attempt to log user in or redirect to login page with error.
      *
      * @param FormRequest\Login $request
      *

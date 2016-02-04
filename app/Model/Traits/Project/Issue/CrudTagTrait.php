@@ -22,7 +22,7 @@ use Tinyissue\Model\Traits\Tag\FilterTrait;
 use Tinyissue\Model\User;
 
 /**
- * CrudTagTrait is trait class containing the methods for adding/editing/deleting the tags of Project\Issue model
+ * CrudTagTrait is trait class containing the methods for adding/editing/deleting the tags of Project\Issue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -48,7 +48,7 @@ trait CrudTagTrait
         FilterTrait;
 
     /**
-     * Change the status of an issue
+     * Change the status of an issue.
      *
      * @param int $status
      * @param int $userId
@@ -62,14 +62,14 @@ trait CrudTagTrait
             $this->closed_at = (new \DateTime())->format('Y-m-d H:i:s');
 
             $activityType = Activity::TYPE_CLOSE_ISSUE;
-            $addTagName = Tag::STATUS_CLOSED;
+            $addTagName   = Tag::STATUS_CLOSED;
 
             /** @var \Illuminate\Support\Collection $ids */
             $ids = $this->getTagsExceptStatus()->getRelatedIds();
         } else {
             $activityType = Activity::TYPE_REOPEN_ISSUE;
-            $removeTag = Tag::STATUS_CLOSED;
-            $addTagName = Tag::STATUS_OPEN;
+            $removeTag    = Tag::STATUS_CLOSED;
+            $addTagName   = Tag::STATUS_OPEN;
 
             /** @var \Illuminate\Support\Collection $ids */
             $ids = $this->getTagsExcept($removeTag)->getRelatedIds();
@@ -92,7 +92,7 @@ trait CrudTagTrait
     }
 
     /**
-     * Sync the issue tags
+     * Sync the issue tags.
      *
      * @param Collection $tags
      * @param Collection $currentTags
@@ -165,7 +165,7 @@ trait CrudTagTrait
      * Create new tags from a string "group:tag_name" and fetch tag from a tag id.
      *
      * @param array $tags
-     * @param bool $isAdmin
+     * @param bool  $isAdmin
      *
      * @return Collection
      */
@@ -191,11 +191,12 @@ trait CrudTagTrait
     }
 
     /**
-     * Add tag to the issue & close issue if added tag is Closed
+     * Add tag to the issue & close issue if added tag is Closed.
      *
-     * @param Tag $newTag
-     * @param Tag $oldTag
+     * @param Tag  $newTag
+     * @param Tag  $oldTag
      * @param User $user
+     *
      * @return $this
      */
     public function setCurrentTag(Tag $newTag, Tag $oldTag, User $user)

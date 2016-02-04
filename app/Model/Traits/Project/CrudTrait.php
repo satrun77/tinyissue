@@ -18,7 +18,7 @@ use Illuminate\Support\Collection;
 use Tinyissue\Model\Tag;
 
 /**
- * CrudTrait is trait class containing the methods for adding/editing/deleting the Project model
+ * CrudTrait is trait class containing the methods for adding/editing/deleting the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -32,7 +32,7 @@ use Tinyissue\Model\Tag;
 trait CrudTrait
 {
     /**
-     * removes a user from a project
+     * removes a user from a project.
      *
      * @param int $userId
      *
@@ -44,7 +44,7 @@ trait CrudTrait
     }
 
     /**
-     * Create a new project
+     * Create a new project.
      *
      * @param array $input
      *
@@ -71,12 +71,13 @@ trait CrudTrait
     }
 
     /**
-     * Update project details
+     * Update project details.
      *
      * @param array $attributes
+     *
      * @return bool
      */
-    public function update(array $attributes = array())
+    public function update(array $attributes = [])
     {
         if (!empty($attributes['columns'])) {
             $this->saveTags($attributes['columns']);
@@ -88,7 +89,7 @@ trait CrudTrait
     }
 
     /**
-     * Save the project tags
+     * Save the project tags.
      *
      * @param string $tagString
      *
@@ -110,10 +111,10 @@ trait CrudTrait
 
         // Save tags
         $kanbanTags = $this->kanbanTags();
-        $count = $tags->count();
+        $count      = $tags->count();
         foreach ($tags as $position => $tag) {
             $position = $tag->name === Tag::STATUS_OPEN ? -1 : $position;
-            $position = $tag->name === Tag::STATUS_CLOSED ? $count+1 : $position;
+            $position = $tag->name === Tag::STATUS_CLOSED ? $count + 1 : $position;
             $kanbanTags->attach([$tag->id => ['position' => $position]]);
         }
 
@@ -121,7 +122,7 @@ trait CrudTrait
     }
 
     /**
-     * Assign a user to a project
+     * Assign a user to a project.
      *
      * @param int $userId
      * @param int $roleId
@@ -137,7 +138,7 @@ trait CrudTrait
     }
 
     /**
-     *  Delete a project
+     *  Delete a project.
      *
      * @return void
      *

@@ -12,7 +12,7 @@
 namespace Tinyissue\Http\Requests\FormRequest;
 
 /**
- * UserSetting is a Form Request class for managing add/edit user setting submission (validating, redirect, response, ...)
+ * UserSetting is a Form Request class for managing add/edit user setting submission (validating, redirect, response, ...).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

@@ -12,14 +12,14 @@
 namespace Tinyissue\Extensions\Html\Traits;
 
 /**
- * DateTimeTrait is trait class for adding methods to generate the html code for date and time display
+ * DateTimeTrait is trait class for adding methods to generate the html code for date and time display.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 trait DateTimeTrait
 {
     /**
-     * Format a date
+     * Format a date.
      *
      * @param int|string $date
      * @param string     $format
@@ -38,7 +38,7 @@ trait DateTimeTrait
     }
 
     /**
-     * Displays the timestamp's age in human readable format
+     * Displays the timestamp's age in human readable format.
      *
      * @param int $timestamp
      *
@@ -50,10 +50,10 @@ trait DateTimeTrait
             $timestamp = new \DateTime($timestamp);
         }
 
-        $timestamp = $timestamp->getTimestamp();
+        $timestamp  = $timestamp->getTimestamp();
         $difference = time() - $timestamp;
-        $periods = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
-        $lengths = ['60', '60', '24', '7', '4.35', '12', '10'];
+        $periods    = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
+        $lengths    = ['60', '60', '24', '7', '4.35', '12', '10'];
         for ($j = 0; $difference >= $lengths[$j]; ++$j) {
             $difference /= $lengths[$j];
         }
@@ -66,7 +66,7 @@ trait DateTimeTrait
     }
 
     /**
-     * Convert seconds into time duration format
+     * Convert seconds into time duration format.
      *
      * @param int $seconds
      *
@@ -74,13 +74,13 @@ trait DateTimeTrait
      */
     public function duration($seconds)
     {
-        $hours = floor($seconds / 3600);
+        $hours   = floor($seconds / 3600);
         $minutes = ($seconds / 60) % 60;
         $seconds = $seconds % 60;
 
-        $output = '';
+        $output        = '';
         $separatorChar = ', ';
-        $separator = '';
+        $separator     = '';
         if ($hours > 0) {
             $output .= $hours . ' ' . trans('tinyissue.short_hours');
             $separator = $separatorChar;

@@ -16,7 +16,7 @@ use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
 
 /**
- * CountTrait is trait class containing the methods for counting database records for the Project model
+ * CountTrait is trait class containing the methods for counting database records for the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -29,7 +29,7 @@ use Tinyissue\Model\Project;
 trait CountTrait
 {
     /**
-     * Count number of private projects
+     * Count number of private projects.
      *
      * @return int
      */
@@ -39,7 +39,7 @@ trait CountTrait
     }
 
     /**
-     * Count number of open projects
+     * Count number of open projects.
      *
      * @return int
      */
@@ -49,7 +49,7 @@ trait CountTrait
     }
 
     /**
-     * Count number of archived projects
+     * Count number of archived projects.
      *
      * @return int
      */
@@ -59,7 +59,7 @@ trait CountTrait
     }
 
     /**
-     * Count number of open issue in the project
+     * Count number of open issue in the project.
      *
      * @return int
      */
@@ -72,7 +72,7 @@ trait CountTrait
     }
 
     /**
-     * Count number of closed issue in the project
+     * Count number of closed issue in the project.
      *
      * @return int
      */
@@ -88,7 +88,7 @@ trait CountTrait
     }
 
     /**
-     * For eager loading: count number of issues
+     * For eager loading: count number of issues.
      *
      * @return Eloquent\Relations\HasOne
      */
@@ -100,7 +100,7 @@ trait CountTrait
     }
 
     /**
-     * For eager loading: include number of closed issues
+     * For eager loading: include number of closed issues.
      *
      * @return Eloquent\Relations\HasOne
      */
@@ -117,7 +117,7 @@ trait CountTrait
     }
 
     /**
-     * For eager loading: include number of open issues
+     * For eager loading: include number of open issues.
      *
      * @return Eloquent\Relations\HasOne
      */
@@ -134,7 +134,7 @@ trait CountTrait
     }
 
     /**
-     * Return projects with count of open & closed issues
+     * Return projects with count of open & closed issues.
      *
      * @param array $projectIds
      *
@@ -149,7 +149,7 @@ trait CountTrait
     }
 
     /**
-     * Returns projects with open issue count
+     * Returns projects with open issue count.
      *
      * @param int $status
      * @param int $private

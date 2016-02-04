@@ -16,12 +16,12 @@ class PermissionDeveloperCest
         $I->am('Developer User');
         $I->expectTo('view issues in projects I am one of the users');
 
-        $user = $I->createUser(1, 2);
-        $admin = $I->createUser(2, 4);
+        $user     = $I->createUser(1, 2);
+        $admin    = $I->createUser(2, 4);
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$user]);
-        $issue1 = $I->createIssue(1, $admin, null, $project1);
-        $issue2 = $I->createIssue(2, $admin, null, $project2);
+        $issue1   = $I->createIssue(1, $admin, null, $project1);
+        $issue2   = $I->createIssue(2, $admin, null, $project2);
         $comment1 = $I->createComment(1, $admin, $issue2);
 
         $I->amLoggedAs($user);
@@ -54,17 +54,17 @@ class PermissionDeveloperCest
         $I->am('Developer User');
         $I->expectTo('create issues in projects I am one of the users');
 
-        $user = $I->createUser(1, 1);
+        $user     = $I->createUser(1, 1);
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$user]);
 
         $I->login($user->email, '123', $user->firstname);
         $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f']));
-        $tags = new Collection((array) $I->getJsonResponseContent());
+        $tags   = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title' => 'issue 1',
-            'body' => 'body of issue 1',
-            'tag' => $tags->forPage(0, 1)->implode('value', ','),
+            'body'  => 'body of issue 1',
+            'tag'   => $tags->forPage(0, 1)->implode('value', ','),
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);
@@ -89,10 +89,10 @@ class PermissionDeveloperCest
         $I->am('Developer User');
         $I->expectTo('edit an existing project issue details');
 
-        $user = $I->createUser(1, 2);
-        $admin = $I->createUser(2, 4);
+        $user    = $I->createUser(1, 2);
+        $admin   = $I->createUser(2, 4);
         $project = $I->createProject(1, [$user]);
-        $issue = $I->createIssue(1, $admin, null, $project);
+        $issue   = $I->createIssue(1, $admin, null, $project);
 
         $I->amLoggedAs($user);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
@@ -118,12 +118,12 @@ class PermissionDeveloperCest
         $I->am('Developer User');
         $I->expectTo('add comment to an issue in project I am one of the users');
 
-        $user = $I->createUser(1, 2);
-        $admin = $I->createUser(2, 4);
+        $user     = $I->createUser(1, 2);
+        $admin    = $I->createUser(2, 4);
         $project1 = $I->createProject(1);
         $project2 = $I->createProject(2, [$user]);
-        $issue1 = $I->createIssue(1, $admin, null, $project1);
-        $issue2 = $I->createIssue(2, $admin, null, $project2);
+        $issue1   = $I->createIssue(1, $admin, null, $project1);
+        $issue2   = $I->createIssue(2, $admin, null, $project2);
         $I->amLoggedAs($user);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2]);
         $I->fillField('comment', 'Comment one');
@@ -198,7 +198,7 @@ class PermissionDeveloperCest
         $I->am('Developer User');
         $I->expectTo('not be able to add note to a project');
 
-        $user = $I->createUser(2, 2);
+        $user     = $I->createUser(2, 2);
         $project1 = $I->createProject(1, [$user]);
         $project2 = $I->createProject(2);
         $I->amLoggedAs($user);
@@ -207,7 +207,7 @@ class PermissionDeveloperCest
         $I->dontSee(trans('tinyissue.add_note'));
         $I->sendPostRequest(
             'ProjectController@postAddNote',
-            ['project' => $project1],
+            ['project'   => $project1],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
         $I->seeResponseCodeIs(401);
@@ -215,7 +215,7 @@ class PermissionDeveloperCest
         $I->dontSee(trans('tinyissue.add_note'));
         $I->sendPostRequest(
             'ProjectController@postAddNote',
-            ['project' => $project2],
+            ['project'   => $project2],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
         $I->seeResponseCodeIs(401);

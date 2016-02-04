@@ -12,7 +12,7 @@
 namespace Tinyissue\Commands;
 
 /**
- * Command is an abstract class for the Command Bus classes
+ * Command is an abstract class for the Command Bus classes.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

@@ -14,14 +14,14 @@ namespace Tinyissue\Form\Former\Fields;
 use Former\Form\Fields;
 
 /**
- * FileUpload is a Former field class to generate a file field for Jquery File Upload plugin
+ * FileUpload is a Former field class to generate a file field for Jquery File Upload plugin.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class FileUpload extends Fields\File
 {
     /**
-     * Render form field
+     * Render form field.
      *
      * @return string
      */
@@ -41,7 +41,7 @@ class FileUpload extends Fields\File
     }
 
     /**
-     * Render the upload queue row
+     * Render the upload queue row.
      *
      * @return string
      */

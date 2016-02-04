@@ -17,7 +17,7 @@ use Illuminate\View\View;
 use Tinyissue\Form\ExportIssues;
 
 /**
- * ComposerServiceProvider is the view service provider binding data to specific views
+ * ComposerServiceProvider is the view service provider binding data to specific views.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

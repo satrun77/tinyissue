@@ -14,7 +14,7 @@ namespace Tinyissue\Form;
 use Tinyissue\Services\Exporter;
 
 /**
- * ExportIssues is a class to defines fields & rules for project issues export form
+ * ExportIssues is a class to defines fields & rules for project issues export form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -27,9 +27,9 @@ class ExportIssues extends FilterIssue
     {
         return [
             'export-issue' => [
-                'name' => 'export-issue',
+                'name'  => 'export-issue',
                 'label' => 'export',
-                'type' => 'info_submit',
+                'type'  => 'info_submit',
             ],
         ];
     }
@@ -53,12 +53,12 @@ class ExportIssues extends FilterIssue
 
         // Add extra fields
         $fields['format'] = [
-            'type' => 'select',
+            'type'        => 'select',
             'placeholder' => trans('tinyissue.export_format'),
-            'options' => [
-                Exporter::TYPE_XLS => trans('tinyissue.xls'),
+            'options'     => [
+                Exporter::TYPE_XLS  => trans('tinyissue.xls'),
                 Exporter::TYPE_XLSX => trans('tinyissue.xlsx'),
-                Exporter::TYPE_CSV => trans('tinyissue.csv'),
+                Exporter::TYPE_CSV  => trans('tinyissue.csv'),
             ],
         ];
 

@@ -22,14 +22,14 @@ use Tinyissue\Model\Project\Note;
 use Tinyissue\Services\Exporter;
 
 /**
- * ProjectController is the controller class for managing request related to a project
+ * ProjectController is the controller class for managing request related to a project.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class ProjectController extends Controller
 {
     /**
-     * Display activity for a project
+     * Display activity for a project.
      *
      * @param Project $project
      *
@@ -44,16 +44,16 @@ class ProjectController extends Controller
             ->get();
 
         return view('project.index', [
-            'tabs' => $this->projectMainViewTabs($project, 'index'),
-            'project' => $project,
-            'active' => 'activity',
+            'tabs'       => $this->projectMainViewTabs($project, 'index'),
+            'project'    => $project,
+            'active'     => 'activity',
             'activities' => $activities,
-            'sidebar' => 'project',
+            'sidebar'    => 'project',
         ]);
     }
 
     /**
-     * Display issues for a project
+     * Display issues for a project.
      *
      * @param FilterForm $filterForm
      * @param Request    $request
@@ -68,17 +68,17 @@ class ProjectController extends Controller
         $issues = $project->listIssues($status, $request->all());
 
         return view('project.index', [
-            'tabs' => $this->projectMainViewTabs($project, 'issues', $issues, $status),
-            'project' => $project,
-            'active' => $active,
-            'issues' => $issues,
-            'sidebar' => 'project',
+            'tabs'       => $this->projectMainViewTabs($project, 'issues', $issues, $status),
+            'project'    => $project,
+            'active'     => $active,
+            'issues'     => $issues,
+            'sidebar'    => 'project',
             'filterForm' => $filterForm,
         ]);
     }
 
     /**
-     * Display issues assigned to current user for a project
+     * Display issues assigned to current user for a project.
      *
      * @param Project $project
      *
@@ -89,16 +89,16 @@ class ProjectController extends Controller
         $issues = $project->listAssignedIssues($this->auth->user()->id);
 
         return view('project.index', [
-            'tabs' => $this->projectMainViewTabs($project, 'assigned', $issues),
+            'tabs'    => $this->projectMainViewTabs($project, 'assigned', $issues),
             'project' => $project,
-            'active' => 'issue_assigned_to_you',
-            'issues' => $issues,
+            'active'  => 'issue_assigned_to_you',
+            'issues'  => $issues,
             'sidebar' => 'project',
         ]);
     }
 
     /**
-     * Display notes for a project
+     * Display notes for a project.
      *
      * @param Project  $project
      * @param NoteForm $form
@@ -110,11 +110,11 @@ class ProjectController extends Controller
         $notes = $project->notes()->with('createdBy')->get();
 
         return view('project.index', [
-            'tabs' => $this->projectMainViewTabs($project, 'notes', $notes),
-            'project' => $project,
-            'active' => 'notes',
-            'notes' => $notes,
-            'sidebar' => 'project',
+            'tabs'     => $this->projectMainViewTabs($project, 'notes', $notes),
+            'project'  => $project,
+            'active'   => 'notes',
+            'notes'    => $notes,
+            'sidebar'  => 'project',
             'noteForm' => $form,
         ]);
     }
@@ -141,41 +141,41 @@ class ProjectController extends Controller
         if ($view === 'issues') {
             if ($status == Issue::STATUS_OPEN) {
                 $closedIssuesCount = $project->closedIssuesCount()->count();
-                $openIssuesCount = $data->count();
+                $openIssuesCount   = $data->count();
             } else {
                 $closedIssuesCount = $data->count();
-                $openIssuesCount = $project->openIssuesCount()->count();
+                $openIssuesCount   = $project->openIssuesCount()->count();
             }
         } else {
-            $openIssuesCount = $project->openIssuesCount()->count();
+            $openIssuesCount   = $project->openIssuesCount()->count();
             $closedIssuesCount = $project->closedIssuesCount()->count();
         }
 
-        $tabs = [];
+        $tabs   = [];
         $tabs[] = [
-            'url' => $project->to(),
+            'url'  => $project->to(),
             'page' => 'activity',
         ];
         $tabs[] = [
-            'url' => $project->to('issues'),
-            'page' => 'open_issue',
+            'url'    => $project->to('issues'),
+            'page'   => 'open_issue',
             'prefix' => $openIssuesCount,
         ];
         $tabs[] = [
-            'url' => $project->to('issues') . '/0',
-            'page' => 'closed_issue',
+            'url'    => $project->to('issues') . '/0',
+            'page'   => 'closed_issue',
             'prefix' => $closedIssuesCount,
         ];
         if (!$this->auth->guest()) {
             $tabs[] = [
-                'url' => $project->to('assigned'),
-                'page' => 'issue_assigned_to_you',
+                'url'    => $project->to('assigned'),
+                'page'   => 'issue_assigned_to_you',
                 'prefix' => $assignedIssuesCount,
             ];
         }
         $tabs[] = [
-            'url' => $project->to('notes'),
-            'page' => 'notes',
+            'url'    => $project->to('notes'),
+            'page'   => 'notes',
             'prefix' => $notesCount,
         ];
 
@@ -183,7 +183,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Edit the project
+     * Edit the project.
      *
      * @param Project $project
      * @param Form    $form
@@ -193,14 +193,14 @@ class ProjectController extends Controller
     public function getEdit(Project $project, Form $form)
     {
         return view('project.edit', [
-            'form' => $form,
+            'form'    => $form,
             'project' => $project,
             'sidebar' => 'project',
         ]);
     }
 
     /**
-     * To update project details
+     * To update project details.
      *
      * @param Project             $project
      * @param FormRequest\Project $request
@@ -224,7 +224,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Ajax: returns list of users that are not in the project
+     * Ajax: returns list of users that are not in the project.
      *
      * @param Project $project
      *
@@ -238,7 +238,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Ajax: add user to the project
+     * Ajax: add user to the project.
      *
      * @param Project $project
      * @param Request $request
@@ -257,7 +257,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Ajax: remove user from the project
+     * Ajax: remove user from the project.
      *
      * @param Project $project
      * @param Request $request
@@ -276,7 +276,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * To add a new note to the project
+     * To add a new note to the project.
      *
      * @param Project          $project
      * @param Note             $note
@@ -294,7 +294,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Ajax: To update project note
+     * Ajax: To update project note.
      *
      * @param Project $project
      * @param Note    $note
@@ -316,7 +316,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Ajax: to delete a project note
+     * Ajax: to delete a project note.
      *
      * @param Project $project
      * @param Note    $note
@@ -331,7 +331,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Ajax: generate the issues export file
+     * Ajax: generate the issues export file.
      *
      * @param Project  $project
      * @param Exporter $exporter
@@ -356,15 +356,15 @@ class ProjectController extends Controller
         );
 
         return response()->json([
-            'link' => $link,
+            'link'  => $link,
             'title' => $info['title'],
-            'file' => $info['file'],
-            'ext' => $info['ext'],
+            'file'  => $info['file'],
+            'ext'   => $info['ext'],
         ]);
     }
 
     /**
-     * Download and then delete an export file
+     * Download and then delete an export file.
      *
      * @param Project $project
      * @param string  $file

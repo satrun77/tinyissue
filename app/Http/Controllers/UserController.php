@@ -17,14 +17,14 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
 /**
- * UserController is the controller class for managing request related to logged in user account
+ * UserController is the controller class for managing request related to logged in user account.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class UserController extends Controller
 {
     /**
-     * Edit the user's settings
+     * Edit the user's settings.
      *
      * @param Form $form
      *
@@ -33,13 +33,13 @@ class UserController extends Controller
     public function getSettings(Form $form)
     {
         return view('user.settings', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To update user settings
+     * To update user settings.
      *
      * @param FormRequest\UserSetting $request
      *
@@ -53,9 +53,9 @@ class UserController extends Controller
     }
 
     /**
-     * Shows the user's assigned issues
+     * Shows the user's assigned issues.
      *
-     * @param string $display
+     * @param string  $display
      * @param Project $project
      *
      * @return \Illuminate\View\View
@@ -67,14 +67,14 @@ class UserController extends Controller
 
         if ($display === 'kanban') {
             $data['columns'] = [];
-            $data['issues'] = [];
+            $data['issues']  = [];
             if ($project->id) {
                 $data['columns'] = $project->getKanbanTags();
-                $ids = $data['columns']->lists('id')->all();
-                $data['issues'] = $project->issuesGroupByTags($ids);
+                $ids             = $data['columns']->lists('id')->all();
+                $data['issues']  = $project->issuesGroupByTags($ids);
             }
 
-            $data['project'] = $project;
+            $data['project']  = $project;
             $data['projects'] = $this->auth->user()->projects()->get();
         } else {
             $data['projects'] = $this->auth->user()->projectsWidthIssues(Project::STATUS_OPEN)->get();

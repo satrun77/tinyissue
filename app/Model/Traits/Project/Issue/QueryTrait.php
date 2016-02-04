@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Tag;
 
 /**
- * QueryTrait is trait class containing the database queries methods for the Project|Issue model
+ * QueryTrait is trait class containing the database queries methods for the Project|Issue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -25,7 +25,7 @@ use Tinyissue\Model\Tag;
 trait QueryTrait
 {
     /**
-     * Returns issue tags except for the status tags
+     * Returns issue tags except for the status tags.
      *
      * @return Eloquent\Collection
      */
@@ -37,7 +37,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns issue tags except for a specific tag
+     * Returns issue tags except for a specific tag.
      *
      * @param string $tag
      *

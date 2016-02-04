@@ -14,7 +14,7 @@ namespace Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Http\Requests\Request;
 
 /**
- * Tag is a Form Request class for managing add/edit tag submission (validating, redirect, response, ...)
+ * Tag is a Form Request class for managing add/edit tag submission (validating, redirect, response, ...).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

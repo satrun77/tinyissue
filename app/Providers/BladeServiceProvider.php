@@ -14,7 +14,7 @@ namespace Tinyissue\Providers;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * BladeServiceProvider is the blade service provider for extending blade template engine
+ * BladeServiceProvider is the blade service provider for extending blade template engine.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

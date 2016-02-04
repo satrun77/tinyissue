@@ -5,7 +5,7 @@ namespace FunctionalTester;
 class UserSteps extends \FunctionalTester
 {
     /**
-     * Steps from the home page to login into the system
+     * Steps from the home page to login into the system.
      *
      * @param string $email
      * @param string $password

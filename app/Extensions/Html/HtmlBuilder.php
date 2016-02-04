@@ -14,7 +14,7 @@ namespace Tinyissue\Extensions\Html;
 use GrahamCampbell\Markdown\Facades\Markdown;
 
 /**
- * HtmlBuilder is a class to extend Laravel HtmlBuilder to add extra view macro
+ * HtmlBuilder is a class to extend Laravel HtmlBuilder to add extra view macro.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -25,7 +25,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
         Traits\DateTimeTrait;
 
     /**
-     * Limit the number of characters in a string, & remove <p> tag
+     * Limit the number of characters in a string, & remove <p> tag.
      *
      * @param string $content
      * @param int    $size
@@ -38,7 +38,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     }
 
     /**
-     * Format Markdown to Html
+     * Format Markdown to Html.
      *
      * @param string $content
      *
@@ -50,7 +50,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     }
 
     /**
-     * Format issue number in string into a url to the issue
+     * Format issue number in string into a url to the issue.
      *
      * @param string $content
      *
@@ -64,7 +64,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     }
 
     /**
-     * Render loading Html
+     * Render loading Html.
      *
      * @param string $message
      *
@@ -79,7 +79,7 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
     }
 
     /**
-     * Format issue tag in string into Html
+     * Format issue tag in string into Html.
      *
      * @param string      $tag
      * @param string|null $group

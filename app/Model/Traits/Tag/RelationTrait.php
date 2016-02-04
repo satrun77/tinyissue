@@ -14,7 +14,7 @@ namespace Tinyissue\Model\Traits\Tag;
 use Illuminate\Database\Eloquent\Relations;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Tag model
+ * RelationTrait is trait class containing the relationship methods for the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Relations;
 trait RelationTrait
 {
     /**
-     * Returns the parent/group for the tag
+     * Returns the parent/group for the tag.
      *
      * @return Relations\BelongsTo
      */
@@ -35,7 +35,7 @@ trait RelationTrait
     }
 
     /**
-     * Parent tag/group have many tags
+     * Parent tag/group have many tags.
      *
      * @return Relations\HasMany
      */
@@ -45,7 +45,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns issues for the Tag. Tag can belong to many issues & issue can have many tags
+     * Returns issues for the Tag. Tag can belong to many issues & issue can have many tags.
      *
      * @return Relations\BelongsToMany
      */
@@ -55,7 +55,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns projects for the Tag. Tag can belong to many projects & project can have many tags
+     * Returns projects for the Tag. Tag can belong to many projects & project can have many tags.
      *
      * @return Relations\BelongsToMany
      */

@@ -15,7 +15,7 @@ use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvi
 use Illuminate\Routing\Router;
 
 /**
- * RouteServiceProvider is the route service provider for registering the application routes to controllers and actions
+ * RouteServiceProvider is the route service provider for registering the application routes to controllers and actions.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -99,11 +99,11 @@ class RouteServiceProvider extends ServiceProvider
                     $router->group(['middleware' => 'permission', 'permission' => 'project-modify'], function (Router $router) {
                         $router->get('project/{project}/edit', 'ProjectController@getEdit');
                         $router->post('project/{project}/edit', 'ProjectController@postEdit');
-                        $router->get('project/inactive_users/{project?}', array('middleware' => 'ajax', 'uses' => 'ProjectController@getInactiveUsers'));
-                        $router->post('project/{project}/unassign_user', array('middleware' => 'ajax', 'uses' => 'ProjectController@postUnassign'));
-                        $router->post('project/{project}/assign_user', array('middleware' => 'ajax', 'uses' => 'ProjectController@postAssign'));
-                        $router->post('project/{project}/export_issues', array('middleware' => 'ajax', 'uses' => 'ProjectController@postExportIssues'));
-                        $router->get('project/{project}/download_export/{file}', array('uses' => 'ProjectController@getDownloadExport'));
+                        $router->get('project/inactive_users/{project?}', ['middleware' => 'ajax', 'uses' => 'ProjectController@getInactiveUsers']);
+                        $router->post('project/{project}/unassign_user', ['middleware' => 'ajax', 'uses' => 'ProjectController@postUnassign']);
+                        $router->post('project/{project}/assign_user', ['middleware' => 'ajax', 'uses' => 'ProjectController@postAssign']);
+                        $router->post('project/{project}/export_issues', ['middleware' => 'ajax', 'uses' => 'ProjectController@postExportIssues']);
+                        $router->get('project/{project}/download_export/{file}', ['uses' => 'ProjectController@getDownloadExport']);
 
                         // Edit project notes
                         $router->post('project/{project}/edit_note/{note}', ['middleware' => 'ajax', 'uses' => 'ProjectController@postEditNote']);
@@ -118,7 +118,7 @@ class RouteServiceProvider extends ServiceProvider
                     });
 
                     // Edit issue
-                    $router->group(array('middleware' => 'permission', 'permission' => 'issue-modify'), function (Router $router) {
+                    $router->group(['middleware' => 'permission', 'permission' => 'issue-modify'], function (Router $router) {
                         $router->get('project/{project}/issue/{issue}/edit', 'Project\IssueController@getEdit');
                         $router->post('project/{project}/issue/{issue}/edit', 'Project\IssueController@postEdit');
                         $router->post('project/issue/{issue}/assign', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postAssign']);
@@ -164,7 +164,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * All of the routes that can be made public
+     * All of the routes that can be made public.
      *
      * @param Router $router
      *
@@ -184,7 +184,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Routes related to projects controller that can be made public or private
+     * Routes related to projects controller that can be made public or private.
      *
      * @param Router $router
      *
@@ -197,7 +197,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     /**
-     * Routes related to project (issue, comment, notes, etc..) that can be made public or private
+     * Routes related to project (issue, comment, notes, etc..) that can be made public or private.
      *
      * @param Router $router
      *

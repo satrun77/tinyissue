@@ -25,7 +25,7 @@ use Tinyissue\Model\Project as ProjectModel;
 class Project
 {
     /**
-     * List of callbacks to handle the incoming request
+     * List of callbacks to handle the incoming request.
      *
      * @var array
      */
@@ -48,7 +48,7 @@ class Project
     {
         // Current callback
         $callback = current($this->callbacks);
-        $method = 'handle' . $callback . 'Request';
+        $method   = 'handle' . $callback . 'Request';
 
         if ($callback && !$this->$method($request)) {
 
@@ -62,7 +62,7 @@ class Project
     }
 
     /**
-     * Whether or not the incoming request is valid project issue request
+     * Whether or not the incoming request is valid project issue request.
      *
      * @param Request $request
      *
@@ -74,7 +74,7 @@ class Project
     }
 
     /**
-     * Whether or not a model entity relationship with the project is correct
+     * Whether or not a model entity relationship with the project is correct.
      *
      * @param Request $request
      * @param string  $entityName
@@ -105,7 +105,7 @@ class Project
     }
 
     /**
-     * Whether or not the incoming uri is for the issue filter "project/issue/{issue}"
+     * Whether or not the incoming uri is for the issue filter "project/issue/{issue}".
      *
      * @param Request $request
      *
@@ -131,7 +131,7 @@ class Project
     }
 
     /**
-     * Whether or not the incoming request is valid project note request
+     * Whether or not the incoming request is valid project note request.
      *
      * @param Request $request
      *
@@ -143,7 +143,7 @@ class Project
     }
 
     /**
-     * Whether or not the incoming request is valid project note request
+     * Whether or not the incoming request is valid project note request.
      *
      * @param Request $request
      *

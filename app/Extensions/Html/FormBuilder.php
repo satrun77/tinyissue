@@ -18,14 +18,14 @@ use Request;
 use Tinyissue\Form\FormInterface;
 
 /**
- * FormBuilder is a class to extend Laravel FormBuilder to add extra view macro
+ * FormBuilder is a class to extend Laravel FormBuilder to add extra view macro.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class FormBuilder extends \Illuminate\Html\FormBuilder
 {
     /**
-     * Render Form object into Html form with Former
+     * Render Form object into Html form with Former.
      *
      * @param FormInterface $form
      * @param array         $attrs
@@ -42,7 +42,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
 
         // Start a form and add rules
         $formType = $form->openType();
-        $former = Former::$formType();
+        $former   = Former::$formType();
         array_walk($attrs, function ($value, $attr) use ($former) {
             if ($value === null) {
                 $former->$attr();
@@ -77,7 +77,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
     }
 
     /**
-     * Generate Former field
+     * Generate Former field.
      *
      * @param string $name
      * @param array  $field
@@ -87,7 +87,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
     public function element($name, array $field)
     {
         $filterKeys = ['type'];
-        $attrs = array_diff_key($field, array_flip($filterKeys));
+        $attrs      = array_diff_key($field, array_flip($filterKeys));
 
         // Create field with name
         $element = Former::{$field['type']}($name);
@@ -105,7 +105,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
     }
 
     /**
-     * Render form actions
+     * Render form actions.
      *
      * @param FormInterface $form
      *
@@ -113,7 +113,7 @@ class FormBuilder extends \Illuminate\Html\FormBuilder
      */
     public function actions(FormInterface $form)
     {
-        $output = '';
+        $output  = '';
         $buttons = $form->actions();
         if (!empty($buttons)) {
             $actions = Former::actions()->addClass('form-actions');

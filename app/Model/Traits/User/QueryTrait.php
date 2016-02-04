@@ -16,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
- * QueryTrait is trait class containing the database queries methods for the User model
+ * QueryTrait is trait class containing the database queries methods for the User model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -29,7 +29,7 @@ use Tinyissue\Model\Project;
 trait QueryTrait
 {
     /**
-     * Returns public users
+     * Returns public users.
      *
      * @return Eloquent\Collection
      */
@@ -41,7 +41,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns user projects with activities details eager loaded
+     * Returns user projects with activities details eager loaded.
      *
      * @param int $status
      *
@@ -59,7 +59,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns projects with issues details eager loaded
+     * Returns projects with issues details eager loaded.
      *
      * @param int $status
      *
@@ -77,13 +77,13 @@ trait QueryTrait
                         $query->where('status', '=', Project\Issue::STATUS_OPEN);
                     }
                 },
-                'issues.user' => function () {},
+                'issues.user'          => function () {},
                 'issues.countComments' => function () {},
             ]);
     }
 
     /**
-     * Load user permissions
+     * Load user permissions.
      *
      * @return Eloquent\Collection
      */

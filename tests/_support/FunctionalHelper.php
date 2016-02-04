@@ -14,7 +14,7 @@ use Tinyissue\Model;
 class FunctionalHelper extends \Codeception\Module
 {
     /**
-     * Create a user account
+     * Create a user account.
      *
      * @param int $index
      * @param int $role
@@ -24,12 +24,12 @@ class FunctionalHelper extends \Codeception\Module
     public function createUser($index = 0, $role = 1)
     {
         $user = new Model\User([
-            'email' => 'user' . $index . '@user.com',
+            'email'     => 'user' . $index . '@user.com',
             'firstname' => 'User ' . $index,
-            'lastname' => 'One',
-            'password' => Hash::make('123'),
-            'role_id' => $role,
-            'language' => 'en',
+            'lastname'  => 'One',
+            'password'  => Hash::make('123'),
+            'role_id'   => $role,
+            'language'  => 'en',
         ]);
         $user->deleted = Model\User::NOT_DELETED_USERS;
         $user->save();
@@ -38,7 +38,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Create an issue with option to create a project
+     * Create an issue with option to create a project.
      *
      * @param int           $index
      * @param Model\User    $creator
@@ -56,15 +56,15 @@ class FunctionalHelper extends \Codeception\Module
         $project = $project ?: $this->createProject($index, [$assign]);
 
         $issueData = [
-            'title' => 'Issue ' . $index,
-            'body' => 'body of issue ' . $index,
+            'title'      => 'Issue ' . $index,
+            'body'       => 'body of issue ' . $index,
             'time_quote' => [
                 'h' => 0,
                 'm' => 0,
                 's' => 0,
             ],
             'upload_token' => '-',
-            'tag' => '',
+            'tag'          => '',
         ];
         $issueData['assigned_to'] = null !== $assign ? $assign->id : '';
 
@@ -77,7 +77,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Create a project
+     * Create a project.
      *
      * @param int   $index
      * @param array $users
@@ -95,8 +95,8 @@ class FunctionalHelper extends \Codeception\Module
                 $projectData['user'][$user->id] = $user->id;
             }
         }
-        $user = current($users);
-        $assignee = $user instanceof Model\User ? $user->id : '';
+        $user                            = current($users);
+        $assignee                        = $user instanceof Model\User ? $user->id : '';
         $projectData['default_assignee'] = $assignee;
 
         $project = new Model\Project();
@@ -106,7 +106,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Create a comment in an issue
+     * Create a comment in an issue.
      *
      * @param int                 $index
      * @param Model\User          $user
@@ -121,7 +121,7 @@ class FunctionalHelper extends \Codeception\Module
         $comment->setRelation('issue', $issue);
         $comment->setRelation('user', $user);
         $comment->createComment([
-            'comment' => 'Comment ' . $index,
+            'comment'      => 'Comment ' . $index,
             'upload_token' => '-',
         ]);
 
@@ -129,7 +129,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Create a note in a project
+     * Create a note in a project.
      *
      * @param int           $index
      * @param Model\User    $user
@@ -142,7 +142,7 @@ class FunctionalHelper extends \Codeception\Module
         $project = $project ?: $this->createProject($index);
 
         $note = $project->notes()->firstOrCreate([
-            'body' => 'Note ' . $index,
+            'body'       => 'Note ' . $index,
             'created_by' => $user->id,
         ]);
 
@@ -150,7 +150,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Fetch a user by column
+     * Fetch a user by column.
      *
      * @param string          $field
      * @param int|string|bool $value
@@ -163,7 +163,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Fetch a project by column
+     * Fetch a project by column.
      *
      * @param string          $field
      * @param int|string|bool $value
@@ -176,7 +176,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Fetch an issue by column
+     * Fetch an issue by column.
      *
      * @param string          $field
      * @param int|string|bool $value
@@ -189,7 +189,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Get response content as Json object
+     * Get response content as Json object.
      *
      * @return \stdClass
      */
@@ -199,7 +199,7 @@ class FunctionalHelper extends \Codeception\Module
     }
 
     /**
-     * Get response content
+     * Get response content.
      *
      * @return string
      *
@@ -219,7 +219,7 @@ class FunctionalHelper extends \Codeception\Module
         $content = null
     ) {
         $module = $this->getModule('Laravel5');
-        $uri = $module->getApplication()->url->action($action, $actionParams);
+        $uri    = $module->getApplication()->url->action($action, $actionParams);
         $module->client->request('POST', $uri, $postParams, $files, $server, $content);
         $this->debugResponse();
     }

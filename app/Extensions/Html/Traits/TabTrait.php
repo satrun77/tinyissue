@@ -12,7 +12,7 @@
 namespace Tinyissue\Extensions\Html\Traits;
 
 /**
- * TabTrait is trait class for adding methods to generate the html code of the bootstrap tab
+ * TabTrait is trait class for adding methods to generate the html code of the bootstrap tab.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -21,7 +21,7 @@ namespace Tinyissue\Extensions\Html\Traits;
 trait TabTrait
 {
     /**
-     * Render tab header from an array
+     * Render tab header from an array.
      *
      * @param array  $tabs
      * @param string $active
@@ -31,10 +31,10 @@ trait TabTrait
     public function tab(array $tabs, $active)
     {
         $defaultTab = [
-            'title' => '',
+            'title'  => '',
             'prefix' => '',
             'active' => false,
-            'url' => '',
+            'url'    => '',
         ];
 
         $output = '<ul class="nav nav-tabs">';
@@ -51,7 +51,7 @@ trait TabTrait
     }
 
     /**
-     * Whether or not the tab element is active
+     * Whether or not the tab element is active.
      *
      * @param array  $tab
      * @param string $active
@@ -64,7 +64,7 @@ trait TabTrait
     }
 
     /**
-     * Generate the content of a tab element
+     * Generate the content of a tab element.
      *
      * @param array $tab
      *

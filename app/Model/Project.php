@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 use URL;
 
 /**
- * Project is model class for projects
+ * Project is model class for projects.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -38,63 +38,63 @@ class Project extends Model
         Traits\Project\QueryTrait;
 
     /**
-     * Project not public to view and create issue
+     * Project not public to view and create issue.
      *
      * @var int
      */
     const PRIVATE_YES = 1;
 
     /**
-     * Project public to view and create issue
+     * Project public to view and create issue.
      *
      * @var int
      */
     const PRIVATE_NO = 0;
 
     /**
-     * All projects
+     * All projects.
      *
      * @var int
      */
     const PRIVATE_ALL = -1;
 
     /**
-     * Project status Open
+     * Project status Open.
      *
      * @var int
      */
     const STATUS_OPEN = 1;
 
     /**
-     * Project status Archived
+     * Project status Archived.
      *
      * @var int
      */
     const STATUS_ARCHIVED = 0;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'projects';
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */
     protected $fillable = ['name', 'default_assignee', 'status', 'private'];
 
     /**
-     * Generate a URL for the active project
+     * Generate a URL for the active project.
      *
      * @param string $url
      *
@@ -106,7 +106,7 @@ class Project extends Model
     }
 
     /**
-     * Returns the aggregate value of number of open issues in the project
+     * Returns the aggregate value of number of open issues in the project.
      *
      * @return int
      */
@@ -116,7 +116,7 @@ class Project extends Model
     }
 
     /**
-     * Returns the aggregate value of number of closed issues in the project
+     * Returns the aggregate value of number of closed issues in the project.
      *
      * @return int
      */
@@ -126,7 +126,7 @@ class Project extends Model
     }
 
     /**
-     * Set default assignee attribute
+     * Set default assignee attribute.
      *
      * @param int $value
      *
@@ -142,7 +142,7 @@ class Project extends Model
     }
 
     /**
-     * Returns the aggregate value of number of issues in the project
+     * Returns the aggregate value of number of issues in the project.
      *
      * @return int
      */
@@ -152,7 +152,7 @@ class Project extends Model
     }
 
     /**
-     * Get total issues total quote time
+     * Get total issues total quote time.
      *
      * @return int
      */
@@ -167,14 +167,14 @@ class Project extends Model
     }
 
     /**
-     * Calculate the progress (open & closed issues)
+     * Calculate the progress (open & closed issues).
      *
      * @return float|int
      */
     public function getProgress()
     {
-        $total = $this->openIssuesCount + $this->closedIssuesCount;
-        $progress = (float) ($this->closedIssuesCount / $total) * 100;
+        $total       = $this->openIssuesCount + $this->closedIssuesCount;
+        $progress    = (float) ($this->closedIssuesCount / $total) * 100;
         $progressInt = (int) $progress;
         if ($progressInt > 0) {
             $progress = number_format($progress, 2);
@@ -188,7 +188,7 @@ class Project extends Model
     }
 
     /**
-     * Whether or not a user is member of the project
+     * Whether or not a user is member of the project.
      *
      * @param int $userId
      *
@@ -200,7 +200,7 @@ class Project extends Model
     }
 
     /**
-     * Whether or not the project is private or public
+     * Whether or not the project is private or public.
      *
      * @return bool
      */

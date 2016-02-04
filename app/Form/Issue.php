@@ -14,14 +14,14 @@ namespace Tinyissue\Form;
 use Tinyissue\Model;
 
 /**
- * Issue is a class to defines fields & rules for add/edit issue form
+ * Issue is a class to defines fields & rules for add/edit issue form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class Issue extends FormAbstract
 {
     /**
-     * An instance of project model
+     * An instance of project model.
      *
      * @var Model\Project
      */
@@ -80,7 +80,7 @@ class Issue extends FormAbstract
     }
 
     /**
-     * Returns title field
+     * Returns title field.
      *
      * @return array
      */
@@ -88,14 +88,14 @@ class Issue extends FormAbstract
     {
         return [
             'title' => [
-                'type' => 'text',
+                'type'  => 'text',
                 'label' => 'title',
             ],
         ];
     }
 
     /**
-     * Returns body field
+     * Returns body field.
      *
      * @return array
      */
@@ -103,14 +103,14 @@ class Issue extends FormAbstract
     {
         return [
             'body' => [
-                'type' => 'textarea',
+                'type'  => 'textarea',
                 'label' => 'issue',
             ],
         ];
     }
 
     /**
-     * Returns tags field
+     * Returns tags field.
      *
      * @return array
      */
@@ -122,8 +122,8 @@ class Issue extends FormAbstract
                 return !($tag->name == Model\Tag::STATUS_OPEN || $tag->name == Model\Tag::STATUS_CLOSED);
             })->map(function (Model\Tag $tag) {
                 return [
-                    'value' => $tag->id,
-                    'label' => ($tag->fullname),
+                    'value'   => $tag->id,
+                    'label'   => ($tag->fullname),
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toJson();
@@ -133,17 +133,17 @@ class Issue extends FormAbstract
 
         return [
             'tag' => [
-                'type' => 'text',
-                'label' => 'tags',
-                'multiple' => true,
-                'class' => 'tagit',
+                'type'        => 'text',
+                'label'       => 'tags',
+                'multiple'    => true,
+                'class'       => 'tagit',
                 'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
             ],
         ];
     }
 
     /**
-     * Returns assigned to field
+     * Returns assigned to field.
      *
      * @return array
      */
@@ -151,30 +151,30 @@ class Issue extends FormAbstract
     {
         return [
             'assigned_to' => [
-                'type' => 'select',
-                'label' => 'assigned_to',
+                'type'    => 'select',
+                'label'   => 'assigned_to',
                 'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id')->all(),
-                'value' => (int) $this->project->default_assignee,
+                'value'   => (int) $this->project->default_assignee,
             ],
         ];
     }
 
     /**
-     * Returns upload field
+     * Returns upload field.
      *
      * @return array
      */
     protected function fieldUpload()
     {
-        $user = \Auth::guest() ? new Model\User() : \Auth::user();
-        $fields = $this->projectUploadFields('upload', $this->project, $user);
+        $user                      = \Auth::guest() ? new Model\User() : \Auth::user();
+        $fields                    = $this->projectUploadFields('upload', $this->project, $user);
         $fields['upload']['label'] = 'attachments';
 
         return $fields;
     }
 
     /**
-     * Returns time quote field
+     * Returns time quote field.
      *
      * @return array
      */
@@ -182,25 +182,25 @@ class Issue extends FormAbstract
     {
         return [
             'time_quote' => [
-                'type' => 'groupField',
-                'label' => 'quote',
+                'type'   => 'groupField',
+                'label'  => 'quote',
                 'fields' => [
                     'h' => [
-                        'type' => 'number',
-                        'append' => trans('tinyissue.hours'),
-                        'value' => $this->extractQuoteValue('h'),
+                        'type'          => 'number',
+                        'append'        => trans('tinyissue.hours'),
+                        'value'         => $this->extractQuoteValue('h'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                     'm' => [
-                        'type' => 'number',
-                        'append' => trans('tinyissue.minutes'),
-                        'value' => $this->extractQuoteValue('m'),
+                        'type'          => 'number',
+                        'append'        => trans('tinyissue.minutes'),
+                        'value'         => $this->extractQuoteValue('m'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                     's' => [
-                        'type' => 'number',
-                        'append' => trans('tinyissue.seconds'),
-                        'value' => $this->extractQuoteValue('s'),
+                        'type'          => 'number',
+                        'append'        => trans('tinyissue.seconds'),
+                        'value'         => $this->extractQuoteValue('s'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
                 ],
@@ -216,7 +216,7 @@ class Issue extends FormAbstract
     {
         $rules = [
             'title' => 'required|max:200',
-            'body' => 'required',
+            'body'  => 'required',
         ];
 
         return $rules;
@@ -235,7 +235,7 @@ class Issue extends FormAbstract
     }
 
     /**
-     * Extract number of hours, or minutes, or seconds from a quote
+     * Extract number of hours, or minutes, or seconds from a quote.
      *
      * @param string $part
      *

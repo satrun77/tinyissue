@@ -19,14 +19,14 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
 /**
- * ProjectsController is the controller class for managing request related to projects
+ * ProjectsController is the controller class for managing request related to projects.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class ProjectsController extends Controller
 {
     /**
-     * Display list of active/archived projects
+     * Display list of active/archived projects.
      *
      * @param int $status
      *
@@ -38,37 +38,37 @@ class ProjectsController extends Controller
         if (!$this->auth->guest()) {
             $projects = $this->auth->user()->projectsWithCountOpenIssues($status)->get();
             if ($status) {
-                $countActive = $projects->count();
+                $countActive   = $projects->count();
                 $countArchived = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
             } else {
-                $countActive = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
+                $countActive   = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
                 $countArchived = $projects->count();
             }
             $viewData['projects'] = $this->auth->user()->projects()->get();
         } else {
             $viewData['sidebar'] = 'public';
-            $project = new Project();
-            $projects = $project->projectsWithOpenIssuesCount($status, Project::PRIVATE_NO)->get();
+            $project             = new Project();
+            $projects            = $project->projectsWithOpenIssuesCount($status, Project::PRIVATE_NO)->get();
             if ($status) {
-                $countActive = $projects->count();
+                $countActive   = $projects->count();
                 $countArchived = $project->projectsWithOpenIssuesCount(Project::STATUS_ARCHIVED, Project::PRIVATE_NO)->count();
             } else {
-                $countActive = $project->projectsWithOpenIssuesCount(Project::STATUS_OPEN, Project::PRIVATE_NO)->count();
+                $countActive   = $project->projectsWithOpenIssuesCount(Project::STATUS_OPEN, Project::PRIVATE_NO)->count();
                 $countArchived = $projects->count();
             }
-            $user = new User();
+            $user                    = new User();
             $viewData['activeUsers'] = $user->activeUsers();
         }
         $viewData['content_projects'] = $projects;
-        $viewData['active'] = $status === Project::STATUS_OPEN ? 'active' : 'archived';
-        $viewData['active_count'] = $countActive;
-        $viewData['archived_count'] = $countArchived;
+        $viewData['active']           = $status === Project::STATUS_OPEN ? 'active' : 'archived';
+        $viewData['active_count']     = $countActive;
+        $viewData['archived_count']   = $countArchived;
 
         return view('projects.index', $viewData);
     }
 
     /**
-     * Add new project form
+     * Add new project form.
      *
      * @param Form $form
      *
@@ -77,13 +77,13 @@ class ProjectsController extends Controller
     public function getNew(Form $form)
     {
         return view('projects.new', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To create a new project
+     * To create a new project.
      *
      * @param Project             $project
      * @param FormRequest\Project $request
@@ -98,7 +98,7 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Ajax: Calculate the progress of user projects
+     * Ajax: Calculate the progress of user projects.
      *
      * @param Request $request
      * @param Project $project
@@ -116,9 +116,9 @@ class ProjectsController extends Controller
             $view = view('partials/progress', ['text' => $progress . '%', 'progress' => $progress])->render();
 
             return [
-                'id' => $project->id,
+                'id'       => $project->id,
                 'progress' => [
-                    'html' => $view,
+                    'html'  => $view,
                     'value' => $progress,
                 ],
             ];
@@ -128,7 +128,7 @@ class ProjectsController extends Controller
     }
 
     /**
-     * Add new issue form
+     * Add new issue form.
      *
      * @param IssueForm $form
      *
@@ -137,13 +137,13 @@ class ProjectsController extends Controller
     public function getNewIssue(IssueForm $form)
     {
         return view('projects.new-issue', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To create a new issue
+     * To create a new issue.
      *
      * @param Project\Issue           $issue
      * @param FormRequest\GlobalIssue $request
@@ -157,12 +157,12 @@ class ProjectsController extends Controller
         $issue->setRelation('project', $project);
         $issue->setRelation('user', $this->auth->user());
         $issue->createIssue([
-            'title' => $request->input('title'),
-            'body' => $request->input('body'),
-            'tag' => $request->input('tag'),
+            'title'        => $request->input('title'),
+            'body'         => $request->input('body'),
+            'tag'          => $request->input('tag'),
             'upload_token' => $request->input('upload_token'),
-            'assigned_to' => (int) $project->default_assignee,
-            'time_quote' => 0,
+            'assigned_to'  => (int) $project->default_assignee,
+            'time_quote'   => 0,
         ]);
 
         return redirect($issue->to())

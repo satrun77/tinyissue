@@ -17,11 +17,11 @@ class AnonymousUserCest
         $I->am('Anonymous User');
         $I->wantTo('To not be able to see the full name of anonymous user');
 
-        $developer1 = $I->createUser(1, 2); // developer
+        $developer1          = $I->createUser(1, 2); // developer
         $developer1->private = User::PRIVATE_YES;
         $developer1->save();
-        $developer2 = $I->createUser(2, 2); // developer
-        $project1 = $I->createProject(1, [$developer2]);
+        $developer2        = $I->createUser(2, 2); // developer
+        $project1          = $I->createProject(1, [$developer2]);
         $project1->private = false;
         $project1->save();
         $issue = $I->createIssue(1, $developer1, $developer1, $project1);
@@ -64,10 +64,10 @@ class AnonymousUserCest
             ]
         );
 
-        $admin = $I->createUser(1, 4); // admin
-        $mananger = $I->createUser(2, 3); // manager
+        $admin     = $I->createUser(1, 4); // admin
+        $mananger  = $I->createUser(2, 3); // manager
         $developer = $I->createUser(3, 2); // developer
-        $user = $I->createUser(4, 1); // user
+        $user      = $I->createUser(4, 1); // user
 
         $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('HomeController@getIssues');

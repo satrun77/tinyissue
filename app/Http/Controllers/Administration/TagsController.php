@@ -18,14 +18,14 @@ use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Tag;
 
 /**
- * TagsController is the controller class for managing administration request related to tags
+ * TagsController is the controller class for managing administration request related to tags.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class TagsController extends Controller
 {
     /**
-     * Tag index page (List current tags)
+     * Tag index page (List current tags).
      *
      * @param Tag $tag
      *
@@ -34,13 +34,13 @@ class TagsController extends Controller
     public function getIndex(Tag $tag)
     {
         return view('administration.tags.index', [
-            'tags' => $tag->getGroupTags(),
+            'tags'     => $tag->getGroupTags(),
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * Add new tag page
+     * Add new tag page.
      *
      * @param Form $form
      *
@@ -49,13 +49,13 @@ class TagsController extends Controller
     public function getNew(Form $form)
     {
         return view('administration.tags.new', [
-            'form' => $form,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To create new tag
+     * To create new tag.
      *
      * @param Tag             $tag
      * @param FormRequest\Tag $request
@@ -70,7 +70,7 @@ class TagsController extends Controller
     }
 
     /**
-     * Edit an existing tag
+     * Edit an existing tag.
      *
      * @param Tag  $tag
      * @param Form $form
@@ -80,14 +80,14 @@ class TagsController extends Controller
     public function getEdit(Tag $tag, Form $form)
     {
         return view('administration.tags.edit', [
-            'tag' => $tag,
-            'form' => $form,
+            'tag'      => $tag,
+            'form'     => $form,
             'projects' => $this->auth->user()->projects()->get(),
         ]);
     }
 
     /**
-     * To update tag details
+     * To update tag details.
      *
      * @param Tag             $tag
      * @param FormRequest\Tag $request
@@ -102,7 +102,7 @@ class TagsController extends Controller
     }
 
     /**
-     * Ajax: to search for tag by keyword (used by auto complete tag field)
+     * Ajax: to search for tag by keyword (used by auto complete tag field).
      *
      * @param Tag     $tag
      * @param string  $term
@@ -119,8 +119,8 @@ class TagsController extends Controller
                 return !($tag->name == 'open' || $tag->name == 'closed');
             })->map(function (Tag $tag) {
                 return [
-                    'value' => $tag->id,
-                    'label' => $tag->fullname,
+                    'value'   => $tag->id,
+                    'label'   => $tag->fullname,
                     'bgcolor' => $tag->bgcolor,
                 ];
             })->toArray();

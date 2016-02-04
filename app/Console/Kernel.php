@@ -15,7 +15,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 /**
- * Kernel is class to define the commands schedule for application cron jobs
+ * Kernel is class to define the commands schedule for application cron jobs.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

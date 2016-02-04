@@ -12,20 +12,20 @@
 namespace Tinyissue\Form;
 
 /**
- * Comment is a class to defines fields & rules for add/edit comments form
+ * Comment is a class to defines fields & rules for add/edit comments form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 class Comment extends FormAbstract
 {
     /**
-     * An instance of project model
+     * An instance of project model.
      *
      * @var \Tinyissue\Model\Project
      */
     protected $project;
     /**
-     * An instance of project issue model
+     * An instance of project issue model.
      *
      * @var \Tinyissue\Model\Project\issue
      */
@@ -39,7 +39,7 @@ class Comment extends FormAbstract
     public function setup(array $params)
     {
         $this->project = $params['project'];
-        $this->issue = $params['issue'];
+        $this->issue   = $params['issue'];
     }
 
     /**

@@ -13,7 +13,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Tinyissue\Model;
 
 /**
- * CreateProjectNotes is a migration class for upgrading the database to use project notes feature
+ * CreateProjectNotes is a migration class for upgrading the database to use project notes feature.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -35,9 +35,9 @@ class CreateProjectNotes extends Migration
                 $table->timestamps();
             });
 
-            $activity = new Model\Activity();
+            $activity              = new Model\Activity();
             $activity->description = 'Note on a project';
-            $activity->activity = 'note';
+            $activity->activity    = 'note';
             $activity->save();
         }
     }

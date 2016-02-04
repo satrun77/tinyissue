@@ -16,7 +16,7 @@ use Illuminate\Database\Query;
 use Tinyissue\Model\Tag as TagModel;
 
 /**
- * QueryTrait is trait class containing the database queries methods for the Tag model
+ * QueryTrait is trait class containing the database queries methods for the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -27,7 +27,7 @@ use Tinyissue\Model\Tag as TagModel;
 trait QueryTrait
 {
     /**
-     * Returns collection of all groups and eager load their tags
+     * Returns collection of all groups and eager load their tags.
      *
      * @return Eloquent\Collection
      */
@@ -37,7 +37,7 @@ trait QueryTrait
     }
 
     /**
-     * Search tags by name
+     * Search tags by name.
      *
      * @param string $term
      *
@@ -49,7 +49,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns tag groups list
+     * Returns tag groups list.
      *
      * @return array
      */
@@ -64,7 +64,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns collection of all groups
+     * Returns collection of all groups.
      *
      * @return Eloquent\Collection
      */
@@ -75,7 +75,7 @@ trait QueryTrait
 
     /**
      * Returns Json string of tags details.
-     * Used for JS auto-complete
+     * Used for JS auto-complete.
      *
      * @param string|array $ids
      *
@@ -91,7 +91,7 @@ trait QueryTrait
     }
 
     /**
-     * Return tag by name
+     * Return tag by name.
      *
      * @param string $name
      *
@@ -103,7 +103,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns collection of tags in status group
+     * Returns collection of tags in status group.
      *
      * @return Eloquent\Collection
      */
@@ -113,7 +113,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns collection of open and closed tags
+     * Returns collection of open and closed tags.
      *
      * @return mixed
      */

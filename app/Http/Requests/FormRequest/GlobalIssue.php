@@ -14,7 +14,7 @@ namespace Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Http\Requests\Request;
 
 /**
- * GlobalIssue is a Form Request class for managing add an issue submission (validating, redirect, response, ...)
+ * GlobalIssue is a Form Request class for managing add an issue submission (validating, redirect, response, ...).
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

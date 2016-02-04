@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
 
     // Markup
     ////////////////////////////////////////////////////////////////////
@@ -57,12 +57,12 @@ return array(
     'capitalize_translations' => true,
 
     // An array of attributes to automatically translate
-    'translatable' => array(
+    'translatable' => [
         'help',
         'inlineHelp',
         'blockHelp',
         'placeholder',
         'data_placeholder',
         'label',
-    ),
-);
+    ],
+];

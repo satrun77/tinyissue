@@ -21,12 +21,12 @@ class CrudProjectCest
         $I->createUser(3, 1); // user
         $I->login($admin->email, '123', $admin->firstname);
         $I->sendAjaxGetRequest($I->getApplication()->url->action('ProjectController@getInactiveUsers'));
-        $users = (array) $I->getJsonResponseContent();
-        $userId1 = key($users);
+        $users     = (array) $I->getJsonResponseContent();
+        $userId1   = key($users);
         $userName1 = current($users);
         next($users);
         next($users);
-        $userId2 = key($users);
+        $userId2   = key($users);
         $userName2 = current($users);
 
         $I->amOnAction('ProjectsController@getNew');
@@ -37,7 +37,7 @@ class CrudProjectCest
                 $userId1 => $userId1,
                 $userId2 => $userId2,
             ],
-            'name' => 'project1',
+            'name'             => 'project1',
             'default_assignee' => $userId2,
         ];
         $I->submitForm('#submit-project', $params);
@@ -60,7 +60,7 @@ class CrudProjectCest
         $I->wantTo('edit an existing project details');
 
         $project = $I->createProject(1);
-        $admin = $I->createUser(1, 4);
+        $admin   = $I->createUser(1, 4);
 
         $I->amLoggedAs($admin);
         $I->amOnAction('ProjectController@getEdit', ['project' => $project]);
@@ -85,7 +85,7 @@ class CrudProjectCest
         $I->wantTo('delete an existing project details');
 
         $project = $I->createProject(1);
-        $admin = $I->createUser(1, 4);
+        $admin   = $I->createUser(1, 4);
 
         $I->amLoggedAs($admin);
         $I->amOnAction('ProjectController@getEdit', ['project' => $project]);

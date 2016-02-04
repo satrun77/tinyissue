@@ -13,7 +13,7 @@ use Illuminate\Database\Schema\Blueprint;
 
 /**
  * AddPrivateToUsersAndProjectsTables is a migration class for upgrading the database to use
- * private projects and users feature
+ * private projects and users feature.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

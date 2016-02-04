@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 
 /**
- * RelationTrait is trait class containing the relationship method for the User\Activity model
+ * RelationTrait is trait class containing the relationship method for the User\Activity model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -24,7 +24,7 @@ use Tinyissue\Model\Project;
 trait RelationTrait
 {
     /**
-     * Returns the project issue this activity is belongs to by the item_id, which can hold the issue id
+     * Returns the project issue this activity is belongs to by the item_id, which can hold the issue id.
      *
      * @return Relations\BelongsTo
      */
@@ -34,7 +34,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns the user this activity is belongs to
+     * Returns the user this activity is belongs to.
      *
      * @return Relations\BelongsTo
      */
@@ -44,7 +44,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns the user that was assigned to the issue. Only for reassign activity
+     * Returns the user that was assigned to the issue. Only for reassign activity.
      *
      * @return Relations\BelongsTo
      */
@@ -54,7 +54,7 @@ trait RelationTrait
     }
 
     /**
-     * User activity has one activity type
+     * User activity has one activity type.
      *
      * @return Relations\BelongsTo
      */
@@ -64,7 +64,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns the comment this activity belongs to if any
+     * Returns the comment this activity belongs to if any.
      *
      * @return Relations\BelongsTo
      */
@@ -74,7 +74,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns the project his activity belongs to
+     * Returns the project his activity belongs to.
      *
      * @return Relations\BelongsTo
      */
@@ -84,7 +84,7 @@ trait RelationTrait
     }
 
     /**
-     * Returns the note this activity belongs to if any
+     * Returns the note this activity belongs to if any.
      *
      * @return Relations\BelongsTo
      */

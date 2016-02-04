@@ -16,7 +16,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 /**
- * Authenticate is a Middleware class to for checking if current user is logged in
+ * Authenticate is a Middleware class to for checking if current user is logged in.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

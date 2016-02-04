@@ -17,8 +17,8 @@ class PublicProjectsCest
         $I->wantTo('To view the overview of all public projects issues');
 
         $developer1 = $I->createUser(2, 2); // developer
-        $project = $I->createProject(1, [$developer1]);
-        $issue = $I->createIssue(1, $developer1, $developer1, $project);
+        $project    = $I->createProject(1, [$developer1]);
+        $issue      = $I->createIssue(1, $developer1, $developer1, $project);
 
         $I->amOnPage('HomeController@getIssues');
         $I->seeResponseCodeIs(404);
@@ -61,9 +61,9 @@ class PublicProjectsCest
             'enable_public_projects' => Setting::ENABLE,
         ]);
 
-        $developer1 = $I->createUser(2, 2); // developer
-        $project1 = $I->createProject(1, [$developer1]);
-        $project2 = $I->createProject(2, [$developer1]);
+        $developer1        = $I->createUser(2, 2); // developer
+        $project1          = $I->createProject(1, [$developer1]);
+        $project2          = $I->createProject(2, [$developer1]);
         $project1->private = false;
         $project1->save();
 

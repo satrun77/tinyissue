@@ -17,7 +17,7 @@ class CrudIssueCest
         $I->am('Admin User');
         $I->wantTo('add new global issue to a project');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
@@ -31,9 +31,9 @@ class CrudIssueCest
         $I->amOnAction('ProjectsController@getNewIssue');
 
         $params = [
-            'title' => 'issue 1',
-            'body' => 'body of issue 1',
-            'tag' => $tags->forPage(0, 2)->implode('value', ','),
+            'title'   => 'issue 1',
+            'body'    => 'body of issue 1',
+            'tag'     => $tags->forPage(0, 2)->implode('value', ','),
             'project' => $project->id,
         ];
         $I->submitForm('#content .form-horizontal', $params);
@@ -56,7 +56,7 @@ class CrudIssueCest
         $I->am('Admin User');
         $I->wantTo('add new issue to a project');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->login($admin->email, '123', $admin->firstname);
 
@@ -69,11 +69,11 @@ class CrudIssueCest
         $I->seeOptionIsSelected('assigned_to', $developer1->fullname);
 
         $params = [
-            'title' => 'issue 1',
-            'body' => 'body of issue 1',
-            'tag' => $tags->forPage(0, 2)->implode('value', ','),
+            'title'       => 'issue 1',
+            'body'        => 'body of issue 1',
+            'tag'         => $tags->forPage(0, 2)->implode('value', ','),
             'assigned_to' => $developer1->id,
-            'time_quote' => [
+            'time_quote'  => [
                 'h' => 1,
                 'm' => 2,
                 's' => 3,
@@ -105,7 +105,7 @@ class CrudIssueCest
         $I->am('Admin User');
         $I->wantTo('edit an existing project issue details');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 
@@ -122,7 +122,7 @@ class CrudIssueCest
         $I->seeCurrentActionIs('Project\IssueController@getEdit', ['project' => $project, 'issue' => $issue]);
 
         $newTitle = 'Issue 1 update';
-        $newTime = 3700;
+        $newTime  = 3700;
         $I->fillField('title', $newTitle);
         $I->fillField('time_quote[h]', 1);
         $I->fillField('time_quote[s]', 100);
@@ -148,7 +148,7 @@ class CrudIssueCest
         $I->am('Developer User');
         $I->wantTo('close an opened issue');
 
-        $admin = $I->createUser(1, 4);
+        $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
 

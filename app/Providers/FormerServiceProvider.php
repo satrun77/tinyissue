@@ -12,7 +12,7 @@
 namespace Tinyissue\Providers;
 
 /**
- * FormerServiceProvider for extending Former service provider
+ * FormerServiceProvider for extending Former service provider.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -29,9 +29,9 @@ class FormerServiceProvider extends \Former\FormerServiceProvider
 
         // Stop it from rendering field name into label
         \Former::setOption('automatic_label', false);
-        \Former::setOption('TwitterBootstrap3.labelWidths', array(
+        \Former::setOption('TwitterBootstrap3.labelWidths', [
             'large' => 2,
             'small' => 3,
-        ));
+        ]);
     }
 }

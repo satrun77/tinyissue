@@ -18,7 +18,7 @@ use Illuminate\Contracts\Auth\Guard;
 use Tinyissue\Model;
 
 /**
- * Controller is an abstract class for the controller classes
+ * Controller is an abstract class for the controller classes.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -27,14 +27,14 @@ abstract class Controller extends BaseController
     use DispatchesCommands, ValidatesRequests;
 
     /**
-     * Current logged in user
+     * Current logged in user.
      *
      * @var Guard
      */
     protected $auth;
 
     /**
-     * Constructor, inject an instance of logged user
+     * Constructor, inject an instance of logged user.
      *
      * @param \Illuminate\Contracts\Auth\Guard $auth
      */

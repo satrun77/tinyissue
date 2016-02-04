@@ -15,7 +15,7 @@ use Illuminate\Contracts\Events\Dispatcher as DispatcherContract;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 /**
- * EventServiceProvider is the events service provider for bootstrapping and registering the application event listeners
+ * EventServiceProvider is the events service provider for bootstrapping and registering the application event listeners.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

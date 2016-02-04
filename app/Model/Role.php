@@ -14,7 +14,7 @@ namespace Tinyissue\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Role is model class for roles
+ * Role is model class for roles.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -28,27 +28,27 @@ class Role extends Model
     use Traits\Role\QueryTrait,
         Traits\Role\RelationTrait;
 
-    const ROLE_USER = 'user';
+    const ROLE_USER      = 'user';
     const ROLE_DEVELOPER = 'developer';
-    const ROLE_MANAGER = 'manager';
-    const ROLE_ADMIN = 'administrator';
+    const ROLE_MANAGER   = 'manager';
+    const ROLE_ADMIN     = 'administrator';
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = false;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'roles';
 
     /**
-     * Returns a class name based on role type
+     * Returns a class name based on role type.
      *
      * @return string
      */

@@ -15,7 +15,7 @@ use Maatwebsite\Excel\Exceptions\LaravelExcelException;
 use Maatwebsite\Excel\Files\NewExcelFile;
 
 /**
- * Exporter is class for initialising the exporter, process data, and export the generated file
+ * Exporter is class for initialising the exporter, process data, and export the generated file.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -26,33 +26,33 @@ use Maatwebsite\Excel\Files\NewExcelFile;
 class Exporter extends NewExcelFile
 {
     /** Current supported files type */
-    const TYPE_CSV = 'csv';
-    const TYPE_XLS = 'xls';
+    const TYPE_CSV  = 'csv';
+    const TYPE_XLS  = 'xls';
     const TYPE_XLSX = 'xlsx';
 
     /**
-     * Parameters
+     * Parameters.
      *
      * @var array
      */
     protected $params = [];
 
     /**
-     * Export file format
+     * Export file format.
      *
      * @var string
      */
     protected $format = self::TYPE_CSV;
 
     /**
-     * Type of data to export
+     * Type of data to export.
      *
      * @var string
      */
     protected $type = '';
 
     /**
-     * Returns the parameters
+     * Returns the parameters.
      *
      * @param string $key
      *
@@ -68,7 +68,7 @@ class Exporter extends NewExcelFile
     }
 
     /**
-     * Start importing
+     * Start importing.
      *
      * @param string $className
      * @param string $format
@@ -79,9 +79,9 @@ class Exporter extends NewExcelFile
     public function exportFile($className, $format = self::TYPE_CSV, array $params = [])
     {
         $params['route'] = $this->app->request->route()->parameters();
-        $this->format = $format;
-        $this->params = $params;
-        $this->type = $className;
+        $this->format    = $format;
+        $this->params    = $params;
+        $this->type      = $className;
 
         // Update file name
         $this->setFileName($this->getFilename());
@@ -94,7 +94,7 @@ class Exporter extends NewExcelFile
     }
 
     /**
-     * Returns export file name
+     * Returns export file name.
      *
      * @return string
      */
@@ -104,7 +104,7 @@ class Exporter extends NewExcelFile
     }
 
     /**
-     * Construct the export class full name
+     * Construct the export class full name.
      *
      * @param string $type
      *

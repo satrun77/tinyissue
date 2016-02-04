@@ -14,7 +14,7 @@ namespace Tinyissue\Model\Traits\Project\Issue\Attachment;
 use Illuminate\Database\Eloquent\Relations;
 
 /**
- * RelationTrait is trait class containing the relationship methods for the Project\Issue\Attachment model
+ * RelationTrait is trait class containing the relationship methods for the Project\Issue\Attachment model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -23,7 +23,7 @@ use Illuminate\Database\Eloquent\Relations;
 trait RelationTrait
 {
     /**
-     * An attachment is belong to one issue  (inverse relationship of Project\Issue::attachments)
+     * An attachment is belong to one issue  (inverse relationship of Project\Issue::attachments).
      *
      * @return Relations\BelongsTo
      */

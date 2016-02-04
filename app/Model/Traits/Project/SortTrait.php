@@ -16,7 +16,7 @@ use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
 
 /**
- * SortTrait is trait class containing the methods for sorting database queries of the Project model
+ * SortTrait is trait class containing the methods for sorting database queries of the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -27,7 +27,7 @@ use Tinyissue\Model\Project;
 trait SortTrait
 {
     /**
-     * Sort by updated_at column
+     * Sort by updated_at column.
      *
      * @param Query\Builder $query
      * @param string        $order
@@ -41,7 +41,7 @@ trait SortTrait
 
     /**
      * Sort by issues tag group
-     * Note: this sort will return the collection
+     * Note: this sort will return the collection.
      *
      * @param Eloquent\Relations\Relation $query
      * @param string                      $tagGroup

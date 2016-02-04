@@ -12,7 +12,7 @@
 namespace Tinyissue\Form;
 
 /**
- * Login is a class to defines fields & rules for the login form
+ * Login is a class to defines fields & rules for the login form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -25,28 +25,28 @@ class Login extends FormAbstract
     {
         $fields = [
             'email' => [
-                'type' => 'text',
+                'type'  => 'text',
                 'label' => 'email',
             ],
             'password' => [
-                'type' => 'password',
+                'type'  => 'password',
                 'label' => 'password',
             ],
             'group' => [
-                'type' => 'group',
+                'type'     => 'group',
                 'addClass' => 'form-actions',
-                'label' => '',
+                'label'    => '',
                 'required' => false,
             ],
             'login' => [
-                'type' => 'primary_submit',
+                'type'  => 'primary_submit',
                 'value' => 'login',
             ],
             'remember' => [
-                'type' => 'checkbox',
+                'type'     => 'checkbox',
                 'required' => false,
-                'text' => 'remember_me',
-                'inline' => null,
+                'text'     => 'remember_me',
+                'inline'   => null,
             ],
             'closeGroup' => [
                 'type' => 'closeGroup',
@@ -63,7 +63,7 @@ class Login extends FormAbstract
     {
         $rules = [
             'password' => 'required',
-            'email' => 'required|email',
+            'email'    => 'required|email',
         ];
 
         return $rules;

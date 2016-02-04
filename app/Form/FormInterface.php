@@ -14,14 +14,14 @@ namespace Tinyissue\Form;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * FormInterface is an interface defines the structure of a Form class
+ * FormInterface is an interface defines the structure of a Form class.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
 interface FormInterface
 {
     /**
-     * Setup the object from the route parameters
+     * Setup the object from the route parameters.
      *
      * @param array $params
      *
@@ -30,35 +30,35 @@ interface FormInterface
     public function setup(array $params);
 
     /**
-     * Returns form type
+     * Returns form type.
      *
      * @return string
      */
     public function openType();
 
     /**
-     * Returns an array of form fields
+     * Returns an array of form fields.
      *
      * @return array
      */
     public function fields();
 
     /**
-     * Returns an array form rules
+     * Returns an array form rules.
      *
      * @return array
      */
     public function rules();
 
     /**
-     * Returns an array of form actions
+     * Returns an array of form actions.
      *
      * @return array
      */
     public function actions();
 
     /**
-     * Set an instance of model currently being edited
+     * Set an instance of model currently being edited.
      *
      * @param Model $model
      *
@@ -67,21 +67,21 @@ interface FormInterface
     public function editingModel(Model $model);
 
     /**
-     * Whether or not the form is in editing of a model
+     * Whether or not the form is in editing of a model.
      *
      * @return bool
      */
     public function isEditing();
 
     /**
-     * Return an instance of the model being edited
+     * Return an instance of the model being edited.
      *
      * @return Model
      */
     public function getModel();
 
     /**
-     * Returns the form redirect url on error
+     * Returns the form redirect url on error.
      *
      * @return string
      */

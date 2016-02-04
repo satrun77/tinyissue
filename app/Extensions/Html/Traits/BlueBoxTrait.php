@@ -14,7 +14,7 @@ namespace Tinyissue\Extensions\Html\Traits;
 use Illuminate\Html\HtmlBuilder;
 
 /**
- * BlueBoxTrait is trait class for adding methods to generate the html code of the blue box
+ * BlueBoxTrait is trait class for adding methods to generate the html code of the blue box.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -23,7 +23,7 @@ use Illuminate\Html\HtmlBuilder;
 trait BlueBoxTrait
 {
     /**
-     * Short cut method to call startBox() & endBox()
+     * Short cut method to call startBox() & endBox().
      *
      * @param string      $content
      * @param string      $style
@@ -39,7 +39,7 @@ trait BlueBoxTrait
     }
 
     /**
-     * Render the open tags for box (e.g. blue box)
+     * Render the open tags for box (e.g. blue box).
      *
      * @param string      $style
      * @param string|null $title
@@ -50,7 +50,7 @@ trait BlueBoxTrait
     public function startBox($style = 'blue-box', $title = null, array $attrs = [])
     {
         $attrs['class'] = isset($attrs['class']) ? $attrs['class'] . ' ' . $style : $style;
-        $output = '<div ' . $this->attributes($attrs) . '><div class="inside-pad">';
+        $output         = '<div ' . $this->attributes($attrs) . '><div class="inside-pad">';
 
         if (!empty($title)) {
             if (is_array($title)) {
@@ -65,7 +65,7 @@ trait BlueBoxTrait
     }
 
     /**
-     * Render the closing tags for the box (e.g. blue box)
+     * Render the closing tags for the box (e.g. blue box).
      *
      * @param string|null $moreLink
      * @param string|null $moreTitle

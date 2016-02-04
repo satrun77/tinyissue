@@ -14,7 +14,7 @@ namespace Tinyissue\Model;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * User is model class for users
+ * User is model class for users.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Setting extends Model
 {
-    const ENABLE = 1;
+    const ENABLE  = 1;
     const DISABLE = 0;
 
     /**

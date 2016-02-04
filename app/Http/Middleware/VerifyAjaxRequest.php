@@ -15,7 +15,7 @@ use Closure;
 use Illuminate\Http\Request;
 
 /**
- * VerifyAjaxRequest is a Middleware class to limit request to Ajax call only
+ * VerifyAjaxRequest is a Middleware class to limit request to Ajax call only.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */

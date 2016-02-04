@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 use Tinyissue\Model\Project as ProjectModel;
 
 /**
- * Permission is a Middleware class to for checking if current user has the permission to access the request
+ * Permission is a Middleware class to for checking if current user has the permission to access the request.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -31,7 +31,7 @@ class Permission
     protected $auth;
 
     /**
-     * List of permissions that can be accessed by public users
+     * List of permissions that can be accessed by public users.
      *
      * @var array
      */
@@ -60,7 +60,7 @@ class Permission
     public function handle(Request $request, Closure $next)
     {
         $permission = $this->getPermission($request);
-        $user = $this->auth->user();
+        $user       = $this->auth->user();
         /** @var ProjectModel|null $project */
         $project = $request->route()->getParameter('project');
 
@@ -79,7 +79,7 @@ class Permission
     }
 
     /**
-     * Returns the permission defined in route action
+     * Returns the permission defined in route action.
      *
      * @param Request $request
      *

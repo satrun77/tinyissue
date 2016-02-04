@@ -16,11 +16,11 @@ class CrudTagCest
         $I->am('Admin User');
         $I->wantTo('add new tag');
 
-        $tag = new Tag();
+        $tag   = new Tag();
         $group = $tag->getGroups()->random(1);
-        $data = [
-            'name' => 'tag1',
-            'group' => $group->id,
+        $data  = [
+            'name'    => 'tag1',
+            'group'   => $group->id,
             'bgcolor' => 'red',
         ];
 
@@ -43,7 +43,7 @@ class CrudTagCest
         $I->am('Admin User');
         $I->wantTo('edit an existing tag');
 
-        $tag = (new Tag())->where('group', '=', false)->get()->random(1);
+        $tag  = (new Tag())->where('group', '=', false)->get()->random(1);
         $data = [
             'name' => 'tag updated',
         ];
@@ -60,7 +60,7 @@ class CrudTagCest
     }
 
     /**
-     * Generate xpath query to tag link
+     * Generate xpath query to tag link.
      *
      * @param string $tagName
      *

@@ -15,7 +15,7 @@ use Tinyissue\Model\Role;
 use Tinyissue\Model\User as UserModel;
 
 /**
- * User is a class to defines fields & rules for add/edit user form
+ * User is a class to defines fields & rules for add/edit user form.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
@@ -42,20 +42,20 @@ class User extends FormAbstract
     {
         $fields = [
             'firstname' => [
-                'type' => 'text',
+                'type'  => 'text',
                 'label' => 'first_name',
             ],
             'lastname' => [
-                'type' => 'text',
+                'type'  => 'text',
                 'label' => 'last_name',
             ],
             'email' => [
-                'type' => 'text',
+                'type'  => 'text',
                 'label' => 'email',
             ],
             'private' => [
-                'type' => 'select',
-                'label' => 'visibility',
+                'type'    => 'select',
+                'label'   => 'visibility',
                 'options' => [UserModel::PRIVATE_YES => trans('tinyissue.private'), UserModel::PRIVATE_NO => trans('tinyissue.public')],
             ],
         ];
@@ -66,22 +66,22 @@ class User extends FormAbstract
     }
 
     /**
-     * Return password fields
+     * Return password fields.
      *
      * @return array
      */
     protected function passwordFields()
     {
-        $fields = [];
+        $fields                                       = [];
         $fields['only_complete_if_changing_password'] = [
             'type' => 'legend',
         ];
         $fields['password'] = [
-            'type' => 'password',
+            'type'  => 'password',
             'label' => 'new_password',
         ];
         $fields['password_confirmation'] = [
-            'type' => 'password',
+            'type'  => 'password',
             'label' => 'confirm',
         ];
 
@@ -89,7 +89,7 @@ class User extends FormAbstract
     }
 
     /**
-     * For sub-classes to add extra fields or remove fields
+     * For sub-classes to add extra fields or remove fields.
      *
      * @return array
      */
@@ -97,8 +97,8 @@ class User extends FormAbstract
     {
         $fields = [
             'role_id' => [
-                'type' => 'select',
-                'label' => 'role',
+                'type'    => 'select',
+                'label'   => 'role',
                 'options' => Role::dropdown(),
             ],
         ];
@@ -117,8 +117,8 @@ class User extends FormAbstract
     {
         $rules = [
             'firstname' => 'required|max:50',
-            'lastname' => 'required|max:50',
-            'email' => 'required|email',
+            'lastname'  => 'required|max:50',
+            'email'     => 'required|email',
         ];
 
         if ($this->isEditing()) {

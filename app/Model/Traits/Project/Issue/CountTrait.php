@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
- * CountTrait is trait class containing the methods for counting database records for the Issue model
+ * CountTrait is trait class containing the methods for counting database records for the Issue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -30,7 +30,7 @@ use Tinyissue\Model;
 trait CountTrait
 {
     /**
-     * Count number of comments in an issue
+     * Count number of comments in an issue.
      *
      * @return Relations\HasOne
      */

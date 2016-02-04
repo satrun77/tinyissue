@@ -12,7 +12,7 @@
 namespace Tinyissue\Model\Traits;
 
 /**
- * CountAttributeTrait is trait class for adding method to return count attribute
+ * CountAttributeTrait is trait class for adding method to return count attribute.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -24,7 +24,7 @@ namespace Tinyissue\Model\Traits;
 trait CountAttributeTrait
 {
     /**
-     * Returns the aggregate value of a field
+     * Returns the aggregate value of a field.
      *
      * @param string $field
      *

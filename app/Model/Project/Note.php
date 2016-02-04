@@ -17,7 +17,7 @@ use Tinyissue\Model\Traits\Project\Note\CrudTrait;
 use Tinyissue\Model\Traits\Project\Note\RelationTrait;
 
 /**
- * Note is model class for project notes
+ * Note is model class for project notes.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
@@ -34,28 +34,28 @@ class Note extends BaseModel
         RelationTrait;
 
     /**
-     * Timestamp enabled
+     * Timestamp enabled.
      *
      * @var bool
      */
     public $timestamps = true;
 
     /**
-     * Name of database table
+     * Name of database table.
      *
      * @var string
      */
     protected $table = 'projects_notes';
 
     /**
-     * List of allowed columns to be used in $this->fill()
+     * List of allowed columns to be used in $this->fill().
      *
      * @var array
      */
     protected $fillable = ['project_id', 'created_by', 'body'];
 
     /**
-     * Generate a URL for the project note
+     * Generate a URL for the project note.
      *
      * @return string
      */
