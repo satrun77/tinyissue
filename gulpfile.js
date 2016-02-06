@@ -17,6 +17,7 @@ elixir(function (mix) {
         'jquery.js',
         'jquery.cookie.js',
         'jquery-ui.js',
+        'jquery.ui.touch-punch.min.js',
         'jquery.tokenfield.js',
         'slideout.min.js',
         'bootstrap.js',

@@ -502,8 +502,17 @@ function Kanban() {
                 return;
             }
 
+            var win = $(window);
             container = kanban.find(".column .content");
             task = kanban.find('.issue');
+            setKanbantWidth = function () {
+                var bodyWidth = win.width();
+                if (bodyWidth < 768) {
+                    kanban.parent().width(bodyWidth - 20);
+                }
+            };
+            setKanbantWidth();
+            win.resize(setKanbantWidth);
 
             container.sortable({
                 connectWith: ".kanban .column .content",
