@@ -1,5 +1,10 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.5.0
+
+- Feature: project Kanban board
+- Feature: configurable date format
+
 ## Tiny Issue v2.4.0
 
 - Compatible with PHP 5.5, PHP 5.6, & PHP 7
