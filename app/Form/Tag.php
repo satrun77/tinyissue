@@ -53,7 +53,7 @@ class Tag extends FormAbstract
                 'type'  => 'text',
                 'label' => 'name',
             ],
-            'group' => [
+            'parent_id' => [
                 'type'    => 'select',
                 'label'   => 'group',
                 'options' => [0 => ''] + $tag->getGroups()->lists('name', 'id')->all(),

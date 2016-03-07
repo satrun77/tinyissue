@@ -24,6 +24,30 @@ use Tinyissue\Model\Tag;
 trait CrudTrait
 {
     /**
+     * Create a new tag.
+     *
+     * @param array $input
+     *
+     * @return mixed
+     */
+    public function createTag(array $input)
+    {
+        return $this->fill($this->prepareTagToSave($input))->save();
+    }
+
+    /**
+     * Update the tags in the database.
+     *
+     * @param array $attributes
+     *
+     * @return bool|int
+     */
+    public function update(array $attributes = [])
+    {
+        return parent::update($this->prepareTagToSave($attributes));
+    }
+
+    /**
      * Create new tag from string of group name and tag name.
      *
      * @param string $tagFullName
@@ -73,5 +97,24 @@ trait CrudTrait
         }
 
         return $tag;
+    }
+
+    /**
+     * Prepare tag details to save.
+     *
+     * @param array $input
+     *
+     * @return array
+     */
+    protected function prepareTagToSave(array $input)
+    {
+        // If parent id is set, then tag is not group
+        if (array_key_exists('parent_id', $input) && $input['parent_id'] > 0) {
+            $input['group'] = 0;
+        } else {
+            $input['group'] = 1;
+        }
+
+        return $input;
     }
 }

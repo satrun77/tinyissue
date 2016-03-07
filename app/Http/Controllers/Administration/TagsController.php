@@ -64,7 +64,7 @@ class TagsController extends Controller
      */
     public function postNew(Tag $tag, FormRequest\Tag $request)
     {
-        $tag->fill($request->all())->save();
+        $tag->createTag($request->all());
 
         return redirect('administration/tags')->with('notice', trans('tinyissue.tag_added'));
     }
