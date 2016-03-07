@@ -333,6 +333,13 @@ class Install extends Command
         $this->data['key']      = md5(str_random(40));
         $this->data['dbDriver'] = substr($this->data['dbDriver'], 4);
 
+        // Prefix application path for sqlite driver && database name not absolute path
+        if ($this->data['dbDriver'] === 'sqlite'
+            && strpos($this->data['dbName'], ':\\') === false
+            && strpos($this->data['dbName'], '/') == false) {
+            $this->data['dbName'] = base_path($this->data['dbName']);
+        }
+
         // Create .env from .env.example and populate with user data
         $filesystem = $this->getFilesystem();
         $content    = $filesystem->read('.env.example');
