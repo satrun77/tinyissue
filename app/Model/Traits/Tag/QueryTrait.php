@@ -45,7 +45,7 @@ trait QueryTrait
      */
     public function searchTags($term)
     {
-        return $this->with('parent')->where('name', 'like', '%' . $term . '%')->where('group', '=', false)->get();
+        return $this->with('parent')->where('name', 'like', '%' . $term . '%')->where('parent_id', '<>', 0)->get();
     }
 
     /**
