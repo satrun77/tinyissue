@@ -19,9 +19,9 @@ class CrudTagCest
         $tag   = new Tag();
         $group = $tag->getGroups()->random(1);
         $data  = [
-            'name'    => 'tag1',
-            'group'   => $group->id,
-            'bgcolor' => 'red',
+            'name'      => 'tag1',
+            'parent_id' => $group->id,
+            'bgcolor'   => 'red',
         ];
 
         $I->amLoggedAs($I->createUser(1, 4));
