@@ -336,7 +336,7 @@ class Install extends Command
         // Prefix application path for sqlite driver && database name not absolute path
         if ($this->data['dbDriver'] === 'sqlite'
             && strpos($this->data['dbName'], ':\\') === false
-            && strpos($this->data['dbName'], '/') == false) {
+            && strpos($this->data['dbName'], '/') === false) {
             $this->data['dbName'] = base_path($this->data['dbName']);
         }
 
