@@ -1,5 +1,9 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.5.1
+
+- Bug fixes
+
 ## Tiny Issue v2.5.0
 
 - Feature: project Kanban board
