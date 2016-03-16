@@ -216,6 +216,9 @@ class RouteServiceProvider extends ServiceProvider
         // View issue
         $router->model('issue', 'Tinyissue\Model\Project\Issue');
         $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function (Router $router) {
+            $router->pattern('issue', '[0-9]+');
+            $router->pattern('project', '[0-9]+');
+
             $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
             $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
             $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
