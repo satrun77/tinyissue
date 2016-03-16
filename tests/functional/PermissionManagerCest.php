@@ -69,7 +69,6 @@ class PermissionManagerCest
             'time_quote' => [
                 'h' => 1,
                 'm' => 1,
-                's' => 1,
             ],
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);

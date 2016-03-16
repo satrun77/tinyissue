@@ -197,12 +197,6 @@ class Issue extends FormAbstract
                         'value'         => $this->extractQuoteValue('m'),
                         'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
                     ],
-                    's' => [
-                        'type'          => 'number',
-                        'append'        => trans('tinyissue.seconds'),
-                        'value'         => $this->extractQuoteValue('s'),
-                        'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
-                    ],
                 ],
                 'addClass' => 'row issue-quote',
             ],
@@ -251,10 +245,6 @@ class Issue extends FormAbstract
 
             if ($part === 'm') {
                 return ($seconds / 60) % 60;
-            }
-
-            if ($part === 's') {
-                return $seconds % 60;
             }
         }
 

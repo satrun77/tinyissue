@@ -150,7 +150,6 @@ return [
     'short_seconds'                     => 'secs',
     'hours'                             => 'hours',
     'minutes'                           => 'minutes',
-    'seconds'                           => 'seconds',
     'note'                              => 'Note',
     'notes'                             => 'Notes',
     'no_notes'                          => 'This project does not have any notes!',

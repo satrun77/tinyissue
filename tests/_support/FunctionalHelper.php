@@ -61,7 +61,6 @@ class FunctionalHelper extends \Codeception\Module
             'time_quote' => [
                 'h' => 0,
                 'm' => 0,
-                's' => 0,
             ],
             'upload_token' => '-',
             'tag'          => '',

@@ -116,7 +116,7 @@ class Issue extends BaseModel
     {
         $seconds = $value;
         if (is_array($value)) {
-            $seconds = isset($value['s']) ? $value['s'] : 0;
+            $seconds = 0;
             $seconds += isset($value['m']) ? ($value['m'] * 60) : 0;
             $seconds += isset($value['h']) ? ($value['h'] * 60 * 60) : 0;
         }
