@@ -174,7 +174,10 @@ class Project extends Model
     public function getProgress()
     {
         $total       = $this->openIssuesCount + $this->closedIssuesCount;
-        $progress    = (float) ($this->closedIssuesCount / $total) * 100;
+        $progress    = 100;
+        if ($total > 0) {
+            $progress = (float) ($this->closedIssuesCount / $total) * 100;
+        }
         $progressInt = (int) $progress;
         if ($progressInt > 0) {
             $progress = number_format($progress, 2);

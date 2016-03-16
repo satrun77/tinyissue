@@ -390,6 +390,7 @@ class IssueController extends Controller
     {
         $newTag = Tag::find((int) $request->input('newtag'));
         $oldTag = Tag::find((int) $request->input('oldtag'));
+
         $issue->setCurrentTag($newTag, $oldTag, $this->auth->user());
 
         return response()->json(['status' => true, 'issue' => $issue->id]);
