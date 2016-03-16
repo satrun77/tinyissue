@@ -201,11 +201,14 @@ trait CrudTagTrait
      */
     public function setCurrentTag(Tag $newTag, Tag $oldTag, User $user)
     {
-        if ($newTag->name === Tag::STATUS_CLOSED || $newTag === Tag::STATUS_OPEN) {
+        if ($newTag->name === Tag::STATUS_CLOSED || $newTag->name === Tag::STATUS_OPEN) {
             $status = $newTag->name === Tag::STATUS_CLOSED ? 0 : 1;
             $this->changeStatus($status, $user->id);
         } else {
-            $this->tags()->detach($oldTag);
+            // Remove tag only if its not open tag. Open tag removed on closing the issue only.
+            if ($oldTag->name !== Tag::STATUS_OPEN) {
+                $this->tags()->detach($oldTag);
+            }
             $this->tags()->attach($newTag);
         }
 
