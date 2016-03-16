@@ -79,7 +79,7 @@ trait CrudTrait
      */
     public function update(array $attributes = [])
     {
-        if (!empty($attributes['columns'])) {
+        if (array_key_exists('columns', $attributes)) {
             $this->saveTags($attributes['columns']);
 
             unset($attributes['columns']);
