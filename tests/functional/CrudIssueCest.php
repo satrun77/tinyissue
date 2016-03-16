@@ -76,7 +76,6 @@ class CrudIssueCest
             'time_quote'  => [
                 'h' => 1,
                 'm' => 2,
-                's' => 3,
             ],
         ];
         $I->submitForm('#content .form-horizontal', $params);
@@ -122,7 +121,7 @@ class CrudIssueCest
         $I->seeCurrentActionIs('Project\IssueController@getEdit', ['project' => $project, 'issue' => $issue]);
 
         $newTitle = 'Issue 1 update';
-        $newTime  = 3700;
+        $newTime  = 3900;
         $I->fillField('title', $newTitle);
         $I->fillField('time_quote[h]', 1);
         $I->fillField('time_quote[m]', 5);
