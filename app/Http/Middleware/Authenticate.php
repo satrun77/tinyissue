@@ -57,6 +57,8 @@ class Authenticate
             return redirect()->guest('/');
         }
 
+        app()->setLocale($this->auth->user()->language);
+
         return $next($request);
     }
 }
