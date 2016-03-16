@@ -114,6 +114,8 @@ trait CrudTrait
     {
         if ($info['password']) {
             $info['password'] = Hash::make($info['password']);
+        } elseif (empty($info['password'])) {
+            unset($info['password']);
         }
 
         return $this->update($info);
