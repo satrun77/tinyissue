@@ -66,7 +66,7 @@ class CrudProjectCest
         $I->amOnAction('ProjectController@getEdit', ['project' => $project]);
         $I->selectOption('status', Project::STATUS_ARCHIVED);
         $I->click(trans('tinyissue.update'));
-        $I->seeCurrentActionIs('ProjectsController@getIndex');
+        $I->amOnAction('ProjectsController@getIndex');
         $I->dontSeeLink('Project 1');
         $I->amOnAction('ProjectsController@getIndex', ['status' => Project::STATUS_ARCHIVED]);
         $I->seeLink('Project 1');
