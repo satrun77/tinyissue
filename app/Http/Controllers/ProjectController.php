@@ -219,7 +219,7 @@ class ProjectController extends Controller
 
         $project->update($request->all());
 
-        return redirect('projects')
+        return redirect($project->to())
             ->with('notice', trans('tinyissue.project_has_been_updated'));
     }
 
