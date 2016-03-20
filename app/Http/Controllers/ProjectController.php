@@ -230,7 +230,7 @@ class ProjectController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getInactiveUsers(Project $project)
+    public function getInactiveUsers(Project $project = null)
     {
         $users = $project->usersNotIn();
 

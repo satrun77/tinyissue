@@ -209,9 +209,9 @@ class RouteServiceProvider extends ServiceProvider
         $router->get('administration/tags/suggestions/{term?}', ['middleware' => 'ajax', 'uses' => 'Administration\TagsController@getTags']);
 
         // View project
-        $router->get('project/{project}', 'ProjectController@getIndex');
-        $router->get('project/{project}/issues/{status?}', 'ProjectController@getIssues')->where('status', '[0-1]');
-        $router->get('project/{project}/notes', 'ProjectController@getNotes');
+        $router->get('project/{project}', 'ProjectController@getIndex')->where('project', '[0-9]+');
+        $router->get('project/{project}/issues/{status?}', 'ProjectController@getIssues')->where('status', '[0-1]')->where('project', '[0-9]+');
+        $router->get('project/{project}/notes', 'ProjectController@getNotes')->where('project', '[0-9]+');
 
         // View issue
         $router->model('issue', 'Tinyissue\Model\Project\Issue');
