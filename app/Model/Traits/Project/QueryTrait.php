@@ -221,4 +221,14 @@ trait QueryTrait
 
         return $issues;
     }
+
+    /**
+     * Returns users assigned to the project that can fix issues (with edit permission)
+     *
+     * @return Relations\BelongsToMany
+     */
+    public function usersCanFixIssue()
+    {
+        return $this->users()->where('users.role_id', '>', 1);
+    }
 }

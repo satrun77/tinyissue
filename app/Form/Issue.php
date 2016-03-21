@@ -153,7 +153,7 @@ class Issue extends FormAbstract
             'assigned_to' => [
                 'type'    => 'select',
                 'label'   => 'assigned_to',
-                'options' => [0 => ''] + $this->project->users()->get()->lists('fullname', 'id')->all(),
+                'options' => [0 => ''] + $this->project->usersCanFixIssue()->get()->lists('fullname', 'id')->all(),
                 'value'   => (int) $this->project->default_assignee,
             ],
         ];
