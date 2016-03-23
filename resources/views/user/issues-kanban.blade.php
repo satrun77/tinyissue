@@ -29,10 +29,11 @@ active
 @stop
 
 @section('content')
-    {!! Html::startBox('kanban-projects-list blue-box gray-box toolbar') !!}
-    @lang('tinyissue.select_project')
-    <div class="dropdown">
+
+    <nav id="kanban-projects-nav" class="kanban-nav">
+
         <ul>
+            <li class="kanban-pill-tag">@lang('tinyissue.select_project'):</li>
             @foreach ($projects as $aProject)
                 <li>
                     <a href="{!! url('user/issues/kanban/' . $aProject->id) !!}" data-project-id="{{ $aProject->id }}">
@@ -41,18 +42,25 @@ active
                 </li>
             @endforeach
         </ul>
-    </div>
-    <strong class="current">{{ $project->name }}</strong>
-    {!! Html::endBox() !!}
+        </div>
+    </nav>
+
+
 
     <div class="kanban-wrap">
         <ul class="kanban">
             @foreach($columns as $column)
                 <li class="column column-{{ $column->id }}">
                     <div class="column-wrap">
-                        <h2 class="heading">
-                            {{ $column->name }}
-                        </h2>
+
+
+                        <div class="arrowcaption" style="color:{{ $column->bgcolor or 'gray' }};">{{ $column->name }}</div>
+                        <div class="arrow" style="border-color: #d3d3d3"></div>
+
+                        <!--- Keep for the moment: Alternative display with colored border using the css inherit property
+                            <div class="arrow">style="border-color:{{ $column->bgcolor or 'gray' }};"</div>
+                        --->
+
                         <div class="content" data-column="{{ $column->id }}">
                             @if ($issues->get($column->name))
                                 @foreach($issues->get($column->name) as $issue)
@@ -64,11 +72,15 @@ active
                                             <span>{{ $issue->title }}</span>
                                         </div>
 
+                                        <div class="kanban-user">
+                                            <img class="kanban-user-image" src="/images/layout/avatar_dummy.jpg">
+                                        </div>
+
                                         <div class="info">
-                                            @lang('tinyissue.created_by')
-                                            <strong>{{ $issue->user->fullname }}</strong>
+                                            <a class="info-user" href="{{ $issue->to() }}">{{ $issue->user->fullname }}</a>
                                             {{ Html::age($issue->created_at) }}
                                         </div>
+
                                     </div>
                                 @endforeach
                             @endif
