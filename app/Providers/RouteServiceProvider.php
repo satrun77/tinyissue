@@ -37,6 +37,24 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot(Router $router)
     {
+        $router->model('project', 'Tinyissue\Model\Project');
+        $router->model('issue', 'Tinyissue\Model\Project\Issue');
+        $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
+        $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
+        $router->model('note', 'Tinyissue\Model\Project\Note');
+        $router->model('tag', 'Tinyissue\Model\Tag');
+        $router->model('user', 'Tinyissue\Model\User');
+
+        $router->pattern('project', '[0-9]+');
+        $router->pattern('issue', '[0-9]+');
+        $router->pattern('comment', '[0-9]+');
+        $router->pattern('issue', '[0-9]+');
+        $router->pattern('limit', '[0-9]+');
+        $router->pattern('attachment', '[0-9]+');
+        $router->pattern('note', '[0-9]+');
+        $router->pattern('term', '\w+');
+        $router->pattern('tag', '[0-9]+');
+
         parent::boot($router);
     }
 
@@ -48,11 +66,6 @@ class RouteServiceProvider extends ServiceProvider
     public function map(Router $router)
     {
         $router->group(['namespace' => $this->namespace], function (Router $router) {
-            $router->model('project', 'Tinyissue\Model\Project');
-            $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
-            $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
-            $router->model('note', 'Tinyissue\Model\Project\Note');
-
             $router->get('/', 'HomeController@getIndex');
             $router->get('logout', 'HomeController@getLogout');
             $router->post('signin', 'HomeController@postSignin');
@@ -80,14 +93,6 @@ class RouteServiceProvider extends ServiceProvider
                 });
 
                 $router->group(['middleware' => 'project'], function (Router $router) {
-                    $router->pattern('comment', '[0-9]+');
-                    $router->pattern('issue', '[0-9]+');
-                    $router->pattern('limit', '[0-9]+');
-                    $router->pattern('project', '[0-9]+');
-                    $router->pattern('attachment', '[0-9]+');
-                    $router->pattern('note', '[0-9]+');
-                    $router->pattern('term', '\w+');
-
                     if (!app('tinyissue.settings')->isPublicProjectsEnabled()) {
                         $this->addPublicProjectRoutes($router);
                     }
@@ -137,7 +142,6 @@ class RouteServiceProvider extends ServiceProvider
 
                 // Admin area
                 $router->group(['middleware' => 'permission', 'permission' => 'administration'], function (Router $router) {
-                    $router->model('user', 'Tinyissue\Model\User');
                     $router->get('administration', 'AdministrationController@getIndex');
                     $router->get('administration/users', 'Administration\UsersController@getIndex');
                     $router->get('administration/users/add', 'Administration\UsersController@getAdd');
@@ -147,8 +151,6 @@ class RouteServiceProvider extends ServiceProvider
                     $router->get('administration/users/delete/{user}', 'Administration\UsersController@getDelete');
 
                     // Tags
-                    $router->model('tag', 'Tinyissue\Model\Tag');
-                    $router->pattern('tag', '[0-9]+');
                     $router->get('administration/tags', 'Administration\TagsController@getIndex');
                     $router->get('administration/tag/new', 'Administration\TagsController@getNew');
                     $router->post('administration/tag/new', 'Administration\TagsController@postNew');
@@ -214,11 +216,7 @@ class RouteServiceProvider extends ServiceProvider
         $router->get('project/{project}/notes', 'ProjectController@getNotes')->where('project', '[0-9]+');
 
         // View issue
-        $router->model('issue', 'Tinyissue\Model\Project\Issue');
         $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function (Router $router) {
-            $router->pattern('issue', '[0-9]+');
-            $router->pattern('project', '[0-9]+');
-
             $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
             $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
             $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
