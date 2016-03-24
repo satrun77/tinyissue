@@ -32,6 +32,7 @@ class Kernel extends HttpKernel
         'Illuminate\Session\Middleware\StartSession',
         'Illuminate\View\Middleware\ShareErrorsFromSession',
         'Tinyissue\Http\Middleware\VerifyCsrfToken',
+        'Tinyissue\Http\Middleware\Locale',
     ];
 
     /**
