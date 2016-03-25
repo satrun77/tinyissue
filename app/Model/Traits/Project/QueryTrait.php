@@ -223,7 +223,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns users assigned to the project that can fix issues (with edit permission)
+     * Returns users assigned to the project that can fix issues (with edit permission).
      *
      * @return Relations\BelongsToMany
      */
