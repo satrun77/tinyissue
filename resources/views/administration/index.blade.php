@@ -25,7 +25,7 @@ active
 
 @section('content')
 <ul class="list-group">
-    @usemacro('list_item', $users, 'total_users')
+    @usemacro('list_item', $users, link_to('administration/users', trans('tinyissue.total_users')), false)
     @usemacro('list_item', $active_projects, 'active_projects')
     @usemacro('list_item', $archived_projects, 'archived_projects')
     @usemacro('list_item', $tags, link_to('administration/tags', trans('tinyissue.tags')), false)
