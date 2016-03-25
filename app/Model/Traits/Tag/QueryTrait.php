@@ -113,6 +113,16 @@ trait QueryTrait
     }
 
     /**
+     * Returns collection of tags in type group.
+     *
+     * @return Eloquent\Collection
+     */
+    public function getTypeTags()
+    {
+        return $this->getTagByName('type')->tags();
+    }
+
+    /**
      * Returns collection of open and closed tags.
      *
      * @return mixed
