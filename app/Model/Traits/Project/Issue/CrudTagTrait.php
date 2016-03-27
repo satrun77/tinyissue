@@ -199,17 +199,54 @@ trait CrudTagTrait
      *
      * @return $this
      */
-    public function setCurrentTag(Tag $newTag, Tag $oldTag, User $user)
+    public function changeKanbanTag(Tag $newTag, Tag $oldTag, User $user)
     {
-        if ($newTag->name === Tag::STATUS_CLOSED || $newTag->name === Tag::STATUS_OPEN) {
-            $status = $newTag->name === Tag::STATUS_CLOSED ? 0 : 1;
-            $this->changeStatus($status, $user->id);
-        } else {
-            // Remove tag only if its not open tag. Open tag removed on closing the issue only.
+        if ($newTag->name === Tag::STATUS_CLOSED) {
+            // Close issue
+            $this->changeStatus(Project\Issue::STATUS_CLOSED, $user->id);
+        } elseif ($oldTag->name !== $newTag->name) {
+            // Open issue
+            $data = ['added_tags' => [], 'removed_tags' => []];
+
+            // Remove previous status tag
             if ($oldTag->name !== Tag::STATUS_OPEN) {
                 $this->tags()->detach($oldTag);
+                $data['removed_tags'][] = $oldTag->toArrayCallback($oldTag);
             }
-            $this->tags()->attach($newTag);
+
+            // Add new tag
+            if (!$this->tags->contains($newTag)) {
+                $this->tags()->attach($newTag);
+
+                $data['added_tags'][] = $newTag->toArrayCallback($newTag);
+            }
+
+            // Make sure open tag exists
+            if ($newTag->name !== Tag::STATUS_OPEN && !$this->tags->where('name', Tag::STATUS_OPEN)->first()) {
+                $openTag = (new Tag())->getTagByName(Tag::STATUS_OPEN);
+                $this->tags()->attach($openTag);
+
+                // Set issue status open
+                $this->status = Project\Issue::STATUS_OPEN;
+                $this->save();
+
+                // Add to activity log re-open issue
+                $this->activities()->save(new User\Activity([
+                    'type_id'   => Activity::TYPE_REOPEN_ISSUE,
+                    'parent_id' => $this->project->id,
+                    'user_id'   => $this->user->id,
+                ]));
+            }
+
+            // Add to activity log for tags if changed
+            if (!empty($data)) {
+                $this->activities()->save(new User\Activity([
+                    'type_id'   => Activity::TYPE_ISSUE_TAG,
+                    'parent_id' => $this->project->id,
+                    'user_id'   => $this->user->id,
+                    'data'      => $data,
+                ]));
+            }
         }
 
         return $this;

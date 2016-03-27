@@ -131,7 +131,7 @@ class RouteServiceProvider extends ServiceProvider
                         $router->post('project/{project}/issue/upload_attachment', 'Project\IssueController@postUploadAttachment');
                         $router->post('project/{project}/issue/remove_attachment', 'Project\IssueController@postRemoveAttachment');
                         $router->post('project/issue/{issue}/change_project', 'Project\IssueController@postChangeProject');
-                        $router->post('project/issue/{issue}/change_tag', ['uses' => 'Project\IssueController@postChangeStatusTag']);
+                        $router->post('project/issue/{issue}/change_kanban_tag', ['uses' => 'Project\IssueController@postChangeKanbanTag']);
 
                         // Edit comment
                         $router->post('project/issue/edit_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postEditComment']);

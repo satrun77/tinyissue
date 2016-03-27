@@ -57,7 +57,7 @@ active
                             @if ($issues->get($column->name))
                                 @foreach($issues->get($column->name) as $issue)
                                     <div class="issue issue-{{ $issue->id }}"
-                                         data-url="project/issue/{{ $issue->id }}/change_tag"
+                                         data-url="project/issue/{{ $issue->id }}/change_kanban_tag"
                                          data-column="{{ $column->id }}">
                                         <div class="summary">
                                             <a href="{{ $issue->to() }}" class="id">#{{ $issue->id }}</a>

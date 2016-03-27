@@ -386,12 +386,12 @@ class IssueController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postChangeStatusTag(Issue $issue, Request $request)
+    public function postChangeKanbanTag(Issue $issue, Request $request)
     {
         $newTag = Tag::find((int) $request->input('newtag'));
         $oldTag = Tag::find((int) $request->input('oldtag'));
 
-        $issue->setCurrentTag($newTag, $oldTag, $this->auth->user());
+        $issue->changeKanbanTag($newTag, $oldTag, $this->auth->user());
 
         return response()->json(['status' => true, 'issue' => $issue->id]);
     }

@@ -524,6 +524,8 @@ function Kanban() {
                         oldtag: ui.item.data('column'),
                         _token: TINY.token
                     };
+                    ui.item.data('column', data.newtag);
+
                     Ajax.relPost(url, data, function (data) {
                         GlobalSaving.hide();
                     });
