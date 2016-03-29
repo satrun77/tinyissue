@@ -197,5 +197,5 @@ return [
     'manage_settings_description'       => 'Update the application global settings.',
     'columns_help'                      => 'Open & Close tags are automatically added. The following status tags available => :status',
     'select_project'                    => 'Choose project',
-	'myprofile'                         => 'My profile',
+    'myprofile'                         => 'My profile',
 ];
