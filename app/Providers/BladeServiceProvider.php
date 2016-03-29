@@ -36,7 +36,7 @@ class BladeServiceProvider extends ServiceProvider
                     throw new \InvalidArgumentException(sprintf('Invalid arguments in blade: macro%s', $expression));
                 }
 
-                return sprintf("<?php \$___tiny['%s']=function(%s){ ob_start(); ?>\n", $matches[2][0], $matches[3][0]);
+                return sprintf("<?php \$___tiny['%s']=function(%s)use(\$__env){ ob_start(); ?>\n", $matches[2][0], $matches[3][0]);
             }
         );
 

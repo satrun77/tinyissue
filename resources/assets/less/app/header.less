@@ -15,7 +15,7 @@
   .navbar-text {
     margin-right: 3px;
     line-height: 20px;
-	margin-top: -1px;
+    margin-top: -1px;
     color: #fff;
   }
 
@@ -49,13 +49,61 @@
     }
   }
 
-  .logout, .settings {
+  .logout {
     border: 0 none !important;
+  }
+
+  .settings {
+    @media (min-width: 768px) {
+      border: 0 none !important;
+    }
   }
 
   .collapsing, .navbar-collapse.in {
     a {
-      background: transparent no-repeat 0 10px;
+      background-position: 0 10px;
+    }
+  }
+
+  .navbar-collapse {
+    &.in {
+      li {
+        @media (min-width: 768px) {
+          border-right: 1px solid #596174;
+          border-bottom: 0 none;
+          margin: 0;
+        }
+
+        a {
+          @media (min-width: 768px) {
+            margin: 0 0 0 10px;
+            padding: 0 15px 0 25px;
+            background-position: top left;
+          }
+        }
+      }
+
+      .navbar-right {
+        li {
+
+          &.logout {
+            a {
+              @media (min-width: 768px) {
+                padding-right: 0;
+              }
+            }
+          }
+
+          a {
+            &.user {
+              @media (min-width: 768px) {
+                padding-left: 0;
+                margin-left: 0;
+              }
+            }
+          }
+        }
+      }
     }
   }
 
@@ -98,7 +146,9 @@
       }
 
       &.settings {
-        border: 0;
+        @media (min-width: 768px) {
+          border: 0;
+        }
 
         a {
           background-image: url('../../images/layout/icon-settings_inactive.png');
@@ -109,6 +159,11 @@
         }
       }
 
+      &.logout {
+        a {
+          background-image: url('../../images/layout/icon-logout.png');
+        }
+      }
     }
   }
 }
