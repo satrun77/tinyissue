@@ -1,25 +1,3 @@
-.kanban-projects-list {
-  .inside-pad {
-    padding: 10px 5px;
-  }
-
-  .add_dropdown();
-
-  .dropdown {
-    left: 0;
-    right: initial;
-    top: 6px;
-    background-position: 56px 20px;
-
-    ul {
-      li {
-        a {
-          width: 100%;
-        }
-      }
-    }
-  }
-}
 
 .kanban-columns-btn, .list-issues-btn {
   min-width: 50px;
@@ -54,33 +32,117 @@
   }
 }
 
+/* Project selector menu */
+.kanban-nav {
+  position: relative;
+  min-height: 40px;
 
-/* Responsive project selector menu */
+  .kanban-pill-tag {
+    color: #afafaf;
+    padding-left: 10px !important;
+    padding-bottom: 3px !important;
+  }
 
-.kanban-pill-tag {
-  color: #afafaf;
-  padding-left: 10px !important;
-  padding-right: 10px !important;
+  ul {
+    width: 180px;
+    padding: 5px 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: solid 1px #aaa;
+    background: #fff url(../../images/icons/icon-menu.png) no-repeat 10px 9px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .3);
+
+    @media (max-width: 600px) {
+      &:hover {
+        background-image: none;
+        z-index: 1000;
+
+        li {
+          display: block;
+          margin: 0 0 5px;
+
+          &.current {
+            background: #fff url(../../images/icons/icon-check.png) no-repeat 10px 10px;
+            padding-top: 5px;
+          }
+        }
+      }
+    }
+  }
+
+  li {
+    display: none; /* hide all <li> items */
+    margin: 0;
+
+    &.current {
+      @media (max-width: 600px) {
+        display: block; /* show only current <li> item */
+      }
+
+      a {
+        background: none;
+        color: #3B4252;
+        border-radius: 0;
+        padding-top: 4px;
+        padding-bottom: 4px;
+
+        &:hover {
+          @media (max-width: 600px) {
+            background: transparent;
+          }
+        }
+      }
+    }
+  }
+
+  a {
+    display: block;
+    padding: 5px 5px 5px 32px;
+    text-align: left;
+  }
 }
 
-.kanban-nav {
-
+@media (min-width: 600px) {
+  .kanban-nav {
     position: relative;
     margin: 0px 0;
     margin-top: 4px;
     margin-bottom: 8px;
 
+    .kanban-pill-tag {
+      padding-bottom: 0;
+    }
+
     ul {
+      width: auto;
+      position: relative;
+      border: 0 none;
+      background: none;
+      border-radius: 0;
+      box-shadow: none;
+
       margin: 0;
       padding: 0;
-      }
+    }
 
     li {
       margin: 0 5px 10px 0;
       padding: 0;
       list-style: none;
       display: inline-block;
+
+      &.current {
+        a {
+          background: #2C69A5;
+          color: #fff;
+          border-radius: 4px;
+          padding-top: 4px;
+          padding-bottom: 4px;
+        }
       }
+    }
 
     a {
       padding: 3px 12px;
@@ -89,11 +151,11 @@
       line-height: 100%;
 
       &:hover {
-         color: #000;
-         background: #C9DBEA;
-         border-radius: 4px;
-         padding-top: 4px;
-         padding-bottom: 4px;
+        color: #000;
+        background: #C9DBEA;
+        border-radius: 4px;
+        padding-top: 4px;
+        padding-bottom: 4px;
       }
 
       &:active {
@@ -101,157 +163,8 @@
         color: #fff;
         border-radius: 5px;
       }
-
-    }
-
-    & .current {
-      a {
-        background: #2C69A5;
-        color: #fff;
-        border-radius: 4px;
-        padding-top: 4px;
-        padding-bottom: 4px;
-        }
-      }
-
-}
-
-
-@media screen and (max-width: 600px) {
-
-  .kanban-pill-tag {
-    color: #afafaf;
-    padding-left: 10px !important;
-    padding-bottom: 3px !important;
-  }
-
-  .kanban-nav {
-    position: relative;
-    min-height: 40px;
-
-    ul {
-      width: 180px;
-      padding: 5px 0;
-      position: absolute;
-      top: 0;
-      left: 0;
-      border: solid 1px #aaa;
-      background: #fff url(/images/icons/icon-menu.png) no-repeat 10px 9px;
-      border-radius: 4px;
-      box-shadow: 0 1px 2px rgba(0,0,0,.3);
     }
   }
-
-  .kanban-nav li {
-    display: none; /* hide all <li> items */
-    margin: 0;
-  }
-
-  .kanban-nav .current {
-    display: block; /* show only current <li> item */
-  }
-  .kanban-nav a {
-    display: block;
-    padding: 5px 5px 5px 32px;
-    text-align: left;
-  }
-  .kanban-nav .current a {
-    background: none;
-    color: #3B4252;
-  }
-
-  /* on nav hover */
-
-  .kanban-nav a:hover {
-    background: #fff;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  .kanban-nav ul:hover {
-    background-image: none;
-    z-index: 1000;
-  }
-  .kanban-nav ul:hover li {
-    display: block;
-    margin: 0 0 5px;
-  }
-  .kanban-nav ul:hover .current {
-    background: #fff url(/images/icons/icon-check.png) no-repeat 10px 7px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-  }
-
-  /* right nav */
-  .kanban-nav.right ul {
-    left: auto;
-    right: 0;
-  }
-
-  /* center nav */
-  .kanban-nav.center ul {
-    left: 50%;
-    margin-left: -90px;
-  }
-
-}
-
-.arrowcaption {
-  position:absolute;
-  margin-top: 0;
-  font-size: 15px;
-  text-transform: capitalize;
-  text-transform: uppercase;
-  z-index: 999 !important;
-  opacity: 0.8;
-  margin-top: 10px;
-  display: inline-block;
-  color: #fff;
-  width: 100%;
-  font-weight: bold;
-  text-align: center;
-  word-wrap: break-word;
-  letter-spacing: 1px;
-}
-
-.arrow{
-  position:absolute;
-  width:100%;
-  height:40px;
-  background:transparent;
-  border-color: #e3e3e3;
-  z-index: 2;
-
-  &:after{
-    top:0;
-    left:0;
-    position:absolute;
-    content:"";
-    width:100%;
-    height:20px;
-    border: 1px solid;
-    border-bottom: none;
-    border-color: inherit;
-    transform:skew(25deg);
-    background: #f3f3f3;
-    z-index: 3;
-  }
-
-  &:before{
-    top:20px;
-    left:0;
-    position:absolute;
-    content:"";
-    width:100%;
-    height:20px;
-    border: 1px solid;
-    border-top: none;
-    border-color: inherit;
-    transform:skew(-25deg);
-    background: #f3f3f3;
-    z-index: 3;
-  }
-
 }
 
 .kanban-wrap {
@@ -268,16 +181,15 @@
     table-layout: fixed;
     width: 100%;
     padding: 0;
-
     background-image: linear-gradient(0deg, transparent 24%, rgba(144, 144, 144, 0.2) 25%, rgba(144, 144, 144, 0.2) 26%, transparent 27%, transparent 74%, rgba(144, 144, 144, 0.2) 75%, rgba(144, 144, 144, 0.2) 76%, transparent 77%, transparent), linear-gradient(90deg, transparent 24%, rgba(144, 144, 144, 0.2) 25%, rgba(144, 144, 144, 0.2) 26%, transparent 27%, transparent 74%, rgba(144, 144, 144, 0.2) 75%, rgba(144, 144, 144, 0.2) 76%, transparent 77%, transparent);
     background-size: 35px 35px;
 
     @media (max-width: 914px) {
-        width: 914px;
+      width: 914px;
     }
 
     .column-wrap {
-      background:rgba(245,245,245,0.05);
+      background: rgba(245, 245, 245, 0.05);
     }
 
     .column {
@@ -292,9 +204,7 @@
       vertical-align: top;
       background: transparent;
 
-
       .heading {
-
         background: #f3f3f3;
         font-size: 18px;
         opacity: 0.8;
@@ -327,19 +237,16 @@
       .issue {
         cursor: move;
         background: #fff;
-        border: 0px solid #ccc;
-
+        border: 0 solid;
         border-left-width: 8px;
-        border-color: #3498db;
+        border-color: inherit;
         border-radius: 4px;
-
         color: #333;
         cursor: move;
         display: block;
         font-size: 13px;
         font-weight: 700;
         font-style: normal;
-
         line-height: 1.42857143;
         margin-top: 2px;
         margin-bottom: 7px;
@@ -347,7 +254,7 @@
         margin-right: 4px;
         position: relative;
         padding: 10px;
-        box-shadow: 3px 3px 6px 0px rgba(0,0,0,0.10);
+        box-shadow: 3px 3px 6px 0px rgba(0, 0, 0, 0.10);
 
         .kanban-user {
           text-align: right;
@@ -363,7 +270,6 @@
           height: 25px;
           vertical-align: top;
           border-radius: 16px;
-
         }
 
         .info {
@@ -386,6 +292,65 @@
           padding-right: 2px;
         }
       }
+    }
+  }
+
+  // Column heading text
+  .arrowcaption {
+    position: absolute;
+    margin-top: 0;
+    font-size: 15px;
+    text-transform: capitalize;
+    text-transform: uppercase;
+    z-index: 999 !important;
+    opacity: 0.8;
+    margin-top: 10px;
+    display: inline-block;
+    color: #fff;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    word-wrap: break-word;
+    letter-spacing: 1px;
+  }
+
+  // Column heading background arrow
+  .arrow {
+    position: absolute;
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border-color: #e3e3e3;
+    z-index: 2;
+
+    &:after {
+      top: 0;
+      left: 0;
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 20px;
+      border: 1px solid;
+      border-bottom: none;
+      border-color: inherit;
+      transform: skew(25deg);
+      background: #f3f3f3;
+      z-index: 3;
+    }
+
+    &:before {
+      top: 20px;
+      left: 0;
+      position: absolute;
+      content: "";
+      width: 100%;
+      height: 20px;
+      border: 1px solid;
+      border-top: none;
+      border-color: inherit;
+      transform: skew(-25deg);
+      background: #f3f3f3;
+      z-index: 3;
     }
   }
 }

@@ -136,6 +136,7 @@ return [
         'Tinyissue\Providers\BladeServiceProvider',
         'Tinyissue\Providers\ComposerServiceProvider',
         'Maatwebsite\Excel\ExcelServiceProvider',
+        'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
     ],
     /*
       |--------------------------------------------------------------------------

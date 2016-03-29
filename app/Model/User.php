@@ -17,6 +17,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
+use Thomaswelton\LaravelGravatar\Gravatar;
 use Tinyissue\Model\Project\Issue;
 use Auth as Auth;
 
@@ -192,5 +193,15 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
 
         return $this->attributes['firstname'] . ' ' . $this->attributes['lastname'];
+    }
+
+    /**
+     * Return user image.
+     *
+     * @return string
+     */
+    public function getImageAttribute()
+    {
+        return app('gravatar')->src($this->email);
     }
 }
