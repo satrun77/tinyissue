@@ -198,4 +198,6 @@ return [
     'columns_help'                      => 'Offen & Geschlossen tags werden automatisch hinzugefügt. Folgende status tags sind verfügbar => :status',
     'select_project'                    => 'Projekt auswählen',
     'myprofile'                         => 'Mein Profil',
+    'resolution'                        => 'Abschluss',
+    'type'                              => 'Ticketart',
 ];

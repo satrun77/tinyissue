@@ -19,7 +19,7 @@ active
 @section('content')
 
     @foreach($tags as $group)
-        <h4>{{ ucwords($group->name) }}</h4>
+        <h4>@lang('tinyissue.' . $group->name)</h4>
         <div class="list-group">
             @foreach($group->tags as $tag)
             <a href="{{ $tag->to('edit') }}" class="list-group-item"><span class="label" style="background:{{ $tag->bgcolor or 'gray' }}">{{ $tag->name }}</span></a>

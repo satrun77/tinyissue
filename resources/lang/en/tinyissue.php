@@ -199,4 +199,6 @@ return [
     'select_project'                    => 'Choose project',
     'myprofile'                         => 'My profile',
     'none'                              => 'None',
+	'resolution'                        => 'Resolution',
+    'type'                              => 'Type',
 ];
