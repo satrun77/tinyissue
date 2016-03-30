@@ -34,7 +34,7 @@ class AdministrationCest
         $I->click(trans('tinyissue.administration'));
         $I->seeCurrentActionIs('AdministrationController@getIndex');
         $I->see('1',
-            '//li[@class="list-group-item" and text()[contains(.,\'' . trans('tinyissue.total_users') . '\')]]/span');
+            '//li[@class="list-group-item"]/a[text()[contains(.,\'' . trans('tinyissue.total_users') . '\')]]/parent::li/span');
         $I->see('2',
             '//li[@class="list-group-item" and text()[contains(.,\'' . trans('tinyissue.active_projects') . '\')]]/span');
         $I->see('1',
