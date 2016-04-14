@@ -3,17 +3,40 @@
 body {
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif;
   color: #545454;
-  background: #ccc;
+  background: #ccc url("../../images/layout/login.jpg") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
+
+.login-overlay {
+    display: block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    overflow: hidden;
+    z-index: -99;
+    height: 100%;
+    width: 100%;
+	opacity: .5;
+    background: url("../../images/layout/pattern3.png") top left repeat;
+}
+
 
 #container {
   margin-top: 25px;
+
 }
 
 h2 {
   font-size: 20px;
   margin: 0 0 20px 0;
   text-align: center;
+
+  @media (max-width: 400px) {
+    font-size: 22px;
+	}
 }
 
 .form-control {
@@ -22,18 +45,32 @@ h2 {
   -webkit-appearance: none;
 }
 
+
+
 #login {
-  background: none repeat scroll 0 0 #F8F8F8;
-  width: 90%;
+  background: none repeat scroll 0 0 #F2F2F2;
+  width: 86%;
   border-radius: 8px;
   margin-left: auto;
+  margin-top: 80px;
   margin-right: auto;
-  padding: 10px 20px;
+  padding: 60px 20px 5px 20px;
   box-shadow: 0 1px 5px #999;
+  opacity: .95;
 
-  @media (min-width: 990px) {
-    width: 50%;
+  @media (min-width: 660px) {
+    width: 500px;
   }
+
+  @media (max-width: 660px) {
+	font-size: 1.1em;
+    input {
+	   font-size: 1.1em;
+		height: 42px;
+	}
+
+  }
+
 
   form {
     overflow: hidden;
@@ -49,5 +86,27 @@ h2 {
     .checkbox-inline {
       margin-right: 15px;
     }
+
+
   }
+}
+
+.form-login-logo {
+	margin-top: -40px;
+	padding-bottom: 5px;
+	margin-bottom: 10px;
+	text-align: center;
+	font-size: 38px;
+	color: #fff;
+	border-style: solid;
+	border-color: #337ab7;
+	border-radius: 7px;
+	background-color: #337ab7;
+	margin-left:25%;
+	margin-right:25%;
+	font-weight: 800;
+
+	@media (max-width: 660px) {
+		font-size: 32px;
+	}
 }

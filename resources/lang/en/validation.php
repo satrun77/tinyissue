@@ -103,5 +103,6 @@ return [
         'remember_me'                        => 'Remember me?',
         'kanban_board'                       => 'Kanban board',
         'internal_status'                    => 'Internal status',
+		'extended_user_settings'             => 'Extended user settings',
     ],
 ];

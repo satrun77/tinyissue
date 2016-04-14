@@ -15,6 +15,8 @@ use Tinyissue\Form\Login as LoginForm;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
+use Auth as Auth;
+use Lang;
 
 /**
  * HomeController is the controller class for login, logout, dashboard pages.
@@ -90,13 +92,45 @@ class HomeController extends Controller
     public function postSignin(FormRequest\Login $request)
     {
         $credentials = $request->only('email', 'password');
-
-        if ($this->auth->attempt($credentials, $request->has('remember'))) {
-            return redirect()->to('/dashboard');
-        }
-
-        return redirect('/')
+		$user = User::where('email', '=', $credentials['email'])->get()->first();
+		
+     
+        if($this->auth->validate($credentials)) {
+          
+          	if ($user->status==User::INACTIVE_USER) {
+		
+				 $this->auth->logout();
+				 
+                 return redirect('/')
                         ->withInput($request->only('email'))
-                        ->with('notice-error', trans('tinyissue.password_incorrect'));
+                        ->with('notice-error', trans('tinyissue.user_is_not_active'));
+				
+			} elseif ($user->status==User::BLOCKED_USER) {
+			
+				 $this->auth->logout();
+				 
+			     return redirect('/')
+                        ->withInput($request->only('email'))
+                        ->with('notice-error', trans('tinyissue.user_is_blocked'));
+				
+			} else {  /* RESTRICTED_USER or ACTIVE_USER */
+								
+				Auth::login($user, $request->has('remember'));
+                
+                return redirect()->to('/dashboard');
+            				
+			}
+          
+          
+        } else {
+			
+			/*
+                if ($throttles) {
+                    $this->incrementLoginAttempts($request);
+                }
+            */
+			
+		}
+
     }
 }

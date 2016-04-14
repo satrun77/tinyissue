@@ -5,8 +5,12 @@
 @stop
 
 @section('body')
+
+	<div id="overlay" class="login-overlay">
+	</div>
+
     <div id="container" class="container-fluid">
-        <div id="login" class="main">
+		<div id="login" class="main">
             @yield('content')
         </div>
     </div>

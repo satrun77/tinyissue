@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "css/tiny.css": "css/tiny-dd06d763e1.css",
   "css/tiny_error.css": "css/tiny_error-3187ed0014.css",
   "css/tiny_login.css": "css/tiny_login-974e57a257.css",
@@ -6,4 +7,13 @@
   "js/tiny_project.js": "js/tiny_project-95a4b7635a.js",
   "js/tiny_project_issue.js": "js/tiny_project_issue-93ae256537.js",
   "js/tiny_project_new.js": "js/tiny_project_new-cd5438a6df.js"
+=======
+  "css/tiny.css": "css/tiny-cf309b45af.css",
+  "css/tiny_error.css": "css/tiny_error-87b08f81ea.css",
+  "css/tiny_login.css": "css/tiny_login-74485b026d.css",
+  "js/tiny.js": "js/tiny-f9f1b646b0.js",
+  "js/tiny_project.js": "js/tiny_project-0a4dd63cf6.js",
+  "js/tiny_project_issue.js": "js/tiny_project_issue-bab4211977.js",
+  "js/tiny_project_new.js": "js/tiny_project_new-48121f79b2.js"
+>>>>>>> 4f7ac6f... Add status to user and adapt login
 }

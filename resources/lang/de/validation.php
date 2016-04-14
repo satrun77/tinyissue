@@ -99,8 +99,9 @@ return [
       |
      */
     'attributes' => [
-        'only_complete_if_changing_password' => 'Only complete if changing password',
-        'remember_me'                        => 'Remember me?',
-        'kanban_board'                       => 'Kanban board',
+        'only_complete_if_changing_password' => 'Nur ausfüllen bei Passwortvergabe',
+        'remember_me'                        => 'Eingeloggt bleiben?',
+        'kanban_board'                       => 'Kanban Ansicht',
+		'extended_user_settings'             => 'Erweiterte Einstellungen',
     ],
 ];

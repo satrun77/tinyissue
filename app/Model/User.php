@@ -74,6 +74,34 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     const NOT_DELETED_USERS = 0;
 
     /**
+     * User status active. (Standard)
+     *
+     * @var int
+     */
+    const ACTIVE_USER = 1;
+
+    /**
+     * User status blocked. (Too many login attempts)
+     *
+     * @var int
+     */
+    const BLOCKED_USER = 2;
+
+    /**
+     * User status restricted. (Login behaves like user-role)
+     *
+     * @var int
+     */
+    const RESTRICTED_USER = 3;
+
+    /**
+     * User status inactive. (Cannot login at the moment)
+     *
+     * @var int
+     */
+    const INACTIVE_USER = 0;
+
+	/**
      * The database table used by the model.
      *
      * @var string
@@ -85,7 +113,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      *
      * @var array
      */
-    protected $fillable = ['deleted', 'email', 'password', 'firstname', 'lastname', 'role_id', 'private', 'language'];
+    protected $fillable = ['deleted', 'email', 'password', 'firstname', 'lastname', 'role_id', 'private', 'language', 'status'];
 
     /**
      * The attributes excluded from the model's JSON form.

@@ -50,6 +50,7 @@ trait CrudTrait
             'role_id'   => $info['role_id'],
             'private'   => (boolean) $info['private'],
             'password'  => Hash::make($password = Str::random(6)),
+            'status'	=> $info['status'],
         ];
 
         $this->fill($insert)->save();
@@ -98,6 +99,7 @@ trait CrudTrait
             'language',
             'password',
             'private',
+            'status',
         ]));
 
         return $this->updateUser($update);

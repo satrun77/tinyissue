@@ -200,4 +200,9 @@ return [
     'myprofile'                         => 'Mein Profil',
     'resolution'                        => 'Abschluss',
     'type'                              => 'Ticketart',
+	'blocked'                           => 'Gesperrt',
+	'restricted'                        => 'Eingeschränkt',
+	'inactive'                          => 'Deaktiviert',
+	'user_is_blocked'                   => 'Dieser Benutzer ist derzeit gesperrt.',
+	'user_is_not_active'                => 'Dieser Benutzer wurde vorübergehend deaktiviert.',
 ];

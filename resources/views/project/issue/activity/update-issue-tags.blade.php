@@ -1,14 +1,14 @@
 @if (!empty($activity->data['added_tags']) || !empty($activity->data['removed_tags']))
-<li id="comment{{ $activity->id }}" class="comment">
+<li id="comment{{ $activity->id }}" class="comment"  style="border:none;">
     <div class="insides">
-        <div class="topbar">
+        <div class="" >
             <div class="data">
                 <div class="activity-tags">
                 @if (!empty($activity->data['added_tags']))
                     @foreach($activity->data['added_tags'] as $tag)
-                        <label class="label" style="background: {{ $tag['bgcolor'] or 'gray' }}">{!! Html::formatIssueTag($tag['name']) !!}</label>
+                        <label class="label" style="background: {{ $tag['bgcolor'] or 'gray' }}; opacity:0.5;">{!! Html::formatIssueTag($tag['name']) !!}</label>
                     @endforeach
-                        <span class="text">@lang('tinyissue.tag_added', ['s' => count($activity->data['added_tags']) > 1? 's' : ''])</span>
+                        <span class="text" style="color: #999;">@lang('tinyissue.tag_added', ['s' => count($activity->data['added_tags']) > 1? 's' : ''])</span>
                 @endif
                 </div>
 
@@ -20,11 +20,12 @@
                         <span class="text">@lang('tinyissue.tag_removed', ['s' => count($activity->data['removed_tags']) > 1? 's' : ''])</span>
                 @endif
                 </div>
-                @lang('tinyissue.by')
-                <strong>{{ $userActivity->user->fullname }}</strong>
+
+                <div style="color:#999; display:inline;">@lang('tinyissue.by')&nbsp;<strong>{{ $userActivity->user->fullname }}</strong>
                 <span class="time">
                     {{ Html::date($activity->created_at) }}
                 </span>
+				</div>
             </div>
         </div>
     </div>
