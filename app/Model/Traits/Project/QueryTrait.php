@@ -202,15 +202,14 @@ trait QueryTrait
     {
         $issues = $this->issues()
             ->with('user', 'tags')
-            ->with([
-                'tags' => function (Relation $query) use ($tagIds) {
-                    $query->whereIn('id', $tagIds);
-                },
-            ])
             ->orderBy('id')
             ->get()
-            ->groupBy(function (Project\Issue $issue) {
-                $tag = $issue->tags->last();
+            ->groupBy(function (Project\Issue $issue) use ($tagIds) {
+                // Group by tag status
+                $tag = $issue->tags->filter(function(Tag $tag) use ($tagIds) {
+                    return in_array($tag->id, $tagIds);
+                })->last();
+
                 if (!$tag) {
                     // Workaround: Some older issues before the tags feature may not have open/close tag
                     return $issue->status === Project\Issue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;

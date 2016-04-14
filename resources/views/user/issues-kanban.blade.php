@@ -51,12 +51,13 @@ active
                         <div class="arrowcaption" style="color:{{ $column->bgcolor or 'gray' }};">{{ $column->name }}</div>
                         <div class="arrow"></div>
 
-                        <div class="content" data-column="{{ $column->id }}" style="border-color:{{ $column->bgcolor or '#3498db' }};">
+                        <div class="content" data-column="{{ $column->id }}">
                             @if ($issues->get($column->name))
                                 @foreach($issues->get($column->name) as $issue)
                                     <div class="issue issue-{{ $issue->id }}"
                                          data-url="project/issue/{{ $issue->id }}/change_kanban_tag"
-                                         data-column="{{ $column->id }}">
+                                         data-column="{{ $column->id }}"
+                                         style="border-color:{{ $issue->typeColor or 'inherit' }};">
                                         <div class="summary">
                                             <a href="{{ $issue->to() }}" class="id">#{{ $issue->id }}</a>
                                             <span>{{ $issue->title }}</span>
