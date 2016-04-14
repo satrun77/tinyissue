@@ -130,7 +130,7 @@ class Issue extends BaseModel
      */
     public function getTypeColorAttribute()
     {
-        $tag = $this->tags->filter(function($tag) {
+        $tag = $this->tags->filter(function(Model\Tag $tag) {
             return $tag->parent->name === 'type';
         })->first();
 
