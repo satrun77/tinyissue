@@ -45,19 +45,21 @@ class User extends FormAbstract
                 'type'  => 'text',
                 'label' => 'first_name',
             ],
-            'lastname' => [
+            'lastname'  => [
                 'type'  => 'text',
                 'label' => 'last_name',
             ],
-            'email' => [
+            'email'     => [
                 'type'  => 'text',
                 'label' => 'email',
             ],
-            'private' => [
+            'private'   => [
                 'type'    => 'select',
                 'label'   => 'visibility',
-                'options' => [UserModel::PRIVATE_YES => trans('tinyissue.private'),
-                              UserModel::PRIVATE_NO  => trans('tinyissue.public'), ],
+                'options' => [
+                    UserModel::PRIVATE_YES => trans('tinyissue.private'),
+                    UserModel::PRIVATE_NO  => trans('tinyissue.public'),
+                ],
             ],
 
         ];
@@ -74,7 +76,7 @@ class User extends FormAbstract
      */
     protected function passwordFields()
     {
-        $fields                                       = [];
+        $fields = [];
         $fields['only_complete_if_changing_password'] = [
             'type' => 'legend',
         ];
@@ -101,18 +103,15 @@ class User extends FormAbstract
             'extended_user_settings' => [
                 'type' => 'legend',
             ],
-            'role_id' => [
+            'role_id'                => [
                 'type'    => 'select',
                 'label'   => 'role',
                 'options' => Role::dropdown(),
             ],
-            'status' => [
+            'status'                 => [
                 'type'    => 'select',
                 'label'   => 'Status',
-                'options' => [UserModel::ACTIVE_USER     => trans('tinyissue.active'),
-                              UserModel::BLOCKED_USER    => trans('tinyissue.blocked'),
-                              UserModel::RESTRICTED_USER => trans('tinyissue.restricted'),
-                              UserModel::INACTIVE_USER   => trans('tinyissue.inactive'), ],
+                'options' => UserModel::getStatuses(),
             ],
         ];
 
@@ -135,7 +134,7 @@ class User extends FormAbstract
         ];
 
         if ($this->isEditing()) {
-            $rules['email'] .= '|unique:users,email,'.$this->getModel()->id;
+            $rules['email'] .= '|unique:users,email,' . $this->getModel()->id;
             $rules['password'] = 'confirmed';
         } else {
             $rules['email'] .= '|unique:users,email';
@@ -150,7 +149,7 @@ class User extends FormAbstract
     public function getRedirectUrl()
     {
         if ($this->isEditing()) {
-            return 'administration/users/edit/'.$this->getModel()->id;
+            return 'administration/users/edit/' . $this->getModel()->id;
         }
 
         return 'administration/users/add/';

@@ -14,7 +14,6 @@ namespace Tinyissue\Http\Middleware;
 use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
-use Auth as Auth;
 
 /**
  * Authenticate is a Middleware class to for checking if current user is logged in.
@@ -58,15 +57,8 @@ class Authenticate
             return redirect()->guest('/');
         }
 
-        if (Auth::check()) {
+        app()->setLocale($this->auth->user()->language);
 
-        // if($this->auth->login()) {
-
-            app()->setLocale($this->auth->user()->language);
-
-            return $next($request);
-        }
-
-        $this->auth->logout();
+        return $next($request);
     }
 }

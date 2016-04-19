@@ -11,15 +11,14 @@
 
 namespace Tinyissue\Model;
 
+use Auth as Auth;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
-use Thomaswelton\LaravelGravatar\Gravatar;
 use Tinyissue\Model\Project\Issue;
-use Auth as Auth;
 
 /**
  * User is model class for users.
@@ -35,6 +34,7 @@ use Auth as Auth;
  * @property string $firstname
  * @property string $lastname
  * @property string $fullname
+ * @property int    $status
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -86,13 +86,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * @var int
      */
     const BLOCKED_USER = 2;
-
-    /**
-     * User status restricted. (Login behaves like user-role).
-     *
-     * @var int
-     */
-    const RESTRICTED_USER = 3;
 
     /**
      * User status inactive. (Cannot login at the moment).
@@ -231,5 +224,49 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getImageAttribute()
     {
         return app('gravatar')->src($this->email);
+    }
+
+    /**
+     * Returns list of user statuses
+     *
+     * @return array
+     */
+    public static function getStatuses()
+    {
+        return [
+            static::ACTIVE_USER     => trans('tinyissue.active'),
+            static::BLOCKED_USER    => trans('tinyissue.blocked'),
+            static::INACTIVE_USER   => trans('tinyissue.inactive'),
+        ];
+    }
+
+    /**
+     * Whether or not the user is active.
+     *
+     * @return bool
+     */
+    public function isActive()
+    {
+        return (int) $this->status === static::ACTIVE_USER;
+    }
+
+    /**
+     * Whether or not the user is inactive.
+     *
+     * @return bool
+     */
+    public function isInactive()
+    {
+        return (int) $this->status === static::INACTIVE_USER;
+    }
+
+    /**
+     * Whether or not the user is blocked.
+     *
+     * @return bool
+     */
+    public function isBlocked()
+    {
+        return (int) $this->status === static::BLOCKED_USER;
     }
 }
