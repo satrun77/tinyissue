@@ -109,7 +109,7 @@ trait QueryTrait
      */
     public function getStatusTags()
     {
-        return $this->getTagByName('status');
+        return $this->getTagByName('status')->tags();
     }
 
     /**
@@ -120,6 +120,16 @@ trait QueryTrait
     public function getTypeTags()
     {
         return $this->getTagByName('type')->tags();
+    }
+
+    /**
+     * Returns collection of tags in type group.
+     *
+     * @return Eloquent\Collection
+     */
+    public function getResolutionTags()
+    {
+        return $this->getTagByName('resolution')->tags();
     }
 
     /**

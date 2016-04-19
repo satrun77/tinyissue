@@ -76,13 +76,7 @@ class GlobalIssue extends Issue
 
         $fields += $this->fieldBody();
 
-        $fields['tag'] = [
-            'type'    => 'select',
-            'label'   => 'type',
-            'options' => ['' => ''] + (new Model\Tag())->getTypeTags()->lists('name', 'id')->map(function ($name) {
-                return ucwords($name);
-            })->all(),
-        ];
+        $fields += $this->fieldTypeTags();
 
         // Only on creating new issue
         $fields += $this->fieldUpload();

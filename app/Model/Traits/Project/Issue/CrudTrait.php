@@ -116,11 +116,7 @@ trait CrudTrait
 
         $this->fill($fill);
 
-        $tags = $this->createTags(
-            array_map('trim', explode(',', $input['tag'])),
-            $this->user->permission('administration')
-        );
-        $this->syncTags($tags, $this->tags()->with('parent')->get());
+        $this->syncTags($input, $this->tags()->with('parent')->get());
 
         return $this->save();
     }
@@ -160,12 +156,7 @@ trait CrudTrait
             ->where('uploaded_by', '=', $this->user->id)
             ->update(['issue_id' => $this->id]);
 
-        // Create tags
-        $tags = $this->createTags(
-            array_map('trim', explode(',', $input['tag'])),
-            $this->user->permission('administration')
-        );
-        $this->syncTags($tags);
+        $this->syncTags($input);
 
         return $this;
     }

@@ -1,6 +1,26 @@
 $(function () {
     'use strict';
 
+    // Radio button selection
+    $('.radio-btn .btn').on('click', function () {
+        $(this).siblings().each(function() {
+           var btn = $(this), color = btn.find('input').data('color');
+            btn.removeClass('active').css({
+                'color': color,
+                'border-color': color,
+                'background': 'white'
+            });
+        });
+        if ($(this).find('input').is(':checked')) {
+            var color = $(this).find('input').data('color');
+            $(this).addClass('active').css({
+                'color': 'white',
+                'border-color': color,
+                'background': color
+            });
+        }
+    });
+
     Discussion().init({
         name: 'comment',
         selector: '.discussion.comments'

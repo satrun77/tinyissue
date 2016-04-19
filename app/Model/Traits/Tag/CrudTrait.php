@@ -108,12 +108,7 @@ trait CrudTrait
      */
     protected function prepareTagToSave(array $input)
     {
-        // If parent id is set, then tag is not group
-        if (array_key_exists('parent_id', $input) && $input['parent_id'] > 0) {
-            $input['group'] = 0;
-        } else {
-            $input['group'] = 1;
-        }
+        $input['group'] = 0;
 
         return $input;
     }

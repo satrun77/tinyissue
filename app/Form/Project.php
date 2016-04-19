@@ -91,7 +91,7 @@ class Project extends FormAbstract
             'type' => 'legend',
         ];
 
-        $statusTags = (new TagModel())->getStatusTags()->tags()->get()->implode('fullname', ', ');
+        $statusTags = (new TagModel())->getStatusTags()->get()->implode('fullname', ', ');
         if ($this->isEditing()) {
             $selectTags = $this->getModel()->kanbanTags()->get()->filter(function (TagModel $tag) {
                 return !($tag->name == TagModel::STATUS_OPEN || $tag->name == TagModel::STATUS_CLOSED);

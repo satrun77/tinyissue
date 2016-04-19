@@ -56,7 +56,7 @@ class Tag extends FormAbstract
             'parent_id' => [
                 'type'    => 'select',
                 'label'   => 'group',
-                'options' => [0 => ''] + $tag->getGroups()->lists('name', 'id')->all(),
+                'options' => $tag->getGroups()->lists('name', 'id')->all(),
             ],
             'bgcolor' => [
                 'type'  => 'color',
@@ -73,8 +73,9 @@ class Tag extends FormAbstract
     public function rules()
     {
         $rules = [
-            'name'    => 'required|max:200',
-            'bgcolor' => 'required',
+            'name'      => 'required|max:200',
+            'parent_id' => 'required',
+            'bgcolor'   => 'required',
         ];
 
         return $rules;

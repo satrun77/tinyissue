@@ -28,6 +28,54 @@ class Issue extends FormAbstract
     protected $project;
 
     /**
+     * Collection of all tags
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    protected $tags = null;
+
+    /**
+     * @param string $type
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|null
+     */
+    protected function getTags($type = null)
+    {
+        if ($this->tags === null) {
+            $this->tags = (new Model\Tag())->getGroupTags();
+        }
+
+        if ($type) {
+            return $this->tags->where('name', $type)->first()->tags;
+        }
+
+        return $this->tags;
+    }
+
+    /**
+     * Get issue tag for specific type/group
+     *
+     * @param string $type
+     *
+     * @return int
+     */
+    protected function getIssueTagId($type)
+    {
+        if (!$this->isEditing()) {
+            return 0;
+        }
+
+        $groupId = $this->getTags($type)->first()->parent_id;
+        $selectedTag = $this->getModel()->tags->where('parent_id', $groupId);
+
+        if ($selectedTag->count() === 0) {
+            return 0;
+        }
+
+        return $selectedTag->last()->id;
+    }
+
+    /**
      * @param array $params
      *
      * @return void
@@ -59,22 +107,45 @@ class Issue extends FormAbstract
 
         $fields = $this->fieldTitle();
         $fields += $this->fieldBody();
-        $fields += $this->fieldTags();
-
-        // User with modify issue permission can assign users
-        if ($issueModify) {
-            $fields += $this->fieldAssignedTo();
-        }
+        $fields += $this->fieldTypeTags();
 
         // Only on creating new issue
         if (!$this->isEditing()) {
             $fields += $this->fieldUpload();
         }
 
-        // User with modify issue permission can add quote
+        // Show fields for users with issue modify permission
         if ($issueModify) {
-            $fields += $this->fieldTimeQuote();
+            $fields += $this->issueModifyFields();
         }
+
+        return $fields;
+    }
+
+    /**
+     * Return a list of fields for users with issue modify permission
+     *
+     * @return array
+     */
+    protected function issueModifyFields()
+    {
+        $fields = [];
+
+        $fields['internal_status'] = [
+            'type' => 'legend',
+        ];
+
+        // Status tags
+        $fields += $this->fieldStatusTags();
+
+        // Assign users
+        $fields += $this->fieldAssignedTo();
+
+        // Quotes
+        $fields += $this->fieldTimeQuote();
+
+        // Resolution tags
+        $fields += $this->fieldResolutionTags();
 
         return $fields;
     }
@@ -110,36 +181,93 @@ class Issue extends FormAbstract
     }
 
     /**
+     * Returns status tag field.
+     *
+     * @return array
+     */
+    protected function fieldStatusTags()
+    {
+        $tags = $this->getTags('status');
+        $options = [];
+        foreach ($tags as $tag) {
+            $options[ucwords($tag->name)] = [
+                'name'      => 'tag_status',
+                'value'     => $tag->id,
+                'data-tags' => $tag->id,
+                'color'     => $tag->bgcolor,
+            ];
+        }
+
+        $fields['tag_status'] = [
+            'label'  => 'status',
+            'type'   => 'radioButton',
+            'radios' => $options,
+            'check'  => $this->getIssueTagId('status'),
+        ];
+
+        return $fields;
+    }
+    /**
      * Returns tags field.
      *
      * @return array
      */
-    protected function fieldTags()
+    protected function fieldTypeTags()
     {
-        // Populate tag fields with the submitted tags
-        if ($this->isEditing()) {
-            $selectTags = $this->getModel()->tags()->with('parent')->get()->filter(function (Model\Tag $tag) {
-                return !($tag->name == Model\Tag::STATUS_OPEN || $tag->name == Model\Tag::STATUS_CLOSED);
-            })->map(function (Model\Tag $tag) {
-                return [
-                    'value'   => $tag->id,
-                    'label'   => ($tag->fullname),
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toJson();
-        } else {
-            $selectTags = '';
+        $tags = $this->getTags('type');
+        $options = [];
+        foreach ($tags as $tag) {
+            $options[ucwords($tag->name)] = [
+                'name'      => 'tag_type',
+                'value'     => $tag->id,
+                'data-tags' => $tag->id,
+                'color'     => $tag->bgcolor,
+            ];
         }
 
-        return [
-            'tag' => [
-                'type'        => 'text',
-                'label'       => 'tags',
-                'multiple'    => true,
-                'class'       => 'tagit',
-                'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
-            ],
+        $fields['tag_type'] = [
+            'label'  => 'type',
+            'type'   => 'radioButton',
+            'radios' => $options,
+            'check'  => $this->getIssueTagId('type')
         ];
+
+        return $fields;
+    }
+
+    /**
+     * Returns tags field.
+     *
+     * @return array
+     */
+    protected function fieldResolutionTags()
+    {
+        $tags = $this->getTags('resolution');
+        $options = [
+            trans('tinyissue.none') => [
+                'name'      => 'tag_resolution',
+                'value'     => 0,
+                'data-tags' => 0,
+                'color'     => '#62CFFC',
+            ]
+        ];
+        foreach ($tags as $tag) {
+            $options[ucwords($tag->name)] = [
+                'name'      => 'tag_resolution',
+                'value'     => $tag->id,
+                'data-tags' => $tag->id,
+                'color'     => $tag->bgcolor,
+            ];
+        }
+
+        $fields['tag_resolution'] = [
+            'label'  => 'resolution',
+            'type'   => 'radioButton',
+            'radios' => $options,
+            'check'  => $this->getIssueTagId('resolution')
+        ];
+
+        return $fields;
     }
 
     /**

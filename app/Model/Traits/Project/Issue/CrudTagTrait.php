@@ -94,13 +94,18 @@ trait CrudTagTrait
     /**
      * Sync the issue tags.
      *
-     * @param Collection $tags
+     * @param array $input
      * @param Collection $currentTags
      *
      * @return bool
      */
-    public function syncTags(Collection $tags, Collection $currentTags = null)
+    public function syncTags(array $input, Collection $currentTags = null)
     {
+        $tagIds = array_only($input, [
+            'tag_type', 'tag_status', 'tag_resolution',
+        ]);
+        $tags = (new Tag())->whereIn('id', $tagIds)->get();
+
         $removedTags = [];
         if (null === $currentTags) {
             // Open status tag
@@ -159,35 +164,6 @@ trait CrudTagTrait
         }
 
         return true;
-    }
-
-    /**
-     * Create new tags from a string "group:tag_name" and fetch tag from a tag id.
-     *
-     * @param array $tags
-     * @param bool  $isAdmin
-     *
-     * @return Collection
-     */
-    protected function createTags(array $tags, $isAdmin = false)
-    {
-        $newTags = new Collection($tags);
-
-        // Transform the user input tags into tag objects
-        $newTags->transform(function ($tagNameOrId) use ($isAdmin) {
-            if (strpos($tagNameOrId, ':') !== false && $isAdmin) {
-                return (new Tag())->createTagFromString($tagNameOrId);
-            } else {
-                return Tag::find($tagNameOrId);
-            }
-        });
-
-        // Filter out invalid tags entered by the user
-        $newTags = $newTags->filter(function ($tag) {
-            return $tag instanceof Tag;
-        });
-
-        return $newTags;
     }
 
     /**
