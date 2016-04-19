@@ -58,18 +58,15 @@ class Authenticate
             return redirect()->guest('/');
         }
 
-		if (Auth::check()) {
-			
-		
-		// if($this->auth->login()) {
-						
-			app()->setLocale($this->auth->user()->language);
-			
-			return $next($request);
-			
-		}
-        	
-        $this->auth->logout();
+        if (Auth::check()) {
 
+        // if($this->auth->login()) {
+
+            app()->setLocale($this->auth->user()->language);
+
+            return $next($request);
+        }
+
+        $this->auth->logout();
     }
 }

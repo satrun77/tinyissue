@@ -21,7 +21,7 @@ use Former\Form\Fields\Radio;
 class RadioButton extends Radio
 {
     /**
-     * Render radio buttons
+     * Render radio buttons.
      *
      * @return string
      */
@@ -31,7 +31,7 @@ class RadioButton extends Radio
     }
 
     /**
-     * Render checkable radio button
+     * Render checkable radio button.
      *
      * @param array|string $item
      * @param int          $fallbackValue
@@ -66,7 +66,7 @@ class RadioButton extends Radio
 
         // Add styles to the wrapper label tag
         $style = 'border-color: ' . $color . $selectedColor;
-        $item = str_replace('<label', '<label style="' . $style . '"', $item);
+        $item  = str_replace('<label', '<label style="' . $style . '"', $item);
 
         return $item;
     }

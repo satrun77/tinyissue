@@ -120,17 +120,17 @@ class Issue extends BaseModel
             $seconds += isset($value['m']) ? ($value['m'] * 60) : 0;
             $seconds += isset($value['h']) ? ($value['h'] * 60 * 60) : 0;
         }
-        $this->attributes['time_quote'] = (int)$seconds;
+        $this->attributes['time_quote'] = (int) $seconds;
     }
 
     /**
-     * Returns the color of tag status
+     * Returns the color of tag status.
      *
      * @return string
      */
     public function getTypeColorAttribute()
     {
-        $tag = $this->tags->filter(function(Model\Tag $tag) {
+        $tag = $this->tags->filter(function (Model\Tag $tag) {
             return $tag->parent->name === 'type';
         })->first();
 

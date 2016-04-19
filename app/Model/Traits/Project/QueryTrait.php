@@ -206,7 +206,7 @@ trait QueryTrait
             ->get()
             ->groupBy(function (Project\Issue $issue) use ($tagIds) {
                 // Group by tag status
-                $tag = $issue->tags->filter(function(Tag $tag) use ($tagIds) {
+                $tag = $issue->tags->filter(function (Tag $tag) use ($tagIds) {
                     return in_array($tag->id, $tagIds);
                 })->last();
 

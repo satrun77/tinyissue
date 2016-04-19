@@ -57,10 +57,10 @@ class User extends FormAbstract
                 'type'    => 'select',
                 'label'   => 'visibility',
                 'options' => [UserModel::PRIVATE_YES => trans('tinyissue.private'),
-				              UserModel::PRIVATE_NO => trans('tinyissue.public')],
+                              UserModel::PRIVATE_NO  => trans('tinyissue.public'), ],
             ],
 
-		];
+        ];
 
         $fields += $this->innerFields();
 
@@ -98,22 +98,22 @@ class User extends FormAbstract
     protected function innerFields()
     {
         $fields = [
-			'extended_user_settings' => [
-				'type' => 'legend',
-			],
+            'extended_user_settings' => [
+                'type' => 'legend',
+            ],
             'role_id' => [
                 'type'    => 'select',
                 'label'   => 'role',
                 'options' => Role::dropdown(),
             ],
-			'status' => [
-				'type'    => 'select',
-				'label'   => 'Status',
-				'options' => [UserModel::ACTIVE_USER => trans('tinyissue.active'),
-							  UserModel::BLOCKED_USER => trans('tinyissue.blocked'),
-							  UserModel::RESTRICTED_USER => trans('tinyissue.restricted'),
-							  UserModel::INACTIVE_USER => trans('tinyissue.inactive')],
-			],
+            'status' => [
+                'type'    => 'select',
+                'label'   => 'Status',
+                'options' => [UserModel::ACTIVE_USER     => trans('tinyissue.active'),
+                              UserModel::BLOCKED_USER    => trans('tinyissue.blocked'),
+                              UserModel::RESTRICTED_USER => trans('tinyissue.restricted'),
+                              UserModel::INACTIVE_USER   => trans('tinyissue.inactive'), ],
+            ],
         ];
 
         if ($this->isEditing()) {

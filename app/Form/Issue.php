@@ -28,7 +28,7 @@ class Issue extends FormAbstract
     protected $project;
 
     /**
-     * Collection of all tags
+     * Collection of all tags.
      *
      * @var \Illuminate\Database\Eloquent\Collection
      */
@@ -53,7 +53,7 @@ class Issue extends FormAbstract
     }
 
     /**
-     * Get issue tag for specific type/group
+     * Get issue tag for specific type/group.
      *
      * @param string $type
      *
@@ -65,7 +65,7 @@ class Issue extends FormAbstract
             return 0;
         }
 
-        $groupId = $this->getTags($type)->first()->parent_id;
+        $groupId     = $this->getTags($type)->first()->parent_id;
         $selectedTag = $this->getModel()->tags->where('parent_id', $groupId);
 
         if ($selectedTag->count() === 0) {
@@ -123,7 +123,7 @@ class Issue extends FormAbstract
     }
 
     /**
-     * Return a list of fields for users with issue modify permission
+     * Return a list of fields for users with issue modify permission.
      *
      * @return array
      */
@@ -187,7 +187,7 @@ class Issue extends FormAbstract
      */
     protected function fieldStatusTags()
     {
-        $tags = $this->getTags('status');
+        $tags    = $this->getTags('status');
         $options = [];
         foreach ($tags as $tag) {
             $options[ucwords($tag->name)] = [
@@ -214,7 +214,7 @@ class Issue extends FormAbstract
      */
     protected function fieldTypeTags()
     {
-        $tags = $this->getTags('type');
+        $tags    = $this->getTags('type');
         $options = [];
         foreach ($tags as $tag) {
             $options[ucwords($tag->name)] = [
@@ -229,7 +229,7 @@ class Issue extends FormAbstract
             'label'  => 'type',
             'type'   => 'radioButton',
             'radios' => $options,
-            'check'  => $this->getIssueTagId('type')
+            'check'  => $this->getIssueTagId('type'),
         ];
 
         return $fields;
@@ -242,14 +242,14 @@ class Issue extends FormAbstract
      */
     protected function fieldResolutionTags()
     {
-        $tags = $this->getTags('resolution');
+        $tags    = $this->getTags('resolution');
         $options = [
             trans('tinyissue.none') => [
                 'name'      => 'tag_resolution',
                 'value'     => 0,
                 'data-tags' => 0,
                 'color'     => '#62CFFC',
-            ]
+            ],
         ];
         foreach ($tags as $tag) {
             $options[ucwords($tag->name)] = [
@@ -264,7 +264,7 @@ class Issue extends FormAbstract
             'label'  => 'resolution',
             'type'   => 'radioButton',
             'radios' => $options,
-            'check'  => $this->getIssueTagId('resolution')
+            'check'  => $this->getIssueTagId('resolution'),
         ];
 
         return $fields;

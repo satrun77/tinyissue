@@ -102,6 +102,6 @@ return [
         'only_complete_if_changing_password' => 'Nur ausfüllen bei Passwortvergabe',
         'remember_me'                        => 'Eingeloggt bleiben?',
         'kanban_board'                       => 'Kanban Ansicht',
-		'extended_user_settings'             => 'Erweiterte Einstellungen',
+        'extended_user_settings'             => 'Erweiterte Einstellungen',
     ],
 ];

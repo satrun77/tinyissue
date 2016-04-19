@@ -74,34 +74,34 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     const NOT_DELETED_USERS = 0;
 
     /**
-     * User status active. (Standard)
+     * User status active. (Standard).
      *
      * @var int
      */
     const ACTIVE_USER = 1;
 
     /**
-     * User status blocked. (Too many login attempts)
+     * User status blocked. (Too many login attempts).
      *
      * @var int
      */
     const BLOCKED_USER = 2;
 
     /**
-     * User status restricted. (Login behaves like user-role)
+     * User status restricted. (Login behaves like user-role).
      *
      * @var int
      */
     const RESTRICTED_USER = 3;
 
     /**
-     * User status inactive. (Cannot login at the moment)
+     * User status inactive. (Cannot login at the moment).
      *
      * @var int
      */
     const INACTIVE_USER = 0;
 
-	/**
+    /**
      * The database table used by the model.
      *
      * @var string

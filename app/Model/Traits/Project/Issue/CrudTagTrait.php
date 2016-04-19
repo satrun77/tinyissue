@@ -94,7 +94,7 @@ trait CrudTagTrait
     /**
      * Sync the issue tags.
      *
-     * @param array $input
+     * @param array      $input
      * @param Collection $currentTags
      *
      * @return bool
