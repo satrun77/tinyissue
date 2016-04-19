@@ -15,7 +15,6 @@ elixir.config.sourcemaps = false;
 elixir(function (mix) {
     var baseJs = [
         'jquery.js',
-        'jquery.stayInWebApp.min.js',
         'jquery.cookie.js',
         'jquery-ui.js',
         'jquery.ui.touch-punch.min.js',

@@ -1,9 +1,6 @@
 $(function () {
     'use strict';
 
-    // For mobile fullscreen
-    $.stayInWebApp();
-
     var globalNotice = $('.global-notice');
     if (globalNotice.html().length > 0) {
         globalNotice.slideDown();
