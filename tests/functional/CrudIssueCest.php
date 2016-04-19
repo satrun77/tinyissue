@@ -63,7 +63,6 @@ class CrudIssueCest
         $project = $I->createProject(1, [$developer1]);
 
         $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f']));
-        $tags = new Collection((array) $I->getJsonResponseContent());
 
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project]);
         $I->seeOptionIsSelected('assigned_to', $developer1->fullname);
@@ -71,7 +70,6 @@ class CrudIssueCest
         $params = [
             'title'       => 'issue 1',
             'body'        => 'body of issue 1',
-            'tag'         => $tags->forPage(0, 2)->implode('value', ','),
             'assigned_to' => $developer1->id,
             'time_quote'  => [
                 'h' => 1,
@@ -85,11 +83,6 @@ class CrudIssueCest
         $I->seeLink($params['title']);
         $I->see($params['body'], '.content');
         $I->see(\Html::duration($issue->time_quote), '.issue-quote');
-        foreach ($tags->forPage(0, 2) as $tag) {
-            $segments = explode(':', $tag->label);
-            $I->see($segments[0], '.issue-tag');
-            $I->see($segments[1], '.issue-tag');
-        }
     }
 
     /**
@@ -125,14 +118,11 @@ class CrudIssueCest
         $I->fillField('title', $newTitle);
         $I->fillField('time_quote[h]', 1);
         $I->fillField('time_quote[m]', 5);
-        $I->fillField('tag', 'type:tag1');
         $I->click(trans('tinyissue.update_issue'));
         $I->seeResponseCodeIs(200);
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeLink($newTitle);
         $I->see(\Html::duration($newTime), '.issue-quote');
-        $I->see('type', '.issue-tag');
-        $I->see('tag1', '.issue-tag');
     }
 
     /**
