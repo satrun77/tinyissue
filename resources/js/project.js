@@ -2,7 +2,7 @@ $(function () {
     'use strict';
 
     // Radio button selection
-    $('.radio-btn .btn').on('click', function () {
+    $('.radio-btn .btn').addClass('has-event').on('click', function () {
         $(this).siblings().each(function() {
            var btn = $(this), color = btn.find('input').data('color');
             btn.removeClass('active').css({
@@ -32,7 +32,7 @@ $(function () {
     });
 
     // Left column assign users
-    $('.delete-from-project').on('click', function (e) {
+    $('.delete-from-project').addClass('has-event').on('click', function (e) {
         e.preventDefault();
         var user_id = $(this).data('user-id');
         ConfirmDialog.show($(this), function (el) {
@@ -79,7 +79,7 @@ $(function () {
     });
 
     // Issue assign user
-    $('.assign-user').on('click', function (e) {
+    $('.assign-user').addClass('has-event').on('click', function (e) {
         e.preventDefault();
         var issue = $(this).data('issue-id');
         var user = $(this).data('assign-id');
@@ -97,7 +97,7 @@ $(function () {
     });
 
     // Change issue project
-    $('.change-project').on('click', function (e) {
+    $('.change-project').addClass('has-event').on('click', function (e) {
         e.preventDefault();
         var issue = $(this).data('issue-id');
         var project = $(this).data('project-id');

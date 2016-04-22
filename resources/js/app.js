@@ -9,13 +9,13 @@ $(function () {
             globalNotice.slideUp();
         }, 15000);
 
-        globalNotice.on('click', function () {
+        globalNotice.addClass('has-event').on('click', function () {
             globalNotice.slideUp();
         });
     }
 
     // Confirm links
-    $('.close-issue, .delete-project, #users-list .delete').on('click', function () {
+    $('.close-issue, .delete-project, #users-list .delete').addClass('has-event').on('click', function () {
         return ConfirmDialog.show($(this), function () {
             return true;
         });
@@ -83,7 +83,7 @@ $(function () {
     }
 
     // Clickable elements
-    $('.vlink').on('click', function (e) {
+    $('.vlink').addClass('has-event').on('click', function (e) {
         e.preventDefault();
         return window.location = $(this).data('url');
     });
@@ -93,7 +93,30 @@ $(function () {
 
     // Kanban board
     Kanban().init();
+
+    // Stop links from leaving full screen mode on iOS devices.
+    StayInWebApp();
 });
+
+function StayInWebApp() {
+    //detect iOS full screen mode
+    if (("standalone" in window.navigator) && window.navigator.standalone) {
+        //bind to the click event of all specified elements
+        $("body").delegate('a', "click", function (event) {
+            //only stay in web app for links that are set to _self (or not set)
+            if (!$(this).hasClass('has-event')
+                && ($(this).attr("target") == undefined || $(this).attr("target") == "" || $(this).attr("target") == "_self")) {
+                //get the destination of the link clicked
+                var dest = $(this).attr("href");
+
+                //prevent default behavior (opening safari)
+                event.preventDefault();
+                //update location of the web app
+                window.location = dest;
+            }
+        });
+    }
+}
 
 var GlobalSaving = {
     status: false,
@@ -201,7 +224,7 @@ var Autocomplete = {
             source: this.suggestions,
             select: $.proxy(function (event, ui) {
                 var append = $($.proxy(this.options.template, this, ui)());
-                append.find('.delete').on('click', $.proxy(function (e) {
+                append.find('.delete').addClass('has-event').on('click', $.proxy(function (e) {
                     e.preventDefault();
                     if ($.proxy(this.options.onRemove, this, append, ui.item.id)()) {
                         this.remove(append, ui.item.id);
@@ -251,7 +274,7 @@ var Selection = {
     init: function (options) {
         var me = this;
         this.options = $.extend(this.options, options);
-        this.options.items.on({
+        this.options.items.addClass('has-event').on({
             mouseenter: function () {
                 return me.showHighlight($(this).css('cursor', 'pointer'));
             },
@@ -316,19 +339,19 @@ function Discussion() {
             if (instance.length == 0) {
                 return this;
             }
-            instance.find('li .edit').on('click', $.proxy(function (e) {
+            instance.find('li .edit').addClass('has-event').on('click', $.proxy(function (e) {
                 e.preventDefault();
                 return this.edit($(e.currentTarget));
             }, this));
-            instance.find('li .delete').on('click', $.proxy(function (e) {
+            instance.find('li .delete').addClass('has-event').on('click', $.proxy(function (e) {
                 e.preventDefault();
                 return this.remove($(e.currentTarget));
             }, this));
-            instance.find('li .save').on('click', $.proxy(function (e) {
+            instance.find('li .save').addClass('has-event').on('click', $.proxy(function (e) {
                 e.preventDefault();
                 return this.save($(e.currentTarget));
             }, this));
-            instance.find('li .cancel').on('click', $.proxy(function (e) {
+            instance.find('li .cancel').addClass('has-event').on('click', $.proxy(function (e) {
                 e.preventDefault();
                 return this.cancel($(e.currentTarget));
             }, this));
