@@ -1,5 +1,16 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.6.0
+
+- Redesign the Kanban view.
+- Feature: Admin to prevent users from logging in. Make users Inactive or Blocked.
+- Improved the menu items.
+- Redesign all of the forms for adding or editing issues to be more consistent and user friendly.
+- Tags management simplified to 3 standard "unchangeable" groups (Types, Status, & Resolution).
+- Feature: added support for german translation. Thanks to @nickbe
+- Stop links from leaving full screen mode on iOS devices.
+- Bug fixes and other minor improvements.
+
 ## Tiny Issue v2.5.1
 
 - Bug fixes
