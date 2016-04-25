@@ -33,8 +33,13 @@ class PermissionUserCest
         $I->seeLink($issue2->title);
         $I->dontSeeLink($issue1->title);
         $I->click($issue2->title);
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2]);
-        $I->see($comment1->comment, '#comment' . $comment1->id . ' .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project2, 'issue' => $issue2]
+            )
+        );
+        $I->see($comment1->comment);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project1]);
         $I->seeResponseCodeIs(401);
         $I->amOnAction('UserController@getIssues');

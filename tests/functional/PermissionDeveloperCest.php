@@ -33,8 +33,13 @@ class PermissionDeveloperCest
         $I->seeLink($issue2->title);
         $I->dontSeeLink($issue1->title);
         $I->click($issue2->title);
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2]);
-        $I->see($comment1->comment, '#comment' . $comment1->id . ' .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project2, 'issue' => $issue2]
+            )
+        );
+        $I->see($comment1->comment);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project1]);
         $I->seeResponseCodeIs(401);
         $I->amOnAction('UserController@getIssues');
@@ -129,9 +134,13 @@ class PermissionDeveloperCest
         $I->fillField('comment', 'Comment one');
         $I->click(trans('tinyissue.comment'));
         $I->seeResponseCodeIs(200);
-        $comment = $issue2->comments->last();
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue2->id . '#comment' . $comment->id]);
-        $I->see('Comment one', '.comment .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project2, 'issue' => $issue2]
+            )
+        );
+        $I->see('Comment one');
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
         $I->dontSee(trans('tinyissue.comment_on_this_issue'));
         $I->sendPostRequest(

@@ -26,9 +26,13 @@ class CrudIssueCommentCest
         $I->fillField('comment', 'Comment one');
         $I->click(trans('tinyissue.comment'));
         $I->seeResponseCodeIs(200);
-        $comment = $issue->comments->last();
-        $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue->id . '#comment' . $comment->id]);
-        $I->see('Comment one', '.comment .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project, 'issue' => $issue]
+            )
+        );
+        $I->seeInSource('Comment one');
     }
 
     /**
@@ -56,8 +60,13 @@ class CrudIssueCommentCest
             '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
-        $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
-        $I->see('Comment one updated', '#comment' . $comment->id . ' .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project, 'issue' => $issue]
+            )
+        );
+        $I->seeInSource('Comment one updated');
     }
 
     /**
@@ -80,15 +89,25 @@ class CrudIssueCommentCest
         $comment1 = $I->createComment(1, $admin, $issue);
         $comment2 = $I->createComment(2, $admin, $issue);
 
-        $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
-        $I->see($comment1->comment, '#comment' . $comment1->id . ' .content');
-        $I->see($comment2->comment, '#comment' . $comment2->id . ' .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project, 'issue' => $issue]
+            )
+        );
+        $I->seeInSource($comment1->comment);
+        $I->seeInSource($comment2->comment);
 
         $uri = $I->getApplication()->url->action('Project\IssueController@getDeleteComment', ['comment' => $comment1]);
         $I->sendAjaxGetRequest($uri);
         $I->seeResponseCodeIs(200);
-        $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
-        $I->dontSee($comment1->comment);
-        $I->see($comment2->comment);
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project, 'issue' => $issue]
+            )
+        );
+        $I->dontSeeInSource($comment1->comment);
+        $I->seeInSource($comment2->comment);
     }
 }

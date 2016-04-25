@@ -28,6 +28,12 @@ class IssueCest
 
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue1]);
         $I->see('Project 2', '.subtitle a');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueActivity',
+                ['project' => $project2, 'issue' => $issue1]
+            )
+        );
         $I->see('Reassigned');
         $I->amOnAction('ProjectController@getIndex', ['project' => $project2]);
         $I->seeLink($issue1->title);
@@ -42,8 +48,20 @@ class IssueCest
         $I->dontSeeLink($issue1->title);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
         $I->see('Project 1', '.subtitle a');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueActivity',
+                ['project' => $project1, 'issue' => $issue1]
+            )
+        );
         $I->see('Reassigned');
-        $I->see($comment1->comment, '#comment' . $comment1->id . ' .content');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project1, 'issue' => $issue1]
+            )
+        );
+        $I->see($comment1->comment);
         $I->amOnAction('ProjectController@getIndex', ['project' => $project1]);
         $I->seeLink($issue1->title);
     }

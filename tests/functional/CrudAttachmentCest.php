@@ -90,11 +90,15 @@ class CrudAttachmentCest
         $I->seeResponseCodeIs(200);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
-        $I->see($comment, '.comment .content');
-        $I->seeLink($fileName1);
-        $I->seeLink($fileName2);
-        $I->see($fileName1, '.attachments');
-        $I->see($fileName2, '.attachments');
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project, 'issue' => $issue]
+            )
+        );
+        $I->seeInSource($comment);
+        $I->seeInSource($fileName1);
+        $I->seeInSource($fileName2);
         $attachments = $issue->comments->first()->attachments;
         foreach ($attachments as $attachment) {
             $I->amOnAction('Project\IssueController@getDisplayAttachment', [
@@ -139,8 +143,13 @@ class CrudAttachmentCest
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
-        $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
-        $I->seeElement('.attachments a', ['title' => $fileName]);
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $project, 'issue' => $issue]
+            )
+        );
+        $I->seeInSource($fileName);
         $uri = $I->getApplication()->url->action('Project\IssueController@postRemoveAttachment', [
             'project' => $project,
         ]);
@@ -150,7 +159,7 @@ class CrudAttachmentCest
             'filename'     => $fileName,
         ]);
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
-        $I->dontSeeElement('.attachments a', ['title' => $fileName]);
+        $I->dontSeeInSource($fileName);
         $I->amOnAction('Project\IssueController@getDisplayAttachment', [
             'project'    => $project,
             'issue'      => $issue,

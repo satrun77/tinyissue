@@ -2,10 +2,6 @@
 
 use Tinyissue\Model\Project;
 
-/**
- * -------
- * - get project progress ProjectsController::postProgress.
- */
 class ProjectCest
 {
     /**
