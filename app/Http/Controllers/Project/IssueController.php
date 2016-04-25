@@ -42,15 +42,6 @@ class IssueController extends Controller
      */
     public function getIndex(Project $project, Issue $issue, CommentForm $form)
     {
-        $issue->attachments->each(function (Attachment $attachment) use ($issue) {
-            $attachment->setRelation('issue', $issue);
-        });
-        $activities = $issue->activities()->with('activity', 'user', 'comment', 'assignTo',
-            'comment.attachments')->get();
-        $activities->each(function (UserActivity $activity) use ($issue) {
-            $activity->setRelation('issue', $issue);
-        });
-
         // Projects should be limited to issue-modify
         $projects = null;
         if (!$this->auth->guest() && $this->auth->user()->permission('issue-modify')) {
@@ -61,7 +52,6 @@ class IssueController extends Controller
             'issue'       => $issue,
             'project'     => $project,
             'commentForm' => $form,
-            'activities'  => $activities,
             'sidebar'     => 'project',
             'projects'    => $projects,
         ]);
@@ -394,5 +384,60 @@ class IssueController extends Controller
         $issue->changeKanbanTag($newTag, $oldTag, $this->auth->user());
 
         return response()->json(['status' => true, 'issue' => $issue->id]);
+    }
+
+    public function getIssueComments(Project $project, Issue $issue)
+    {
+        $issue->attachments->each(function (Attachment $attachment) use ($issue) {
+            $attachment->setRelation('issue', $issue);
+        });
+        $activities = $issue->commentActivities()->with('activity', 'user', 'comment', 'assignTo',
+            'comment.attachments')->get();
+        $activities->each(function (UserActivity $activity) use ($issue) {
+            $activity->setRelation('issue', $issue);
+        });
+
+        $activityString = $activities->map(function(UserActivity $activity) use ($project, $issue) {
+            return view('project/issue/activity/' . $activity->activity->activity, [
+                'issue'           => $issue,
+                'userActivity'    => $activity,
+                'project'         => $project,
+                'user'            => $activity->user,
+                'comment'         => $activity->comment,
+                'assigned'        => $activity->assignTo
+            ])->render();
+        })->implode('');
+
+        return response()->json(['status' => true, 'activity' => $activityString]);
+    }
+
+    /**
+     * Ajax: returns activities for an issue excluding comments.
+     *
+     * @param Project $project
+     * @param Issue   $issue
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getIssueActivity(Project $project, Issue $issue)
+    {
+        $activities = $issue->generalActivities()->with('activity', 'user', 'assignTo')->get();
+        $activities->each(function (UserActivity $activity) use ($issue) {
+            $activity->setRelation('issue', $issue);
+        });
+
+        $activityString = $activities->map(function(UserActivity $activity) use ($project, $issue) {
+            return view('project/issue/activity/' . $activity->activity->activity, [
+                'issue'           => $issue,
+                'userActivity'    => $activity,
+                'activity'        => $activity,
+                'project'         => $project,
+                'user'            => $activity->user,
+                'comment'         => $activity->comment,
+                'assigned'        => $activity->assignTo
+            ])->render();
+        })->implode('');
+
+        return response()->json(['status' => true, 'activity' => $activityString]);
     }
 }

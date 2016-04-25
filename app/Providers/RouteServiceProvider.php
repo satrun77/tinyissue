@@ -219,6 +219,8 @@ class RouteServiceProvider extends ServiceProvider
         $router->group(['middleware' => 'permission', 'permission' => 'issue-view'], function (Router $router) {
             $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
             $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
+            $router->get('project/{project}/issue/{issue}/comments', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@getIssueComments']);
+            $router->get('project/{project}/issue/{issue}/activity', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@getIssueActivity']);
             $router->get('project/{project}/issue/{issue}/download/{attachment}', 'Project\IssueController@getDownloadAttachment');
             $router->get('project/{project}/issue/{issue}/display/{attachment}', 'Project\IssueController@getDisplayAttachment');
         });

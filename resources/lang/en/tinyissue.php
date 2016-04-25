@@ -206,4 +206,5 @@ return [
     'inactive'                          => 'Inactive',
     'user_is_blocked'                   => 'User is currently blocked from login',
     'user_is_not_active'                => 'User account has been temporarily deactivated',
+    'comments'                          => 'Comments',
 ];

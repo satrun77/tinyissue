@@ -4,10 +4,10 @@
             @permission('issue-modify')
             <ul>
                 <li class="edit">
-                    <a href="{{ Url::to('project/issue/edit_comment/' . $comment->id) }}" class="edit" data-comment-id="{{ $comment->id }}">Edit</a>
+                    <a href="{{ url('project/issue/edit_comment/' . $comment->id) }}" class="edit" data-comment-id="{{ $comment->id }}">Edit</a>
                 </li>
                 <li>
-                    <a href="{{ Url::to('project/issue/delete_comment/' . $comment->id) }}" class="delete" data-message="@lang('tinyissue.confirm_delete_comment')" data-comment-id="{{ $comment->id }}">Delete</a>
+                    <a href="{{ url('project/issue/delete_comment/' . $comment->id) }}" class="delete" data-message="@lang('tinyissue.confirm_delete_comment')" data-comment-id="{{ $comment->id }}">Delete</a>
                 </li>
             </ul>
             @endpermission

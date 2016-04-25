@@ -101,6 +101,32 @@ trait RelationTrait
     }
 
     /**
+     * Issue have many users activities (all except comments).
+     *
+     * @return mixed
+     */
+    public function generalActivities()
+    {
+        return $this
+            ->hasMany('Tinyissue\Model\User\Activity', 'item_id')
+            ->whereNotIn('type_id', [Model\Activity::TYPE_COMMENT])
+            ->orderBy('created_at', 'ASC');
+    }
+
+    /**
+     * Issue have many users activities (comments).
+     *
+     * @return mixed
+     */
+    public function commentActivities()
+    {
+        return $this
+            ->hasMany('Tinyissue\Model\User\Activity', 'item_id')
+            ->whereIn('type_id', [Model\Activity::TYPE_COMMENT])
+            ->orderBy('created_at', 'ASC');
+    }
+
+    /**
      * Issue have many tags.
      *
      * @return Relations\BelongsToMany

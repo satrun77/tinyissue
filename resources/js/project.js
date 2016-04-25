@@ -4,6 +4,18 @@ $(function () {
     // Radio button selection
     CheckableButtons().init();
 
+    // Manage issue comments & activity tabs
+    $('.activities .nav-tabs a').addClass('has-event').on('click', function(e) {
+        e.preventDefault();
+        var link = $(this).parent(), siblings = link.siblings();
+        Ajax.get($(this).attr('href'), function (data) {
+            GlobalSaving.toggle();
+            $('.activities .discussion.comments').html(data.activity);
+            siblings.removeClass('active');
+            link.addClass('active');
+        });
+    }).first().click();
+
     Discussion().init({
         name: 'comment',
         selector: '.discussion.comments'
