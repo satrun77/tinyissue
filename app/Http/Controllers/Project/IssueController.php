@@ -397,14 +397,14 @@ class IssueController extends Controller
             $activity->setRelation('issue', $issue);
         });
 
-        $activityString = $activities->map(function(UserActivity $activity) use ($project, $issue) {
+        $activityString = $activities->map(function (UserActivity $activity) use ($project, $issue) {
             return view('project/issue/activity/' . $activity->activity->activity, [
                 'issue'           => $issue,
                 'userActivity'    => $activity,
                 'project'         => $project,
                 'user'            => $activity->user,
                 'comment'         => $activity->comment,
-                'assigned'        => $activity->assignTo
+                'assigned'        => $activity->assignTo,
             ])->render();
         })->implode('');
 
@@ -426,7 +426,7 @@ class IssueController extends Controller
             $activity->setRelation('issue', $issue);
         });
 
-        $activityString = $activities->map(function(UserActivity $activity) use ($project, $issue) {
+        $activityString = $activities->map(function (UserActivity $activity) use ($project, $issue) {
             return view('project/issue/activity/' . $activity->activity->activity, [
                 'issue'           => $issue,
                 'userActivity'    => $activity,
@@ -434,7 +434,7 @@ class IssueController extends Controller
                 'project'         => $project,
                 'user'            => $activity->user,
                 'comment'         => $activity->comment,
-                'assigned'        => $activity->assignTo
+                'assigned'        => $activity->assignTo,
             ])->render();
         })->implode('');
 

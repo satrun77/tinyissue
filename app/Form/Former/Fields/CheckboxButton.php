@@ -29,7 +29,7 @@ class CheckboxButton extends Checkbox
     {
         try {
             return '<div class="btn-toolbar checkbox-btn" data-toggle="buttons">' . parent::render() . '</div>';
-        }catch(\Exception $e) {
+        } catch (\Exception $e) {
             echo $e;
             die;
         }

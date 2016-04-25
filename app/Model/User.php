@@ -227,7 +227,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Returns list of user statuses
+     * Returns list of user statuses.
      *
      * @return array
      */

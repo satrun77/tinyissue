@@ -98,7 +98,7 @@ class Project extends FormAbstract
     }
 
     /**
-     * Return Kanban columns field
+     * Return Kanban columns field.
      *
      * @return array
      */
