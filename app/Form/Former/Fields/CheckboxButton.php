@@ -27,12 +27,7 @@ class CheckboxButton extends Checkbox
      */
     public function render()
     {
-        try {
-            return '<div class="btn-toolbar checkbox-btn" data-toggle="buttons">' . parent::render() . '</div>';
-        } catch (\Exception $e) {
-            echo $e;
-            die;
-        }
+        return '<div class="btn-toolbar checkbox-btn" data-toggle="buttons">' . parent::render() . '</div>';
     }
 
     /**
