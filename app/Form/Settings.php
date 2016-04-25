@@ -79,12 +79,21 @@ class Settings extends FormAbstract
      */
     protected function fieldDateFormat(Model\Setting $setting)
     {
+        $today = new \DateTime();
+        $today = $today->format('Y-m-d H:i:s');
+
         return [
-            'type'        => 'text',
+            'type'        => 'select',
             'label'       => 'date_format',
             'value'       => $setting->value,
-            'placeholder' => 'F jS \a\t g:i A',
-            'help'        => 'Format characters can be found --> <a href="http://php.net/manual/en/function.date.php" target="_blank">PHP date</a>',
+            'options'     => [
+                'D, d M Y H:i:s' => \Html::date($today, 'D, d M Y H:i:s'),
+                'F jS, Y, g:i a' => \Html::date($today, 'F jS, Y, g:i a'),
+                'd/F/Y g:i A'    => \Html::date($today, 'd/F/Y g:i A'),
+                'd. F Y H:i'     => \Html::date($today, 'd. F Y H:i'),
+                'Y-m-d H:i'      => \Html::date($today, 'Y-m-d H:i'),
+                'd.m.y H:i'      => \Html::date($today, 'd.m.y H:i'),
+            ],
         ];
     }
 
