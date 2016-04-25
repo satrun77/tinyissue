@@ -91,15 +91,15 @@ trait CrudTrait
     /**
      * Save the project tags.
      *
-     * @param string $tagString
+     * @param array $tagIds
      *
      * @return bool
      */
-    public function saveTags($tagString)
+    public function saveTags(array $tagIds)
     {
         // Transform the user input tags into tag objects
         // Filter out invalid tags entered by the user
-        $tags = new Collection(array_map('trim', explode(',', $tagString)));
+        $tags = new Collection($tagIds);
         $tags = $tags->transform(function ($tagNameOrId) {
             return Tag::find($tagNameOrId);
         })->filter(function ($tag) {

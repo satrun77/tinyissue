@@ -13,6 +13,7 @@ namespace Tinyissue\Form;
 
 use Tinyissue\Model\Project as ProjectModel;
 use Tinyissue\Model\Tag as TagModel;
+use Tinyissue\Model\Tag;
 
 /**
  * Project is a class to defines fields & rules for add/edit project form.
@@ -91,28 +92,48 @@ class Project extends FormAbstract
             'type' => 'legend',
         ];
 
-        $statusTags = (new TagModel())->getStatusTags()->get()->implode('fullname', ', ');
+        $fields += $this->getKanbanColumnsField();
+
+        return $fields;
+    }
+
+    /**
+     * Return Kanban columns field
+     *
+     * @return array
+     */
+    protected function getKanbanColumnsField()
+    {
+        $fields = [];
+
+        // All of the status tags
+        $statusTags = (new Tag())->getStatusTags()->get()->filter(function (TagModel $tag) {
+            return !($tag->name == TagModel::STATUS_OPEN || $tag->name == TagModel::STATUS_CLOSED);
+        });
+
+        // Get selected status tags on editing a project
         if ($this->isEditing()) {
-            $selectTags = $this->getModel()->kanbanTags()->get()->filter(function (TagModel $tag) {
-                return !($tag->name == TagModel::STATUS_OPEN || $tag->name == TagModel::STATUS_CLOSED);
-            })->map(function (TagModel $tag) {
-                return [
-                    'value'   => $tag->id,
-                    'label'   => ($tag->fullname),
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toJson();
-        } else {
-            $selectTags = (new TagModel())->tagsToJson(\Request::input('tags'));
+            $selectTags = $this->getModel()->kanbanTags()->get()->lists('id');
         }
-        $fields['columns'] = [
-            'type'        => 'text',
-            'label'       => 'columns',
-            'placeholder' => trans('tinyissue.tags'),
-            'multiple'    => true,
-            'class'       => 'tagit',
-            'help'        => trans('tinyissue.columns_help', ['status' => $statusTags]),
-            'data_tokens' => htmlentities($selectTags, ENT_QUOTES),
+
+        // An array for checkboxes
+        $options = [];
+        foreach ($statusTags as $tag) {
+            $options[ucwords($tag->name)] = [
+                'value'     => $tag->id,
+                'data-tags' => $tag->id,
+                'color'     => $tag->bgcolor,
+                'checked'   => (isset($selectTags) && $selectTags->search($tag->id) > 0),
+            ];
+        }
+
+        // The checkbox button element
+        $fields['columns[]'] = [
+            'label'      => 'columns',
+            'type'       => 'checkboxButton',
+            'checkboxes' => $options,
+            'grouped'    => true,
+            'help'       => trans('tinyissue.columns_help'),
         ];
 
         return $fields;

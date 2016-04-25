@@ -195,7 +195,7 @@ return [
     'enable'                            => 'Aktiviert',
     'disable'                           => 'Inaktiv',
     'manage_settings_description'       => 'Hier veränderst Du systemweit geltende Einstellungen.',
-    'columns_help'                      => 'Offen & Geschlossen tags werden automatisch hinzugefügt. Folgende status tags sind verfügbar => :status',
+    'columns_help'                      => 'Offen & Geschlossen tags werden automatisch hinzugefügt.',
     'select_project'                    => 'Projekt auswählen',
     'myprofile'                         => 'Mein Profil',
     'resolution'                        => 'Abschluss',
