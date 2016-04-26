@@ -339,19 +339,19 @@ function Discussion() {
             if (instance.length == 0) {
                 return this;
             }
-            instance.find('li .edit').addClass('has-event').on('click', $.proxy(function (e) {
+            instance.on('click', 'li .edit', $.proxy(function (e) {
                 e.preventDefault();
                 return this.edit($(e.currentTarget));
             }, this));
-            instance.find('li .delete').addClass('has-event').on('click', $.proxy(function (e) {
+            instance.addClass('has-event').on('click', 'li .delete', $.proxy(function (e) {
                 e.preventDefault();
                 return this.remove($(e.currentTarget));
             }, this));
-            instance.find('li .save').addClass('has-event').on('click', $.proxy(function (e) {
+            instance.on('click', 'li .save', $.proxy(function (e) {
                 e.preventDefault();
                 return this.save($(e.currentTarget));
             }, this));
-            instance.find('li .cancel').addClass('has-event').on('click', $.proxy(function (e) {
+            instance.on('click', 'li .cancel', $.proxy(function (e) {
                 e.preventDefault();
                 return this.cancel($(e.currentTarget));
             }, this));
