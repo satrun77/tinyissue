@@ -107,7 +107,8 @@ trait QueryTrait
         // Filter issues
         $this->filterAssignTo($query, array_get($filter, 'assignto'));
         $this->filterTitleOrBody($query, array_get($filter, 'keyword'));
-        $this->filterTags($query, array_get($filter, 'tags'));
+        $this->filterTags($query, array_get($filter, 'tag_status'));
+        $this->filterTags($query, array_get($filter, 'tag_type'));
 
         // Sort
         if ($sortBy == 'updated') {

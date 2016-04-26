@@ -29,6 +29,31 @@ class FilterIssue extends FormAbstract
     protected $project;
 
     /**
+     * Collection of all tags.
+     *
+     * @var \Illuminate\Database\Eloquent\Collection
+     */
+    protected $tags = null;
+
+    /**
+     * @param string $type
+     *
+     * @return \Illuminate\Database\Eloquent\Collection|null
+     */
+    protected function getTags($type = null)
+    {
+        if ($this->tags === null) {
+            $this->tags = (new Model\Tag())->getGroupTags();
+        }
+
+        if ($type) {
+            return $this->tags->where('name', $type)->first()->tags;
+        }
+
+        return $this->tags;
+    }
+
+    /**
      * @param array $params
      *
      * @return void
@@ -79,13 +104,17 @@ class FilterIssue extends FormAbstract
                 'placeholder'     => trans('tinyissue.keywords'),
                 'onGroupAddClass' => 'toolbar-item first',
             ],
-            'tags' => [
-                'type'            => 'text',
-                'placeholder'     => trans('tinyissue.tags'),
-                'multiple'        => true,
-                'class'           => 'tagit',
-                'data_tokens'     => htmlentities($selectTags, ENT_QUOTES),
+            'tag_status' => [
+                'type'            => 'select',
+                'placeholder'     => trans('tinyissue.status'),
                 'onGroupAddClass' => 'toolbar-item',
+                'options'         => $this->getTags('status')->lists('fullname', 'id'),
+            ],
+            'tag_type' => [
+                'type'            => 'select',
+                'placeholder'     => trans('tinyissue.type'),
+                'onGroupAddClass' => 'toolbar-item',
+                'options'         => $this->getTags('type')->lists('fullname', 'id'),
             ],
             'sort' => [
                 'type'            => 'groupField',
