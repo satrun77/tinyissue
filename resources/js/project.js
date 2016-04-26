@@ -117,16 +117,14 @@ function CheckableButtons() {
                 'border-color': color,
                 'background': color
             });
-            console.log('checked');
         } else if (isToggle) {
-                console.log('unchek')
-            _resetInput(input);
+            _resetInput(element);
         }
     }
 
     function _resetInput(input) {
-        var color = input.data('color');
-        input.parent().removeClass('active').css({
+        var color = input.find('input').data('color');
+        input.removeClass('active').css({
             'color': color,
             'border-color': color,
             'background': 'white'
