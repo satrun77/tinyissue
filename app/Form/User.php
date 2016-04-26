@@ -83,10 +83,12 @@ class User extends FormAbstract
         $fields['password'] = [
             'type'  => 'password',
             'label' => 'new_password',
+            'autocomplete' => 'off',
         ];
         $fields['password_confirmation'] = [
             'type'  => 'password',
             'label' => 'confirm',
+            'autocomplete' => 'off',
         ];
 
         return $fields;
