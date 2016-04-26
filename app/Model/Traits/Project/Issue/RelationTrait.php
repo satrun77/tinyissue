@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Traits\Project\Issue;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
@@ -84,8 +85,10 @@ trait RelationTrait
     {
         return $this
             ->hasMany('Tinyissue\Model\Project\Issue\Attachment', 'issue_id')
-            ->where('comment_id', '=', 0)
-            ->orWhere('comment_id', '=', null);
+            ->where(function (Builder $query) {
+                $query->where('comment_id', '=', 0);
+                $query->orWhere('comment_id', '=', null);
+            });
     }
 
     /**
