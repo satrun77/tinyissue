@@ -95,6 +95,6 @@ class Tag extends Model
      */
     public function getFullNameAttribute()
     {
-        return (isset($this->parent->name) ? ucwords($this->parent->name) : '') . ':' . ucwords($this->attributes['name']);
+        return ucwords($this->attributes['name']);
     }
 }

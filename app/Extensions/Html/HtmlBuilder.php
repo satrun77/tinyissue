@@ -88,10 +88,10 @@ class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
      */
     public function formatIssueTag($tag, $group = null)
     {
-        if (null === $group) {
-            list($group, $tag) = explode(':', $tag);
+        if (null === $group && strpos($tag, ':') !== false) {
+            list(, $tag) = explode(':', $tag);
         }
 
-        return '<span class="issue-tag"><span class="group">' . $group . '</span><span class="glyphicon glyphicon-menu-right" aria-hidden="true"></span><span class="title">' . $tag . '</span></span>';
+        return '<span class="issue-tag"><span class="title">' . $tag . '</span></span>';
     }
 }
