@@ -560,3 +560,58 @@ function Kanban() {
     }
 }
 
+function CheckableButtons() {
+
+    function _highlightActive(element, input, isToggle) {
+        var color = input.data('color');
+        if (input.is(':checked')) {
+            element.addClass('active').css({
+                'color': 'white',
+                'border-color': color,
+                'background': color
+            });
+        } else if (isToggle) {
+            _resetInput(element);
+        }
+    }
+
+    function _resetInput(input) {
+        var color = input.find('input').data('color');
+        input.removeClass('active').css({
+            'color': color,
+            'border-color': color,
+            'background': 'white'
+        });
+    }
+
+    function _resetSiblings(element) {
+        element.siblings().each(function() {
+            _resetInput($(this));
+        });
+    }
+
+    function _initRadioButtons(element, input) {
+        _resetSiblings(element);
+        _highlightActive(element, input, false);
+    }
+
+    function _initCheckboxButtons(element, input) {
+        _highlightActive(element, input, true);
+    }
+
+    return {
+        init: function () {
+
+            $('.radio-btn .btn, .checkbox-btn .btn').addClass('has-event').on('click', function () {
+                var element = $(this);
+                if (element.parent().hasClass('radio-btn')) {
+                    _initRadioButtons(element, element.find('input'));
+                } else {
+                    _initCheckboxButtons(element, element.find('input'));
+                }
+            });
+
+            return this;
+        }
+    }
+}
