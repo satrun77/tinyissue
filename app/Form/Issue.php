@@ -187,7 +187,9 @@ class Issue extends FormAbstract
      */
     protected function fieldStatusTags()
     {
-        $tags    = $this->getTags('status');
+       $tags = $this->project->getKanbanTags()->filter(function (Model\Tag $tag) {
+            return !($tag->name == Model\Tag::STATUS_OPEN || $tag->name == Model\Tag::STATUS_CLOSED);
+        });
         $options = [];
         foreach ($tags as $tag) {
             $options[ucwords($tag->name)] = [
