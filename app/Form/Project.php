@@ -112,6 +112,7 @@ class Project extends FormAbstract
         });
 
         // Get selected status tags on editing a project
+        $selectTags = [];
         if ($this->isEditing()) {
             $selectTags = $this->getModel()->kanbanTags()->get()->lists('id');
         }
