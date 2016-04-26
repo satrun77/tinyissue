@@ -611,6 +611,8 @@ function CheckableButtons() {
                 }
             });
 
+            $('.checkbox-btn').sortable().disableSelection();
+
             return this;
         }
     }

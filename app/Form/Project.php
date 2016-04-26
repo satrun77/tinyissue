@@ -118,13 +118,17 @@ class Project extends FormAbstract
 
         // An array for checkboxes
         $options = [];
+        foreach ($selectTags as $tagId) {
+            $tag = $statusTags->find($tagId);
+            if ($tag) {
+                $options[ucwords($tag->name)] = $this->getKanbanColumnField($tag, true);
+            }
+        }
+
         foreach ($statusTags as $tag) {
-            $options[ucwords($tag->name)] = [
-                'value'     => $tag->id,
-                'data-tags' => $tag->id,
-                'color'     => $tag->bgcolor,
-                'checked'   => (isset($selectTags) && $selectTags->search($tag->id) > 0),
-            ];
+            if (!isset($options[ucwords($tag->name)])) {
+                $options[ucwords($tag->name)] = $this->getKanbanColumnField($tag);
+            }
         }
 
         // The checkbox button element
@@ -137,6 +141,24 @@ class Project extends FormAbstract
         ];
 
         return $fields;
+    }
+
+    /**
+     * Returns an array structure for a checkbox button in the kanban field.
+     *
+     * @param Tag  $tag
+     * @param bool $checked
+     *
+     * @return array
+     */
+    protected function getKanbanColumnField(Tag $tag, $checked = false)
+    {
+        return [
+            'value'     => $tag->id,
+            'data-tags' => $tag->id,
+            'color'     => $tag->bgcolor,
+            'checked'   => $checked,
+        ];
     }
 
     /**
