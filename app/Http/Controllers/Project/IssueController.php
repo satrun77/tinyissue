@@ -408,6 +408,10 @@ class IssueController extends Controller
             ])->render();
         })->implode('');
 
+        if (empty($activityString)) {
+            $activityString = '<li class="no-records">There are no comments yet on this issue.</li>';
+        }
+
         return response()->json(['status' => true, 'activity' => $activityString]);
     }
 
@@ -437,6 +441,10 @@ class IssueController extends Controller
                 'assigned'        => $activity->assignTo,
             ])->render();
         })->implode('');
+
+        if (empty($activityString)) {
+            $activityString = '<li class="no-records">There are no activity yet on this issue.</li>';
+        }
 
         return response()->json(['status' => true, 'activity' => $activityString]);
     }
