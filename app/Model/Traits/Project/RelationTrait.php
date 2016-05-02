@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Traits\Project;
 
 use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\Tag;
 
 /**
  * RelationTrait is trait class containing the relationship methods for the Project model.
@@ -103,6 +104,8 @@ trait RelationTrait
      */
     public function kanbanTags()
     {
-        return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')->orderBy('position');
+        return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')
+            ->whereNotIn('name', [Tag::STATUS_OPEN, Tag::STATUS_CLOSED])
+            ->orderBy('position');
     }
 }

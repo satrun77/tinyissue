@@ -67,7 +67,7 @@ class Tag extends Model
      *
      * @var array
      */
-    public $fillable = ['parent_id', 'name', 'bgcolor', 'group'];
+    public $fillable = ['parent_id', 'name', 'bgcolor', 'group', 'role_limit'];
 
     /**
      * Name of database table.
@@ -96,5 +96,25 @@ class Tag extends Model
     public function getFullNameAttribute()
     {
         return ucwords($this->attributes['name']);
+    }
+
+    /**
+     * Whether or not the current user can view this tag
+     *
+     * @return bool
+     */
+    public function canView()
+    {
+        return auth()->user()->role_id >= $this->role_limit;
+    }
+
+    /**
+     * Whether or not the tag is core tag
+     *
+     * @return bool
+     */
+    public function isCore()
+    {
+        return $this->name == static::STATUS_OPEN || $this->name == static::STATUS_CLOSED;
     }
 }

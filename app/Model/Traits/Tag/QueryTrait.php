@@ -33,7 +33,13 @@ trait QueryTrait
      */
     public function getGroupTags()
     {
-        return $this->with('tags')->where('group', '=', true)->orderBy('group', 'DESC')->orderBy('name', 'ASC')->get();
+        return $this->with([
+            'tags' => function ($query) {
+                $query->where('role_limit', '<=', auth()->user()->role_id);
+                $query->orWhere('role_limit', '=', null);
+            },
+        ])
+            ->where('group', '=', true)->orderBy('group', 'DESC')->orderBy('name', 'ASC')->get();
     }
 
     /**

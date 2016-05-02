@@ -174,11 +174,19 @@ trait QueryTrait
     /**
      * Returns collection of tags for Kanban view.
      *
+     * @param User $user
+     *
      * @return mixed
      */
-    public function getKanbanTags()
+    public function getKanbanTagsForUser(User $user)
     {
-        $tags = $this->kanbanTags()->get();
+        $tags = $this->kanbanTags()
+            ->where(function ($query) use ($user) {
+                $query->where('role_limit', '<=', $user->role_id);
+                $query->orWhere('role_limit', '=', null);
+            })
+            ->get();
+
         if (!$tags->count()) {
             $tags       = (new Tag())->getOpenAndCloseTags();
             $kanbanTags = $this->kanbanTags();

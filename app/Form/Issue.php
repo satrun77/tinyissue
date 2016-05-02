@@ -59,20 +59,18 @@ class Issue extends FormAbstract
      *
      * @return int
      */
-    protected function getIssueTagId($type)
+    protected function getIssueTag($type)
     {
-        if (!$this->isEditing()) {
-            return 0;
+        if ($this->isEditing()) {
+            $groupId = $this->getTags($type)->first()->parent_id;
+            $selectedTag = $this->getModel()->tags->where('parent_id', $groupId);
+
+            if ($selectedTag->count() > 0) {
+                return $selectedTag->last();
+            }
         }
 
-        $groupId     = $this->getTags($type)->first()->parent_id;
-        $selectedTag = $this->getModel()->tags->where('parent_id', $groupId);
-
-        if ($selectedTag->count() === 0) {
-            return 0;
-        }
-
-        return $selectedTag->last()->id;
+        return new Model\Tag();
     }
 
     /**
@@ -187,7 +185,14 @@ class Issue extends FormAbstract
      */
     protected function fieldStatusTags()
     {
-        $tags    = $this->getTags('status');
+        $currentTag = $this->getIssueTag('status');
+
+        if ($currentTag && !$currentTag->canView()) {
+            $tags = [$currentTag];
+        } else {
+            $tags = $this->project->getKanbanTagsForUser(auth()->user());
+        }
+
         $options = [];
         foreach ($tags as $tag) {
             $options[ucwords($tag->name)] = [
@@ -202,11 +207,12 @@ class Issue extends FormAbstract
             'label'  => 'status',
             'type'   => 'radioButton',
             'radios' => $options,
-            'check'  => $this->getIssueTagId('status'),
+            'check'  => $this->getIssueTag('status')->id,
         ];
 
         return $fields;
     }
+
     /**
      * Returns tags field.
      *
@@ -214,7 +220,14 @@ class Issue extends FormAbstract
      */
     protected function fieldTypeTags()
     {
-        $tags    = $this->getTags('type');
+        $currentTag = $this->getIssueTag('type');
+
+        if ($currentTag && !$currentTag->canView()) {
+            $tags = [$currentTag];
+        } else {
+            $tags = $this->getTags('type');
+        }
+
         $options = [];
         foreach ($tags as $tag) {
             $options[ucwords($tag->name)] = [
@@ -229,7 +242,7 @@ class Issue extends FormAbstract
             'label'  => 'type',
             'type'   => 'radioButton',
             'radios' => $options,
-            'check'  => $this->getIssueTagId('type'),
+            'check'  => $this->getIssueTag('type')->id,
         ];
 
         return $fields;
@@ -242,7 +255,14 @@ class Issue extends FormAbstract
      */
     protected function fieldResolutionTags()
     {
-        $tags    = $this->getTags('resolution');
+        $currentTag = $this->getIssueTag('resolution');
+
+        if ($currentTag && !$currentTag->canView()) {
+            $tags = [$currentTag];
+        } else {
+            $tags = $this->getTags('resolution');
+        }
+
         $options = [
             trans('tinyissue.none') => [
                 'name'      => 'tag_resolution',
@@ -264,7 +284,7 @@ class Issue extends FormAbstract
             'label'  => 'resolution',
             'type'   => 'radioButton',
             'radios' => $options,
-            'check'  => $this->getIssueTagId('resolution'),
+            'check'  => $this->getIssueTag('resolution')->id,
         ];
 
         return $fields;
