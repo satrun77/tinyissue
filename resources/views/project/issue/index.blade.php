@@ -32,9 +32,15 @@ active
 @endif
 
 <div class="activity-tags">
-@foreach($issue->tags()->with('parent')->get() as $tag)
-    <label class="label" style="background: {{ $tag->bgcolor or 'gray' }}">{!! Html::formatIssueTag($tag->name, $tag->parent->name) !!}</label>
-@endforeach
+    @if($issue->isOpen())
+        <label class="label" style="background: green">{!! Html::formatIssueTag('Open') !!}</label>
+    @else
+        <label class="label" style="background: lightgray">{!! Html::formatIssueTag('Closed') !!}</label>
+    @endif
+
+    @foreach($issue->tags()->with('parent')->get() as $tag)
+        <label class="label" style="background: {{ $tag->bgcolor or 'gray' }}">{!! Html::formatIssueTag($tag->name, $tag->parent->name) !!}</label>
+    @endforeach
 </div>
 
 <span class="clearfix"></span>
@@ -119,7 +125,11 @@ active
     @endpermission
 @else
     <div class="actions">
-    {!! Html::link($issue->to('status/1'), trans('tinyissue.reopen_issue')) !!}
+        <ul class="issue-actions">
+            <li>
+            {!! Html::link($issue->to('status/1'), trans('tinyissue.reopen_issue')) !!}
+            </li>
+        </ul>
     </div>
 @endif
 

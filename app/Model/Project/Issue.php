@@ -140,4 +140,14 @@ class Issue extends BaseModel
 
         return null;
     }
+
+    /**
+     * Whether or not the issue is open or closed
+     *
+     * @return bool
+     */
+    public function isOpen()
+    {
+        return (bool)$this->status;
+    }
 }

@@ -53,7 +53,6 @@ class Tag extends FormAbstract
             'name' => [
                 'type'  => 'text',
                 'label' => 'name',
-                'readonly' => ($this->isEditing() && $this->getModel()->isCore())
             ],
             'parent_id' => [
                 'type'    => 'select',
@@ -97,8 +96,6 @@ class Tag extends FormAbstract
             return $this->getModel()->to('edit');
         }
 
-        $tag = new Model\Tag();
-
-        return $tag->to('new');
+        return (new Model\Tag())->to('new');
     }
 }

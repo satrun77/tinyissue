@@ -20,11 +20,18 @@ active
 
     @foreach($tags as $group)
         <h4>@lang('tinyissue.' . $group->name)</h4>
-        <div class="list-group">
+        <ul class="list-group">
             @foreach($group->tags as $tag)
-            <a href="{{ $tag->to('edit') }}" class="list-group-item"><span class="label" style="background:{{ $tag->bgcolor or 'gray' }}">{{ $tag->name }}</span></a>
+                <li class="list-group-item">
+                    <a href="{{ $tag->to('delete') }}" class="tag delete has-event">
+                        @lang('tinyissue.remove')
+                    </a>
+                    <a href="{{ $tag->to('edit') }}">
+                        <span class="label" style="background:{{ $tag->bgcolor or 'gray' }}">{{ $tag->name }}</span>
+                    </a>
+                </li>
             @endforeach
-        </div>
+        </ul>
     @endforeach
 
 @stop

@@ -138,7 +138,6 @@ class Project extends FormAbstract
             'type'       => 'checkboxButton',
             'checkboxes' => $options,
             'grouped'    => true,
-            'help'       => trans('tinyissue.columns_help'),
         ];
 
         return $fields;
