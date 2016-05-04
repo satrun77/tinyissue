@@ -95,10 +95,7 @@ trait QueryTrait
         $query = $this->issues()
             ->with('countComments', 'user', 'updatedBy', 'tags', 'tags.parent')
             ->with([
-                'tags' => function (Relation $query) use ($status, $sortOrder) {
-                    $status = $status == Project\Issue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
-                    $query->where('name', '!=',
-                        ($status == Project\Issue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED));
+                'tags' => function (Relation $query) use ($sortOrder) {
                     $query->orderBy('name', $sortOrder);
                 },
             ])
@@ -187,16 +184,6 @@ trait QueryTrait
             })
             ->get();
 
-        if (!$tags->count()) {
-            $tags       = (new Tag())->getOpenAndCloseTags();
-            $kanbanTags = $this->kanbanTags();
-            foreach ($tags as $position => $tag) {
-                $position = $tag->name === Tag::STATUS_OPEN ? -1 : $position;
-                $position = $tag->name === Tag::STATUS_CLOSED ? 100 : $position;
-                $kanbanTags->attach([$tag->id => ['position' => $position]]);
-            }
-        }
-
         return $tags;
     }
 
@@ -210,21 +197,14 @@ trait QueryTrait
     public function issuesGroupByTags($tagIds)
     {
         $issues = $this->issues()
-            ->with('user', 'tags')
+        ->with('user', 'tags')
+            ->where('status', '=', Project\Issue::STATUS_OPEN)
+            ->whereIn('projects_issues_tags.tag_id', $tagIds)
+            ->join('projects_issues_tags','issue_id', '=', 'id')
             ->orderBy('id')
             ->get()
             ->groupBy(function (Project\Issue $issue) use ($tagIds) {
-                // Group by tag status
-                $tag = $issue->tags->filter(function (Tag $tag) use ($tagIds) {
-                    return in_array($tag->id, $tagIds);
-                })->last();
-
-                if (!$tag) {
-                    // Workaround: Some older issues before the tags feature may not have open/close tag
-                    return $issue->status === Project\Issue::STATUS_OPEN ? Tag::STATUS_OPEN : Tag::STATUS_CLOSED;
-                }
-
-                return $tag->name;
+                return $issue->tags->last()->name;
             });
 
         return $issues;

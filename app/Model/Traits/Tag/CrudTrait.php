@@ -48,28 +48,6 @@ trait CrudTrait
     }
 
     /**
-     * Create new tag from string of group name and tag name.
-     *
-     * @param string $tagFullName
-     *
-     * @return $this|bool
-     */
-    public function createTagFromString($tagFullName)
-    {
-        list($groupName, $tagName) = explode(':', $tagFullName);
-
-        // Check if group name is valid
-        $groupTag = $this->validOrCreate($groupName);
-
-        if (!$groupTag) {
-            return false;
-        }
-
-        // Create new tag or return existing one
-        return $this->validOrCreate($tagName, $groupTag);
-    }
-
-    /**
      * Create a new tag if valid or return existing one.
      *
      * @param string   $name

@@ -31,8 +31,7 @@ class Tag extends Model
     use Traits\Tag\CrudTrait,
         Traits\Tag\QueryTrait,
         Traits\Tag\RelationTrait,
-        Traits\Tag\CountTrait,
-        Traits\Tag\DataMappingTrait;
+        Traits\Tag\CountTrait;
 
     /**
      * Core tag: Open.
@@ -109,12 +108,16 @@ class Tag extends Model
     }
 
     /**
-     * Whether or not the tag is core tag
+     * Return an array of tag details.
      *
-     * @return bool
+     * @return array
      */
-    public function isCore()
+    public function toArray()
     {
-        return $this->name == static::STATUS_OPEN || $this->name == static::STATUS_CLOSED;
+        return [
+            'id'      => $this->id,
+            'name'    => $this->fullname,
+            'bgcolor' => $this->bgcolor,
+        ];
     }
 }

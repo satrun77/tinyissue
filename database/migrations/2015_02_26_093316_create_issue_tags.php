@@ -46,19 +46,9 @@ class CreateIssueTags extends Migration
 
             $tags = [
                 [
-                    'name'      => 'open',
-                    'parent_id' => 'status',
-                    'bgcolor'   => '#c43c35',
-                ],
-                [
                     'name'      => 'testing',
                     'parent_id' => 'status',
                     'bgcolor'   => '#6c8307',
-                ],
-                [
-                    'name'      => 'closed',
-                    'parent_id' => 'status',
-                    'bgcolor'   => '#46a546',
                 ],
                 [
                     'name'      => 'feature',
@@ -97,18 +87,6 @@ class CreateIssueTags extends Migration
                 $table->bigInteger('tag_id');
                 $table->primary(['issue_id', 'tag_id']);
             });
-        }
-
-        $openIssues = Model\Project\Issue::where('status', '=', Model\Project\Issue::STATUS_OPEN)->lists('id');
-        if (count($openIssues) > 0) {
-            $openTag = Model\Tag::where('parent_id', '=', Model\Tag::where('name', '=', 'status')->first()->id)->where('name', '=', 'open')->first();
-            $openTag->issues()->attach($openIssues);
-        }
-
-        $closedIssues = Model\Project\Issue::where('status', '=', Model\Project\Issue::STATUS_CLOSED)->lists('id');
-        if (count($closedIssues) > 0) {
-            $closedTag = Model\Tag::where('parent_id', '=', Model\Tag::where('name', '=', 'status')->first()->id)->where('name', '=', 'closed')->first();
-            $closedTag->issues()->attach($closedIssues);
         }
 
         // Create activity type for tag update

@@ -105,7 +105,6 @@ trait RelationTrait
     public function kanbanTags()
     {
         return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')
-            ->whereNotIn('name', [Tag::STATUS_OPEN, Tag::STATUS_CLOSED])
             ->orderBy('position');
     }
 }

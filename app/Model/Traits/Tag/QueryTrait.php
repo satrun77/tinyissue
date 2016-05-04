@@ -80,23 +80,6 @@ trait QueryTrait
     }
 
     /**
-     * Returns Json string of tags details.
-     * Used for JS auto-complete.
-     *
-     * @param string|array $ids
-     *
-     * @return string
-     */
-    public function tagsToJson($ids)
-    {
-        if (!is_array($ids)) {
-            $ids = array_map('trim', explode(',', $ids));
-        }
-
-        return $this->whereIn('id', $ids)->get()->map([$this, 'tokenFieldCallback'])->toJson();
-    }
-
-    /**
      * Return tag by name.
      *
      * @param string $name
@@ -136,18 +119,5 @@ trait QueryTrait
     public function getResolutionTags()
     {
         return $this->getTagByName('resolution')->tags();
-    }
-
-    /**
-     * Returns collection of open and closed tags.
-     *
-     * @return mixed
-     */
-    public function getOpenAndCloseTags()
-    {
-        return static::where('name', '=', TagModel::STATUS_OPEN)
-            ->orWhere('name', '=', TagModel::STATUS_CLOSED)
-            ->orderBy('name', 'DESC')
-            ->get();
     }
 }

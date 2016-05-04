@@ -104,17 +104,14 @@ trait CrudTrait
             return Tag::find($tagNameOrId);
         })->filter(function ($tag) {
             return $tag instanceof Tag;
-        })->merge((new Tag())->getOpenAndCloseTags());
+        });
 
         // Delete all existing
         $this->kanbanTags()->detach();
 
         // Save tags
         $kanbanTags = $this->kanbanTags();
-        $count      = $tags->count();
         foreach ($tags as $position => $tag) {
-            $position = $tag->name === Tag::STATUS_OPEN ? -1 : $position;
-            $position = $tag->name === Tag::STATUS_CLOSED ? $count + 1 : $position;
             $kanbanTags->attach([$tag->id => ['position' => $position]]);
         }
 
