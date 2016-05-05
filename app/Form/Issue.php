@@ -62,7 +62,7 @@ class Issue extends FormAbstract
     protected function getIssueTag($type)
     {
         if ($this->isEditing()) {
-            $groupId = $this->getTags($type)->first()->parent_id;
+            $groupId     = $this->getTags($type)->first()->parent_id;
             $selectedTag = $this->getModel()->tags->where('parent_id', $groupId);
 
             if ($selectedTag->count() > 0) {

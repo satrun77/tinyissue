@@ -98,7 +98,7 @@ class Tag extends Model
     }
 
     /**
-     * Whether or not the current user can view this tag
+     * Whether or not the current user can view this tag.
      *
      * @return bool
      */

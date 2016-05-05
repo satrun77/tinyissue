@@ -200,7 +200,7 @@ trait QueryTrait
         ->with('user', 'tags')
             ->where('status', '=', Project\Issue::STATUS_OPEN)
             ->whereIn('projects_issues_tags.tag_id', $tagIds)
-            ->join('projects_issues_tags','issue_id', '=', 'id')
+            ->join('projects_issues_tags', 'issue_id', '=', 'id')
             ->orderBy('id')
             ->get()
             ->groupBy(function (Project\Issue $issue) use ($tagIds) {

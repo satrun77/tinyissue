@@ -79,9 +79,10 @@ trait CrudTrait
     }
 
     /**
-     * Delete tag
+     * Delete tag.
      *
      * @return bool|null
+     *
      * @throws \Exception
      */
     public function delete()

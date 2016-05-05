@@ -102,7 +102,7 @@ class TagsController extends Controller
     }
 
     /**
-     * Delete tag
+     * Delete tag.
      * 
      * @param Tag $tag
      *

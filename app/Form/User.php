@@ -81,13 +81,13 @@ class User extends FormAbstract
             'type' => 'legend',
         ];
         $fields['password'] = [
-            'type'  => 'password',
-            'label' => 'new_password',
+            'type'         => 'password',
+            'label'        => 'new_password',
             'autocomplete' => 'off',
         ];
         $fields['password_confirmation'] = [
-            'type'  => 'password',
-            'label' => 'confirm',
+            'type'         => 'password',
+            'label'        => 'confirm',
             'autocomplete' => 'off',
         ];
 

@@ -55,11 +55,11 @@ trait CrudTagTrait
         if ($status == 0) {
             $this->closed_by = $userId;
             $this->closed_at = (new \DateTime())->format('Y-m-d H:i:s');
-            $activityType = Activity::TYPE_CLOSE_ISSUE;
+            $activityType    = Activity::TYPE_CLOSE_ISSUE;
         } else {
             $this->closed_by = 0;
             $this->closed_at = null;
-            $activityType = Activity::TYPE_REOPEN_ISSUE;
+            $activityType    = Activity::TYPE_REOPEN_ISSUE;
         }
 
         /* Add to activity log */
@@ -93,7 +93,7 @@ trait CrudTagTrait
         if (null === $currentTags) {
             // Add the following tags except for open status
             $addedTags = $tags
-                ->map(function(Tag $tag) {
+                ->map(function (Tag $tag) {
                     return $tag->toArray();
                 })
                 ->toArray();
@@ -101,7 +101,7 @@ trait CrudTagTrait
             // Tags remove from the issue
             $removedTags = $currentTags
                 ->diff($tags)
-                ->map(function(Tag $tag) {
+                ->map(function (Tag $tag) {
                     return $tag->toArray();
                 })
                 ->toArray();
@@ -111,7 +111,7 @@ trait CrudTagTrait
                 ->filter(function (Tag $tag) use ($currentTags) {
                     return $currentTags->where('id', $tag->id)->count() === 0;
                 })
-                ->map(function(Tag $tag) {
+                ->map(function (Tag $tag) {
                     return $tag->toArray();
                 })
                 ->toArray();
@@ -142,8 +142,8 @@ trait CrudTagTrait
     /**
      * Add tag to the issue & close issue if added tag is Closed.
      *
-     * @param Tag  $newTag
-     * @param Tag  $oldTag
+     * @param Tag $newTag
+     * @param Tag $oldTag
      *
      * @return $this
      */

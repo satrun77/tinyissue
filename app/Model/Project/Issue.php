@@ -142,7 +142,7 @@ class Issue extends BaseModel
     }
 
     /**
-     * Whether or not the issue is new
+     * Whether or not the issue is new.
      *
      * @return bool
      */
@@ -151,16 +151,17 @@ class Issue extends BaseModel
         if ($this->status === 0) {
             return false;
         }
+
         return $this->tags->count() === 0;
     }
 
     /**
-     * Whether or not the issue is open or closed
+     * Whether or not the issue is open or closed.
      *
      * @return bool
      */
     public function isOpen()
     {
-        return (boolean)$this->status;
+        return (boolean) $this->status;
     }
 }
