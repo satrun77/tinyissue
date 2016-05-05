@@ -142,12 +142,25 @@ class Issue extends BaseModel
     }
 
     /**
+     * Whether or not the issue is new
+     *
+     * @return bool
+     */
+    public function isNew()
+    {
+        if ($this->status === 0) {
+            return false;
+        }
+        return $this->tags->count() === 0;
+    }
+
+    /**
      * Whether or not the issue is open or closed
      *
      * @return bool
      */
     public function isOpen()
     {
-        return (bool)$this->status;
+        return (boolean)$this->status;
     }
 }

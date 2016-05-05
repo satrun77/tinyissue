@@ -32,9 +32,9 @@ active
 @endif
 
 <div class="activity-tags">
-    @if($issue->isOpen())
-        <label class="label" style="background: green">{!! Html::formatIssueTag('Open') !!}</label>
-    @else
+    @if($issue->isNew())
+        <label class="label" style="background: green">{!! Html::formatIssueTag('New') !!}</label>
+    @elseif(!$issue->isOpen())
         <label class="label" style="background: lightgray">{!! Html::formatIssueTag('Closed') !!}</label>
     @endif
 

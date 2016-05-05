@@ -206,5 +206,7 @@ return [
     'user_is_blocked'                   => 'User is currently blocked from login',
     'user_is_not_active'                => 'User account has been temporarily deactivated',
     'comments'                          => 'Comments',
-    'limit_access'                      => 'Limit access'
+    'limit_access'                      => 'Limit access',
+    'confirm_delete_tag'                => 'Are sure you want to delete this tag?',
+    'tag_has_been_deleted'              => 'The tag has been deleted.',
 ];

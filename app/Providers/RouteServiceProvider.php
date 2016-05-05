@@ -156,6 +156,7 @@ class RouteServiceProvider extends ServiceProvider
                     $router->post('administration/tag/new', 'Administration\TagsController@postNew');
                     $router->get('administration/tag/{tag}/edit', 'Administration\TagsController@getEdit');
                     $router->post('administration/tag/{tag}/edit', 'Administration\TagsController@postEdit');
+                    $router->get('administration/tag/{tag}/delete', 'Administration\TagsController@getDelete');
 
                     // Settings
                     $router->get('administration/settings', 'AdministrationController@getSettings');
@@ -207,9 +208,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function addPublicProjectRoutes(Router $router)
     {
-        // Tags autocomplete
-        $router->get('administration/tags/suggestions/{term?}', ['middleware' => 'ajax', 'uses' => 'Administration\TagsController@getTags']);
-
         // View project
         $router->get('project/{project}', 'ProjectController@getIndex')->where('project', '[0-9]+');
         $router->get('project/{project}/issues/{status?}', 'ProjectController@getIssues')->where('status', '[0-1]')->where('project', '[0-9]+');

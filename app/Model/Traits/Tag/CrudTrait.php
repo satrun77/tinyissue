@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Traits\Tag;
 
 use Illuminate\Database\Eloquent;
+use Tinyissue\Model\Project;
 use Tinyissue\Model\Tag;
 
 /**
@@ -75,6 +76,23 @@ trait CrudTrait
         }
 
         return $tag;
+    }
+
+    /**
+     * Delete tag
+     *
+     * @return bool|null
+     * @throws \Exception
+     */
+    public function delete()
+    {
+        // Remove kanban tags
+        \DB::table('projects_kanban_tags')->where('tag_id', '=', $this->id)->delete();
+
+        // Remove relation to issues
+        \DB::table('projects_issues_tags')->where('tag_id', '=', $this->id)->delete();
+
+        return parent::delete();
     }
 
     /**

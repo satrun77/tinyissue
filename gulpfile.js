@@ -18,7 +18,6 @@ elixir(function (mix) {
         'jquery.cookie.js',
         'jquery-ui.js',
         'jquery.ui.touch-punch.min.js',
-        'jquery.tokenfield.js',
         'slideout.min.js',
         'bootstrap.js',
         'app.js'
@@ -27,7 +26,6 @@ elixir(function (mix) {
         .less([
             'base.less',
             'app.less',
-            'tokenfield.less'
         ], 'resources/css/app.css')
 
         .less([

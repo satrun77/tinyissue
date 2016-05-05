@@ -23,7 +23,7 @@ active
         <ul class="list-group">
             @foreach($group->tags as $tag)
                 <li class="list-group-item">
-                    <a href="{{ $tag->to('delete') }}" class="tag delete has-event">
+                    <a href="{{ $tag->to('delete') }}" class="tag delete has-event" data-message="@lang('tinyissue.confirm_delete_tag')" data-tag-id="{{ $tag->id }}">
                         @lang('tinyissue.remove')
                     </a>
                     <a href="{{ $tag->to('edit') }}">

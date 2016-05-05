@@ -102,30 +102,17 @@ class TagsController extends Controller
     }
 
     /**
-     * Ajax: to search for tag by keyword (used by auto complete tag field).
+     * Delete tag
+     * 
+     * @param Tag $tag
      *
-     * @param Tag     $tag
-     * @param string  $term
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return mixed
      */
-    public function getTags(Tag $tag, Request $request, $term = '')
+    public function getDelete(Tag $tag)
     {
-        $tags = [];
-        $term = (string) $request->input('term', $term);
-        if (!empty($term)) {
-            $tags = $tag->searchTags($term)->filter(function (Tag $tag) {
-                return !($tag->name == 'open' || $tag->name == 'closed');
-            })->map(function (Tag $tag) {
-                return [
-                    'value'   => $tag->id,
-                    'label'   => $tag->fullname,
-                    'bgcolor' => $tag->bgcolor,
-                ];
-            })->toArray();
-        }
+        $tag->delete();
 
-        return response()->json($tags);
+        return redirect('administration/tags')
+            ->with('notice', trans('tinyissue.tag_has_been_deleted'));
     }
 }
