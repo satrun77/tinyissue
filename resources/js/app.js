@@ -15,7 +15,7 @@ $(function () {
     }
 
     // Confirm links
-    $('.close-issue, .delete-project, #users-list .delete').addClass('has-event').on('click', function () {
+    $('.close-issue, .delete-project, #users-list .delete, .tag.delete').addClass('has-event').on('click', function () {
         return ConfirmDialog.show($(this), function () {
             return true;
         });
