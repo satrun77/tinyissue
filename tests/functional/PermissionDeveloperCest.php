@@ -64,12 +64,9 @@ class PermissionDeveloperCest
         $project2 = $I->createProject(2, [$user]);
 
         $I->login($user->email, '123', $user->firstname);
-        $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f']));
-        $tags   = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title' => 'issue 1',
             'body'  => 'body of issue 1',
-            'tag'   => $tags->forPage(0, 1)->implode('value', ','),
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Collection;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\Tag;
 
 class CrudIssueCest
 {
@@ -22,25 +23,22 @@ class CrudIssueCest
         $I->amLoggedAs($admin);
 
         $project = $I->createProject(1, [$developer1, $admin]);
-
-        $I->sendAjaxGetRequest(
-            $I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f'])
-        );
-        $tags = new Collection((array) $I->getJsonResponseContent());
-
+        $type = (new Tag())->getTypeTags()->first();
         $I->amOnAction('ProjectsController@getNewIssue');
 
         $params = [
-            'title'   => 'issue 1',
-            'body'    => 'body of issue 1',
-            'tag'     => $tags->forPage(0, 2)->implode('value', ','),
-            'project' => $project->id,
+            'title'    => 'issue 1',
+            'body'     => 'body of issue 1',
+            'project'  => $project->id,
+            'tag_type' => $type->id
         ];
         $I->submitForm('#content .form-horizontal', $params);
         $issue = $I->fetchIssueBy('title', $params['title']);
+        $I->comment(print_r($issue->tags, true));
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeResponseCodeIs(200);
         $I->seeLink($params['title']);
+        $I->see($type->fullname);
         $I->see($params['body'], '.content');
     }
 
@@ -61,16 +59,18 @@ class CrudIssueCest
         $I->login($admin->email, '123', $admin->firstname);
 
         $project = $I->createProject(1, [$developer1]);
-
-        $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f']));
+        $type    = (new Tag())->getTypeTags()->first();
+        $status  = (new Tag())->getStatusTags()->get()->last();
 
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project]);
         $I->seeOptionIsSelected('assigned_to', $developer1->fullname);
 
         $params = [
-            'title'       => 'issue 1',
-            'body'        => 'body of issue 1',
-            'assigned_to' => $developer1->id,
+            'title'          => 'issue 1',
+            'body'           => 'body of issue 1',
+            'assigned_to'    => $developer1->id,
+            'tag_type'       => $type->id,
+            'tag_status'     => $status->id,
             'time_quote'  => [
                 'h' => 1,
                 'm' => 2,
@@ -82,6 +82,8 @@ class CrudIssueCest
         $I->seeResponseCodeIs(200);
         $I->seeLink($params['title']);
         $I->see($params['body'], '.content');
+        $I->see($type->fullname);
+        $I->see($status->fullname);
         $I->see(\Html::duration($issue->time_quote), '.issue-quote');
     }
 

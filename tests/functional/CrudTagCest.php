@@ -55,8 +55,8 @@ class CrudTagCest
         $I->seeCurrentActionIs('Administration\TagsController@getEdit', ['tag' => $tag]);
         $I->submitForm('form', $data);
         $I->amOnAction('Administration\\TagsController@getIndex');
-        $I->see($data['name'], $this->_editTagSelector($data['name']));
-        $I->dontSee($data['name'], $this->_editTagSelector($tagName));
+        $I->see($data['name']);
+        $I->dontSee($tagName);
     }
 
     /**
@@ -68,6 +68,6 @@ class CrudTagCest
      */
     protected function _editTagSelector($tagName)
     {
-        return '//a[contains(concat(" ", normalize-space(@class), " "), " list-group-item ") and contains(translate(., "' . strtoupper($tagName) . '", "' . $tagName . '"), "' . $tagName . '")]';
+        return '//li[contains(concat(" ", normalize-space(@class), " "), " list-group-item ") and contains(translate(., "' . strtoupper($tagName) . '", "' . $tagName . '"), "' . $tagName . '")]/a[last()]';
     }
 }

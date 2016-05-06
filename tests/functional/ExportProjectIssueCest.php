@@ -162,21 +162,6 @@ class ExportProjectIssueCest
         list($manager, $project, $issues1, $issues2, $developer) = $this->_createData($I, true);
         $I->login($manager->email, '123', $manager->firstname);
 
-        // Add tag to issues1
-        $I->sendAjaxGetRequest(
-            $I->getApplication()->url->action('Administration\TagsController@getTags', ['term' => 'f'])
-        );
-
-        $tags = new Collection((array) $I->getJsonResponseContent());
-        $tags = $tags->filter(function ($tag) use ($I) {
-            return strpos(strtolower($tag->label), ':feature') !== false;
-        });
-        array_walk($issues1, function ($issue) use ($I, $tags) {
-            foreach ($tags as $tag) {
-                $issue->tags()->save(Tag::find($tag->value));
-            }
-        });
-
         $this->_exportIssues($I, $project, [
             'assignto' => $developer->id,
             'tags'     => $tags->implode('value', ','),

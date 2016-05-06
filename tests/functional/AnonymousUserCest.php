@@ -3,7 +3,7 @@
 use Tinyissue\Model\User;
 use Tinyissue\Model\Setting;
 
-class AnonymousUserCest
+    class AnonymousUserCest
 {
     /**
      * @param FunctionalTester $I

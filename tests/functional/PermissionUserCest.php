@@ -5,13 +5,13 @@ use Illuminate\Support\Collection;
 class PermissionUserCest
 {
     /**
-     * @param FunctionalTester $I
+     * @param FunctionalTester\UserSteps $I
      *
-     * @actor FunctionalTester
+     * @actor FunctionalTester\UserSteps
      *
      * @return void
      */
-    public function viewIssues(FunctionalTester $I)
+    public function viewIssues(FunctionalTester\UserSteps $I)
     {
         $I->am('Normal User');
         $I->expectTo('view issues in projects I am one of the users');
@@ -64,16 +64,14 @@ class PermissionUserCest
         $project2 = $I->createProject(2, [$user]);
 
         $I->login($user->email, '123', $user->firstname);
-        $I->sendAjaxGetRequest($I->getApplication()->url->action('Administration\TagsController@getTags',
-            ['term' => 'f']));
-        $tags   = new Collection((array) $I->getJsonResponseContent());
         $params = [
             'title' => 'issue 1',
             'body'  => 'body of issue 1',
-            'tag'   => $tags->forPage(0, 1)->implode('value', ','),
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);
         $I->seeResponseCodeIs(200);
+        $I->dontSeeElement('//*[@name=\'tag_status\']');
+        $I->dontSeeElement('//*[@name=\'tag_resolution\']');
         $I->submitForm('#content .form-horizontal', $params);
         $issue = $I->fetchIssueBy('title', $params['title']);
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue]);
