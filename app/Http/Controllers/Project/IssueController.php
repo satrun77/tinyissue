@@ -386,6 +386,14 @@ class IssueController extends Controller
         return response()->json(['status' => true, 'issue' => $issue->id]);
     }
 
+    /**
+     * Ajax: returns comments for an issue.
+     *
+     * @param Project $project
+     * @param Issue   $issue
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getIssueComments(Project $project, Issue $issue)
     {
         $issue->attachments->each(function (Attachment $attachment) use ($issue) {

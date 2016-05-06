@@ -94,7 +94,7 @@ trait CrudTagTrait
             // Add the following tags except for open status
             $addedTags = $tags
                 ->map(function (Tag $tag) {
-                    return $tag->toArray();
+                    return $tag->toShortArray();
                 })
                 ->toArray();
         } else {
@@ -102,7 +102,7 @@ trait CrudTagTrait
             $removedTags = $currentTags
                 ->diff($tags)
                 ->map(function (Tag $tag) {
-                    return $tag->toArray();
+                    return $tag->toShortArray();
                 })
                 ->toArray();
 
@@ -112,7 +112,7 @@ trait CrudTagTrait
                     return $currentTags->where('id', $tag->id)->count() === 0;
                 })
                 ->map(function (Tag $tag) {
-                    return $tag->toArray();
+                    return $tag->toShortArray();
                 })
                 ->toArray();
 
@@ -159,13 +159,13 @@ trait CrudTagTrait
 
         // Remove previous status tag
         $this->tags()->detach($oldTag);
-        $data['removed_tags'][] = $oldTag->toArray();
+        $data['removed_tags'][] = $oldTag->toShortArray();
 
         // Add new tag
         if (!$this->tags->contains($newTag)) {
             $this->tags()->attach($newTag);
 
-            $data['added_tags'][] = $newTag->toArray();
+            $data['added_tags'][] = $newTag->toShortArray();
         }
 
         // Add to activity log for tags if changed

@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Traits\Tag;
 
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Query;
+use Tinyissue\Model\Role;
 use Tinyissue\Model\Tag as TagModel;
 
 /**
@@ -34,9 +35,11 @@ trait QueryTrait
     public function getGroupTags()
     {
         return $this->with([
-            'tags' => function ($query) {
-                $query->where('role_limit', '<=', auth()->user()->role_id);
-                $query->orWhere('role_limit', '=', null);
+            'tags' => function (Eloquent\Relations\HasMany $query) {
+                $query->where(function(Eloquent\Builder $query) {
+                    $query->where('role_limit', '<=', auth()->user()->role_id);
+                    $query->orWhere('role_limit', '=', null);
+                });
             },
         ])
             ->where('group', '=', true)->orderBy('group', 'DESC')->orderBy('name', 'ASC')->get();

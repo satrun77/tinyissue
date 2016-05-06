@@ -112,7 +112,7 @@ class Tag extends Model
      *
      * @return array
      */
-    public function toArray()
+    public function toShortArray()
     {
         return [
             'id'      => $this->id,

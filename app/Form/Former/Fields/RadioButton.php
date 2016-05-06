@@ -40,6 +40,11 @@ class RadioButton extends Radio
      */
     protected function createCheckable($item, $fallbackValue = 1)
     {
+        // Check for required values
+        if (!isset($item['attributes']['color'])) {
+            return '';
+        }
+
         // Make sure the parent class will create inline radios
         $this->inline = true;
 

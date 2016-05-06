@@ -159,7 +159,7 @@ class ProjectsController extends Controller
         $issue->createIssue([
             'title'        => $request->input('title'),
             'body'         => $request->input('body'),
-            'tag'          => $request->input('tag'),
+            'tag_type'     => $request->input('tag_type'),
             'upload_token' => $request->input('upload_token'),
             'assigned_to'  => (int) $project->default_assignee,
             'time_quote'   => 0,
