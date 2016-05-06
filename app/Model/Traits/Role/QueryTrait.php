@@ -26,7 +26,7 @@ trait QueryTrait
     /**
      * Drop down of all roles.
      *
-     * @return array
+     * @return Eloquent\Collection
      */
     public static function dropdown()
     {
