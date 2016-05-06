@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Collection;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Tag;
@@ -162,9 +161,14 @@ class ExportProjectIssueCest
         list($manager, $project, $issues1, $issues2, $developer) = $this->_createData($I, true);
         $I->login($manager->email, '123', $manager->firstname);
 
+        $status = (new Tag())->getStatusTags()->get()->random(1);
+        array_walk($issues1, function ($issue) use ($status) {
+            $issue->tags()->save($status);
+        });
+
         $this->_exportIssues($I, $project, [
-            'assignto' => $developer->id,
-            'tags'     => $tags->implode('value', ','),
+            'assignto'   => $developer->id,
+            'tag_status' => $status->id,
         ]);
         $this->_downloadExport($I, $project);
         $this->_assertExport($I, $project, $issues1, $issues2);

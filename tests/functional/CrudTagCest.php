@@ -19,9 +19,11 @@ class CrudTagCest
         $tag   = new Tag();
         $group = $tag->getGroups()->random(1);
         $data  = [
-            'name'      => 'tag1',
-            'parent_id' => $group->id,
-            'bgcolor'   => 'red',
+            'name'       => 'tag1',
+            'parent_id'  => $group->id,
+            'group'      => 0,
+            'bgcolor'    => 'red',
+            'role_limit' => '',
         ];
 
         $I->amLoggedAs($I->createUser(1, 4));
@@ -44,9 +46,8 @@ class CrudTagCest
         $I->wantTo('edit an existing tag');
 
         $tag  = (new Tag())->where('group', '=', false)->get()->random(1);
-        $data = [
-            'name' => 'tag updated',
-        ];
+        $data = $tag->toArray();
+        $data['name'] = 'tag updated';
         $tagName = $tag->name;
 
         $I->amLoggedAs($I->createUser(1, 4));
@@ -55,8 +56,8 @@ class CrudTagCest
         $I->seeCurrentActionIs('Administration\TagsController@getEdit', ['tag' => $tag]);
         $I->submitForm('form', $data);
         $I->amOnAction('Administration\\TagsController@getIndex');
-        $I->see($data['name']);
-        $I->dontSee($tagName);
+        $I->see($data['name'], $this->_editTagSelector($data['name']));
+        $I->dontSee($data['name'], $this->_editTagSelector($tagName));
     }
 
     /**
