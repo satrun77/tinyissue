@@ -66,7 +66,7 @@ class Tag extends FormAbstract
              'role_limit' => [
                 'type'    => 'select',
                 'label'   => 'limit_access',
-                'options' => Role::dropdown(),
+                'options' => Role::dropdown()->prepend(''),
             ],
         ];
 

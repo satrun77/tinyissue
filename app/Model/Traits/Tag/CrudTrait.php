@@ -33,49 +33,7 @@ trait CrudTrait
      */
     public function createTag(array $input)
     {
-        return $this->fill($this->prepareTagToSave($input))->save();
-    }
-
-    /**
-     * Update the tags in the database.
-     *
-     * @param array $attributes
-     *
-     * @return bool|int
-     */
-    public function update(array $attributes = [])
-    {
-        return parent::update($this->prepareTagToSave($attributes));
-    }
-
-    /**
-     * Create a new tag if valid or return existing one.
-     *
-     * @param string   $name
-     * @param null|Tag $parent
-     *
-     * @return bool|$this
-     */
-    public function validOrCreate($name, Tag $parent = null)
-    {
-        $group = $parent === null ? true : false;
-        $tag   = $this->where('name', '=', $name)->first();
-        if ($tag && $tag->group != $group) {
-            return false;
-        }
-
-        if (!$tag) {
-            $tag        = new Tag();
-            $tag->name  = $name;
-            $tag->group = $group;
-            if (!is_null($parent)) {
-                $tag->parent_id = $parent->id;
-                $tag->setRelation('parent', $parent);
-            }
-            $tag->save();
-        }
-
-        return $tag;
+        return $this->fill($input)->save();
     }
 
     /**
@@ -94,19 +52,5 @@ trait CrudTrait
         \DB::table('projects_issues_tags')->where('tag_id', '=', $this->id)->delete();
 
         return parent::delete();
-    }
-
-    /**
-     * Prepare tag details to save.
-     *
-     * @param array $input
-     *
-     * @return array
-     */
-    protected function prepareTagToSave(array $input)
-    {
-        $input['group'] = 0;
-
-        return $input;
     }
 }
