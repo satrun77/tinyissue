@@ -18,7 +18,7 @@ before_script:
   - ./vendor/bin/codecept build
 
 script:
-  - ./vendor/bin/codecept run tests/functional/ --debug --coverage-xml
+  - ./vendor/bin/codecept run --debug --coverage-xml
 
 after_script:
   - cat tests/_output/*.fail.html
