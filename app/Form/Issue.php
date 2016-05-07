@@ -190,7 +190,7 @@ class Issue extends FormAbstract
         if ($currentTag && !$currentTag->canView()) {
             $tags = [$currentTag];
         } else {
-            $tags = $this->project->getKanbanTagsForUser(auth()->user());
+            $tags = $this->getTags('status');
         }
 
         $options = [];
