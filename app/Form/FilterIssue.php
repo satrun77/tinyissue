@@ -91,13 +91,6 @@ class FilterIssue extends FormAbstract
         // Array of project users
         $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->lists('fullname', 'id')->all();
 
-        // On submit, generate list of selected tags to populate the field
-        if (Request::has('tags')) {
-            $selectTags = (new Model\Tag())->tagsToJson(Request::input('tags'));
-        } else {
-            $selectTags = '';
-        }
-
         $fields = [
             'keyword' => [
                 'type'            => 'text',

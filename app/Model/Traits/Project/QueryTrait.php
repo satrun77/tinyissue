@@ -16,7 +16,6 @@ use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
 
 /**
@@ -178,7 +177,7 @@ trait QueryTrait
     public function getKanbanTagsForUser(User $user)
     {
         $tags = $this->kanbanTags()
-            ->where(function ($query) use ($user) {
+            ->where(function (Eloquent\Builder $query) use ($user) {
                 $query->where('role_limit', '<=', $user->role_id);
                 $query->orWhere('role_limit', '=', null);
             })
@@ -203,7 +202,7 @@ trait QueryTrait
             ->join('projects_issues_tags', 'issue_id', '=', 'id')
             ->orderBy('id')
             ->get()
-            ->groupBy(function (Project\Issue $issue) use ($tagIds) {
+            ->groupBy(function (Project\Issue $issue) {
                 return $issue->tags->last()->name;
             });
 
