@@ -1,5 +1,14 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.7.0
+
+- Date format settings to dropdown field with predefined options.
+- Feature: split issue activities into 2 tabs for comments and other activities logs.
+- Feature: allow tag sorting for project Kanban columns.
+- Feature: Limit tags displayed and issues within the tags by user role.
+- Simplified the tag labels by removing the group prefix.
+- Bug fixes and other improvements.
+
 ## Tiny Issue v2.6.0
 
 - Redesign the Kanban view.
