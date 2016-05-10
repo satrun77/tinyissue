@@ -78,8 +78,11 @@ class Tag extends FormAbstract
      */
     public function rules()
     {
+        // Tag to exclude in unique test while editing
+        $excludeTag = $this->isEditing()? ',' . $this->getModel()->id : '';
+
         $rules = [
-            'name'      => 'required|max:200',
+            'name'      => 'required|max:200|unique:tags,name' . $excludeTag,
             'parent_id' => 'required',
             'bgcolor'   => 'required',
         ];
