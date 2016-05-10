@@ -32,14 +32,12 @@ active
 @endif
 
 <div class="activity-tags">
-    @if($issue->isNew())
-        <label class="label" style="background: green">{!! Html::formatIssueTag('New') !!}</label>
-    @elseif(!$issue->isOpen())
+    @if(!$issue->isOpen())
         <label class="label" style="background: lightgray">{!! Html::formatIssueTag('Closed') !!}</label>
     @endif
 
-    @foreach($issue->tags()->with('parent')->get() as $tag)
-        <label class="label" style="background: {{ $tag->bgcolor or 'gray' }}">{!! Html::formatIssueTag($tag->name, $tag->parent->name) !!}</label>
+    @foreach($issue->tags as $tag)
+        <label class="label" style="background: {{ $tag->bgcolor or 'gray' }}">{!! Html::formatIssueTag($tag->name) !!}</label>
     @endforeach
 </div>
 

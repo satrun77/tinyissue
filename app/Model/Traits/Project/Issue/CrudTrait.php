@@ -18,6 +18,7 @@ use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\User;
+use Tinyissue\Services\SettingsManager;
 
 /**
  * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue model.
@@ -155,6 +156,12 @@ trait CrudTrait
         Attachment::where('upload_token', '=', $input['upload_token'])
             ->where('uploaded_by', '=', $this->user->id)
             ->update(['issue_id' => $this->id]);
+
+        // Add default tag to newly created issue
+        $defaultTag = app('tinyissue.settings')->getFirstStatusTagId();
+        if ($defaultTag > 0 && empty($input['tag_status'])) {
+            $input['tag_status'] = $defaultTag;
+        }
 
         $this->syncTags($input);
 

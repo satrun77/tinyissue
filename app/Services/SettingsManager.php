@@ -96,6 +96,16 @@ class SettingsManager extends Collection
     }
 
     /**
+     * Returns first status tag id.
+     *
+     * @return int
+     */
+    public function getFirstStatusTagId()
+    {
+        return (string) $this->get('first_status_tag');
+    }
+
+    /**
      * Save a collection of settings.
      *
      * @param $values

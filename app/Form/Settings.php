@@ -98,6 +98,23 @@ class Settings extends FormAbstract
     }
 
     /**
+     * Select status tag for default first status.
+     *
+     * @param Model\Setting $setting
+     *
+     * @return array
+     */
+    protected function fieldFirstStatusTag(Model\Setting $setting)
+    {
+        return [
+            'type'        => 'select',
+            'label'       => 'first_status_tag',
+            'value'       => $setting->value,
+            'options'     => (new Model\Tag())->getStatusTags()->get()->lists('fullname', 'id'),
+        ];
+    }
+
+    /**
      * @return array
      */
     public function rules()
