@@ -1,5 +1,9 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.7.1
+
+- Bug fixes.
+
 ## Tiny Issue v2.7.0
 
 - Date format settings to dropdown field with predefined options.
