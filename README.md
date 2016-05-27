@@ -3,6 +3,7 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satrun77/tinyissue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satrun77/tinyissue/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/satrun77/tinyissue/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/satrun77/tinyissue/?branch=master)
 [![Build Status](https://travis-ci.org/satrun77/tinyissue.svg?branch=master)](https://travis-ci.org/satrun77/tinyissue)
+[![Gitter](https://badges.gitter.im/satrun77/tinyissue.svg)](https://gitter.im/satrun77/tinyissue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 Simple Issue Tracking for Teams - for Laravel 5 and above.
 
