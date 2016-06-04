@@ -13,6 +13,7 @@ namespace Tinyissue\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Tinyissue\Console\Commands;
 
 /**
  * Kernel is class to define the commands schedule for application cron jobs.
@@ -26,5 +27,22 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [];
+    protected $commands = [
+        Commands\SendMessages::class,
+    ];
+
+    /**
+     * Define the application's command schedule.
+     *
+     * @param \Illuminate\Console\Scheduling\Schedule $schedule
+     *
+     * @return void
+     */
+    protected function schedule(Schedule $schedule)
+    {
+        $schedule
+            ->command('tinyissue:messages')
+            ->everyMinute()
+            ->withoutOverlapping();
+    }
 }

@@ -122,4 +122,21 @@ trait CrudTrait
 
         return $this->update($info);
     }
+
+    /**
+     * Update user messages setting.
+     *
+     * @param array $input
+     */
+    public function updateMessagesSettings(array $input)
+    {
+        return (new Project\User())
+            ->where('user_id', '=', $this->id)
+            ->whereIn('project_id', array_keys($input))
+            ->get()
+            ->each(function (Project\User $project) use ($input) {
+                $project->message_id = $input[$project->project_id];
+                $project->save();
+            });
+    }
 }

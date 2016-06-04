@@ -33,7 +33,8 @@ trait CrudTrait
      */
     public function createTag(array $input)
     {
-        $input['group'] = !array_key_exists('group', $input)? 0 : $input['group'];
+        $input['group'] = !array_key_exists('group', $input) ? 0 : $input['group'];
+
         return $this->fill($input)->save();
     }
 

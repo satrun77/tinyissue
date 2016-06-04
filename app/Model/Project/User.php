@@ -22,6 +22,7 @@ use Tinyissue\Model\Traits\Project\User\RelationTrait;
  * @property int $user_id
  * @property int $project_id
  * @property int $role_id
+ * @property int $message_id
  */
 class User extends Model
 {
@@ -43,5 +44,6 @@ class User extends Model
         'user_id',
         'project_id',
         'role_id',
+        'message_id',
     ];
 }

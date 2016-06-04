@@ -150,4 +150,14 @@ trait RelationTrait
             ->hasMany('Tinyissue\Model\Project\Issue\Comment', 'issue_id')
             ->orderBy('created_at', 'ASC');
     }
+
+    /**
+     * Issue can have many messages queue.
+     *
+     * @return Relations\HasMany
+     */
+    public function messagesQueue()
+    {
+        return $this->morphMany('Tinyissue\Model\Message\Queue', 'model');
+    }
 }

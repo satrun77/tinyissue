@@ -55,4 +55,14 @@ trait RelationTrait
             ->hasOne('Tinyissue\Model\User\Activity', 'action_id')
             ->where('type_id', '=', Model\Activity::TYPE_NOTE);
     }
+
+    /**
+     * Note can have many messages queue.
+     *
+     * @return Relations\HasMany
+     */
+    public function messagesQueue()
+    {
+        return $this->morphMany('Tinyissue\Model\Message\Queue', 'model');
+    }
 }

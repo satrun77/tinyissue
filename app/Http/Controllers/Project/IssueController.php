@@ -68,7 +68,7 @@ class IssueController extends Controller
     public function postAssign(Issue $issue, Request $request)
     {
         $response = ['status' => false];
-        if ($issue->reassign((int) $request->input('user_id'), $this->auth->user()->id)) {
+        if ($issue->reassign((int) $request->input('user_id'), $this->auth->user())) {
             $response['status'] = true;
         }
 
@@ -87,7 +87,7 @@ class IssueController extends Controller
     {
         $body = '';
         if ($request->has('body')) {
-            $comment->fill(['comment' => $request->input('body')])->save();
+            $comment->updateBody($request->input('body'), $this->auth->user());
             $body = \Html::format($comment->comment);
         }
 
@@ -124,7 +124,7 @@ class IssueController extends Controller
      */
     public function getDeleteComment(Comment $comment)
     {
-        $comment->deleteComment();
+        $comment->deleteComment($this->auth->user());
 
         return response()->json(['status' => true]);
     }

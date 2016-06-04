@@ -12,6 +12,7 @@
 namespace Tinyissue\Http\Controllers;
 
 use Tinyissue\Form\UserSetting as Form;
+use Tinyissue\Form\UserMessagesSettings as MessagesForm;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
@@ -81,5 +82,37 @@ class UserController extends Controller
         }
 
         return view('user.issues-' . $view, $data);
+    }
+
+    /**
+     * Edit the user's message settings.
+     *
+     * @param MessagesForm $form
+     *
+     * @return \Illuminate\View\View
+     */
+    public function getMessagesSettings(MessagesForm $form)
+    {
+        $projects = $this->auth->user()->projects()->with('projectUsers')->get();
+        $form->setProjects($projects);
+
+        return view('user.messages-settings', [
+            'form'     => $form,
+            'projects' => $projects,
+        ]);
+    }
+
+    /**
+     * To update user settings.
+     *
+     * @param FormRequest\UserMessagesSettings $request
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function postMessagesSettings(FormRequest\UserMessagesSettings $request)
+    {
+        $this->auth->user()->updateMessagesSettings($request->input('projects', []));
+
+        return redirect('user/settings/messages')->with('notice', trans('tinyissue.messages_settings_updated'));
     }
 }

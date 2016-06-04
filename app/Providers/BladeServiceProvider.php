@@ -42,7 +42,7 @@ class BladeServiceProvider extends ServiceProvider
 
         \Blade::directive(
             'endmacro',
-            function ($expression) {
+            function () {
                 return "\n<?php return ob_get_clean();} ?>\n";
             }
         );
@@ -71,8 +71,39 @@ class BladeServiceProvider extends ServiceProvider
 
         \Blade::directive(
             'endpermission',
-            function ($expression) {
+            function () {
                 return '<?php endif; ?>';
+            }
+        );
+
+        \Blade::directive(
+            'mailattrs',
+            function ($expression) {
+                // Get parameters
+                $params = array_map('trim', explode('|', trim($expression, '()')));
+                // Get style based on the first parameter
+                $style = config('mailcss.' . $params[0]);
+
+                if (!$style) {
+                    return '';
+                }
+
+                // Convert the parameters starting from second into key => value array
+                $override = array_reduce(array_slice($params, 1), function ($override, $param) {
+                    $segments = array_map('trim', explode('=', $param));
+                    $override[$segments[0]] = $segments[1];
+
+                    return $override;
+                }, []);
+
+                // Style can be callback or an array. Merge and echo.
+                if (is_callable($style)) {
+                    $style = $style($override);
+                } elseif (isset($params[1])) {
+                    $style = array_merge($style, $override);
+                }
+
+                return "<?php echo '" . \Html::attributes($style) . "'; ?>";
             }
         );
     }

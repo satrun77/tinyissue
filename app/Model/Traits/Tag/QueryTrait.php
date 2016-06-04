@@ -36,7 +36,7 @@ trait QueryTrait
     {
         return $this->with([
             'tags' => function (Eloquent\Relations\HasMany $query) {
-                $query->where(function(Eloquent\Builder $query) {
+                $query->where(function (Eloquent\Builder $query) {
                     $query->where('role_limit', '<=', auth()->user()->role_id);
                     $query->orWhere('role_limit', '=', null);
                 });

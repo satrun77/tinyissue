@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model\Traits\Project\Issue\Comment\CrudTrait;
+use Tinyissue\Model\Traits\Project\Issue\Comment\QueueTrait;
 use Tinyissue\Model\Traits\Project\Issue\Comment\RelationTrait;
 
 /**
@@ -29,7 +30,8 @@ use Tinyissue\Model\Traits\Project\Issue\Comment\RelationTrait;
 class Comment extends BaseModel
 {
     use CrudTrait,
-        RelationTrait;
+        RelationTrait,
+        QueueTrait;
 
     /**
      * Timestamp enabled.

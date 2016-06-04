@@ -44,6 +44,12 @@ trait CrudTrait
         $this->body       = $input['note_body'];
         $this->project_id = $this->project->id;
         $this->created_by = $this->createdBy->id;
+
+        // Add event on successful save
+        static::saved(function(Model\Project\Note $note) {
+            $this->queueAdd($note, $note->createdBy);
+        });
+
         $this->save();
 
         // Add to user's activity log
@@ -57,15 +63,41 @@ trait CrudTrait
     }
 
     /**
+     * Update the note body.
+     *
+     * @param string $body
+     * @param Model\User $user
+     *
+     * @return Eloquent\Model
+     */
+    public function updateBody($body, Model\User $user)
+    {
+        $this->body = $body;
+
+        // Add event on successful save
+        static::saved(function(Model\Project\Note $note) use ($user) {
+            $this->queueUpdate($note, $user);
+        });
+
+        return $this->save();
+    }
+
+    /**
      * Delete a note.
      *
+     * @param Model\User $user
      * @return bool|null
      *
      * @throws \Exception
      */
-    public function delete()
+    public function deleteNote(Model\User $user)
     {
         $this->activity()->delete();
+
+        // Add event on successful delete
+        static::deleted(function(Model\Project\Note $note) use ($user) {
+            $this->queueDelete($note, $user);
+        });
 
         return parent::delete();
     }

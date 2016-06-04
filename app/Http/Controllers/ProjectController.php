@@ -307,8 +307,8 @@ class ProjectController extends Controller
         $body = '';
         if ($request->has('body')) {
             $note->setRelation('project', $project);
-            $note->body = $request->input('body');
-            $note->save();
+            $note->updateBody($request->input('body'), $this->auth->user());
+
             $body = \Html::format($note->body);
         }
 
@@ -325,7 +325,7 @@ class ProjectController extends Controller
      */
     public function getDeleteNote(Project $project, Project\Note $note)
     {
-        $note->delete();
+        $note->deleteNote($this->auth->user());
 
         return response()->json(['status' => true]);
     }

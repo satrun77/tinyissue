@@ -60,6 +60,12 @@ trait CrudTrait
         ];
 
         $this->fill($fill);
+
+        // Add event on successful save
+        static::saved(function(Issue\Comment $comment) {
+            $this->queueAdd($comment, $comment->user);
+        });
+
         $this->save();
 
         /* Add to user's activity log */
@@ -82,13 +88,37 @@ trait CrudTrait
     }
 
     /**
+     * Update comment body.
+     *
+     * @param string $body
+     * @param User $user
+     *
+     * @return Eloquent\Model
+     */
+    public function updateBody($body, User $user)
+    {
+        $this->fill([
+            'comment' => $body
+        ]);
+
+        // Add event on successful save
+        static::saved(function(Issue\Comment $comment) use($user) {
+            $this->queueUpdate($comment, $user);
+        });
+
+        return $this->save();
+    }
+
+    /**
      * Delete a comment and its attachments.
+     *
+     * @param User $user
      *
      * @return Eloquent\Model
      *
      * @throws \Exception
      */
-    public function deleteComment()
+    public function deleteComment(User $user)
     {
         $this->activity()->delete();
 
@@ -100,6 +130,11 @@ trait CrudTrait
             $attachment->deleteFile($path, $attachment->filename);
             $attachment->delete();
         }
+
+        // Add event on successful delete
+        static::deleted(function(Issue\Comment $comment) use ($user) {
+            $this->queueDelete($comment, $user);
+        });
 
         return $this->delete();
     }

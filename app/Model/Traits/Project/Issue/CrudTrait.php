@@ -18,7 +18,6 @@ use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\User;
-use Tinyissue\Services\SettingsManager;
 
 /**
  * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue model.
@@ -58,9 +57,8 @@ trait CrudTrait
      */
     public function changeUpdatedBy($userId)
     {
-        $time             = new \DateTime();
-        $this->updated_at = $time->format('Y-m-d H:i:s');
         $this->updated_by = $userId;
+        $this->touch();
 
         return $this->save();
     }
@@ -78,6 +76,12 @@ trait CrudTrait
         $assignToId        = !$assignTo instanceof User ? $assignTo : $assignTo->id;
         $userId            = !$user instanceof User ? $user : $user->id;
         $this->assigned_to = $assignToId;
+
+        // Add event on successful save
+        static::saved(function(Project\Issue $issue) use ($userId) {
+            $this->queueAssign($issue, $userId);
+        });
+
         $this->save();
 
         return $this->activities()->save(new User\Activity([
@@ -119,6 +123,11 @@ trait CrudTrait
 
         $this->syncTags($input, $this->tags()->with('parent')->get());
 
+        // Add event on successful save
+        static::saved(function(Project\Issue $issue) {
+            $this->queueUpdate($issue, $issue->updatedBy);
+        });
+
         return $this->save();
     }
 
@@ -144,6 +153,9 @@ trait CrudTrait
         }
 
         $this->fill($fill)->save();
+
+        // Add issue to messages queue
+        $this->queueAdd($this, $this->user);
 
         /* Add to user's activity log */
         $this->activities()->save(new User\Activity([

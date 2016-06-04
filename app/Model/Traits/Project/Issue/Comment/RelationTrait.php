@@ -35,6 +35,16 @@ trait RelationTrait
     }
 
     /**
+     * A comment has belongs to an issue
+     *
+     * @return Relations\BelongsTo
+     */
+    public function issue()
+    {
+        return $this->belongsTo('\Tinyissue\Model\Project\Issue', 'issue_id');
+    }
+
+    /**
      * Comment can have many attachments.
      *
      * @return Relations\HasMany
@@ -52,5 +62,15 @@ trait RelationTrait
     public function activity()
     {
         return $this->hasOne('Tinyissue\Model\User\Activity', 'action_id');
+    }
+
+    /**
+     * Comment can have many messages queue.
+     *
+     * @return Relations\HasMany
+     */
+    public function messagesQueue()
+    {
+        return $this->morphMany('Tinyissue\Model\Message\Queue', 'model');
     }
 }

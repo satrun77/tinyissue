@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\Project\Note\CrudTrait;
 use Tinyissue\Model\Traits\Project\Note\RelationTrait;
+use Tinyissue\Model\Traits\Project\Note\QueueTrait;
 
 /**
  * Note is model class for project notes.
@@ -31,7 +32,8 @@ use Tinyissue\Model\Traits\Project\Note\RelationTrait;
 class Note extends BaseModel
 {
     use CrudTrait,
-        RelationTrait;
+        RelationTrait,
+        QueueTrait;
 
     /**
      * Timestamp enabled.

@@ -15,6 +15,7 @@ Simple Issue Tracking for Teams - for Laravel 5 and above.
 3. Create a database. It can be any of the databases supported by Laravel 5.
 4. Execute Tiny Issue install command `php artisan tinyissue:install`
 5. Note: make sure that all of the Tiny Issues files/folders are behind the public root directory of your site. Except for the ones under public directory.
+6. Setup Laravel cronjob see. https://laravel.com/docs/5.1/scheduling
 
 Enjoy!
 

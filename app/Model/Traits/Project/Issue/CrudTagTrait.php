@@ -71,6 +71,11 @@ trait CrudTagTrait
 
         $this->status = $status;
 
+        // Add event on successful save
+        static::saved(function(Project\Issue $issue) use ($userId) {
+            $this->queueUpdate($issue, $userId);
+        });
+
         return $this->save();
     }
 
@@ -127,6 +132,9 @@ trait CrudTagTrait
 
         // Activity is added when new issue create with tags or updated with tags excluding the open status tag
         if (!empty($removedTags) || !empty($addedTags)) {
+            // Add this change to messages queue
+            $this->queueChangeTags($this, $addedTags, $removedTags, $this->user);
+
             // Add to activity log for tags if changed
             $this->activities()->save(new User\Activity([
                 'type_id'   => Activity::TYPE_ISSUE_TAG,
@@ -168,8 +176,11 @@ trait CrudTagTrait
             $data['added_tags'][] = $newTag->toShortArray();
         }
 
-        // Add to activity log for tags if changed
         if (!empty($data)) {
+            // Add this change to messages queue
+            $this->queueChangeTags($this, $data['added_tags'], $data['removed_tags'], $this->user);
+
+            // Add to activity log for tags if changed
             $this->activities()->save(new User\Activity([
                 'type_id'   => Activity::TYPE_ISSUE_TAG,
                 'parent_id' => $this->project->id,

@@ -18,13 +18,15 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int     $id
- * @property int     $parent_id
- * @property string  $name
- * @property string  $fullname
- * @property string  $bgcolor
- * @property bool $group
- * @property Tag     $parent
+ * @property int    $id
+ * @property int    $parent_id
+ * @property string $name
+ * @property string $fullname
+ * @property string $bgcolor
+ * @property bool   $group
+ * @property Tag    $parent
+ * @property int    $role_limit
+ * @property int    $message_limit
  */
 class Tag extends Model
 {
@@ -55,6 +57,20 @@ class Tag extends Model
     const GROUP_STATUS = 'status';
 
     /**
+     * Core tag group: Type.
+     *
+     * @var string
+     */
+    const GROUP_TYPE = 'type';
+
+    /**
+     * Core tag group: Resolution.
+     *
+     * @var string
+     */
+    const GROUP_RESOLUTION = 'resolution';
+
+    /**
      * Timestamp enabled.
      *
      * @var bool
@@ -66,7 +82,7 @@ class Tag extends Model
      *
      * @var array
      */
-    public $fillable = ['parent_id', 'name', 'bgcolor', 'group', 'role_limit'];
+    public $fillable = ['parent_id', 'name', 'bgcolor', 'group', 'role_limit', 'message_limit'];
 
     /**
      * Name of database table.
@@ -115,9 +131,41 @@ class Tag extends Model
     public function toShortArray()
     {
         return [
-            'id'      => $this->id,
-            'name'    => $this->fullname,
-            'bgcolor' => $this->bgcolor,
+            'id'            => $this->id,
+            'name'          => $this->fullname,
+            'bgcolor'       => $this->bgcolor,
+            'message_limit' => $this->message_limit,
+            'group'         => $this->parent->fullname,
         ];
+    }
+
+    /**
+     * Returns an array of core groups.
+     *
+     * @return array
+     */
+    public static function getCoreGroups()
+    {
+        return [
+            self::GROUP_STATUS,
+            self::GROUP_TYPE,
+            self::GROUP_RESOLUTION,
+        ];
+    }
+
+    /**
+     * Whether or not the user is allowed to receive messages that contains the current tag.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function allowMessagesToUser(User $user)
+    {
+        if (!$this->message_limit || $this->message_limit <= $user->role_id) {
+            return true;
+        }
+
+        return false;
     }
 }

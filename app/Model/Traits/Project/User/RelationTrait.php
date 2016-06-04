@@ -29,7 +29,17 @@ trait RelationTrait
      */
     public function user()
     {
-        return $this->belongsTo('User', 'user_id')->orderBy('firstname', 'ASC');
+        return $this->belongsTo('Tinyissue\Model\User', 'user_id')->orderBy('firstname', 'ASC');
+    }
+
+    /**
+     * Returns the instance of the message in the project.
+     *
+     * @return Relations\BelongsTo
+     */
+    public function message()
+    {
+        return $this->belongsTo('Tinyissue\Model\Message', 'message_id');
     }
 
     /**

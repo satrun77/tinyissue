@@ -19,6 +19,7 @@ use Tinyissue\Model\Traits\Project\Issue\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\CrudTagTrait;
 use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
 use Tinyissue\Model\Traits\Project\Issue\QueryTrait;
+use Tinyissue\Model\Traits\Project\Issue\QueueTrait;
 
 /**
  * Issue is model class for project issues.
@@ -48,7 +49,8 @@ class Issue extends BaseModel
         CrudTrait,
         CrudTagTrait,
         RelationTrait,
-        QueryTrait;
+        QueryTrait,
+        QueueTrait;
 
     /**
      * Issue status: Open.
@@ -84,6 +86,15 @@ class Issue extends BaseModel
      * @var array
      */
     protected $fillable = ['created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote'];
+
+    /**
+     * Set attributes default value.
+     *
+     * @var array
+     */
+    protected $attributes = [
+        'status' => self::STATUS_OPEN,
+    ];
 
     /**
      * Returns the aggregate value of number of comments in an issue.

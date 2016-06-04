@@ -48,6 +48,7 @@ class Tag extends FormAbstract
      */
     public function fields()
     {
+        $roles  = Role::dropdown()->prepend('Disabled');
         $tag    = new Model\Tag();
         $fields = [
             'name' => [
@@ -63,10 +64,16 @@ class Tag extends FormAbstract
                 'type'  => 'color',
                 'label' => 'bgcolor',
             ],
-             'role_limit' => [
+            'role_limit' => [
                 'type'    => 'select',
                 'label'   => 'limit_access',
-                'options' => Role::dropdown()->prepend(''),
+                'options' => $roles,
+            ],
+            'message_limit' => [
+                'type'    => 'select',
+                'label'   => 'limit_message',
+                'options' => $roles,
+                'help'    => trans('tinyissue.limit_message_help'),
             ],
         ];
 
@@ -79,7 +86,7 @@ class Tag extends FormAbstract
     public function rules()
     {
         // Tag to exclude in unique test while editing
-        $excludeTag = $this->isEditing()? ',' . $this->getModel()->id : '';
+        $excludeTag = $this->isEditing() ? ',' . $this->getModel()->id : '';
 
         $rules = [
             'name'      => 'required|max:200|unique:tags,name' . $excludeTag,
