@@ -227,7 +227,7 @@ class IssueController extends Controller
         }
 
         $issue->setRelation('project', $project);
-        $issue->changeStatus($status, $this->auth->user()->id);
+        $issue->changeStatus($status, $this->auth->user());
 
         return redirect($issue->to())
             ->with('notice', $message);

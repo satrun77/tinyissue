@@ -57,7 +57,7 @@ class SettingsManager extends Collection
     /**
      * Returns a setting value.
      *
-     * @param $name
+     * @param string     $name
      * @param mixed|null $default
      *
      * @return mixed

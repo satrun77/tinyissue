@@ -121,9 +121,9 @@ class ProjectController extends Controller
 
     /**
      * @param Project $project
-     * @param $view
-     * @param null $data
-     * @param bool $status
+     * @param string  $view
+     * @param null    $data
+     * @param bool    $status
      *
      * @return array
      */

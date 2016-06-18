@@ -26,11 +26,11 @@ trait QueueTrait
      * Insert update issue to message queue.
      *
      * @param Issue $issue
-     * @param int   $changeBy
+     * @param User  $changeBy
      *
      * @return void
      */
-    public function queueUpdate(Issue $issue, $changeBy)
+    public function queueUpdate(Issue $issue, User $changeBy)
     {
         // Number of changed attributes
         $countChanges = count($issue->getDirty());
@@ -66,11 +66,11 @@ trait QueueTrait
      * Insert add issue to message queue.
      *
      * @param Issue $issue
-     * @param int   $changeBy
+     * @param User  $changeBy
      *
      * @return void
      */
-    public function queueAdd(Issue $issue, $changeBy)
+    public function queueAdd(Issue $issue, User $changeBy)
     {
         return (new Queue())->queue(Queue::ADD_ISSUE, $issue, $changeBy);
     }
@@ -79,15 +79,14 @@ trait QueueTrait
      * Insert assign issue to message queue.
      *
      * @param Issue $issue
-     * @param int   $changeBy
+     * @param User  $changeBy
      *
      * @return void
      */
-    public function queueAssign(Issue $issue, $changeBy)
+    public function queueAssign(Issue $issue, User $changeBy)
     {
         // If the assignee has changed and it is not the logged in user who made the action
-        $changeBy = $changeBy instanceof User ? $changeBy->id : $changeBy;
-        if ($issue->assigned_to > 0 && $changeBy !== $issue->assigned_to) {
+        if ($issue->assigned_to > 0 && $changeBy->id !== $issue->assigned_to) {
             return (new Queue())->queue(Queue::ASSIGN_ISSUE, $issue, $changeBy);
         }
     }
@@ -98,11 +97,11 @@ trait QueueTrait
      * @param Issue $issue
      * @param array $addedTags
      * @param array $removedTags
-     * @param int   $changeBy
+     * @param User  $changeBy
      *
      * @return mixed
      */
-    public function queueChangeTags(Issue $issue, array $addedTags, array $removedTags, $changeBy)
+    public function queueChangeTags(Issue $issue, array $addedTags, array $removedTags, User $changeBy)
     {
         $queue = new Queue();
 

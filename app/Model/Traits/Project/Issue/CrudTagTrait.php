@@ -45,15 +45,15 @@ trait CrudTagTrait
     /**
      * Change the status of an issue.
      *
-     * @param int $status
-     * @param int $userId
+     * @param int  $status
+     * @param User $userId
      *
      * @return Eloquent\Model
      */
-    public function changeStatus($status, $userId)
+    public function changeStatus($status, User $user)
     {
         if ($status == 0) {
-            $this->closed_by = $userId;
+            $this->closed_by = $user->id;
             $this->closed_at = (new \DateTime())->format('Y-m-d H:i:s');
             $activityType    = Activity::TYPE_CLOSE_ISSUE;
         } else {
@@ -72,8 +72,8 @@ trait CrudTagTrait
         $this->status = $status;
 
         // Add event on successful save
-        static::saved(function (Project\Issue $issue) use ($userId) {
-            $this->queueUpdate($issue, $userId);
+        static::saved(function (Project\Issue $issue) use ($user) {
+            $this->queueUpdate($issue, $user);
         });
 
         return $this->save();
