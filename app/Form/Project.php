@@ -107,8 +107,8 @@ class Project extends FormAbstract
         $fields = [];
 
         // All of the status tags
-        $statusTags = (new Tag())->getStatusTags()->get()->filter(function (TagModel $tag) {
-            return !($tag->name == TagModel::STATUS_OPEN || $tag->name == TagModel::STATUS_CLOSED);
+        $statusTags = (new Tag())->getStatusTags()->get()->filter(function (Tag $tag) {
+            return !($tag->name == Tag::STATUS_OPEN || $tag->name == Tag::STATUS_CLOSED);
         });
 
         // Get selected status tags on editing a project
