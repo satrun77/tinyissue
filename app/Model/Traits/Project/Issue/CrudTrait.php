@@ -78,7 +78,7 @@ trait CrudTrait
         $this->assigned_to = $assignToId;
 
         // Add event on successful save
-        static::saved(function(Project\Issue $issue) use ($userId) {
+        static::saved(function (Project\Issue $issue) use ($userId) {
             $this->queueAssign($issue, $userId);
         });
 
@@ -124,7 +124,7 @@ trait CrudTrait
         $this->syncTags($input, $this->tags()->with('parent')->get());
 
         // Add event on successful save
-        static::saved(function(Project\Issue $issue) {
+        static::saved(function (Project\Issue $issue) {
             $this->queueUpdate($issue, $issue->updatedBy);
         });
 

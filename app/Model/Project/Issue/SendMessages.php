@@ -30,7 +30,7 @@ class SendMessages extends SendMessagesAbstract
     protected $template = 'update_issue';
 
     /**
-     * Collection of tags
+     * Collection of tags.
      *
      * @var Collection
      */
@@ -79,7 +79,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForAddIssue(Queue $queue)
     {
-        $messageData = ['changes' => []];
+        $messageData                    = ['changes' => []];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' created a new issue';
         if ($this->issue->assigned) {
             $messageData['changes']['assignee'] = $this->issue->assigned->fullname;
@@ -87,8 +87,8 @@ class SendMessages extends SendMessagesAbstract
 
         $tags = $this->issue->tags()->with('parent')->get();
         foreach ($tags as $tag) {
-            $tagArray = $tag->toShortArray();
-            $tagArray['now'] = $tagArray['name'];
+            $tagArray                                   = $tag->toShortArray();
+            $tagArray['now']                            = $tagArray['name'];
             $messageData['changes'][$tag->parent->name] = $tagArray;
         }
 
@@ -108,7 +108,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForUpdateIssue(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' updated an issue';
 
         foreach ($queue->payload['dirty'] as $field => $value) {
@@ -119,8 +119,8 @@ class SendMessages extends SendMessagesAbstract
                 continue;
             }
             // Format quote to readable time
-            $value = $field === 'time_quote' ? \Html::duration($value) : $value;
-            $value = $field === 'body' ? \Html::format($value) : $value;
+            $value                          = $field === 'time_quote' ? \Html::duration($value) : $value;
+            $value                          = $field === 'body' ? \Html::format($value) : $value;
             $messageData['changes'][$field] = [
                 'now' => $value,
                 'was' => $queue->getDataFromPayload('origin.' . $field),
@@ -139,14 +139,14 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForReopenIssue(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' reopened an issue';
-        $statusNow = $this->issue
+        $statusNow                      = $this->issue
             ->tags()->with('parent')->get()->where('parent.name', Tag::GROUP_STATUS)->last();
         $messageData['changes']['status'] = [
             'was' => trans('tinyissue.closed'),
             'now' => ($statusNow ? $statusNow->fullname : ''),
-            'id' => ($statusNow ? $statusNow->id : ''),
+            'id'  => ($statusNow ? $statusNow->id : ''),
         ];
 
         return $messageData;
@@ -161,9 +161,9 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForCloseIssue(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' closed an issue';
-        $statusWas = $this->issue
+        $statusWas                      = $this->issue
             ->tags()->with('parent')->get()->where('parent.name', Tag::GROUP_STATUS)->last();
         $messageData['changes']['status'] = [
             'was' => ($statusWas ? $statusWas->fullname : ''),
@@ -185,12 +185,12 @@ class SendMessages extends SendMessagesAbstract
     {
         $messageData = [];
         if (!array_key_exists('now', $extraData)) {
-            $assignTo = $this->getUserById($queue->getDataFromPayload('dirty.assigned_to'));
+            $assignTo  = $this->getUserById($queue->getDataFromPayload('dirty.assigned_to'));
             $extraData = ['now' => $assignTo->fullname];
         }
 
         $messageData['changes']['assignee'] = $extraData;
-        $messageData['changeByHeading'] = $queue->changeBy->fullname . ' assigned an issue to ' . $extraData['now'];
+        $messageData['changeByHeading']     = $queue->changeBy->fullname . ' assigned an issue to ' . $extraData['now'];
 
         return $messageData;
     }
@@ -204,11 +204,11 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForChangeTagIssue(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' changed an issue tag';
 
         foreach ($queue->payload['added'] as $tag) {
-            $group = strtolower($tag['group']);
+            $group                          = strtolower($tag['group']);
             $messageData['changes'][$group] = [
                 'now'           => $tag['name'],
                 'id'            => $tag['id'],
@@ -217,7 +217,7 @@ class SendMessages extends SendMessagesAbstract
         }
 
         foreach ($queue->payload['removed'] as $tag) {
-            $group = strtolower($tag['group']);
+            $group                                 = strtolower($tag['group']);
             $messageData['changes'][$group]['was'] = $tag['name'];
         }
 
@@ -290,11 +290,11 @@ class SendMessages extends SendMessagesAbstract
         $assignMessage = $assignMessages->first();
 
         // Fetch the user details of the new assignee & previous assignee if this isn't new issue
-        $assigns = [];
-        $assigns['new'] = (int)$assignMessage->getDataFromPayload('dirty.assigned_to');
+        $assigns        = [];
+        $assigns['new'] = (int) $assignMessage->getDataFromPayload('dirty.assigned_to');
         if (!$this->addMessage) {
             $previousAssignMessage = $assignMessages->last();
-            $assigns['old'] = (int)$previousAssignMessage->getDataFromPayload('origin.assigned_to');
+            $assigns['old']        = (int) $previousAssignMessage->getDataFromPayload('origin.assigned_to');
         }
 
         // Fetch users objects for old and new assignee
@@ -305,14 +305,14 @@ class SendMessages extends SendMessagesAbstract
         // or if there is only one user and is not matching the new assignee.
         // then skip this message
         if ($assignObjects->count() === 0
-            || ($assignObjects->count() === 1 && (int)$assignObjects->first()->id !== $assigns['new'])
+            || ($assignObjects->count() === 1 && (int) $assignObjects->first()->id !== $assigns['new'])
         ) {
             return;
         }
 
         // Get the object of the new assignee
         $assignTo = $assignObjects->where('id', $assigns['new'], false)->first();
-        $users = collect([$this->createProjectUserObject($assignTo)]);
+        $users    = collect([$this->createProjectUserObject($assignTo)]);
 
         // Exclude the user from any other message for this issue
         $this->addToExcludeUsers($assignTo);
@@ -337,7 +337,7 @@ class SendMessages extends SendMessagesAbstract
     }
 
     /**
-     * Create user project object for a user
+     * Create user project object for a user.
      *
      * @param User $user
      *

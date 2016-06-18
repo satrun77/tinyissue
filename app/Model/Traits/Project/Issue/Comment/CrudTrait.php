@@ -62,7 +62,7 @@ trait CrudTrait
         $this->fill($fill);
 
         // Add event on successful save
-        static::saved(function(Issue\Comment $comment) {
+        static::saved(function (Issue\Comment $comment) {
             $this->queueAdd($comment, $comment->user);
         });
 
@@ -91,18 +91,18 @@ trait CrudTrait
      * Update comment body.
      *
      * @param string $body
-     * @param User $user
+     * @param User   $user
      *
      * @return Eloquent\Model
      */
     public function updateBody($body, User $user)
     {
         $this->fill([
-            'comment' => $body
+            'comment' => $body,
         ]);
 
         // Add event on successful save
-        static::saved(function(Issue\Comment $comment) use($user) {
+        static::saved(function (Issue\Comment $comment) use ($user) {
             $this->queueUpdate($comment, $user);
         });
 
@@ -132,7 +132,7 @@ trait CrudTrait
         }
 
         // Add event on successful delete
-        static::deleted(function(Issue\Comment $comment) use ($user) {
+        static::deleted(function (Issue\Comment $comment) use ($user) {
             $this->queueDelete($comment, $user);
         });
 

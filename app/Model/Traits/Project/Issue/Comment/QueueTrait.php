@@ -26,7 +26,7 @@ trait QueueTrait
     /**
      * Insert add comment to message queue.
      *
-     * @param Comment $comment
+     * @param Comment  $comment
      * @param int|User $changeBy
      *
      * @return void
@@ -44,7 +44,7 @@ trait QueueTrait
     /**
      * Insert update comment to message queue.
      *
-     * @param Comment $comment
+     * @param Comment  $comment
      * @param int|User $changeBy
      *
      * @return void
@@ -62,7 +62,7 @@ trait QueueTrait
     /**
      * Insert delete comment to message queue.
      *
-     * @param Comment $comment
+     * @param Comment  $comment
      * @param int|User $changeBy
      *
      * @return void

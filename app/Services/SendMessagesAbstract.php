@@ -182,7 +182,7 @@ abstract class SendMessagesAbstract
         // Extract add model message if exists
         if ($this->getModel()) {
             $addMessageIdentifier = Message\Queue::getAddEventNameFromModel($this->getModel());
-            $this->addMessage = $this->allMessages->where('event', $addMessageIdentifier)->first();
+            $this->addMessage     = $this->allMessages->where('event', $addMessageIdentifier)->first();
         }
 
         // Make sure to load issue
@@ -290,7 +290,7 @@ abstract class SendMessagesAbstract
         $everything['changeByHeading'] = $this->getMessageHeading($latestMessage, $changes);
         $everything['event']           = $latestMessage->event;
         $messageData                   = $this->getMessageData($latestMessage);
-        $everything = array_replace_recursive($everything, $messageData);
+        $everything                    = array_replace_recursive($everything, $messageData);
 
         return $everything;
     }
@@ -467,7 +467,7 @@ abstract class SendMessagesAbstract
     /**
      * Get customised message per user logic.
      *
-     * @param int  $userId
+     * @param int   $userId
      * @param array $messagesData
      *
      * @return array

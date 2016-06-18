@@ -40,18 +40,18 @@ class Queue extends Model
         QueryTrait;
 
     // List of available events
-    const ADD_ISSUE = 'add_issue';
-    const CHANGE_TAG_ISSUE = 'change_tag_issue';
-    const UPDATE_ISSUE = 'update_issue';
-    const ASSIGN_ISSUE = 'assign_issue';
-    const CLOSE_ISSUE = 'close_issue';
-    const REOPEN_ISSUE = 'reopen_issue';
-    const ADD_COMMENT = 'add_comment';
-    const UPDATE_COMMENT = 'update_comment';
-    const DELETE_COMMENT = 'delete_comment';
-    const ADD_NOTE = 'add_note';
-    const UPDATE_NOTE = 'update_note';
-    const DELETE_NOTE = 'delete_note';
+    const ADD_ISSUE             = 'add_issue';
+    const CHANGE_TAG_ISSUE      = 'change_tag_issue';
+    const UPDATE_ISSUE          = 'update_issue';
+    const ASSIGN_ISSUE          = 'assign_issue';
+    const CLOSE_ISSUE           = 'close_issue';
+    const REOPEN_ISSUE          = 'reopen_issue';
+    const ADD_COMMENT           = 'add_comment';
+    const UPDATE_COMMENT        = 'update_comment';
+    const DELETE_COMMENT        = 'delete_comment';
+    const ADD_NOTE              = 'add_note';
+    const UPDATE_NOTE           = 'update_note';
+    const DELETE_NOTE           = 'delete_note';
     const MESSAGE_IN_ALL_ISSUES = 'in_all_issues';
 
     protected static $ADD_EVENTS = [
@@ -103,7 +103,7 @@ class Queue extends Model
     }
 
     /**
-     * Get add event from a model object
+     * Get add event from a model object.
      *
      * @param Model $model
      *

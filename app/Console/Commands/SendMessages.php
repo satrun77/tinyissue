@@ -59,7 +59,7 @@ class SendMessages extends Command
             app($latest->model_type . '\\SendMessages')->setMailer($mailer)->process($latest, $others);
 
             // Remove message queue
-            $others->each(function(Model\Message\Queue $queue) {
+            $others->each(function (Model\Message\Queue $queue) {
                 $queue->delete();
             });
         }

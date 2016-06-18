@@ -72,7 +72,7 @@ trait CrudTagTrait
         $this->status = $status;
 
         // Add event on successful save
-        static::saved(function(Project\Issue $issue) use ($userId) {
+        static::saved(function (Project\Issue $issue) use ($userId) {
             $this->queueUpdate($issue, $userId);
         });
 

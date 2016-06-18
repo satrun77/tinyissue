@@ -60,7 +60,7 @@ class SendMessages extends SendMessagesAbstract
 
         // Possible deleted note
         if (null === $this->project) {
-            $projectId = $this->latestMessage->getDataFromPayload('origin.project_id');
+            $projectId     = $this->latestMessage->getDataFromPayload('origin.project_id');
             $this->project = (new Project())->find($projectId);
         }
 
@@ -131,9 +131,9 @@ class SendMessages extends SendMessagesAbstract
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' deleted a note in ' . link_to($this->getProject()->to(), $this->getProject()->name);
         $messageData['changes']['note'] = [
             'noLabel' => true,
-            'date' => $queue->created_at,
-            'was' => \Html::format($queue->getDataFromPayload('origin.body')),
-            'now' => '',
+            'date'    => $queue->created_at,
+            'was'     => \Html::format($queue->getDataFromPayload('origin.body')),
+            'now'     => '',
         ];
 
         return $messageData;

@@ -26,7 +26,7 @@ trait QueueTrait
      * Insert update issue to message queue.
      *
      * @param Issue $issue
-     * @param int|User $changeBy
+     * @param int   $changeBy
      *
      * @return void
      */
@@ -66,7 +66,7 @@ trait QueueTrait
      * Insert add issue to message queue.
      *
      * @param Issue $issue
-     * @param int|User $changeBy
+     * @param int   $changeBy
      *
      * @return void
      */
@@ -79,14 +79,14 @@ trait QueueTrait
      * Insert assign issue to message queue.
      *
      * @param Issue $issue
-     * @param int|User $changeBy
+     * @param int   $changeBy
      *
      * @return void
      */
     public function queueAssign(Issue $issue, $changeBy)
     {
         // If the assignee has changed and it is not the logged in user who made the action
-        $changeBy = $changeBy instanceof User? $changeBy->id : $changeBy;
+        $changeBy = $changeBy instanceof User ? $changeBy->id : $changeBy;
         if ($issue->assigned_to > 0 && $changeBy !== $issue->assigned_to) {
             return (new Queue())->queue(Queue::ASSIGN_ISSUE, $issue, $changeBy);
         }
@@ -98,7 +98,7 @@ trait QueueTrait
      * @param Issue $issue
      * @param array $addedTags
      * @param array $removedTags
-     * @param int|User $changeBy
+     * @param int   $changeBy
      *
      * @return mixed
      */

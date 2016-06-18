@@ -38,7 +38,7 @@ class SendMessages extends SendMessagesAbstract
                 $this->issue = $this->getModel()->issue;
             } else {
                 // Possible deleted comment
-                $issueId = $this->latestMessage->getDataFromPayload('origin.issue.id');
+                $issueId     = $this->latestMessage->getDataFromPayload('origin.issue.id');
                 $this->issue = (new Issue())->find($issueId);
             }
         }
@@ -75,7 +75,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForAddComment(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname .
             ' commented on ' . link_to($this->getIssue()->to(), '#' . $this->getIssue()->id);
         $messageData['changes']['comment'] = [
@@ -96,7 +96,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForUpdateComment(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' updated a comment in ' . link_to($this->getIssue()->to(),
                 '#' . $this->getIssue()->id);
         $messageData['changes']['comment'] = [
@@ -118,15 +118,15 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function getMessageDataForDeleteComment(Queue $queue)
     {
-        $messageData = [];
+        $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname .
             ' deleted a comment from ' . link_to($this->getIssue()->to(), '#' . $this->getIssue()->id);
 
         $messageData['changes']['comment'] = [
             'noLabel' => true,
-            'date' => $queue->created_at,
-            'was' => \Html::format($queue->getDataFromPayload('origin.comment')),
-            'now' => '',
+            'date'    => $queue->created_at,
+            'was'     => \Html::format($queue->getDataFromPayload('origin.comment')),
+            'now'     => '',
         ];
 
         return $messageData;

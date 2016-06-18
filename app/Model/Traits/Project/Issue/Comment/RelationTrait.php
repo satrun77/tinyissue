@@ -35,7 +35,7 @@ trait RelationTrait
     }
 
     /**
-     * A comment has belongs to an issue
+     * A comment has belongs to an issue.
      *
      * @return Relations\BelongsTo
      */

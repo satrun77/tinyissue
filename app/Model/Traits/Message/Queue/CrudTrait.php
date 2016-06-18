@@ -62,9 +62,9 @@ trait CrudTrait
     /**
      * Insert a record into the message queue about a delete event.
      *
-     * @param string $name
-     * @param Model  $model
-     * @param int|User   $changeBy
+     * @param string   $name
+     * @param Model    $model
+     * @param int|User $changeBy
      *
      * @return void
      */
@@ -112,13 +112,13 @@ trait CrudTrait
      */
     protected function getFillAttributes($name, Model $model, $changeBy, array $payload)
     {
-        $changeById =  (int)($changeBy instanceof User ? $changeBy->id : $changeBy);
+        $changeById =  (int) ($changeBy instanceof User ? $changeBy->id : $changeBy);
 
-        $fill = [];
-        $fill['event'] = $name;
-        $fill['payload'] = $payload;
-        $fill['model_type'] = get_class($model);
-        $fill['model_id'] = $model->id;
+        $fill                 = [];
+        $fill['event']        = $name;
+        $fill['payload']      = $payload;
+        $fill['model_type']   = get_class($model);
+        $fill['model_id']     = $model->id;
         $fill['change_by_id'] = $changeById;
 
         return $fill;
