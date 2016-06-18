@@ -23,14 +23,14 @@ class CrudIssueCest
         $I->amLoggedAs($admin);
 
         $project = $I->createProject(1, [$developer1, $admin]);
-        $type = (new Tag())->getTypeTags()->first();
+        $type    = (new Tag())->getTypeTags()->first();
         $I->amOnAction('ProjectsController@getNewIssue');
 
         $params = [
             'title'    => 'issue 1',
             'body'     => 'body of issue 1',
             'project'  => $project->id,
-            'tag_type' => $type->id
+            'tag_type' => $type->id,
         ];
         $I->submitForm('#content .form-horizontal', $params);
         $issue = $I->fetchIssueBy('title', $params['title']);
@@ -71,7 +71,7 @@ class CrudIssueCest
             'assigned_to'    => $developer1->id,
             'tag_type'       => $type->id,
             'tag_status'     => $status->id,
-            'time_quote'  => [
+            'time_quote'     => [
                 'h' => 1,
                 'm' => 2,
             ],

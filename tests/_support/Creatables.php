@@ -8,10 +8,13 @@
  * file that was distributed with this source code.
  */
 
+namespace Tinyissue;
+
 use Tinyissue\Model;
+use Tinyissue\Model\Role;
 
-trait TestTrait {
-
+trait Creatables
+{
     /**
      * Create a user account.
      *
@@ -22,11 +25,20 @@ trait TestTrait {
      */
     public function createUser($index = 0, $role = 1)
     {
+        $roles = [
+            1 => Role::ROLE_USER,
+            2 => Role::ROLE_DEVELOPER,
+            3 => Role::ROLE_MANAGER,
+            4 => Role::ROLE_ADMIN,
+        ];
+
+        $name = ucfirst($roles[$role]);
+
         $user = new Model\User([
-            'email'     => 'user' . $index . '@user.com',
+            'email'     => $name . $index . '@user.com',
             'firstname' => 'User ' . $index,
-            'lastname'  => 'One',
-            'password'  => Hash::make('123'),
+            'lastname'  => $name,
+            'password'  => \Hash::make('123'),
             'role_id'   => $role,
             'language'  => 'en',
         ]);
@@ -55,14 +67,15 @@ trait TestTrait {
         $project = $project ?: $this->createProject($index, [$assign]);
 
         $issueData = [
-            'title'      => 'Issue ' . $index,
-            'body'       => 'body of issue ' . $index,
-            'time_quote' => [
+            'title'        => 'Issue ' . $index,
+            'body'         => 'body of issue ' . $index,
+            'time_quote'   => [
                 'h' => 0,
                 'm' => 0,
             ],
             'upload_token' => '-',
             'tag'          => '',
+            'status'       => Model\Project\Issue::STATUS_OPEN,
         ];
         $issueData['assigned_to'] = null !== $assign ? $assign->id : '';
 
@@ -139,12 +152,41 @@ trait TestTrait {
     {
         $project = $project ?: $this->createProject($index);
 
-        $note = $project->notes()->firstOrCreate([
-            'body'       => 'Note ' . $index,
-            'created_by' => $user->id,
+        $note = new Model\Project\Note();
+        $note->setRelation('project', $project);
+        $note->setRelation('createdBy', $user);
+        $note->createNote([
+            'note_body' => 'Note ' . $index,
         ]);
 
         return $note;
     }
 
+    /**
+     * Create a tag.
+     *
+     * @param string $name
+     * @param string $parent
+     * @param string $color
+     * @param int    $roleLimit
+     * @param int    $messageLimit
+     *
+     * @return Model\Tag
+     */
+    public function createTag($name, $parent, $color = 'red', $roleLimit = 0, $messageLimit = 0)
+    {
+        $parent = (new Model\Tag())->getTagByName($parent);
+
+        $tag = (new Model\Tag())->fill([
+            'name'          => $name,
+            'parent_id'     => $parent->id,
+            'group'         => 0,
+            'bgcolor'       => $color,
+            'role_limit'    => $roleLimit,
+            'message_limit' => $messageLimit,
+        ]);
+        $tag->save();
+
+        return $tag;
+    }
 }

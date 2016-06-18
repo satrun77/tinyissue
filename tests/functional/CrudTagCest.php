@@ -45,10 +45,10 @@ class CrudTagCest
         $I->am('Admin User');
         $I->wantTo('edit an existing tag');
 
-        $tag  = (new Tag())->where('group', '=', false)->get()->random(1);
-        $data = $tag->toArray();
+        $tag          = (new Tag())->where('group', '=', false)->get()->random(1);
+        $data         = $tag->toArray();
         $data['name'] = 'tag updated';
-        $tagName = $tag->name;
+        $tagName      = $tag->name;
 
         $I->amLoggedAs($I->createUser(1, 4));
         $I->amOnAction('Administration\TagsController@getIndex');
