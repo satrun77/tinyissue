@@ -67,19 +67,18 @@ trait CrudTrait
      * Reassign the issue to a new user.
      *
      * @param int|User $assignTo
-     * @param int|User $user
+     * @param User     $user
      *
      * @return Eloquent\Model
      */
-    public function reassign($assignTo, $user)
+    public function reassign($assignTo, User $user)
     {
         $assignToId        = !$assignTo instanceof User ? $assignTo : $assignTo->id;
-        $userId            = !$user instanceof User ? $user : $user->id;
         $this->assigned_to = $assignToId;
 
         // Add event on successful save
-        static::saved(function (Project\Issue $issue) use ($userId) {
-            $this->queueAssign($issue, $userId);
+        static::saved(function (Project\Issue $issue) use ($user) {
+            $this->queueAssign($issue, $user);
         });
 
         $this->save();
@@ -87,7 +86,7 @@ trait CrudTrait
         return $this->activities()->save(new User\Activity([
             'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id'   => $userId,
+            'user_id'   => $user->id,
             'action_id' => $this->assigned_to,
         ]));
     }

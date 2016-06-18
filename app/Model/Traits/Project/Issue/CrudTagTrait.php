@@ -46,7 +46,7 @@ trait CrudTagTrait
      * Change the status of an issue.
      *
      * @param int  $status
-     * @param User $userId
+     * @param User $user
      *
      * @return Eloquent\Model
      */
@@ -66,7 +66,7 @@ trait CrudTagTrait
         $this->activities()->save(new User\Activity([
             'type_id'   => $activityType,
             'parent_id' => $this->project->id,
-            'user_id'   => $userId,
+            'user_id'   => $user->id,
         ]));
 
         $this->status = $status;

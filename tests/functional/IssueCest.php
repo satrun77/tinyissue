@@ -24,7 +24,7 @@ class IssueCest
         $project2 = $I->createProject(2, [$developer1]);
         $issue1   = $I->createIssue(1, $admin, null, $project2);
         $comment1 = $I->createComment(1, $admin, $issue1);
-        $issue1->reassign($developer1->id, $admin->id);
+        $issue1->reassign($developer1->id, $admin);
 
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project2, 'issue' => $issue1]);
         $I->see('Project 2', '.subtitle a');
