@@ -14,6 +14,7 @@ namespace Tinyissue\Model\Project\Issue\Comment;
 use Illuminate\Support\Collection;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Project\Issue;
+use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 use Tinyissue\Services\SendMessagesAbstract;
 
@@ -182,5 +183,32 @@ class SendMessages extends SendMessagesAbstract
     public function isStatusMessage()
     {
         return $this->latestMessage->event === Queue::DELETE_COMMENT;
+    }
+
+    /**
+     * Whether or not the user wants to receive the message.
+     *
+     * @param Project\User $user
+     * @param array        $data
+     *
+     * @return bool
+     */
+    protected function wantToReceiveMessage(Project\User $user, array $data)
+    {
+        $status = parent::wantToReceiveMessage($user, $data);
+
+        if (!$status) {
+            return false;
+        }
+
+        // Check if user allowed to receive the message
+        $tags = $this->getIssue()->tags;
+        foreach ($tags as $tag) {
+            if (!$tag->allowMessagesToUser($user->user)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
