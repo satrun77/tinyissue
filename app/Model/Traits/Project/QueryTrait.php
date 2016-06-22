@@ -202,8 +202,8 @@ trait QueryTrait
             ->join('projects_issues_tags', 'issue_id', '=', 'id')
             ->orderBy('id')
             ->get()
-            ->groupBy(function (Project\Issue $issue) {
-                return $issue->tags->last()->name;
+            ->groupBy(function (Project\Issue $issue) use($tagIds) {
+                return $issue->tags()->whereIn('id', $tagIds)->first()->name;
             });
 
         return $issues;
