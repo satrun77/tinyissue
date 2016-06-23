@@ -136,7 +136,8 @@ trait RelationTrait
      */
     public function tags()
     {
-        return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_issues_tags', 'issue_id', 'tag_id');
+        return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_issues_tags', 'issue_id', 'tag_id')
+            ->join('tags as p', 'p.id', '=', 'tags.parent_id');
     }
 
     /**

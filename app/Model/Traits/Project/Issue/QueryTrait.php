@@ -24,4 +24,47 @@ use Tinyissue\Model\Tag;
  */
 trait QueryTrait
 {
+    /**
+     * Returns the status tag
+     *
+     * @return Tag
+     */
+    public function getStatusTag()
+    {
+        return $this->getTagOfGroup(Tag::GROUP_STATUS);
+    }
+
+    /**
+     * Returns the type tag
+     *
+     * @return Tag
+     */
+    public function getTypeTag()
+    {
+        return $this->getTagOfGroup(Tag::GROUP_TYPE);
+    }
+
+    /**
+     * Returns the resolution tag
+     *
+     * @return Tag
+     */
+    public function getResolutionTag()
+    {
+        return $this->getTagOfGroup(Tag::GROUP_RESOLUTION);
+    }
+
+    /**
+     * Return tag by it group name.
+     *
+     * @param string $group
+     *
+     * @return Tag
+     */
+    protected function getTagOfGroup($group)
+    {
+        return $this->tags
+            ->where('parent.name', $group)
+            ->first();
+    }
 }

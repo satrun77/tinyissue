@@ -203,7 +203,7 @@ trait QueryTrait
             ->orderBy('id')
             ->get()
             ->groupBy(function (Project\Issue $issue) use($tagIds) {
-                return $issue->tags()->whereIn('id', $tagIds)->first()->name;
+                return $issue->getStatusTag()->name;
             });
 
         return $issues;
