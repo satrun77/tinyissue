@@ -202,7 +202,7 @@ trait QueryTrait
             ->join('projects_issues_tags', 'issue_id', '=', 'id')
             ->orderBy('id')
             ->get()
-            ->groupBy(function (Project\Issue $issue) use($tagIds) {
+            ->groupBy(function (Project\Issue $issue) {
                 return $issue->getStatusTag()->name;
             });
 
