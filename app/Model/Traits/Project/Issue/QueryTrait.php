@@ -24,27 +24,4 @@ use Tinyissue\Model\Tag;
  */
 trait QueryTrait
 {
-    /**
-     * Returns issue tags except for the status tags.
-     *
-     * @return Eloquent\Collection
-     */
-    public function getTagsExceptStatus()
-    {
-        $statusGroup = Tag::where('name', '=', Tag::GROUP_STATUS)->first();
-
-        return $this->tags()->where('parent_id', '!=', $statusGroup->id);
-    }
-
-    /**
-     * Returns issue tags except for a specific tag.
-     *
-     * @param string $tag
-     *
-     * @return Eloquent\Collection
-     */
-    public function getTagsExcept($tag)
-    {
-        return $this->tags()->where('name', '!=', $tag);
-    }
 }
