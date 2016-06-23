@@ -35,6 +35,14 @@ active
     @foreach($project->issues as $issue)
     <li>
         <a href="{{ $issue->to() }}" class="comments">{{ $issue->countComments }}</a>
+
+        <div class="issue-tags">
+            @forelse($issue->tags as $tag)
+                <label class="label" style="background: {{ $tag->bgcolor  or 'gray' }}">{!! Html::formatIssueTag($tag->fullname) !!}</label>
+            @empty
+            @endforelse
+        </div>
+
         <a href="{{ $issue->to() }}" class="id">#{{ $issue->id }}</a>
         <div class="data">
             <a href="{{ $issue->to() }}">{{ $issue->title }}</a>
