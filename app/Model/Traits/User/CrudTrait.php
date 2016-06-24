@@ -75,7 +75,7 @@ trait CrudTrait
     public function delete()
     {
         $this->update([
-            'email'   => '',
+            'email'   => $this->email . '_deleted',
             'deleted' => User::DELETED_USERS,
         ]);
         Project\User::where('user_id', '=', $this->id)->delete();
