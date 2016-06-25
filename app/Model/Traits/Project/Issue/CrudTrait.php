@@ -204,4 +204,39 @@ trait CrudTrait
 
         return $this;
     }
+
+    /**
+     * Delete an issue.
+     *
+     * @return bool
+     *
+     * @throws \Exception
+     */
+    public function delete()
+    {
+        $id          = $this->id;
+        $projectId   = $this->project_id;
+        $comments    = $this->comments;
+        $attachments = $this->attachments;
+
+        $status = parent::delete();
+
+        if ($status) {
+            $attachments->each(function (Attachment $attachment) use ($projectId) {
+                $path = config('filesystems.disks.local.root')
+                    . '/' . config('tinyissue.uploads_dir')
+                    . '/' . $projectId
+                    . '/' . $attachment->upload_token;
+                $attachment->deleteFile($path, $attachment->filename);
+                $attachment->delete();
+            });
+            $comments->each(function (Project\Issue\Comment $comment) {
+                $comment->deleteComment(auth()->user());
+            });
+            User\Activity::where('parent_id', '=', $projectId)->where('item_id', '=', $id)->delete();
+            \DB::table('projects_issues_tags')->where('issue_id', '=', $id)->delete();
+        }
+
+        return $status;
+    }
 }

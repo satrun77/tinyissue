@@ -223,4 +223,6 @@ return [
     'assignee'                           => 'Assignee',
     'change_by'                          => 'Change By',
     'body'                               => 'Body',
+    'delete_issue_confirm'               => 'Are you sure you want to delete this issue?',
+    'issue_has_been_deleted'             => 'The issue has been deleted.',
 ];

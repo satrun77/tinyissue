@@ -91,9 +91,21 @@ class Issue extends FormAbstract
      */
     public function actions()
     {
-        return [
+        $actions = [
             'submit' => $this->isEditing() ? 'update_issue' : 'create_issue',
         ];
+
+        if ($this->isEditing() && auth()->user(Model\Permission::PERM_ISSUE_MODIFY)) {
+            $actions['delete'] = [
+                'type'         => 'danger_submit',
+                'label'        => trans('tinyissue.delete_something', ['name' => '#' . $this->getModel()->id]),
+                'class'        => 'close-issue',
+                'name'         => 'delete-issue',
+                'data-message' => trans('tinyissue.delete_issue_confirm'),
+            ];
+        }
+
+        return $actions;
     }
 
     /**

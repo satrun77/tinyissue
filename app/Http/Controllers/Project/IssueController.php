@@ -201,6 +201,14 @@ class IssueController extends Controller
      */
     public function postEdit(Project $project, Issue $issue, FormRequest\Issue $request)
     {
+        // Delete the issue
+        if ($request->has('delete-issue')) {
+            $issue->delete();
+
+            return redirect($project->to())
+                ->with('notice', trans('tinyissue.issue_has_been_deleted'));
+        }
+
         $issue->setRelation('project', $project);
         $issue->setRelation('updatedBy', $this->auth->user());
         $issue->updateIssue($request->all());
