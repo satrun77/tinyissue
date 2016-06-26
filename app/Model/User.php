@@ -168,7 +168,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         }
 
         $project = $route->getParameter('project');
-        $issue = $route->getParameter('issue');
+        $issue   = $route->getParameter('issue');
         if (!$project instanceof Project && $issue instanceof Issue) {
             $project = $issue->project;
         }

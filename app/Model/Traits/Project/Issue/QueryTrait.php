@@ -25,7 +25,7 @@ use Tinyissue\Model\Tag;
 trait QueryTrait
 {
     /**
-     * Returns the status tag
+     * Returns the status tag.
      *
      * @return Tag
      */
@@ -35,7 +35,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns the type tag
+     * Returns the type tag.
      *
      * @return Tag
      */
@@ -45,7 +45,7 @@ trait QueryTrait
     }
 
     /**
-     * Returns the resolution tag
+     * Returns the resolution tag.
      *
      * @return Tag
      */
