@@ -71,7 +71,7 @@ class Permission
             && $project instanceof ProjectModel && !$project->isPrivate()) {
             // Ignore we are ok to view issues in public project
         } elseif (!$this->auth->guest()
-            && (!$user->permission($permission) || !$user->permissionInContext($request->route()->parameters()))) {
+            && (!$user->permission($permission) || !$user->permissionInContext($request->route()))) {
             abort(401);
         }
 

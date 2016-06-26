@@ -76,6 +76,12 @@ class Tag extends FormAbstract
                 'options' => $roles,
                 'help'    => trans('tinyissue.limit_message_help'),
             ],
+            'readonly' => [
+                'type'    => 'select',
+                'label'   => 'readonly',
+                'options' => $roles,
+                'help'    => trans('tinyissue.readonly_tag_help'),
+            ],
         ];
 
         return $fields;

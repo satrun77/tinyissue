@@ -27,6 +27,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Tag    $parent
  * @property int    $role_limit
  * @property int    $message_limit
+ * @property int    $readonly
  */
 class Tag extends Model
 {
@@ -82,7 +83,7 @@ class Tag extends Model
      *
      * @var array
      */
-    public $fillable = ['parent_id', 'name', 'bgcolor', 'group', 'role_limit', 'message_limit'];
+    public $fillable = ['parent_id', 'name', 'bgcolor', 'group', 'role_limit', 'message_limit', 'readonly'];
 
     /**
      * Name of database table.
@@ -121,6 +122,16 @@ class Tag extends Model
     public function canView()
     {
         return auth()->user()->role_id >= $this->role_limit;
+    }
+
+    /**
+     * Whether or not the tag to mark issue as ready only.
+     *
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return (boolean) $this->readonly;
     }
 
     /**

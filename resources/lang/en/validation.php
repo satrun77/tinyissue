@@ -104,5 +104,6 @@ return [
         'kanban_board'                       => 'Kanban board',
         'internal_status'                    => 'Internal status',
         'extended_user_settings'             => 'Extended user settings',
+        'readonly'                           => 'Read only'
     ],
 ];

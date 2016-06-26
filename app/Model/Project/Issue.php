@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Project;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\CountAttributeTrait;
@@ -174,5 +175,19 @@ class Issue extends BaseModel
     public function isOpen()
     {
         return (boolean) $this->status;
+    }
+
+    /**
+     * Check if the issue contains a tag with option to set the issue as readonly to current user.
+     *
+     * @param Model\User $user
+     *
+     * @return bool
+     */
+    public function hasReadOnlyTag(Model\User $user)
+    {
+        $hasReadOnly = $this->tags->where('readonly', $user->role_id);
+
+        return !$hasReadOnly->isEmpty();
     }
 }

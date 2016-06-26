@@ -18,6 +18,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Routing\Route;
 use Tinyissue\Model\Project\Issue;
 
 /**
@@ -155,29 +156,32 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      * Whether or not the user has a valid permission in current context
      * e.g. can access the issue or the project.
      *
-     * @param array $params
+     * @param Route $route
      *
      * @return bool
      */
-    public function permissionInContext(array $params)
+    public function permissionInContext(Route $route)
     {
         // Can access all projects
         if ($this->permission(Permission::PERM_PROJECT_ALL)) {
             return true;
         }
 
-        $project = array_get($params, 'project', function () use ($params) {
-            $issue = array_get($params, 'issue');
-            if ($issue instanceof Issue) {
-                return $issue->project;
-            }
-
-            return;
-        });
+        $project = $route->getParameter('project');
+        $issue = $route->getParameter('issue');
+        if (!$project instanceof Project && $issue instanceof Issue) {
+            $project = $issue->project;
+        }
 
         // Is member of the project
-        if ($project && !$project->isMember($this->id)) {
+        if ($project instanceof Project && !$project->isMember($this->id)) {
             return false;
+        }
+
+        // Check if issue is in readonly tag
+        $permission = array_get($route->getAction(), 'permission');
+        if ($issue instanceof Issue && $permission === Permission::PERM_ISSUE_MODIFY) {
+            return !$issue->hasReadOnlyTag($this);
         }
 
         return true;
