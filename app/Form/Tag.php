@@ -68,6 +68,7 @@ class Tag extends FormAbstract
                 'type'    => 'select',
                 'label'   => 'limit_access',
                 'options' => $roles,
+                'help'    => trans('tinyissue.role_limit_help'),
             ],
             'message_limit' => [
                 'type'    => 'select',

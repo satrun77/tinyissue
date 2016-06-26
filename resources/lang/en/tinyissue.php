@@ -225,4 +225,5 @@ return [
     'body'                               => 'Body',
     'delete_issue_confirm'               => 'Are you sure you want to delete this issue?',
     'issue_has_been_deleted'             => 'The issue has been deleted.',
+    'role_limit_help'                    => 'Limit the use of this tag to the selected role and the roles above it.',
 ];
