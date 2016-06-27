@@ -32,6 +32,9 @@
         <ul class="attachments">
             @foreach($comment->attachments as $attachment)
                 <li>
+                    <a href="{{ $attachment->toDelete() }}" class="delete-attach" data-message="@lang('tinyissue.confirm_delete_attachment')" data-tag-id="{{ $attachment->id }}">
+                        @lang('tinyissue.remove')
+                    </a>
                     @if($attachment->setRelation('issue', $issue) && $attachment->isImage())
                         <a href="{{ $attachment->download() }}" title="{{ $attachment->filename }}"><img src="{{ $attachment->display() }}" alt="{{ $attachment->filename }}" class="image"/></a>
                     @else

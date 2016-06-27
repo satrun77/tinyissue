@@ -227,4 +227,6 @@ return [
     'issue_has_been_deleted'             => 'The issue has been deleted.',
     'role_limit_help'                    => 'Limit the use of this tag to the selected role and the roles above it.',
     'readonly_tag_help'                  => 'Prevent editing an issue by users with the selected role and the roles below it.',
+    'confirm_delete_attachment'          => 'Are you sure you want to remove this attachment?',
+    'attachment_has_been_deleted'        => 'The attachment has been deleted.',
 ];

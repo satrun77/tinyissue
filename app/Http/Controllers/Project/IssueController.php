@@ -299,6 +299,30 @@ class IssueController extends Controller
     }
 
     /**
+     * Delete attachment.
+     *
+     * @param Project    $project
+     * @param Issue      $issue
+     * @param Attachment $attachment
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getDeleteAttachment(Project $project, Issue $issue, Attachment $attachment)
+    {
+        $path = config('filesystems.disks.local.root')
+            . '/' . config('tinyissue.uploads_dir')
+            . '/' . $project->id
+            . '/' . $attachment->upload_token;
+        try {
+            $attachment->deleteFile($path, $attachment->filename);
+        } catch (\Exception $e) {}
+        $attachment->delete();
+
+        return redirect($issue->to())
+            ->with('notice', trans('tinyissue.attachment_has_been_deleted'));
+    }
+
+    /**
      * Display an attachment file such as image.
      *
      * @param Project    $project

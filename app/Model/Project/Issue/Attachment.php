@@ -101,4 +101,14 @@ class Attachment extends BaseModel
     {
         return \URL::to('project/' . $this->issue->project_id . '/issue/' . $this->issue_id . '/display/' . $this->id);
     }
+
+    /**
+     * Generate a URL to delete attachment.
+     *
+     * @return string
+     */
+    public function toDelete()
+    {
+        return \URL::to('project/' . $this->issue->project_id . '/issue/' . $this->issue_id . '/delete/' . $this->id);
+    }
 }
