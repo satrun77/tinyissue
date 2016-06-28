@@ -68,9 +68,11 @@ active
                                         </div>
 
                                         <div class="info">
+                                            @if ($issue->getResolutionTag())
                                             <label class="label" style="background: {{ $issue->getResolutionTag()->bgcolor or 'gray' }}">
                                                 {!! Html::formatIssueTag($issue->getResolutionTag()->fullname) !!}
                                             </label>
+                                            @endif
                                             <a class="info-user" href="{{ $issue->to() }}">{{ $issue->user->fullname }}</a>
                                             {{ Html::age($issue->created_at) }}
                                         </div>
