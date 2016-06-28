@@ -15,11 +15,11 @@ $(function () {
     }
 
     // Confirm links
-    $('.close-issue, .delete-project, #users-list .delete, .tag.delete, .delete-attach').addClass('has-event').on('click', function () {
+    $('body').on('click', '.close-issue, .delete-project, #users-list .delete, .tag.delete, .delete', function () {
         return ConfirmDialog.show($(this), function () {
             return true;
         });
-    });
+    }).addClass('has-event');
 
     // Load project progress
     var projects = $('.project.load-progress');
@@ -309,11 +309,11 @@ function Discussion() {
             if (instance.length == 0) {
                 return this;
             }
-            instance.on('click', 'li .edit', $.proxy(function (e) {
+            instance.on('click', 'li .topbar .edit', $.proxy(function (e) {
                 e.preventDefault();
                 return this.edit($(e.currentTarget));
             }, this));
-            instance.addClass('has-event').on('click', 'li .delete', $.proxy(function (e) {
+            instance.addClass('has-event').on('click', 'li .topbar .delete', $.proxy(function (e) {
                 e.preventDefault();
                 return this.remove($(e.currentTarget));
             }, this));
