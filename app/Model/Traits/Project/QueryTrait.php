@@ -30,11 +30,11 @@ use Tinyissue\Model\User;
  * @method   Query\Builder       join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
  * @method   Relations\HasMany   users()
  * @method   Relations\HasMany   issues()
- * @method   void                filterAssignTo(Query\Builder $query, $userId)
- * @method   void                filterTitleOrBody(Query\Builder $query, $keyword)
- * @method   void                filterTags(Eloquent\Builder $query, array $tags)
- * @method   void                sortByUpdated(Query\Builder $query, $order = 'asc')
- * @method   Eloquent\Collection sortByTag(Query\Builder $query, $tagGroup, $order = 'asc')
+ * @method   void                filterAssignTo(Relations\HasMany $query, $userId)
+ * @method   void                filterTitleOrBody(Relations\HasMany $query, $keyword)
+ * @method   void                filterTags(Relations\HasMany $query, array $tags)
+ * @method   void                sortByUpdated(Relations\HasMany $query, $order = 'asc')
+ * @method   Eloquent\Collection sortByTag(Relations\HasMany $query, $tagGroup, $order = 'asc')
  */
 trait QueryTrait
 {
