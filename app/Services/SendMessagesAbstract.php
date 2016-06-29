@@ -127,7 +127,7 @@ abstract class SendMessagesAbstract
 
         // Is model deleted?
         if (!$this->getModel()) {
-            return $this->sendMessageToAll($this->latestMessage);
+            return;// $this->sendMessageToAll($this->latestMessage);
         }
 
         if (!$this->validateData()) {
