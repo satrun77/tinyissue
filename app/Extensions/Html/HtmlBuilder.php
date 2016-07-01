@@ -18,7 +18,7 @@ use GrahamCampbell\Markdown\Facades\Markdown;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class HtmlBuilder extends \Illuminate\Html\HtmlBuilder
+class HtmlBuilder extends \Collective\Html\HtmlBuilder
 {
     use Traits\BlueBoxTrait,
         Traits\TabTrait,

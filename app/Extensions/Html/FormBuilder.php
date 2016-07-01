@@ -22,7 +22,7 @@ use Tinyissue\Form\FormInterface;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class FormBuilder extends \Illuminate\Html\FormBuilder
+class FormBuilder extends \Collective\Html\FormBuilder
 {
     /**
      * Render Form object into Html form with Former.

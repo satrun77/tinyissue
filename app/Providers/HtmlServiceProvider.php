@@ -18,7 +18,7 @@ use Tinyissue\Extensions\Html;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class HtmlServiceProvider extends \Illuminate\Html\HtmlServiceProvider
+class HtmlServiceProvider extends \Collective\Html\HtmlServiceProvider
 {
     /**
      * Register the HTML builder instance.
