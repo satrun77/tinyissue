@@ -1,9 +1,10 @@
 {
-  "css/tiny.css": "css/tiny-7972b640a1.css",
+  "css/tiny.css": "css/tiny-d91df23290.css",
   "css/tiny_error.css": "css/tiny_error-096471d57b.css",
   "css/tiny_login.css": "css/tiny_login-8d1474aa7d.css",
-  "js/tiny.js": "js/tiny-054037b499.js",
-  "js/tiny_project.js": "js/tiny_project-671ef89c34.js",
-  "js/tiny_project_issue.js": "js/tiny_project_issue-f8a99d1c31.js",
-  "js/tiny_project_new.js": "js/tiny_project_new-9ff40d635a.js"
+  "js/tiny.js": "js/tiny-3fbb52f327.js",
+  "js/tiny_project.js": "js/tiny_project-e97d47045f.js",
+  "js/tiny_project_issue.js": "js/tiny_project_issue-077770327f.js",
+  "js/tiny_project_new.js": "js/tiny_project_new-acfe5217d3.js",
+  "js/tiny_user_form.js": "js/tiny_user_form-61c06b055f.js"
 }
