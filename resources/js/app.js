@@ -1,7 +1,7 @@
 $(function () {
     'use strict';
 
-    if ($(':password')) {
+    if ($(':password').length) {
         $(':password').pwstrength({
             common: {
                 usernameField: '#email'
