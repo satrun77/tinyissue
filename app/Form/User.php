@@ -61,8 +61,15 @@ class User extends FormAbstract
                     UserModel::PRIVATE_NO  => trans('tinyissue.public'),
                 ],
             ],
-
         ];
+
+        if (!$this->isEditing()) {
+            $fields['password'] = [
+                'type'         => 'password',
+                'label'        => 'password',
+                'autocomplete' => 'off',
+            ];
+        }
 
         $fields += $this->innerFields();
 

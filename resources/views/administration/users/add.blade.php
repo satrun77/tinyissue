@@ -1,5 +1,9 @@
 @extends('layouts.wrapper')
 
+@section('scripts')
+    {!! Html::script(elixir('js/tiny_user_form.js')) !!}
+@stop
+
 @section('nav/dashboard/class')
 active
 @stop

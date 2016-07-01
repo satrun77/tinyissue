@@ -64,6 +64,8 @@ elixir(function (mix) {
 
         .scripts(baseJs.concat(['project-new.js']), 'public/js/tiny_project_new.js', 'resources/js')
 
+        .scripts(baseJs.concat(['pwstrength-bootstrap.min.js']), 'public/js/tiny_user_form.js', 'resources/js')
+
         .version([
             'css/tiny.css',
             'css/tiny_error.css',
@@ -71,7 +73,8 @@ elixir(function (mix) {
             'js/tiny.js',
             'js/tiny_project.js',
             'js/tiny_project_issue.js',
-            'js/tiny_project_new.js'
+            'js/tiny_project_new.js',
+            'js/tiny_user_form.js'
         ])
 
         .copy('./resources/assets/fonts', 'public/build/fonts')

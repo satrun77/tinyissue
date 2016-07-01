@@ -49,22 +49,11 @@ trait CrudTrait
             'lastname'  => $info['lastname'],
             'role_id'   => $info['role_id'],
             'private'   => (boolean) $info['private'],
-            'password'  => Hash::make($password = Str::random(6)),
+            'password'  => Hash::make($info['password']),
             'status'    => $info['status'],
         ];
 
-        $this->fill($insert)->save();
-
-        /* Send Activation email */
-        $viewData = [
-            'email'    => $info['email'],
-            'password' => $password,
-        ];
-        Mail::send('email.new_user', $viewData, function (MailMessage $message) {
-            $message->to($this->email, $this->fullname)->subject(trans('tinyissue.subject_your_account'));
-        });
-
-        return true;
+        return $this->fill($insert)->save();
     }
 
     /**

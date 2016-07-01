@@ -1,6 +1,17 @@
 $(function () {
     'use strict';
 
+    if ($(':password')) {
+        $(':password').pwstrength({
+            common: {
+                usernameField: '#email'
+            },
+            ui: {
+                showVerdicts: false
+            }
+        });
+    }
+
     var globalNotice = $('.global-notice');
     if (globalNotice.html().length > 0) {
         globalNotice.slideDown();
