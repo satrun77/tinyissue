@@ -23,6 +23,7 @@ class AddQuoteLockToIssue extends Migration
         // Insert Permissions Data
         $permission = new  Permission();
         if (!($permission = $permission->where('permission', '=', Permission::PERM_ISSUE_VIEW_QUOTE)->first())) {
+            $permission = new  Permission();
             $permission->permission  = Permission::PERM_ISSUE_VIEW_QUOTE;
             $permission->description = 'Allow user to view issue quote with it\'s locked.';
             $permission->auto_has    = null;
