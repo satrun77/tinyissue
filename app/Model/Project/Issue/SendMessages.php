@@ -110,7 +110,7 @@ class SendMessages extends SendMessagesAbstract
     {
         $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' updated an issue';
-        $whiteListFields = ['change_by', 'title', 'body', 'assignee', 'status', 'type', 'resolution', 'time_quote'];
+        $whiteListFields                = ['change_by', 'title', 'body', 'assignee', 'status', 'type', 'resolution', 'time_quote'];
 
         foreach ($queue->payload['dirty'] as $field => $value) {
             // Skip fields that not part of the white list or quote is locked

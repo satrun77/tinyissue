@@ -315,7 +315,8 @@ class IssueController extends Controller
             . '/' . $attachment->upload_token;
         try {
             $attachment->deleteFile($path, $attachment->filename);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
         $attachment->delete();
 
         return redirect($issue->to())
