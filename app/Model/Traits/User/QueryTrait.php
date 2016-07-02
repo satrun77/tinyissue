@@ -83,6 +83,30 @@ trait QueryTrait
     }
 
     /**
+     * Returns collection of issues grouped by tags.
+     *
+     * @param $tagIds
+     *
+     * @return mixed
+     */
+    public function issuesGroupByTags($tagIds)
+    {
+        $issues = $this->issues()
+            ->with('user', 'tags')
+            ->where('status', '=', Project\Issue::STATUS_OPEN)
+            ->where('assigned_to', '=', $this->id)
+            ->whereIn('projects_issues_tags.tag_id', $tagIds)
+            ->join('projects_issues_tags', 'issue_id', '=', 'id')
+            ->orderBy('id')
+            ->get()
+            ->groupBy(function (Project\Issue $issue) {
+                return $issue->getStatusTag()->name;
+            });
+
+        return $issues;
+    }
+
+    /**
      * Load user permissions.
      *
      * @return Eloquent\Collection
