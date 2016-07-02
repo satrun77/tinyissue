@@ -70,8 +70,9 @@ trait Creatables
             'title'        => 'Issue ' . $index,
             'body'         => 'body of issue ' . $index,
             'time_quote'   => [
-                'h' => 0,
-                'm' => 0,
+                'h'    => 0,
+                'm'    => 0,
+                'lock' => false,
             ],
             'upload_token' => '-',
             'tag'          => '',

@@ -31,8 +31,8 @@ active
                                 - @lang('tinyissue.updated_by') <strong>{{ $issue->updatedBy->fullname }}</strong>
                                 {{ Html::age($issue->updated_at) }}
                             @endif
-
-                            @if ($issue->time_quote > 0)
+s
+                            @if ($issue->canUserViewQuote(auth()->user()))
                                 - @lang('tinyissue.time_quote')
                                 <strong>{{ Html::duration($issue->time_quote) }}</strong>
                             @endif

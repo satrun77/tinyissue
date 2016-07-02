@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Collection;
-
 class PermissionManagerCest
 {
     /**
@@ -68,8 +66,9 @@ class PermissionManagerCest
             'title'      => 'issue 1',
             'body'       => 'body of issue 1',
             'time_quote' => [
-                'h' => 1,
-                'm' => 1,
+                'h'    => 1,
+                'm'    => 1,
+                'lock' => false,
             ],
         ];
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project2]);

@@ -107,6 +107,7 @@ trait CrudTrait
             'time_quote'  => $input['time_quote'],
             'updated_by'  => $this->updatedBy->id,
         ];
+        $fill['lock_quote'] = isset($input['time_quote']['lock']) ? $input['time_quote']['lock'] : false;
 
         /* Add to activity log for assignment if changed */
         if ($input['assigned_to'] != $this->assigned_to) {

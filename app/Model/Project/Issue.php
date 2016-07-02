@@ -11,16 +11,15 @@
 
 namespace Tinyissue\Model\Project;
 
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\CountAttributeTrait;
 use Tinyissue\Model\Traits\Project\Issue\CountTrait;
-use Tinyissue\Model\Traits\Project\Issue\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\CrudTagTrait;
-use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
+use Tinyissue\Model\Traits\Project\Issue\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\QueryTrait;
 use Tinyissue\Model\Traits\Project\Issue\QueueTrait;
+use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
 
 /**
  * Issue is model class for project issues.
@@ -34,6 +33,7 @@ use Tinyissue\Model\Traits\Project\Issue\QueueTrait;
  * @property string           $body
  * @property int              $assigned_to
  * @property int              $time_quote
+ * @property bool             $lock_quote
  * @property int              $closed_by
  * @property int              $closed_at
  * @property int              status
@@ -86,7 +86,7 @@ class Issue extends BaseModel
      *
      * @var array
      */
-    protected $fillable = ['created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote'];
+    protected $fillable = ['created_by', 'project_id', 'title', 'body', 'assigned_to', 'time_quote', 'lock_quote'];
 
     /**
      * Set attributes default value.
@@ -189,5 +189,33 @@ class Issue extends BaseModel
         $hasReadOnly = $this->tags->where('readonly', $user->role_id);
 
         return !$hasReadOnly->isEmpty();
+    }
+
+    /**
+     * Whether or not the issue quote is locked by manager.
+     *
+     * @return bool
+     */
+    public function isQuoteLocked()
+    {
+        return (boolean) $this->lock_quote;
+    }
+
+    /**
+     * Check if a user is allowed to see the issue quote.
+     *
+     * @param Model\User $user
+     *
+     * @return bool
+     */
+    public function canUserViewQuote(Model\User $user)
+    {
+        if ($this->time_quote > 0 &&
+            (!$this->isQuoteLocked() || $user->permission(Model\Permission::PERM_ISSUE_VIEW_QUOTE))
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

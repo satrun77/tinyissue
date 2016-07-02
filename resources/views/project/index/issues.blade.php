@@ -29,7 +29,7 @@
                         {{ Html::age($issue->updated_at) }}
                         @endif
 
-                        @if ($issue->time_quote > 0)
+                        @if ($issue->canUserViewQuote(auth()->user()))
                         - @lang('tinyissue.time_quote') <strong>{{ Html::duration($issue->time_quote) }}</strong>
                         @endif
                 </div>

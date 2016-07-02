@@ -92,7 +92,7 @@ class SendMessages extends SendMessagesAbstract
             $messageData['changes'][$tag->parent->name] = $tagArray;
         }
 
-        if ($this->issue->time_quote) {
+        if ($this->issue->time_quote && !$this->issue->isQuoteLocked()) {
             $messageData['changes']['time_quote'] = \Html::duration($this->issue->time_quote);
         }
 
@@ -110,14 +110,14 @@ class SendMessages extends SendMessagesAbstract
     {
         $messageData                    = [];
         $messageData['changeByHeading'] = $queue->changeBy->fullname . ' updated an issue';
+        $whiteListFields = ['change_by', 'title', 'body', 'assignee', 'status', 'type', 'resolution', 'time_quote'];
 
         foreach ($queue->payload['dirty'] as $field => $value) {
-            // Skip fields that not part of the white list
-            if (!in_array($field,
-                ['change_by', 'title', 'body', 'assignee', 'status', 'type', 'resolution', 'time_quote'])
-            ) {
+            // Skip fields that not part of the white list or quote is locked
+            if (!in_array($field, $whiteListFields) || ($field == 'time_quote' && $this->issue->isQuoteLocked())) {
                 continue;
             }
+
             // Format quote to readable time
             $value                          = $field === 'time_quote' ? \Html::duration($value) : $value;
             $value                          = $field === 'body' ? \Html::format($value) : $value;

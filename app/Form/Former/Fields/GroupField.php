@@ -80,10 +80,17 @@ class GroupField extends Field
      */
     public function getContent()
     {
+        $currentLabelWidths = \Former::getOption('TwitterBootstrap3.labelWidths');
+        \Former::setOption('TwitterBootstrap3.labelWidths', [
+            'large' => 0,
+        ]);
+
         $output = '';
         foreach ($this->fields as $field) {
             $output .= $field->__toString();
         }
+
+        \Former::setOption('TwitterBootstrap3.labelWidths', $currentLabelWidths);
 
         return $output;
     }

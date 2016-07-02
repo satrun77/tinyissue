@@ -27,7 +27,7 @@ active
 @stop
 
 @section('content')
-@if ($issue->time_quote > 0)
+@if ($issue->canUserViewQuote(auth()->user()))
     <div class="issue-quote"><strong>@lang('tinyissue.time_quote'):</strong><span>{{ Html::duration($issue->time_quote) }}</span></div>
 @endif
 

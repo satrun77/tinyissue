@@ -340,27 +340,56 @@ class Issue extends FormAbstract
      */
     protected function fieldTimeQuote()
     {
-        return [
+        $fields = [
             'time_quote' => [
-                'type'   => 'groupField',
-                'label'  => 'quote',
-                'fields' => [
-                    'h' => [
+                'type'     => 'groupField',
+                'label'    => 'quote',
+                'fields'   => [
+                    'h'    => [
                         'type'          => 'number',
                         'append'        => trans('tinyissue.hours'),
                         'value'         => $this->extractQuoteValue('h'),
-                        'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
+                        'addGroupClass' => 'col-sm-5 col-md-5 col-lg-4',
                     ],
-                    'm' => [
+                    'm'    => [
                         'type'          => 'number',
                         'append'        => trans('tinyissue.minutes'),
                         'value'         => $this->extractQuoteValue('m'),
-                        'addGroupClass' => 'col-sm-12 col-md-12 col-lg-4',
+                        'addGroupClass' => 'col-sm-5 col-md-5 col-lg-4',
+                    ],
+                    'lock' => [
+                        'type'          => 'checkboxButton',
+                        'label'         => '',
+                        'noLabel'       => 1,
+                        'class'         => 'eee',
+                        'value'         => $this->extractQuoteValue('lock'),
+                        'addGroupClass' => 'sss col-sm-12 col-md-12 col-lg-4',
+                        'checkboxes'    => [
+                            'Lock Quote' => [
+                                'value'     => 1,
+                                'data-tags' => 1,
+                                'color'     => 'red',
+                                'checked'   => false,
+                            ],
+                        ],
+                        'grouped'       => true,
                     ],
                 ],
                 'addClass' => 'row issue-quote',
             ],
         ];
+
+        // If user does not have access to lock quote, then remove the field
+        if (!auth()->user()->permission(Model\Permission::PERM_ISSUE_VIEW_QUOTE)) {
+            unset($fields['time_quote']['fields']['lock']);
+
+            // If quote is locked then remove quote fields
+            if ($this->getModel()->isQuoteLocked()) {
+                return [];
+            }
+        }
+
+        return $fields;
     }
 
     /**
