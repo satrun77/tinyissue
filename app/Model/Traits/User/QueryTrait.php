@@ -14,6 +14,7 @@ namespace Tinyissue\Model\Traits\User;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\Role;
 
 /**
  * QueryTrait is trait class containing the database queries methods for the User model.
@@ -67,12 +68,14 @@ trait QueryTrait
      */
     public function projectsWidthIssues($status = Project::STATUS_OPEN)
     {
+        $assignedOrCreate = $this->isUser()? 'created_by' : 'assigned_to';
+
         return $this
             ->projects($status)
             ->with([
-                'issues' => function (Relations\Relation $query) use ($status) {
+                'issues' => function (Relations\Relation $query) use ($status, $assignedOrCreate) {
                     $query->with('updatedBy');
-                    $query->where('assigned_to', '=', $this->id);
+                    $query->where($assignedOrCreate, '=', $this->id);
                     if ($status === Project::STATUS_OPEN) {
                         $query->where('status', '=', Project\Issue::STATUS_OPEN);
                     }
@@ -91,10 +94,10 @@ trait QueryTrait
      */
     public function issuesGroupByTags($tagIds)
     {
-        $issues = $this->issues()
+        $assignedOrCreate = $this->isUser()? 'issuesCreatedBy' : 'issues';
+        $issues = $this->$assignedOrCreate()
             ->with('user', 'tags')
             ->where('status', '=', Project\Issue::STATUS_OPEN)
-            ->where('assigned_to', '=', $this->id)
             ->whereIn('projects_issues_tags.tag_id', $tagIds)
             ->join('projects_issues_tags', 'issue_id', '=', 'id')
             ->orderBy('id')

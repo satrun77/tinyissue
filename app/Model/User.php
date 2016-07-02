@@ -273,4 +273,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return (int) $this->status === static::BLOCKED_USER;
     }
+
+    /**
+     * Whether or not the user is normal user role.
+     *
+     * @return bool
+     */
+    public function isUser()
+    {
+        return $this->role->role === Role::ROLE_USER;
+    }
 }

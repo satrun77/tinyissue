@@ -101,6 +101,7 @@ class RouteServiceProvider extends ServiceProvider
 
                     // View project
                     $router->get('project/{project}/assigned', 'ProjectController@getAssigned');
+                    $router->get('project/{project}/created', 'ProjectController@getCreated');
 
                     // Edit project
                     $router->group(['middleware' => 'permission', 'permission' => 'project-modify'], function (Router $router) {

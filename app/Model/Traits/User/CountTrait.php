@@ -56,6 +56,25 @@ trait CountTrait
     }
 
     /**
+     * Count number of created issues in a project.
+     *
+     * @param int $projectId
+     *
+     * @return int
+     */
+    public function createdIssuesCount($projectId = 0)
+    {
+        $issues = $this->issuesCreatedBy();
+
+        if (0 < $projectId) {
+            $issues = $issues->where('project_id', '=', $projectId);
+        }
+        $issues->where('status', '=', Project\Issue::STATUS_OPEN);
+
+        return $issues->count();
+    }
+
+    /**
      * Returns all projects with open issue count.
      *
      * @param int $status

@@ -9,7 +9,11 @@ active
 @stop
 
 @section('headingSubTitle')
-    @lang('tinyissue.your_issues_description')
+    @if (auth()->user()->isUser())
+        @lang('tinyissue.your_created_issues_description')
+    @else
+        @lang('tinyissue.your_issues_description')
+    @endif
 @stop
 
 @section('headingLink')

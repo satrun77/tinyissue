@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\Role;
 use Tinyissue\Model\User;
 
 /**
@@ -119,16 +120,18 @@ trait QueryTrait
     /**
      * Fetch issues assigned to a user.
      *
-     * @param int $userId
+     * @param User $user
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function listAssignedIssues($userId)
+    public function listAssignedOrCreatedIssues(User $user)
     {
+        $assignedOrCreate = $user->isUser()? 'created_by' : 'assigned_to';
+
         return $this->issues()
             ->with('countComments', 'user', 'updatedBy')
             ->where('status', '=', Project\Issue::STATUS_OPEN)
-            ->where('assigned_to', '=', $userId)
+            ->where($assignedOrCreate, '=', $user->id)
             ->orderBy('updated_at', 'DESC')
             ->get();
     }

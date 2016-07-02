@@ -229,4 +229,6 @@ return [
     'readonly_tag_help'                  => 'Prevent editing an issue by users with the selected role and the roles below it.',
     'confirm_delete_attachment'          => 'Are you sure you want to remove this attachment?',
     'attachment_has_been_deleted'        => 'The attachment has been deleted.',
+    'your_created_issues_description'    => 'Issues that are created by you',
+    'issue_created_by_you'               => 'Issue Created By You',
 ];
