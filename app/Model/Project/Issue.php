@@ -208,9 +208,9 @@ class Issue extends BaseModel
      *
      * @return bool
      */
-    public function canUserViewQuote(Model\User $user)
+    public function canUserViewQuote(Model\User $user = null)
     {
-        if ($this->time_quote > 0 &&
+        if ($user && $this->time_quote > 0 &&
             (!$this->isQuoteLocked() || $user->permission(Model\Permission::PERM_ISSUE_VIEW_QUOTE))
         ) {
             return true;
