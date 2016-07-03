@@ -211,7 +211,7 @@ class Issue extends BaseModel
     public function canUserViewQuote(Model\User $user = null)
     {
         if ($user && $this->time_quote > 0 &&
-            (!$this->isQuoteLocked() || $user->permission(Model\Permission::PERM_ISSUE_VIEW_QUOTE))
+            (!$this->isQuoteLocked() || $user->permission(Model\Permission::PERM_ISSUE_VIEW_LOCKED_QUOTE))
         ) {
             return true;
         }

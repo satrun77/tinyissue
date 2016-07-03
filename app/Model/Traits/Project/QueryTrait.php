@@ -126,7 +126,7 @@ trait QueryTrait
      */
     public function listAssignedOrCreatedIssues(User $user)
     {
-        $assignedOrCreate = $user->isUser()? 'created_by' : 'assigned_to';
+        $assignedOrCreate = $user->isUser() ? 'created_by' : 'assigned_to';
 
         return $this->issues()
             ->with('countComments', 'user', 'updatedBy')

@@ -153,7 +153,7 @@ class ProjectController extends Controller
 
         $assignedIssuesCount = 0;
         if ($view !== 'assigned' && !$this->auth->guest()) {
-            $method = auth()->user()->isUser()? 'createdIssuesCount' : 'assignedIssuesCount';
+            $method              = auth()->user()->isUser() ? 'createdIssuesCount' : 'assignedIssuesCount';
             $assignedIssuesCount = $this->auth->user()->$method($project->id);
         } elseif ($view === 'assigned' || $view === 'created') {
             $assignedIssuesCount = $data->count();
@@ -189,8 +189,8 @@ class ProjectController extends Controller
         ];
         if (!$this->auth->guest()) {
             $tabs[] = [
-                'url'    => $project->to(auth()->user()->isUser()? 'created' : 'assigned'),
-                'page'   => (auth()->user()->isUser()? 'issue_created_by_you' : 'issue_assigned_to_you'),
+                'url'    => $project->to(auth()->user()->isUser() ? 'created' : 'assigned'),
+                'page'   => (auth()->user()->isUser() ? 'issue_created_by_you' : 'issue_assigned_to_you'),
                 'prefix' => $assignedIssuesCount,
             ];
         }

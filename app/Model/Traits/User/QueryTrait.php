@@ -68,7 +68,7 @@ trait QueryTrait
      */
     public function projectsWidthIssues($status = Project::STATUS_OPEN)
     {
-        $assignedOrCreate = $this->isUser()? 'created_by' : 'assigned_to';
+        $assignedOrCreate = $this->isUser() ? 'created_by' : 'assigned_to';
 
         return $this
             ->projects($status)
@@ -94,8 +94,8 @@ trait QueryTrait
      */
     public function issuesGroupByTags($tagIds)
     {
-        $assignedOrCreate = $this->isUser()? 'issuesCreatedBy' : 'issues';
-        $issues = $this->$assignedOrCreate()
+        $assignedOrCreate = $this->isUser() ? 'issuesCreatedBy' : 'issues';
+        $issues           = $this->$assignedOrCreate()
             ->with('user', 'tags')
             ->where('status', '=', Project\Issue::STATUS_OPEN)
             ->whereIn('projects_issues_tags.tag_id', $tagIds)

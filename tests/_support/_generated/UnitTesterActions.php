@@ -3558,7 +3558,7 @@ trait UnitTesterActions
     /**
      * [!] Method is generated. Documentation taken from corresponding module.
      *
-     * Create a tag
+     * Create a tag.
      *
      * @param string $name
      * @param string $parent

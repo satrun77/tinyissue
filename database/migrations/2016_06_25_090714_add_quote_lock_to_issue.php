@@ -19,30 +19,46 @@ class AddQuoteLockToIssue extends Migration
                 $table->boolean('lock_quote')->default(false);
             }
         });
+        $admin     = (new Role())->where('role', '=', Role::ROLE_ADMIN)->first();
+        $manager   = (new Role())->where('role', '=', Role::ROLE_MANAGER)->first();
+        $developer = (new Role())->where('role', '=', Role::ROLE_DEVELOPER)->first();
 
         // Insert Permissions Data
-        $permission = new  Permission();
-        if (!($permission = $permission->where('permission', '=', Permission::PERM_ISSUE_VIEW_QUOTE)->first())) {
-            $permission = new  Permission();
-            $permission->permission  = Permission::PERM_ISSUE_VIEW_QUOTE;
-            $permission->description = 'Allow user to view issue quote with it\'s locked.';
-            $permission->auto_has    = null;
-            $permission->save();
-        }
-        $manager = (new Role())->where('role', '=', Role::ROLE_MANAGER)->first();
-        $admin   = (new Role())->where('role', '=', Role::ROLE_ADMIN)->first();
-
-        // Insert Roles Permissions Data
-        $roles = [
-            ['role_id' => $manager->id],
-            ['role_id' => $admin->id],
+        $permissions = [
+            [
+                'permission'   => Permission::PERM_ISSUE_VIEW_LOCKED_QUOTE,
+                'description'  => 'Allow user to view issue quote when it\'s locked.',
+                'auto_has'     => null,
+                'assign_roles' => [
+                    $manager->id,
+                    $admin->id,
+                    $developer->id,
+                ],
+            ],
+            [
+                'permission'   => Permission::PERM_ISSUE_LOCK_QUOTE,
+                'description'  => 'Allow user to modify & lock issue quote.',
+                'auto_has'     => null,
+                'assign_roles' => [
+                    $manager->id,
+                    $admin->id,
+                ],
+            ],
         ];
-        foreach ($roles as $role) {
-            $rolePermission = new Role\Permission();
-            if (!$rolePermission->where('role_id', '=', $role['role_id'])->where('permission_id', '=', $permission->id)->first()) {
-                $rolePermission->role_id       = $role['role_id'];
-                $rolePermission->permission_id = $permission->id;
-                $rolePermission->save();
+
+        foreach ($permissions as $permissionData) {
+            if (!($permission = Permission::where('permission', '=', $permissionData['permission'])->first())) {
+                $permission = $this->insert(new Permission(), $permissionData);
+                foreach ($permissionData['assign_roles'] as $roleId) {
+                    if (!Role\Permission::where('role_id', '=', $roleId)->where('permission_id', '=',
+                        $permission->id)->first()
+                    ) {
+                        $this->insert(new Role\Permission(), [
+                            'role_id'       => $roleId,
+                            'permission_id' => $permission->id,
+                        ]);
+                    }
+                }
             }
         }
     }
@@ -57,5 +73,29 @@ class AddQuoteLockToIssue extends Migration
         Schema::table('projects_issues', function (Blueprint $table) {
             $table->dropColumn('lock_quote');
         });
+
+        $permissions = [
+            Permission::PERM_ISSUE_VIEW_LOCKED_QUOTE,
+            Permission::PERM_ISSUE_LOCK_QUOTE,
+        ];
+        foreach ($permissions as $permissionData) {
+            $permission = Permission::where('permission', '=', $permissionData)->first();
+            if ($permission) {
+                Role\Permission::where('permission_id', '=', $permission->id)->delete();
+                $permission->delete();
+            }
+        }
+    }
+
+    protected function insert($model, $data)
+    {
+        foreach ($data as $name => $value) {
+            if (!is_array($value)) {
+                $model->$name = $value;
+            }
+        }
+        $model->save();
+
+        return $model;
     }
 }

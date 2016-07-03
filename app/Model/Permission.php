@@ -54,11 +54,18 @@ class Permission extends Model
     const PERM_ISSUE_MODIFY = 'issue-modify';
 
     /**
+     * Permission to modify issue.
+     *
+     * @var string
+     */
+    const PERM_ISSUE_LOCK_QUOTE = 'issue-lock-quote';
+
+    /**
      * Permission to view issue quote if locked.
      *
      * @var string
      */
-    const PERM_ISSUE_VIEW_QUOTE = 'view_quote';
+    const PERM_ISSUE_VIEW_LOCKED_QUOTE = 'view-locked-quote';
 
     /**
      * Permission to modify all projects.

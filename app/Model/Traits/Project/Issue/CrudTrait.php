@@ -100,14 +100,21 @@ trait CrudTrait
      */
     public function updateIssue(array $input)
     {
-        $fill = [
-            'title'       => $input['title'],
-            'body'        => $input['body'],
-            'assigned_to' => $input['assigned_to'],
-            'time_quote'  => $input['time_quote'],
-            'updated_by'  => $this->updatedBy->id,
-        ];
-        $fill['lock_quote'] = isset($input['time_quote']['lock']) ? $input['time_quote']['lock'] : false;
+        $fill = array_only($input, [
+            'title', 'body', 'assigned_to',
+        ]);
+        $fill['updated_by'] = $this->updatedBy->id;
+
+        if (isset($input['time_quote']['lock'])) {
+            $fill['lock_quote'] = $input['time_quote']['lock'];
+        }
+
+        // Only save quote if not locked or locked & user allowed to modify it
+        if (array_key_exists('time_quote', $input) &&
+            (!$this->isQuoteLocked() || $this->user->permission(Model\Permission::PERM_ISSUE_LOCK_QUOTE))
+        ) {
+            $fill['time_quote'] = $input['time_quote'];
+        }
 
         /* Add to activity log for assignment if changed */
         if ($input['assigned_to'] != $this->assigned_to) {

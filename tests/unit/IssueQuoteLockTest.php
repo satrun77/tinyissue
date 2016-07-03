@@ -1,5 +1,6 @@
 <?php
 
+use Tinyissue\Model\Permission;
 use Tinyissue\Model\Project\Issue;
 
 class IssueQuoteLockTest extends \Codeception\TestCase\Test
@@ -57,7 +58,10 @@ class IssueQuoteLockTest extends \Codeception\TestCase\Test
         $this->assertTrue($issue->isQuoteLocked());
         $this->assertTrue($issue->canUserViewQuote($admin));
         $this->assertTrue($issue->canUserViewQuote($manager));
-        $this->assertFalse($issue->canUserViewQuote($developer));
+        $this->assertTrue($issue->canUserViewQuote($developer));
         $this->assertFalse($issue->canUserViewQuote($user));
+
+        // Developer cannot lock issue
+        $this->assertFalse($developer->permission(Permission::PERM_ISSUE_LOCK_QUOTE));
     }
 }

@@ -360,16 +360,15 @@ class Issue extends FormAbstract
                     'lock' => [
                         'type'          => 'checkboxButton',
                         'label'         => '',
-                        'noLabel'       => 1,
+                        'noLabel'       => true,
                         'class'         => 'eee',
-                        'value'         => $this->extractQuoteValue('lock'),
                         'addGroupClass' => 'sss col-sm-12 col-md-12 col-lg-4',
                         'checkboxes'    => [
                             'Lock Quote' => [
                                 'value'     => 1,
                                 'data-tags' => 1,
                                 'color'     => 'red',
-                                'checked'   => false,
+                                'checked'   => $this->getModel()->isQuoteLocked(),
                             ],
                         ],
                         'grouped'       => true,
@@ -380,7 +379,7 @@ class Issue extends FormAbstract
         ];
 
         // If user does not have access to lock quote, then remove the field
-        if (!auth()->user()->permission(Model\Permission::PERM_ISSUE_VIEW_QUOTE)) {
+        if (!auth()->user()->permission(Model\Permission::PERM_ISSUE_LOCK_QUOTE)) {
             unset($fields['time_quote']['fields']['lock']);
 
             // If quote is locked then remove quote fields
