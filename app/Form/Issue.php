@@ -368,7 +368,7 @@ class Issue extends FormAbstract
                                 'value'     => 1,
                                 'data-tags' => 1,
                                 'color'     => 'red',
-                                'checked'   => $this->getModel()->isQuoteLocked(),
+                                'checked'   => $this->isEditing() && $this->getModel()->isQuoteLocked(),
                             ],
                         ],
                         'grouped'       => true,
@@ -383,7 +383,7 @@ class Issue extends FormAbstract
             unset($fields['time_quote']['fields']['lock']);
 
             // If quote is locked then remove quote fields
-            if ($this->getModel()->isQuoteLocked()) {
+            if ($this->isEditing() && $this->getModel()->isQuoteLocked()) {
                 return [];
             }
         }
