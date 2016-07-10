@@ -182,13 +182,19 @@ class Issue extends FormAbstract
      */
     protected function readOnlyMessage()
     {
-        return [
-            'readonly' => [
-                'type'  => 'plaintext',
-                'label' => ' ',
-                'value' => '<div class="alert alert-warning">' . trans('tinyissue.readonly_issue_message') . '</div>',
-            ],
-        ];
+        $field = [];
+
+        if ($this->readOnly) {
+            $field = [
+                'readonly' => [
+                    'type'  => 'plaintext',
+                    'label' => ' ',
+                    'value' => '<div class="alert alert-warning">' . trans('tinyissue.readonly_issue_message') . '</div>',
+                ],
+            ];
+        }
+
+        return $field;
     }
 
     /**
