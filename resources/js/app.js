@@ -507,7 +507,7 @@ function Kanban() {
             }
 
             var win = $(window);
-            container = kanban.find(".column .content");
+            container = kanban.find(".column .content:not(.readonly)");
             task = kanban.find('.issue');
             setKanbantWidth = function () {
                 var bodyWidth = win.width();

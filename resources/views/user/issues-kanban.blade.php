@@ -55,7 +55,7 @@ active
                         <div class="arrowcaption" style="color:{{ $column->bgcolor or 'gray' }};">{{ $column->name }}</div>
                         <div class="arrow"></div>
 
-                        <div class="content" data-column="{{ $column->id }}">
+                        <div class="content @if($column->isReadOnly(auth()->user()))readonly @endif" data-column="{{ $column->id }}">
                             @if ($issues->get($column->name))
                                 @foreach($issues->get($column->name) as $issue)
                                     <div class="issue issue-{{ $issue->id }}"

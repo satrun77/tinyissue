@@ -127,11 +127,17 @@ class Tag extends Model
     /**
      * Whether or not the tag to mark issue as ready only.
      *
+     * @param User $user
+     *
      * @return bool
      */
-    public function isReadOnly()
+    public function isReadOnly(User $user = null)
     {
-        return (boolean) $this->readonly;
+        if (is_null($user)) {
+            return (boolean) $this->readonly;
+        }
+
+        return (boolean) $this->readonly && $user->role_id <= $this->readonly;
     }
 
     /**
