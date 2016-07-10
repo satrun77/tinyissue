@@ -35,6 +35,13 @@ class Issue extends FormAbstract
     protected $tags = null;
 
     /**
+     * Is issue readonly.
+     *
+     * @var bool
+     */
+    protected $readOnly = false;
+
+    /**
      * @param string $type
      *
      * @return \Illuminate\Database\Eloquent\Collection|null
@@ -83,6 +90,7 @@ class Issue extends FormAbstract
         $this->project = $params['project'];
         if (!empty($params['issue'])) {
             $this->editingModel($params['issue']);
+            $this->readOnly = $this->getModel()->hasReadOnlyTag(auth()->user());
         }
     }
 
@@ -91,18 +99,23 @@ class Issue extends FormAbstract
      */
     public function actions()
     {
-        $actions = [
-            'submit' => $this->isEditing() ? 'update_issue' : 'create_issue',
-        ];
+        $actions = [];
 
-        if ($this->isEditing() && auth()->user(Model\Permission::PERM_ISSUE_MODIFY)) {
-            $actions['delete'] = [
-                'type'         => 'danger_submit',
-                'label'        => trans('tinyissue.delete_something', ['name' => '#' . $this->getModel()->id]),
-                'class'        => 'close-issue',
-                'name'         => 'delete-issue',
-                'data-message' => trans('tinyissue.delete_issue_confirm'),
+        // Check if issue is in readonly tag
+        if (!$this->readOnly) {
+            $actions = [
+                'submit' => $this->isEditing() ? 'update_issue' : 'create_issue',
             ];
+
+            if ($this->isEditing() && auth()->user(Model\Permission::PERM_ISSUE_MODIFY)) {
+                $actions['delete'] = [
+                    'type'         => 'danger_submit',
+                    'label'        => trans('tinyissue.delete_something', ['name' => '#' . $this->getModel()->id]),
+                    'class'        => 'close-issue',
+                    'name'         => 'delete-issue',
+                    'data-message' => trans('tinyissue.delete_issue_confirm'),
+                ];
+            }
         }
 
         return $actions;
@@ -115,7 +128,9 @@ class Issue extends FormAbstract
     {
         $issueModify = \Auth::user()->permission('issue-modify');
 
-        $fields = $this->fieldTitle();
+        $fields = [];
+        $fields += $this->readOnlyMessage();
+        $fields += $this->fieldTitle();
         $fields += $this->fieldBody();
         $fields += $this->fieldTypeTags();
 
@@ -158,6 +173,22 @@ class Issue extends FormAbstract
         $fields += $this->fieldResolutionTags();
 
         return $fields;
+    }
+
+    /**
+     * Returns message about read only issue.
+     *
+     * @return array
+     */
+    protected function readOnlyMessage()
+    {
+        return [
+            'readonly' => [
+                'type'  => 'plaintext',
+                'label' => ' ',
+                'value' => '<div class="alert alert-warning">' . trans('tinyissue.readonly_issue_message') . '</div>',
+            ],
+        ];
     }
 
     /**

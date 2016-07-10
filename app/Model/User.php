@@ -178,12 +178,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
             return false;
         }
 
-        // Check if issue is in readonly tag
-        $permission = array_get($route->getAction(), 'permission');
-        if ($issue instanceof Issue && $permission === Permission::PERM_ISSUE_MODIFY) {
-            return !$issue->hasReadOnlyTag($this);
-        }
-
         return true;
     }
 
