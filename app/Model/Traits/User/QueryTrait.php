@@ -89,10 +89,11 @@ trait QueryTrait
      * Returns collection of issues grouped by tags.
      *
      * @param $tagIds
+     * @param int $projectId
      *
      * @return mixed
      */
-    public function issuesGroupByTags($tagIds)
+    public function issuesGroupByTags($tagIds, $projectId = null)
     {
         $assignedOrCreate = $this->isUser() ? 'issuesCreatedBy' : 'issues';
         $issues           = $this->$assignedOrCreate()
@@ -100,11 +101,16 @@ trait QueryTrait
             ->where('status', '=', Project\Issue::STATUS_OPEN)
             ->whereIn('projects_issues_tags.tag_id', $tagIds)
             ->join('projects_issues_tags', 'issue_id', '=', 'id')
-            ->orderBy('id')
-            ->get()
-            ->groupBy(function (Project\Issue $issue) {
-                return $issue->getStatusTag()->name;
-            });
+            ->orderBy('id');
+
+        // Limit by project id
+        if ($projectId > 0) {
+            $issues->where('project_id', '=', $projectId);
+        }
+
+        $issues = $issues->get()->groupBy(function (Project\Issue $issue) {
+            return $issue->getStatusTag()->name;
+        });
 
         return $issues;
     }

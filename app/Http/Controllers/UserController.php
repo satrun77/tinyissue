@@ -72,7 +72,7 @@ class UserController extends Controller
             if ($project->id) {
                 $data['columns'] = $project->getKanbanTagsForUser(auth()->user());
                 $ids             = $data['columns']->lists('id')->all();
-                $data['issues']  = $this->auth->user()->issuesGroupByTags($ids);
+                $data['issues']  = $this->auth->user()->issuesGroupByTags($ids, $project->id);
             }
 
             $data['project']  = $project;
