@@ -232,4 +232,5 @@ return [
     'your_created_issues_description'    => 'Issues that are created by you',
     'issue_created_by_you'               => 'Issue Created By You',
     'readonly_issue_message'             => 'The issue is in read only status.',
+    'internal'                           => 'Internal',
 ];

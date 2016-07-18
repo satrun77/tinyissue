@@ -218,4 +218,16 @@ class Issue extends BaseModel
 
         return false;
     }
+
+    /**
+     * Whether or not a user is the creator of the issue.
+     *
+     * @param Model\User $user
+     *
+     * @return bool
+     */
+    public function isCreatedBy(Model\User $user)
+    {
+        return $this->created_by === $user->id;
+    }
 }

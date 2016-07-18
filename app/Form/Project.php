@@ -58,7 +58,11 @@ class Project extends FormAbstract
             'private' => [
                 'type'    => 'select',
                 'label'   => 'visibility',
-                'options' => [ProjectModel::PRIVATE_YES => trans('tinyissue.private'), ProjectModel::PRIVATE_NO => trans('tinyissue.public')],
+                'options' => [
+                    ProjectModel::INTERNAL_YES => trans('tinyissue.internal'),
+                    ProjectModel::PRIVATE_YES  => trans('tinyissue.private'),
+                    ProjectModel::PRIVATE_NO   => trans('tinyissue.public'),
+                ],
             ],
             'default_assignee' => [
                 'type' => 'hidden',

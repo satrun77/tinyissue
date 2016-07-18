@@ -63,6 +63,7 @@ class Permission
         $user       = $this->auth->user();
         /** @var ProjectModel|null $project */
         $project = $request->route()->getParameter('project');
+        $issue   = $request->route()->getParameter('issue');
 
         // Check if user has the permission
         // & if the user can access the current context (e.g. is one of the project users)
@@ -70,8 +71,14 @@ class Permission
             && in_array($permission, $this->publicAccess)
             && $project instanceof ProjectModel && !$project->isPrivate()) {
             // Ignore we are ok to view issues in public project
-        } elseif (!$this->auth->guest()
-            && (!$user->permission($permission) || !$user->permissionInContext($request->route()))) {
+        } elseif (
+            !$this->auth->guest()
+            && (
+                !$user->permission($permission) ||
+                !$user->permissionInContext($request->route()) ||
+                ($project instanceof ProjectModel && $project->isPrivateInternal() && $user->isUser() && $issue && !$issue->isCreatedBy($user))
+            )
+        ) {
             abort(401);
         }
 

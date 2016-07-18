@@ -41,13 +41,9 @@ active
 
         <span>{{ $project->openIssuesCount }} @lang('tinyissue.open_issue' . ($project->openIssuesCount <= 1? '' : 's'))</span>
         @if(!Auth::guest())
-            <span class="pull-right label @if($project->private) label-info @else label-note @endif">
-            @if($project->private)
-                    @lang('tinyissue.private')
-                @else
-                    @lang('tinyissue.public')
-                @endif
-        </span>
+            <span class="pull-right label label-{{ $project->getStatusClass() }}">
+                 @lang('tinyissue.' . $project->getStatusAsName())
+            </span>
         @endif
     </li>
     @endforeach

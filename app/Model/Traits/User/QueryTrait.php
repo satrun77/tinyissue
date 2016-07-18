@@ -54,7 +54,21 @@ trait QueryTrait
             ->with([
                 'activities' => function (Relations\Relation $query) {
                     $query->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note');
-                    $query->orderBy('created_at', 'DESC');
+                    $query->orderBy('users_activity.created_at', 'DESC');
+
+                    // For logged users with role User, show issues that are created by them in internal projects
+                    // of issue create by any for other project statuses
+                    if (auth()->user()->isUser()) {
+                        $query->join('projects_issues', 'projects_issues.id', '=', 'item_id');
+                        $query->join('projects', 'projects.id', '=', 'parent_id');
+                        $query->where(function (Eloquent\Builder $query) {
+                            $query->where(function (Eloquent\Builder $query) {
+                                $query->where('created_by', '=', auth()->user()->id);
+                                $query->where('private', '=', Project::INTERNAL_YES);
+                            });
+                            $query->orWhere('private', '<>', Project::INTERNAL_YES);
+                        });
+                    }
                 },
             ]);
     }

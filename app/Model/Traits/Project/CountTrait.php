@@ -35,7 +35,9 @@ trait CountTrait
      */
     public function countPrivateProjects()
     {
-        return $this->where('private', '=', Project::PRIVATE_YES)->count();
+        return $this
+            ->where('private', '=', Project::PRIVATE_YES)
+            ->orWhere('private', '=', Project::INTERNAL_YES)->count();
     }
 
     /**

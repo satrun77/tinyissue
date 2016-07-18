@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Http\Controllers;
 
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Tinyissue\Form\FilterIssue as FilterForm;
 use Tinyissue\Form\Note as NoteForm;
@@ -39,15 +40,20 @@ class ProjectController extends Controller
     {
         $activities = $project->activities()
             ->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note')
-            ->orderBy('created_at', 'DESC')
-            ->take(10)
-            ->get();
+            ->orderBy('users_activity.created_at', 'DESC')
+            ->take(10);
+
+        // Internal project and logged user can see created only
+        if ($project->isPrivateInternal() && $this->auth->user()->isUser()) {
+            $activities->join('projects_issues', 'projects_issues.id', '=', 'item_id');
+            $activities->where('created_by', '=', $this->auth->user()->id);
+        }
 
         return view('project.index', [
             'tabs'       => $this->projectMainViewTabs($project, 'index'),
             'project'    => $project,
             'active'     => 'activity',
-            'activities' => $activities,
+            'activities' => $activities->get(),
             'sidebar'    => 'project',
         ]);
     }
@@ -64,8 +70,9 @@ class ProjectController extends Controller
      */
     public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
-        $active = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
-        $issues = $project->listIssues($status, $request->all());
+        $request['created_by'] = auth()->user()->id;
+        $active                = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
+        $issues                = $project->listIssues($status, $request->all());
 
         return view('project.index', [
             'tabs'       => $this->projectMainViewTabs($project, 'issues', $issues, $status),

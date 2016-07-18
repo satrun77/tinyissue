@@ -106,6 +106,7 @@ trait QueryTrait
         $this->filterTitleOrBody($query, array_get($filter, 'keyword'));
         $this->filterTags($query, array_get($filter, 'tag_status'));
         $this->filterTags($query, array_get($filter, 'tag_type'));
+        $this->filterCreatedBy($query, array_get($filter, 'created_by'), $this->isPrivateInternal());
 
         // Sort
         if ($sortBy == 'updated') {

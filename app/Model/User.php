@@ -275,6 +275,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function isUser()
     {
-        return $this->role->role === Role::ROLE_USER;
+        return $this->exists && $this->role->role === Role::ROLE_USER;
     }
 }

@@ -78,4 +78,20 @@ trait FilterTrait
             });
         }
     }
+
+    /**
+     * Filter by created by.
+     *
+     * @param Relations\HasMany $query
+     * @param int               $userId
+     * @param bool              $enabled
+     *
+     * @return void
+     */
+    public function filterCreatedBy(Relations\HasMany $query, $userId, $enabled = false)
+    {
+        if (true === $enabled && $userId > 0) {
+            $query->where('created_by', '=', $userId);
+        }
+    }
 }

@@ -23,6 +23,7 @@ use URL;
  * @property string           $name
  * @property int              $status
  * @property int              $default_assignee
+ * @property int              $private
  * @property Project\Issue[]  $issues
  * @property int              $openIssuesCount
  * @property int              $closedIssuesCount
@@ -36,6 +37,13 @@ class Project extends Model
         Traits\Project\RelationTrait,
         Traits\Project\CrudTrait,
         Traits\Project\QueryTrait;
+
+    /**
+     * Project private & user role can see their own issues only.
+     *
+     * @var int
+     */
+    const INTERNAL_YES = 2;
 
     /**
      * Project not public to view and create issue.
@@ -92,6 +100,28 @@ class Project extends Model
      * @var array
      */
     protected $fillable = ['name', 'default_assignee', 'status', 'private'];
+
+    /**
+     * List of HTML classes for each status.
+     *
+     * @var array
+     */
+    protected $attrClassNames = [
+        self::PRIVATE_NO   => 'note',
+        self::PRIVATE_YES  => 'info',
+        self::INTERNAL_YES => 'primary',
+    ];
+
+    /**
+     * List of statuses names.
+     *
+     * @var array
+     */
+    protected $statusesNames = [
+        self::PRIVATE_NO   => 'public',
+        self::PRIVATE_YES  => 'private',
+        self::INTERNAL_YES => 'internal',
+    ];
 
     /**
      * Generate a URL for the active project.
@@ -209,6 +239,44 @@ class Project extends Model
      */
     public function isPrivate()
     {
-        return $this->private === true;
+        return $this->private === self::PRIVATE_YES;
+    }
+
+    /**
+     * Whether or not the project is private internal.
+     *
+     * @return bool
+     */
+    public function isPrivateInternal()
+    {
+        return $this->private === self::INTERNAL_YES;
+    }
+
+    /**
+     * Returns project status as string name.
+     *
+     * @return string
+     */
+    public function getStatusAsName()
+    {
+        if (array_key_exists((int) $this->private, $this->statusesNames)) {
+            return $this->statusesNames[(int) $this->private];
+        }
+
+        return '';
+    }
+
+    /**
+     * Returns the class name to be used for project status.
+     *
+     * @return string
+     */
+    public function getStatusClass()
+    {
+        if (array_key_exists((int) $this->private, $this->attrClassNames)) {
+            return $this->attrClassNames[(int) $this->private];
+        }
+
+        return '';
     }
 }
