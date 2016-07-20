@@ -106,6 +106,16 @@ class SettingsManager extends Collection
     }
 
     /**
+     * Returns users default language.
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return (string) $this->get('language');
+    }
+
+    /**
      * Save a collection of settings.
      *
      * @param $values

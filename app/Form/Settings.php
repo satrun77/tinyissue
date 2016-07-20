@@ -115,6 +115,23 @@ class Settings extends FormAbstract
     }
 
     /**
+     * Select default language.
+     *
+     * @param Model\Setting $setting
+     *
+     * @return array
+     */
+    protected function fieldLanguage(Model\Setting $setting)
+    {
+        return [
+            'type'    => 'select',
+            'label'   => 'language',
+            'value'   => $setting->value,
+            'options' => Model\User::getLanguages(),
+        ];
+    }
+
+    /**
      * @return array
      */
     public function rules()

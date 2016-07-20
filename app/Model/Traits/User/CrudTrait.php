@@ -51,6 +51,7 @@ trait CrudTrait
             'private'   => (boolean) $info['private'],
             'password'  => Hash::make($info['password']),
             'status'    => $info['status'],
+            'language'  => app('tinyissue.settings')->getLanguage(),
         ];
 
         return $this->fill($insert)->save();

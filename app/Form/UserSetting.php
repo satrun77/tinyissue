@@ -48,6 +48,7 @@ class UserSetting extends User
                 'type'    => 'select',
                 'label'   => 'language',
                 'options' => $this->getModel()->getLanguages(),
+                'value'   => app('tinyissue.settings')->getLanguage(),
             ],
         ];
         $fields += $this->passwordFields();
