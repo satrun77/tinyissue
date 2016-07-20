@@ -233,4 +233,5 @@ return [
     'issue_created_by_you'               => 'Issue Created By You',
     'readonly_issue_message'             => 'The issue is in read only status.',
     'internal'                           => 'Internal',
+    'settings_saved'                     => 'Settings saved successfully.',
 ];
