@@ -20,7 +20,8 @@ $(function () {
             globalNotice.slideUp();
         }, 15000);
 
-        globalNotice.addClass('has-event').on('click', function () {
+        globalNotice.addClass('has-event').on('click', function (e) {
+            e.preventDefault();
             globalNotice.slideUp();
         });
     }

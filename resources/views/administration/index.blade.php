@@ -25,6 +25,12 @@ active
 
 @section('content')
 <ul class="list-group">
+    @if (app()->isDownForMaintenance())
+        @usemacro('list_item', '&#x00021;', 'Maintenance mode (' . link_to('administration/settings/maintenance', trans('tinyissue.maintenance_off')) . ')', false)
+    @else
+        @usemacro('list_item', '&#x00021;', 'Maintenance mode (' . link_to('administration/settings/maintenance', trans('tinyissue.maintenance_on')) . ')', false)
+    @endif
+
     @usemacro('list_item', $users, link_to('administration/users', trans('tinyissue.total_users')), false)
     @usemacro('list_item', $active_projects, 'active_projects')
     @usemacro('list_item', $archived_projects, 'archived_projects')

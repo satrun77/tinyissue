@@ -277,4 +277,14 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     {
         return $this->exists && $this->role->role === Role::ROLE_USER;
     }
+
+    /**
+     * Whether or not the user is administrator.
+     *
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return $this->exists && $this->role->role === Role::ROLE_ADMIN;
+    }
 }

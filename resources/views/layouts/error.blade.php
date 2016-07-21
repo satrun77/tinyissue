@@ -17,7 +17,9 @@
         </p>
 
         <p>
-            Perhaps you would like to go to our {!! Html::link('/', 'home page') !!}
+            @section('message2')
+                Perhaps you would like to go to our {!! Html::link('/', 'home page') !!}
+            @show
         </p>
     </div>
 @stop

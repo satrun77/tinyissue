@@ -165,6 +165,7 @@ class RouteServiceProvider extends ServiceProvider
                     // Settings
                     $router->get('administration/settings', 'AdministrationController@getSettings');
                     $router->post('administration/settings', 'AdministrationController@postSettings');
+                    $router->get('administration/settings/maintenance', 'AdministrationController@getChangeMaintenanceMode');
                 });
             });
         });

@@ -234,4 +234,7 @@ return [
     'readonly_issue_message'             => 'The issue is in read only status.',
     'internal'                           => 'Internal',
     'settings_saved'                     => 'Settings saved successfully.',
+    'site_maintenance_message'           => 'Tinyissue is in maintenance mode.',
+    'maintenance_off'                    => 'Bring site back online',
+    'maintenance_on'                     => 'Take site offline',
 ];

@@ -16,6 +16,7 @@ use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
+use Tinyissue\Services\SettingsManager;
 
 /**
  * AdministrationController is the controller class for managing request related the application system admin.
@@ -73,5 +74,23 @@ class AdministrationController extends Controller
         app('tinyissue.settings')->save($request->except('_token'));
 
         return redirect('administration/settings')->with('notice', trans('tinyissue.settings_saved'));
+    }
+
+    /**
+     * Toggle site maintenance mode.
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function getChangeMaintenanceMode()
+    {
+        $action = 'down';
+        if (app()->isDownForMaintenance()) {
+            $action = 'up';
+            app('session')->remove('notice-error');
+        }
+
+        \Artisan::call($action);
+
+        return redirect('administration');
     }
 }
