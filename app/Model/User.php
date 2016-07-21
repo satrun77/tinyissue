@@ -169,16 +169,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
 
         $project = $route->getParameter('project');
         $issue   = $route->getParameter('issue');
-        if (!$project instanceof Project && $issue instanceof Issue) {
-            $project = $issue->project;
+        $comment = $route->getParameter('comment');
+        $attachment   = $route->getParameter('attachment');
+        $action = $route->getAction();
+        $permission = array_key_exists('permission', $action)? $action['permission'] : '';
+
+        if (
+            ($permission == Permission::PERM_ISSUE_MODIFY && $comment instanceof Issue\Comment && $comment->canEdit($this)) ||
+            ($permission == Permission::PERM_ISSUE_MODIFY && $attachment instanceof Issue\Attachment && $attachment->canEdit($this)) ||
+            ($issue instanceof Issue && $issue->canView($this)) ||
+            ($project instanceof Project && $project->canView($this))
+        ) {
+            return true;
         }
 
-        // Is member of the project
-        if ($project instanceof Project && !$project->isMember($this->id)) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     /**

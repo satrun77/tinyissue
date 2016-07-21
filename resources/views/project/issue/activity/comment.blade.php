@@ -1,7 +1,7 @@
 <li id="comment{{ $comment->id }}" class="comment">
     <div class="insides">
         <div class="topbar">
-            @permission('issue-modify')
+            @if($comment->canEdit(auth()->user()))
             <ul>
                 <li class="edit">
                     <a href="{{ url('project/issue/edit_comment/' . $comment->id) }}" class="has-event edit" data-comment-id="{{ $comment->id }}">Edit</a>
@@ -10,7 +10,7 @@
                     <a href="{{ url('project/issue/delete_comment/' . $comment->id) }}" class="has-event delete" data-message="@lang('tinyissue.confirm_delete_comment')" data-comment-id="{{ $comment->id }}">Delete</a>
                 </li>
             </ul>
-            @endpermission
+            @endif
             <strong>{{ $user->fullname }}</strong>
             @lang('tinyissue.commented') {{ Html::date($comment->updated_at) }}
         </div>
@@ -32,9 +32,12 @@
         <ul class="attachments">
             @foreach($comment->attachments as $attachment)
                 <li>
-                    <a href="{{ $attachment->toDelete() }}" class="delete delete-attach" data-message="@lang('tinyissue.confirm_delete_attachment')" data-tag-id="{{ $attachment->id }}">
-                        @lang('tinyissue.remove')
-                    </a>
+                    @if($attachment->canEdit(auth()->user()))
+                        <a href="{{ $attachment->toDelete() }}" class="delete delete-attach" data-message="@lang('tinyissue.confirm_delete_attachment')" data-tag-id="{{ $attachment->id }}">
+                            @lang('tinyissue.remove')
+                        </a>
+                    @endif
+
                     @if($attachment->setRelation('issue', $issue) && $attachment->isImage())
                         <a href="{{ $attachment->download() }}" title="{{ $attachment->filename }}"><img src="{{ $attachment->display() }}" alt="{{ $attachment->filename }}" class="image"/></a>
                     @else

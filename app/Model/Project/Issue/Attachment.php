@@ -11,6 +11,8 @@
 
 namespace Tinyissue\Model\Project\Issue;
 
+use Tinyissue\Model\User;
+use Tinyissue\Model\Permission;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Traits\Project\Issue\Attachment\CrudTrait;
@@ -110,5 +112,17 @@ class Attachment extends BaseModel
     public function toDelete()
     {
         return \URL::to('project/' . $this->issue->project_id . '/issue/' . $this->issue_id . '/delete/' . $this->id);
+    }
+
+    /**
+     * Whether a user can edit the attachment.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function canEdit(User $user)
+    {
+        return $user->id === $this->uploaded_by || $user->permission(Permission::PERM_PROJECT_MODIFY);
     }
 }

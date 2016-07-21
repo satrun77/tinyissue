@@ -233,13 +233,23 @@ class Project extends Model
     }
 
     /**
-     * Whether or not the project is private or public.
+     * Whether or not the project is private.
      *
      * @return bool
      */
     public function isPrivate()
     {
         return $this->private === self::PRIVATE_YES;
+    }
+
+    /**
+     * Whether or not the project is public.
+     *
+     * @return bool
+     */
+    public function isPublic()
+    {
+        return $this->private === self::PRIVATE_NO;
     }
 
     /**
@@ -278,5 +288,25 @@ class Project extends Model
         }
 
         return '';
+    }
+
+    /**
+     * Whether or not a user can access the project.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function canView(User $user)
+    {
+        // Is member of the project
+        if (
+            ($this->isPublic() && app('tinyissue.settings')->isPublicProjectsEnabled()) ||
+            $this->isMember($user->id)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

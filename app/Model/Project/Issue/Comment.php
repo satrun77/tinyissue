@@ -12,9 +12,11 @@
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Tinyissue\Model\Permission;
 use Tinyissue\Model\Traits\Project\Issue\Comment\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\Comment\QueueTrait;
 use Tinyissue\Model\Traits\Project\Issue\Comment\RelationTrait;
+use Tinyissue\Model\User;
 
 /**
  * Comment is model class for project issue comments.
@@ -58,4 +60,16 @@ class Comment extends BaseModel
         'issue_id',
         'comment',
     ];
+
+    /**
+     * Whether a user can edit the comment.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function canEdit(User $user)
+    {
+        return $user->id === $this->created_by || $user->permission(Permission::PERM_PROJECT_MODIFY);
+    }
 }

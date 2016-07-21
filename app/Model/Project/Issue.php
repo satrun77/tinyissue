@@ -230,4 +230,24 @@ class Issue extends BaseModel
     {
         return $this->created_by === $user->id;
     }
+
+    /**
+     * Whether a user can view the issue.
+     *
+     * @param Model\User $user
+     *
+     * @return bool
+     */
+    public function canView(Model\User $user)
+    {
+        // not access if issue limited to developers and managers, or user is not member of the project
+        if (
+            ($this->project->isPrivateInternal() && $user->isUser() && !$this->isCreatedBy($user)) ||
+            !$this->project->isMember($user->id)
+        ) {
+            return false;
+        }
+
+        return true;
+    }
 }
