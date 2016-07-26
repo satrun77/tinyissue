@@ -143,13 +143,30 @@ trait CrudTrait
      */
     public function delete()
     {
-        $id = $this->id;
-        parent::delete();
+        // Remove issues
+        $issues = $this->issues()->get();
+        foreach ($issues as $issue) {
+            $issue->delete();
+        }
 
-        /* Delete all children from the project */
-        Project\Issue::where('project_id', '=', $id)->delete();
-        Project\Issue\Comment::where('project_id', '=', $id)->delete();
-        Project\User::where('project_id', '=', $id)->delete();
-        User\Activity::where('parent_id', '=', $id)->delete();
+        // Remove project notes
+        $notes = $this->notes()->get();
+        foreach ($notes as $note) {
+            $note->delete();
+        }
+
+        // Remove project users
+        Project\User::where('project_id', '=', $this->id)->delete();
+
+        // Remove user activities
+        User\Activity::where('parent_id', '=', $this->id)->delete();
+
+        // Remove kanban tags
+        \DB::table('projects_kanban_tags')->where('project_id', '=', $this->id)->delete();
+
+        // Remove the project
+        rmdir(config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir') . '/' . $this->id);
+
+        return parent::delete();
     }
 }
