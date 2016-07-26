@@ -60,6 +60,38 @@ class Issue extends FormAbstract
     }
 
     /**
+     * Returns an array of tags to be used as the selectable options.
+     *
+     * @param string $type
+     *
+     * @return array
+     */
+    protected function getSelectableTags($type = null)
+    {
+        $currentTag = $this->getIssueTag($type);
+
+        if ($currentTag->id && (!$currentTag->canView() || $this->readOnly)) {
+            $tags = [$currentTag];
+        } elseif ($this->readOnly) {
+            $tags = [];
+        } else {
+            $tags = $this->getTags($type);
+        }
+
+        $options = [];
+        foreach ($tags as $tag) {
+            $options[ucwords($tag->name)] = [
+                'name'      => 'tag_' . $type,
+                'value'     => $tag->id,
+                'data-tags' => $tag->id,
+                'color'     => $tag->bgcolor,
+            ];
+        }
+
+        return $options;
+    }
+
+    /**
      * Get issue tag for specific type/group.
      *
      * @param string $type
@@ -234,23 +266,7 @@ class Issue extends FormAbstract
      */
     protected function fieldStatusTags()
     {
-        $currentTag = $this->getIssueTag('status');
-
-        if ($currentTag && !$currentTag->canView()) {
-            $tags = [$currentTag];
-        } else {
-            $tags = $this->getTags('status');
-        }
-
-        $options = [];
-        foreach ($tags as $tag) {
-            $options[ucwords($tag->name)] = [
-                'name'      => 'tag_status',
-                'value'     => $tag->id,
-                'data-tags' => $tag->id,
-                'color'     => $tag->bgcolor,
-            ];
-        }
+        $options = $this->getSelectableTags('status');
 
         $fields['tag_status'] = [
             'label'  => 'status',
@@ -269,23 +285,7 @@ class Issue extends FormAbstract
      */
     protected function fieldTypeTags()
     {
-        $currentTag = $this->getIssueTag('type');
-
-        if ($currentTag && !$currentTag->canView()) {
-            $tags = [$currentTag];
-        } else {
-            $tags = $this->getTags('type');
-        }
-
-        $options = [];
-        foreach ($tags as $tag) {
-            $options[ucwords($tag->name)] = [
-                'name'      => 'tag_type',
-                'value'     => $tag->id,
-                'data-tags' => $tag->id,
-                'color'     => $tag->bgcolor,
-            ];
-        }
+        $options = $this->getSelectableTags('type');
 
         $fields['tag_type'] = [
             'label'  => 'type',
@@ -304,29 +304,17 @@ class Issue extends FormAbstract
      */
     protected function fieldResolutionTags()
     {
-        $currentTag = $this->getIssueTag('resolution');
+        $options = $this->getSelectableTags('resolution');
 
-        if ($currentTag && !$currentTag->canView()) {
-            $tags = [$currentTag];
-        } else {
-            $tags = $this->getTags('resolution');
-        }
-
-        $options = [
-            trans('tinyissue.none') => [
-                'name'      => 'tag_resolution',
-                'value'     => 0,
-                'data-tags' => 0,
-                'color'     => '#62CFFC',
-            ],
-        ];
-        foreach ($tags as $tag) {
-            $options[ucwords($tag->name)] = [
-                'name'      => 'tag_resolution',
-                'value'     => $tag->id,
-                'data-tags' => $tag->id,
-                'color'     => $tag->bgcolor,
-            ];
+        if (!empty($options)) {
+            $options = [
+                    trans('tinyissue.none') => [
+                        'name'      => 'tag_resolution',
+                        'value'     => 0,
+                        'data-tags' => 0,
+                        'color'     => '#62CFFC',
+                    ],
+                ] + $options;
         }
 
         $fields['tag_resolution'] = [
