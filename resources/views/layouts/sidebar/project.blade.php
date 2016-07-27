@@ -14,7 +14,7 @@
             @if (!empty($open_issues_count))
                 {{ $open_issues_count }}
             @else
-                {{ $project->openIssuesCount()->count() }}
+                {{ $project->openIssuesCount(auth()->user())->count() }}
             @endif
             @lang('tinyissue.open_issues')
         </span>
@@ -26,7 +26,7 @@
             @if (!empty($closed_issues_count))
                 {{ $closed_issues_count }}
             @else
-                {{ $project->closedIssuesCount()->count() }}
+                {{ $project->closedIssuesCount(auth()->user())->count() }}
             @endif
             @lang('tinyissue.closed_issues')
         </span>

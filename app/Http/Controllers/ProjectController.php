@@ -156,27 +156,23 @@ class ProjectController extends Controller
      */
     protected function projectMainViewTabs(Project $project, $view, $data = null, $status = false)
     {
-        $notesCount = $view === 'note' ? $data->count() : $project->notes()->count();
-
-        $assignedIssuesCount = 0;
-        if ($view !== 'assigned' && !$this->auth->guest()) {
-            $method              = auth()->user()->isUser() ? 'createdIssuesCount' : 'assignedIssuesCount';
-            $assignedIssuesCount = $this->auth->user()->$method($project->id);
-        } elseif ($view === 'assigned' || $view === 'created') {
-            $assignedIssuesCount = $data->count();
-        }
+        $notesCount        = $view === 'note' ? $data->count() : $project->notes()->count();
+        $user              = $this->auth->user();
+        $isLoggedIn        = !$this->auth->guest();
+        $isUser            = $isLoggedIn && $user->isUser();
+        $isInternalProject = $project->isPrivateInternal();
 
         if ($view === 'issues') {
             if ($status == Issue::STATUS_OPEN) {
-                $closedIssuesCount = $project->closedIssuesCount()->count();
+                $closedIssuesCount = $project->closedIssuesCount($user)->count();
                 $openIssuesCount   = $data->count();
             } else {
                 $closedIssuesCount = $data->count();
-                $openIssuesCount   = $project->openIssuesCount()->count();
+                $openIssuesCount   = $project->openIssuesCount($user)->count();
             }
         } else {
-            $openIssuesCount   = $project->openIssuesCount()->count();
-            $closedIssuesCount = $project->closedIssuesCount()->count();
+            $openIssuesCount   = $project->openIssuesCount($user)->count();
+            $closedIssuesCount = $project->closedIssuesCount($user)->count();
         }
 
         $tabs   = [];
@@ -194,10 +190,17 @@ class ProjectController extends Controller
             'page'   => 'closed_issue',
             'prefix' => $closedIssuesCount,
         ];
-        if (!$this->auth->guest()) {
+        if ($isLoggedIn && (!$isInternalProject || (!$isUser && $isInternalProject))) {
+            if ($view !== 'assigned') {
+                $method              = $isUser ? 'createdIssuesCount' : 'assignedIssuesCount';
+                $assignedIssuesCount = $this->auth->user()->$method($project->id);
+            } else {
+                $assignedIssuesCount = $data->count();
+            }
+
             $tabs[] = [
-                'url'    => $project->to(auth()->user()->isUser() ? 'created' : 'assigned'),
-                'page'   => (auth()->user()->isUser() ? 'issue_created_by_you' : 'issue_assigned_to_you'),
+                'url'    => $project->to($isUser ? 'created' : 'assigned'),
+                'page'   => ($isUser ? 'issue_created_by_you' : 'issue_assigned_to_you'),
                 'prefix' => $assignedIssuesCount,
             ];
         }

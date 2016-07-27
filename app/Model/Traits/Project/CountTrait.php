@@ -14,6 +14,7 @@ namespace Tinyissue\Model\Traits\Project;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\User;
 
 /**
  * CountTrait is trait class containing the methods for counting database records for the Project model.
@@ -104,11 +105,13 @@ trait CountTrait
     /**
      * For eager loading: include number of closed issues.
      *
+     * @param User $limitByUser
+     *
      * @return Eloquent\Relations\HasOne
      */
-    public function closedIssuesCount()
+    public function closedIssuesCount($limitByUser = null)
     {
-        return $this
+        $query = $this
             ->hasOne(
                 'Tinyissue\Model\Project\Issue',
                 'project_id'
@@ -116,16 +119,24 @@ trait CountTrait
             ->selectRaw('project_id, count(*) as aggregate')
             ->where('status', '=', Project\Issue::STATUS_CLOSED)
             ->groupBy('project_id');
+
+        if ($limitByUser && $limitByUser->isUser() && $this->isPrivateInternal()) {
+            $query->where('created_by', '=', $limitByUser->id);
+        }
+
+        return $query;
     }
 
     /**
      * For eager loading: include number of open issues.
      *
+     * @param User $limitByUser
+     *
      * @return Eloquent\Relations\HasOne
      */
-    public function openIssuesCount()
+    public function openIssuesCount(User $limitByUser = null)
     {
-        return $this
+        $query = $this
             ->hasOne(
                 'Tinyissue\Model\Project\Issue',
                 'project_id'
@@ -133,6 +144,12 @@ trait CountTrait
             ->selectRaw('project_id, count(*) as aggregate')
             ->where('status', '=', Project\Issue::STATUS_OPEN)
             ->groupBy('project_id');
+
+        if ($limitByUser && $limitByUser->isUser() && $this->isPrivateInternal()) {
+            $query->where('created_by', '=', $limitByUser->id);
+        }
+
+        return $query;
     }
 
     /**
