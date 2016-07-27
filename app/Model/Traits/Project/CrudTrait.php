@@ -165,7 +165,10 @@ trait CrudTrait
         \DB::table('projects_kanban_tags')->where('project_id', '=', $this->id)->delete();
 
         // Remove the project
-        rmdir(config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir') . '/' . $this->id);
+        $dir = config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir') . '/' . $this->id;
+        if (is_dir($dir)) {
+            rmdir($dir);
+        }
 
         return parent::delete();
     }
