@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Traits\Project\Issue\Comment;
 
 use Tinyissue\Model\Project\Issue\Comment;
+use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Message;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\User;
@@ -70,7 +71,7 @@ trait QueueTrait
     public function queueDelete(Comment $comment, $changeBy)
     {
         // Skip message if issue closed
-        if (!$comment->issue->isOpen()) {
+        if ($comment->issue instanceof Issue && !$comment->issue->isOpen()) {
             return;
         }
 
