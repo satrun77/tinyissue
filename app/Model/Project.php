@@ -239,7 +239,7 @@ class Project extends Model
      */
     public function isPrivate()
     {
-        return $this->private === self::PRIVATE_YES;
+        return (int) $this->private === self::PRIVATE_YES;
     }
 
     /**
@@ -249,7 +249,7 @@ class Project extends Model
      */
     public function isPublic()
     {
-        return $this->private === self::PRIVATE_NO;
+        return (int) $this->private === self::PRIVATE_NO;
     }
 
     /**
@@ -259,7 +259,7 @@ class Project extends Model
      */
     public function isPrivateInternal()
     {
-        return $this->private === self::INTERNAL_YES;
+        return (int) $this->private === self::INTERNAL_YES;
     }
 
     /**

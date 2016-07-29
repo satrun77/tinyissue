@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Form;
 
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Support\Collection;
 use Tinyissue\Model\Message;
 use Tinyissue\Model\Project;
@@ -27,19 +26,6 @@ class UserMessagesSettings extends FormAbstract
      * @var Collection
      */
     protected $projects;
-
-    /**
-     * @var \Illuminate\Contracts\Auth\Authenticatable|null
-     */
-    protected $user;
-
-    /**
-     * @param Guard $model
-     */
-    public function __construct(Guard $model)
-    {
-        $this->user = $model->user();
-    }
 
     /**
      * @param Collection $projects

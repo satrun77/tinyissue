@@ -1,5 +1,8 @@
 <?php
 
+use Tinyissue\Model\Project;
+use Tinyissue\Model\Setting;
+
 class OtherFunctionalCest
 {
     /**
@@ -80,6 +83,51 @@ class OtherFunctionalCest
             'body'   => 'note one updated',
             '_token' => csrf_token(),
         ]);
+        $I->seeResponseCodeIs(401);
+    }
+
+    /**
+     * @param FunctionalTester $I
+     *
+     * @actor FunctionalTester
+     *
+     * @return void
+     */
+    public function ajaxRouteNotAccessibleWithGet(FunctionalTester $I)
+    {
+        $I->am('Normal User');
+        $I->expectTo('receive 404 response with get request to an ajax route.');
+
+        $user  = $I->createUser(2, 1);
+        $admin = $I->createUser(1, 4);
+
+        $project = $I->createProject(1, [$admin, $user]);
+        $issue1  = $I->createIssue(1, $admin, null, $project);
+
+        $I->amLoggedAs($user);
+        $I->amOnAction('Project\IssueController@getIssueComments', ['issue' => $issue1, 'project' => $project]);
+        $I->seeResponseCodeIs(404);
+    }
+
+    public function notLoggedInCantViewPrivateProject(FunctionalTester $I)
+    {
+        $I->am('Guest User');
+        $I->expectTo('see 401 error when accessing private project.');
+
+        /** @var \Tinyissue\Services\SettingsManager $settings */
+        $settings = app('tinyissue.settings');
+        $settings->save([
+            'enable_public_projects' => Setting::ENABLE,
+        ]);
+
+        $project          = $I->createProject(1);
+        $project->private = Project::PRIVATE_YES;
+        $project->save();
+
+        $I->logout();
+        $I->amOnAction('HomeController@getIndex');
+        $I->amOnAction('ProjectsController@getIndex');
+        $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
         $I->seeResponseCodeIs(401);
     }
 }

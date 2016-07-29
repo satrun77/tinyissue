@@ -19,6 +19,7 @@ class CommentMessaging1Test extends MessagingSystemAbstract
         $assignTo = $this->getDevelopers()->first();
         $project  = $this->tester->createProject(1, collect($this->users)->collapse()->all());
         /** @var Issue $issue */
+        Issue::flushEventListeners();
         $issue = $this->tester->createIssue(1, $admin, $assignTo, $project);
 
         $this->sendMessagesAndAssert();

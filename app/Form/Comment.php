@@ -66,7 +66,7 @@ class Comment extends FormAbstract
 
         // Only for adding new comment
         if (!$this->isEditing()) {
-            $fields += $this->projectUploadFields('upload', $this->project, \Auth::user());
+            $fields += $this->projectUploadFields('upload', $this->project, $this->getLoggedUser());
         }
 
         return $fields;

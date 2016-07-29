@@ -171,10 +171,11 @@ trait Creatables
      * @param string $color
      * @param int    $roleLimit
      * @param int    $messageLimit
+     * @param int    $readonly
      *
      * @return Model\Tag
      */
-    public function createTag($name, $parent, $color = 'red', $roleLimit = 0, $messageLimit = 0)
+    public function createTag($name, $parent, $color = 'red', $roleLimit = 0, $messageLimit = 0, $readonly = 0)
     {
         $parent = (new Model\Tag())->getTagByName($parent);
 
@@ -185,6 +186,7 @@ trait Creatables
             'bgcolor'       => $color,
             'role_limit'    => $roleLimit,
             'message_limit' => $messageLimit,
+            'readonly'      => $readonly,
         ]);
         $tag->save();
 

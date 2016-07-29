@@ -14,6 +14,7 @@ namespace Tinyissue\Form;
 use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
+use Illuminate\Contracts\Auth\Guard;
 
 /**
  * FormAbstract is an abstract class for Form classes.
@@ -28,6 +29,41 @@ abstract class FormAbstract implements FormInterface
      * @var Model
      */
     protected $model;
+
+    /**
+     * An instance of Current logged user.
+     *
+     * @var User
+     */
+    protected $user;
+
+    /**
+     * Set an instance of current logged user.
+     *
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setLoggedUser(User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Returns an instance of current logged user.
+     *
+     * @return User
+     */
+    public function getLoggedUser()
+    {
+        if (null === $this->user) {
+            $this->user = auth()->user();
+        }
+
+        return $this->user;
+    }
 
     /**
      * Set an instance of model currently being edited.

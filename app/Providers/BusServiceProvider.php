@@ -46,6 +46,7 @@ class BusServiceProvider extends ServiceProvider
         // Resolve form object by injecting the current model being edited
         $this->app->resolving(function (FormInterface $form, Application $app) {
             $form->setup($app->router->getCurrentRoute()->parameters());
+            $form->setLoggedUser(auth()->user());
         });
 
         // Resolve form request by injecting the current model being edited
@@ -57,6 +58,7 @@ class BusServiceProvider extends ServiceProvider
             });
             if ($form) {
                 $form->setup($app->router->getCurrentRoute()->parameters());
+                $form->setLoggedUser(auth()->user());
                 $request->setForm($form);
             }
 

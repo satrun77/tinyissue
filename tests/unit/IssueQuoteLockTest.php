@@ -2,6 +2,7 @@
 
 use Tinyissue\Model\Permission;
 use Tinyissue\Model\Project\Issue;
+use Tinyissue\Form\Issue as FormIssue;
 
 class IssueQuoteLockTest extends \Codeception\TestCase\Test
 {
@@ -63,5 +64,23 @@ class IssueQuoteLockTest extends \Codeception\TestCase\Test
 
         // Developer cannot lock issue
         $this->assertFalse($developer->permission(Permission::PERM_ISSUE_LOCK_QUOTE));
+
+        // Login as developer
+        auth()->login($developer);
+        $form = new FormIssue();
+        $form->setLoggedUser($developer);
+        $form->setup([
+            'project' => $project,
+            'issue'   => $issue,
+        ]);
+        $this->assertArrayNotHasKey('time_quote', $form->fields());
+
+        auth()->login($admin);
+        $form->setLoggedUser($admin);
+        $form->setup([
+            'project' => $project,
+            'issue'   => $issue,
+        ]);
+        $this->assertArrayHasKey('time_quote', $form->fields());
     }
 }

@@ -186,7 +186,7 @@ class Issue extends BaseModel
      */
     public function hasReadOnlyTag(Model\User $user)
     {
-        $hasReadOnly = $this->tags->where('readonly', $user->role_id);
+        $hasReadOnly = $this->tags->where('readonly', $user->role_id, false);
 
         return !$hasReadOnly->isEmpty();
     }

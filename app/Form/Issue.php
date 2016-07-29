@@ -122,7 +122,7 @@ class Issue extends FormAbstract
         $this->project = $params['project'];
         if (!empty($params['issue'])) {
             $this->editingModel($params['issue']);
-            $this->readOnly = $this->getModel()->hasReadOnlyTag(auth()->user());
+            $this->readOnly = $this->getModel()->hasReadOnlyTag($this->getLoggedUser());
         }
     }
 
@@ -139,7 +139,7 @@ class Issue extends FormAbstract
                 'submit' => $this->isEditing() ? 'update_issue' : 'create_issue',
             ];
 
-            if ($this->isEditing() && auth()->user(Model\Permission::PERM_ISSUE_MODIFY)) {
+            if ($this->isEditing() && $this->getLoggedUser()->permission(Model\Permission::PERM_ISSUE_MODIFY)) {
                 $actions['delete'] = [
                     'type'         => 'danger_submit',
                     'label'        => trans('tinyissue.delete_something', ['name' => '#' . $this->getModel()->id]),
@@ -158,7 +158,7 @@ class Issue extends FormAbstract
      */
     public function fields()
     {
-        $issueModify = \Auth::user()->permission('issue-modify');
+        $issueModify = $this->getLoggedUser()->permission('issue-modify');
 
         $fields = [];
         $fields += $this->readOnlyMessage();
@@ -351,7 +351,7 @@ class Issue extends FormAbstract
      */
     protected function fieldUpload()
     {
-        $user                      = \Auth::guest() ? new Model\User() : \Auth::user();
+        $user                      = !$this->getLoggedUser() ? new Model\User() : $this->getLoggedUser();
         $fields                    = $this->projectUploadFields('upload', $this->project, $user);
         $fields['upload']['label'] = 'attachments';
 
@@ -404,7 +404,7 @@ class Issue extends FormAbstract
         ];
 
         // If user does not have access to lock quote, then remove the field
-        if (!auth()->user()->permission(Model\Permission::PERM_ISSUE_LOCK_QUOTE)) {
+        if (!$this->getLoggedUser()->permission(Model\Permission::PERM_ISSUE_LOCK_QUOTE)) {
             unset($fields['time_quote']['fields']['lock']);
 
             // If quote is locked then remove quote fields

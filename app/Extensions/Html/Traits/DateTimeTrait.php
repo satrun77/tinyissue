@@ -11,6 +11,8 @@
 
 namespace Tinyissue\Extensions\Html\Traits;
 
+use Carbon\Carbon;
+
 /**
  * DateTimeTrait is trait class for adding methods to generate the html code for date and time display.
  *
@@ -50,19 +52,9 @@ trait DateTimeTrait
             $timestamp = new \DateTime($timestamp);
         }
 
-        $timestamp  = $timestamp->getTimestamp();
-        $difference = time() - $timestamp;
-        $periods    = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year', 'decade'];
-        $lengths    = ['60', '60', '24', '7', '4.35', '12', '10'];
-        for ($j = 0; $difference >= $lengths[$j]; ++$j) {
-            $difference /= $lengths[$j];
-        }
-        $difference = round($difference);
-        if ($difference != 1) {
-            $periods[$j] .= 's';
-        }
-
-        return $difference . ' ' . $periods[$j] . ' ago';
+        return Carbon::createFromTimeStamp(
+            $timestamp->getTimestamp()
+        )->diffForHumans();
     }
 
     /**

@@ -35,7 +35,7 @@ class GlobalIssue extends Issue
     protected function getProjects()
     {
         if (!$this->projects) {
-            $this->projects = \Auth::user()->projects()->get()->lists('name', 'id');
+            $this->projects = $this->getLoggedUser()->projects()->get()->lists('name', 'id');
         }
 
         return $this->projects;

@@ -64,21 +64,6 @@ class HtmlBuilder extends \Collective\Html\HtmlBuilder
     }
 
     /**
-     * Render loading Html.
-     *
-     * @param string $message
-     *
-     * @return string
-     */
-    public function loader($message)
-    {
-        return '<div class="loader">'
-                . $this->image(\URL::asset('images/icons/loader.gif'))
-                . '<span>' . trans('tinyissue.' . $message) . '</span>'
-                . '</div>';
-    }
-
-    /**
      * Format issue tag in string into Html.
      *
      * @param string      $tag

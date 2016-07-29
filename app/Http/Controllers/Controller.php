@@ -42,15 +42,4 @@ abstract class Controller extends BaseController
     {
         $this->auth = $auth;
     }
-
-    protected function sidebarProjects()
-    {
-        if (!$this->auth->guest()) {
-            return $this->auth->user()->projects()->get();
-        }
-
-        $project = new Model\Project();
-
-        return $project->publicProjects();
-    }
 }

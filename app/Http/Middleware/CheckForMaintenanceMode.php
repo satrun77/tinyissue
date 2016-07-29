@@ -38,20 +38,20 @@ class CheckForMaintenanceMode
     /**
      * Create a new filter instance.
      *
-     * @param Guard                                         $auth
-     * @param  \Illuminate\Contracts\Foundation\Application $app
+     * @param Guard                                        $auth
+     * @param \Illuminate\Contracts\Foundation\Application $app
      */
     public function __construct(Guard $auth, Application $app)
     {
         $this->auth = $auth;
-        $this->app = $app;
+        $this->app  = $app;
     }
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure                 $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
      *
      * @return mixed
      *
@@ -60,7 +60,7 @@ class CheckForMaintenanceMode
     public function handle($request, Closure $next)
     {
         $siteDown = $this->app->isDownForMaintenance();
-        $isLogin = $request->is('/', 'logout', 'signin');
+        $isLogin  = $request->is('/', 'logout', 'signin');
 
         // Allow admin & login page to always view the site event in maintenance mode
         if ($siteDown && !$isLogin && ($this->auth->guest() || !$this->auth->user()->isAdmin())) {
