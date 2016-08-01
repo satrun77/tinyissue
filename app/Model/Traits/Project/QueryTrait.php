@@ -220,6 +220,6 @@ trait QueryTrait
      */
     public function usersCanFixIssue()
     {
-        return $this->users()->where('users.role_id', '>', 1);
+        return $this->users()->where('users.role_id', '>', 1)->where('users.deleted', '=', User::NOT_DELETED_USERS);
     }
 }

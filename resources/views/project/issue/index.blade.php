@@ -109,7 +109,7 @@ active
                 <div class="dropdown">
                     <ul>
                         <li class="unassigned"><a href="" data-project-id="{{ $project->id }}" data-issue-id="{{ $issue->id }}" data-assign-id="0" class="assign-user user0{{ !$issue->assigned ? ' assigned' : '' }}">@lang('tinyissue.no_one')</a></li>
-                        @foreach($project->users()->get() as $row)
+                        @foreach($project->usersCanFixIssue()->get() as $row)
                             <li><a href="" data-project-id="{{ $project->id }}" data-issue-id="{{ $issue->id }}" data-assign-id="{{ $row->id }}" class="assign-user user{{ $row->id . ($issue->assigned && $row->id == $issue->assigned->id ? ' assigned' : '') }}">{{ $row->fullname }}</a></li>
                         @endforeach
                     </ul>
