@@ -212,7 +212,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function getFullNameAttribute()
     {
-        if ($this->private && (Auth::guest() || !Auth::user()->permission('administration'))) {
+        if ($this->private && (Auth::guest() || (Auth::user()->id != $this->id && !Auth::user()->permission('administration')))) {
             return trans('tinyissue.anonymous');
         }
 
