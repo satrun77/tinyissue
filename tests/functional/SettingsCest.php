@@ -1,5 +1,6 @@
 <?php
 
+use Tinyissue\Model\Message;
 
 class SettingsCest
 {
@@ -29,5 +30,43 @@ class SettingsCest
         $I->amOnAction('AdministrationController@getIndex');
         $I->click($settingsString);
         $I->seeOptionIsSelected('enable_public_projects', $enableString);
+    }
+
+    /**
+     * @param FunctionalTester $I
+     *
+     * @actor FunctionalTester
+     *
+     * @return void
+     */
+    public function updateMessagesSettings(FunctionalTester $I)
+    {
+        $I->am('Developer User');
+        $I->wantTo('update my messaging settings');
+
+        $messages  = Message::orderBy('id')->get();
+        $admin     = $I->createUser(1, 4);
+        $developer = $I->createUser(2, 2);
+        $projects  = [
+            $I->createProject(1, [$admin, $developer]),
+            $I->createProject(2, [$admin, $developer]),
+            $I->createProject(3, [$admin, $developer]),
+        ];
+        $project4 = $I->createProject(3, [$admin]);
+        $select   = $messages->first()->name;
+
+        $I->amLoggedAs($developer);
+        $I->amOnAction('UserController@getSettings');
+        $I->click(trans('tinyissue.messages'));
+        $I->seeCurrentActionIs('UserController@getMessagesSettings');
+        foreach ($projects as $project) {
+            $I->seeElement('select', ['name' => 'projects[' . $project->id . ']']);
+        }
+        $I->dontSeeElement('select', ['name' => 'projects[' . $project4->id . ']']);
+        $I->selectOption('//*[@id="projects[1]"]', $select);
+        $I->seeOptionIsSelected('//*[@id="projects[1]"]', $select);
+        $I->click(trans('tinyissue.update'));
+        $I->amOnAction('UserController@getMessagesSettings');
+        $I->seeOptionIsSelected('//*[@id="projects[1]"]', $select);
     }
 }

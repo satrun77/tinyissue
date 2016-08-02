@@ -24,12 +24,4 @@ class UserMessagesSettings extends Request
      * @var string
      */
     protected $formClassName = 'Tinyissue\Form\UserMessagesSettings';
-
-    /**
-     * @return string
-     */
-    protected function getRedirectUrl()
-    {
-        return 'user/settings/messages';
-    }
 }

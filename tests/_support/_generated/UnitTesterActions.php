@@ -3565,12 +3565,13 @@ trait UnitTesterActions
      * @param string $color
      * @param int    $roleLimit
      * @param int    $messageLimit
+     * @param int    $readonly
      *
      * @return Model\Tag
      *
      * @see \Codeception\Module\UnitHelper::createTag()
      */
-    public function createTag($name, $parent, $color = null, $roleLimit = null, $messageLimit = null)
+    public function createTag($name, $parent, $color = null, $roleLimit = null, $messageLimit = null, $readonly = null)
     {
         return $this->getScenario()->runStep(new \Codeception\Step\Action('createTag', func_get_args()));
     }

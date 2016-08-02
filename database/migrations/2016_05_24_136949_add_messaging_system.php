@@ -115,23 +115,6 @@ class AddMessagingSystem extends Migration
             $message->save();
             $savedMessages->push($message);
         });
-
-/*
-        // Get all projects_users & update the messages status based on the user role & the default per role
-        collect(DB::table('projects_users')->get())->each(function ($userInProject) use ($savedMessages) {
-            // Get user object
-            $user = (new User())->find($userInProject->user_id);
-            // Get message based on the user role
-            $message = $savedMessages->where('name', $this->nNames[$user->role->role])->first();
-
-            // Update message in projects_users
-            DB::table('projects_users')
-                ->where('id', $userInProject->id)
-                ->update([
-                    'message_id' => $message->id,
-                ]);
-        });
-        */
     }
 
     /**

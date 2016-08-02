@@ -18,7 +18,7 @@ class CommentMessaging1Test extends MessagingSystemAbstract
         $admin    = $this->getAdmins()->first();
         $assignTo = $this->getDevelopers()->first();
         $project  = $this->tester->createProject(1, collect($this->users)->collapse()->all());
-        /** @var Issue $issue */
+        /* @var Issue $issue */
         Issue::flushEventListeners();
         $issue = $this->tester->createIssue(1, $admin, $assignTo, $project);
 
