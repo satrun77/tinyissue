@@ -61,4 +61,28 @@ class Activity extends Model
     protected $casts = [
         'data' => 'array',
     ];
+
+     /**
+      * Get a value from the data field using "dot" notation.
+      *
+      * @param string $name
+      *
+      * @return Collection
+      */
+     public function dataCollection($name)
+     {
+         return new Collection($this->dataValue($name));
+     }
+
+     /*
+      * Get a value from the data field using "dot" notation.
+      *
+      * @param string $name
+      *
+      * @return mixed
+      */
+     public function dataValue($name)
+     {
+         return array_get($this->data, $name);
+     }
 }
