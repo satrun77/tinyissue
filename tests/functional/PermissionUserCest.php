@@ -146,7 +146,7 @@ class PermissionUserCest
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $issue->project, 'issue' => $issue]);
         $I->dontSee(trans('tinyissue.comment_on_this_issue'));
         $I->sendPostRequest(
-            'Project\IssueController@getAddComment',
+            'Project\IssueController@postAddComment',
             ['project' => $issue->project, 'issue' => $issue],
             ['comment' => 'Comment 1', '_token' => csrf_token()]
         );
@@ -154,7 +154,7 @@ class PermissionUserCest
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $issue2->project, 'issue' => $issue2]);
         $I->dontSee(trans('tinyissue.comment_on_this_issue'));
         $I->sendPostRequest(
-            'Project\IssueController@getAddComment',
+            'Project\IssueController@postAddComment',
             ['project' => $issue2->project, 'issue' => $issue2],
             ['comment' => 'Comment 1', '_token' => csrf_token()]
         );

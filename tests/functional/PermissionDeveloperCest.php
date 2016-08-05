@@ -141,7 +141,7 @@ class PermissionDeveloperCest
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
         $I->seeResponseCodeIs(401);
         $I->sendPostRequest(
-            'Project\IssueController@getAddComment',
+            'Project\IssueController@postAddComment',
             ['project' => $project1, 'issue' => $issue1],
             ['comment' => 'Comment 1', '_token' => csrf_token()]
         );

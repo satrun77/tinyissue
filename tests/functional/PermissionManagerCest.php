@@ -115,7 +115,7 @@ class PermissionManagerCest
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
         $I->see(trans('tinyissue.comment_on_this_issue'));
         $I->sendPostRequest(
-            'Project\IssueController@getAddComment',
+            'Project\IssueController@postAddComment',
             ['project' => $project1, 'issue' => $issue1],
             ['comment' => 'Comment 1', '_token' => csrf_token(), 'upload_token' => '-']
         );

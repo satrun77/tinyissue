@@ -139,7 +139,7 @@ class RouteServiceProvider extends ServiceProvider
                         // Edit comment
                         $router->post('project/issue/edit_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@postEditComment']);
                         $router->get('project/issue/delete_comment/{comment}', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@getDeleteComment']);
-                        $router->post('project/{project}/issue/{issue}/add_comment', 'Project\IssueController@getAddComment');
+                        $router->post('project/{project}/issue/{issue}/add_comment', 'Project\IssueController@postAddComment');
                         $router->get('project/{project}/issue/{issue}/delete/{attachment}', 'Project\IssueController@getDeleteAttachment');
                     });
                 });

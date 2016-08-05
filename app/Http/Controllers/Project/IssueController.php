@@ -104,7 +104,7 @@ class IssueController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function getAddComment(Project $project, Issue $issue, Comment $comment, FormRequest\Comment $request)
+    public function postAddComment(Project $project, Issue $issue, Comment $comment, FormRequest\Comment $request)
     {
         $comment->setRelation('project', $project);
         $comment->setRelation('issue', $issue);
