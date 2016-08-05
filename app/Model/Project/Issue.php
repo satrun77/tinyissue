@@ -250,4 +250,17 @@ class Issue extends BaseModel
 
         return true;
     }
+
+    /**
+     * Whether a user can edit the issue.
+     *
+     * @param Model\User $user
+     *
+     * @return bool
+     */
+    public function canEdit(Model\User $user)
+    {
+        // If you have permission to modify issue or a creator and current tag is not read only.
+        return ($this->isCreatedBy($user) && !$this->hasReadOnlyTag($user)) || ($this->canView($user) && $user->permission(Model\Permission::PERM_ISSUE_MODIFY));
+    }
 }

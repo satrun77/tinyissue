@@ -309,4 +309,16 @@ class Project extends Model
 
         return false;
     }
+
+    /**
+     * Whether a user can edit the project.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function canEdit(User $user)
+    {
+        return $user->permission(Permission::PERM_PROJECT_MODIFY) || $user->permission(Permission::PERM_PROJECT_ALL);
+    }
 }

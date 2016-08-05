@@ -9,7 +9,7 @@ active
 @stop
 
 @section('headingTitle')
-    @permission('issue-modify')
+    @if ($issue->canEdit(auth()->user()))
         {!! link_to($issue->to('edit'), $issue->title, ['class' => 'edit-issue']) !!}
     @else
         {!! link_to($issue->to(), $issue->title) !!}

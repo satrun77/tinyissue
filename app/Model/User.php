@@ -18,8 +18,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Routing\Route;
-use Tinyissue\Model\Project\Issue;
 
 /**
  * User is model class for users.
@@ -150,40 +148,6 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function me()
     {
         return $this->id == \Auth::user()->id;
-    }
-
-    /**
-     * Whether or not the user has a valid permission in current context
-     * e.g. can access the issue or the project.
-     *
-     * @param Route $route
-     *
-     * @return bool
-     */
-    public function permissionInContext(Route $route)
-    {
-        // Can access all projects
-        if ($this->permission(Permission::PERM_PROJECT_ALL)) {
-            return true;
-        }
-
-        $project      = $route->getParameter('project');
-        $issue        = $route->getParameter('issue');
-        $comment      = $route->getParameter('comment');
-        $attachment   = $route->getParameter('attachment');
-        $action       = $route->getAction();
-        $permission   = array_key_exists('permission', $action) ? $action['permission'] : '';
-
-        if (
-            ($permission == Permission::PERM_ISSUE_MODIFY && $comment instanceof Issue\Comment && $comment->canEdit($this)) ||
-            ($permission == Permission::PERM_ISSUE_MODIFY && $attachment instanceof Issue\Attachment && $attachment->canEdit($this)) ||
-            ($issue instanceof Issue && $issue->canView($this)) ||
-            ($project instanceof Project && $project->canView($this))
-        ) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

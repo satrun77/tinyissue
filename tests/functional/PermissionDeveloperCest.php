@@ -139,7 +139,7 @@ class PermissionDeveloperCest
         );
         $I->see('Comment one');
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
-        $I->dontSee(trans('tinyissue.comment_on_this_issue'));
+        $I->seeResponseCodeIs(401);
         $I->sendPostRequest(
             'Project\IssueController@getAddComment',
             ['project' => $project1, 'issue' => $issue1],

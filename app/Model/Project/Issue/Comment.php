@@ -62,6 +62,18 @@ class Comment extends BaseModel
     ];
 
     /**
+     * Whether a user can view the issue.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function canView(User $user)
+    {
+        return $this->issue->canView($user);
+    }
+
+    /**
      * Whether a user can edit the comment.
      *
      * @param User $user
@@ -70,6 +82,6 @@ class Comment extends BaseModel
      */
     public function canEdit(User $user)
     {
-        return $user->id === $this->created_by || $user->permission(Permission::PERM_PROJECT_MODIFY);
+        return $user->id === $this->created_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
     }
 }

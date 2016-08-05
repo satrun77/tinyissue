@@ -115,6 +115,18 @@ class Attachment extends BaseModel
     }
 
     /**
+     * Whether a user can view the issue.
+     *
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function canView(User $user)
+    {
+        return $this->issue->canView($user);
+    }
+
+    /**
      * Whether a user can edit the attachment.
      *
      * @param User $user
@@ -123,6 +135,6 @@ class Attachment extends BaseModel
      */
     public function canEdit(User $user)
     {
-        return $user->id === $this->uploaded_by || $user->permission(Permission::PERM_PROJECT_MODIFY);
+        return $user->id === $this->uploaded_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
     }
 }
