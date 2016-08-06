@@ -70,7 +70,9 @@ class ProjectController extends Controller
      */
     public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
-        $request['created_by'] = auth()->user()->id;
+        if ($project->isPrivateInternal() && $this->auth->user()->isUser()) {
+            $request['created_by'] = $this->auth->user()->id;
+        }
         $active                = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
         $issues                = $project->listIssues($status, $request->all());
 
