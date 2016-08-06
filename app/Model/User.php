@@ -24,16 +24,16 @@ use Illuminate\Database\Eloquent\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int    $id
- * @property int    $deleted
- * @property int    $role_id
+ * @property int $id
+ * @property int $deleted
+ * @property int $role_id
  * @property string $language
  * @property string $email
  * @property string $password
  * @property string $firstname
  * @property string $lastname
  * @property string $fullname
- * @property int    $status
+ * @property int $status
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {
@@ -203,9 +203,9 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public static function getStatuses()
     {
         return [
-            static::ACTIVE_USER     => trans('tinyissue.active'),
-            static::BLOCKED_USER    => trans('tinyissue.blocked'),
-            static::INACTIVE_USER   => trans('tinyissue.inactive'),
+            static::ACTIVE_USER   => trans('tinyissue.active'),
+            static::BLOCKED_USER  => trans('tinyissue.blocked'),
+            static::INACTIVE_USER => trans('tinyissue.inactive'),
         ];
     }
 
