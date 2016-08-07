@@ -268,14 +268,14 @@ class Issue extends FormAbstract
     {
         $options = $this->getSelectableTags('status');
 
-        $fields['tag_status'] = [
-            'label'  => 'status',
-            'type'   => 'radioButton',
-            'radios' => $options,
-            'check'  => $this->getIssueTag('status')->id,
+        return [
+            'tag_status' => [
+                'label'  => 'status',
+                'type'   => 'radioButton',
+                'radios' => $options,
+                'check'  => $this->getIssueTag('status')->id,
+            ],
         ];
-
-        return $fields;
     }
 
     /**
@@ -287,14 +287,14 @@ class Issue extends FormAbstract
     {
         $options = $this->getSelectableTags('type');
 
-        $fields['tag_type'] = [
-            'label'  => 'type',
-            'type'   => 'radioButton',
-            'radios' => $options,
-            'check'  => $this->getIssueTag('type')->id,
+        return [
+            'tag_type' => [
+                'label'  => 'type',
+                'type'   => 'radioButton',
+                'radios' => $options,
+                'check'  => $this->getIssueTag('type')->id,
+            ],
         ];
-
-        return $fields;
     }
 
     /**
@@ -317,14 +317,14 @@ class Issue extends FormAbstract
                 ] + $options;
         }
 
-        $fields['tag_resolution'] = [
-            'label'  => 'resolution',
-            'type'   => 'radioButton',
-            'radios' => $options,
-            'check'  => $this->getIssueTag('resolution')->id,
+        return [
+            'tag_resolution' => [
+                'label'  => 'resolution',
+                'type'   => 'radioButton',
+                'radios' => $options,
+                'check'  => $this->getIssueTag('resolution')->id,
+            ],
         ];
-
-        return $fields;
     }
 
     /**
