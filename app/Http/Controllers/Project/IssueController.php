@@ -316,6 +316,9 @@ class IssueController extends Controller
         try {
             $attachment->deleteFile($path, $attachment->filename);
         } catch (\Exception $e) {
+            // For now error of removing the file from the storage is ignored.
+            // File might not be in server, error is not important.
+            // No permission to delete file, this will creates orphan file.
         }
         $attachment->delete();
 
