@@ -34,7 +34,7 @@ class UsersController extends Controller
     public function getIndex(Role $role)
     {
         return view('administration.users.index', [
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
             'roles'    => $role->rolesWithUsers(),
         ]);
     }
@@ -50,7 +50,7 @@ class UsersController extends Controller
     {
         return view('administration.users.add', [
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 
@@ -83,7 +83,7 @@ class UsersController extends Controller
         return view('administration.users.edit', [
             'user'     => $user,
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 

@@ -42,7 +42,7 @@ class AdministrationController extends Controller
             'archived_projects' => $project->countArchivedProjects(),
             'open_issues'       => $project->countOpenIssues(),
             'closed_issues'     => $project->countClosedIssues(),
-            'projects'          => $this->auth->user()->projects()->get(),
+            'projects'          => $this->getLoggedUser()->projects()->get(),
             'tags'              => $tag->count(),
         ]);
     }
@@ -58,7 +58,7 @@ class AdministrationController extends Controller
     {
         return view('administration.settings', [
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 

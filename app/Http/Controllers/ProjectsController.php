@@ -36,15 +36,15 @@ class ProjectsController extends Controller
     {
         $viewData = [];
         if (!$this->auth->guest()) {
-            $projects = $this->auth->user()->projectsWithCountOpenIssues($status)->get();
+            $projects = $this->getLoggedUser()->projectsWithCountOpenIssues($status)->get();
             if ($status) {
                 $countActive   = $projects->count();
-                $countArchived = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
+                $countArchived = $this->getLoggedUser()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
             } else {
-                $countActive   = $this->auth->user()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
+                $countActive   = $this->getLoggedUser()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
                 $countArchived = $projects->count();
             }
-            $viewData['projects'] = $this->auth->user()->projects()->get();
+            $viewData['projects'] = $this->getLoggedUser()->projects()->get();
         } else {
             $viewData['sidebar'] = 'public';
             $project             = new Project();
@@ -78,7 +78,7 @@ class ProjectsController extends Controller
     {
         return view('projects.new', [
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 
@@ -138,7 +138,7 @@ class ProjectsController extends Controller
     {
         return view('projects.new-issue', [
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 
@@ -155,7 +155,7 @@ class ProjectsController extends Controller
         $project = Project::find((int) $request->input('project'));
 
         $issue->setRelation('project', $project);
-        $issue->setRelation('user', $this->auth->user());
+        $issue->setRelation('user', $this->getLoggedUser());
         $issue->createIssue([
             'title'        => $request->input('title'),
             'body'         => $request->input('body'),

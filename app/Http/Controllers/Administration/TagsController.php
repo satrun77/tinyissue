@@ -35,7 +35,7 @@ class TagsController extends Controller
     {
         return view('administration.tags.index', [
             'tags'     => $tag->getGroupTags(),
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 
@@ -50,7 +50,7 @@ class TagsController extends Controller
     {
         return view('administration.tags.new', [
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 
@@ -82,7 +82,7 @@ class TagsController extends Controller
         return view('administration.tags.edit', [
             'tag'      => $tag,
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 

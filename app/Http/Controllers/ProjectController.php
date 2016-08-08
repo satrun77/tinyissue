@@ -44,9 +44,9 @@ class ProjectController extends Controller
             ->take(10);
 
         // Internal project and logged user can see created only
-        if ($project->isPrivateInternal() && $this->auth->user()->isUser()) {
+        if ($project->isPrivateInternal() && $this->getLoggedUser()->isUser()) {
             $activities->join('projects_issues', 'projects_issues.id', '=', 'item_id');
-            $activities->where('created_by', '=', $this->auth->user()->id);
+            $activities->where('created_by', '=', $this->getLoggedUser()->id);
         }
 
         return view('project.index', [
@@ -70,8 +70,8 @@ class ProjectController extends Controller
      */
     public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
-        if ($project->isPrivateInternal() && $this->auth->user()->isUser()) {
-            $request['created_by'] = $this->auth->user()->id;
+        if ($project->isPrivateInternal() && $this->getLoggedUser()->isUser()) {
+            $request['created_by'] = $this->getLoggedUser()->id;
         }
         $active                = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
         $issues                = $project->listIssues($status, $request->all());
@@ -95,7 +95,7 @@ class ProjectController extends Controller
      */
     public function getAssigned(Project $project)
     {
-        $issues = $project->listAssignedOrCreatedIssues($this->auth->user());
+        $issues = $project->listAssignedOrCreatedIssues($this->getLoggedUser());
 
         return view('project.index', [
             'tabs'    => $this->projectMainViewTabs($project, 'assigned', $issues),
@@ -115,7 +115,7 @@ class ProjectController extends Controller
      */
     public function getCreated(Project $project)
     {
-        $issues = $project->listAssignedOrCreatedIssues($this->auth->user());
+        $issues = $project->listAssignedOrCreatedIssues($this->getLoggedUser());
 
         return view('project.index', [
             'tabs'    => $this->projectMainViewTabs($project, 'created', $issues),
@@ -159,7 +159,7 @@ class ProjectController extends Controller
     protected function projectMainViewTabs(Project $project, $view, $data = null, $status = false)
     {
         $notesCount        = $view === 'note' ? $data->count() : $project->notes()->count();
-        $user              = $this->auth->user();
+        $user              = $this->getLoggedUser();
         $isLoggedIn        = !$this->auth->guest();
         $isUser            = $isLoggedIn && $user->isUser();
         $isInternalProject = $project->isPrivateInternal();
@@ -195,7 +195,7 @@ class ProjectController extends Controller
         if ($isLoggedIn && (!$isInternalProject || (!$isUser && $isInternalProject))) {
             if ($view !== 'assigned') {
                 $method              = $isUser ? 'createdIssuesCount' : 'assignedIssuesCount';
-                $assignedIssuesCount = $this->auth->user()->$method($project->id);
+                $assignedIssuesCount = $this->getLoggedUser()->$method($project->id);
             } else {
                 $assignedIssuesCount = $data->count();
             }
@@ -320,7 +320,7 @@ class ProjectController extends Controller
     public function postAddNote(Project $project, Note $note, FormRequest\Note $request)
     {
         $note->setRelation('project', $project);
-        $note->setRelation('createdBy', $this->auth->user());
+        $note->setRelation('createdBy', $this->getLoggedUser());
         $note->createNote($request->all());
 
         return redirect($note->to())->with('notice', trans('tinyissue.your_note_added'));
@@ -340,7 +340,7 @@ class ProjectController extends Controller
         $body = '';
         if ($request->has('body')) {
             $note->setRelation('project', $project);
-            $note->updateBody($request->input('body'), $this->auth->user());
+            $note->updateBody($request->input('body'), $this->getLoggedUser());
 
             $body = \Html::format($note->body);
         }
@@ -358,7 +358,7 @@ class ProjectController extends Controller
      */
     public function getDeleteNote(Project $project, Project\Note $note)
     {
-        $note->deleteNote($this->auth->user());
+        $note->deleteNote($this->getLoggedUser());
 
         return response()->json(['status' => true]);
     }

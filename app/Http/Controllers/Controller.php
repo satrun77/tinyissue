@@ -42,4 +42,20 @@ abstract class Controller extends BaseController
     {
         $this->auth = $auth;
     }
+
+    /**
+     * Return instance of the logged user.
+     *
+     * @return Model\User
+     */
+    protected function getLoggedUser()
+    {
+        $user = $this->auth->user();
+
+        if (!$user instanceof Model\User) {
+            $user =  null;
+        }
+
+        return $user;
+    }
 }

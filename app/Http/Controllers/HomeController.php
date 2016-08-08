@@ -50,7 +50,7 @@ class HomeController extends Controller
     public function getDashboard()
     {
         return view('index.dashboard', [
-            'projects' => $this->auth->user()->projectsWidthActivities(Project::STATUS_OPEN)->get(),
+            'projects' => $this->getLoggedUser()->projectsWidthActivities(Project::STATUS_OPEN)->get(),
         ]);
     }
 
@@ -75,7 +75,7 @@ class HomeController extends Controller
      */
     public function getIndex(LoginForm $form)
     {
-        if ($this->auth->user()) {
+        if ($this->getLoggedUser()) {
             return redirect('dashboard');
         }
 
@@ -94,7 +94,7 @@ class HomeController extends Controller
         $credentials = $request->only('email', 'password');
 
         if ($this->auth->attempt($credentials, $request->has('remember'))
-            && $this->auth->user()->isActive()
+            && $this->getLoggedUser()->isActive()
         ) {
             return redirect()->to('/dashboard');
         }
@@ -102,9 +102,9 @@ class HomeController extends Controller
         // Get error message
         $errorMessage = 'password_incorrect';
         if (!$this->auth->guest()) {
-            if ($this->auth->user()->isInactive()) {
+            if ($this->getLoggedUser()->isInactive()) {
                 $errorMessage = 'user_is_not_active';
-            } elseif ($this->auth->user()->isBlocked()) {
+            } elseif ($this->getLoggedUser()->isBlocked()) {
                 $errorMessage = 'user_is_blocked';
             }
 

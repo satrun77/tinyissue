@@ -44,8 +44,8 @@ class IssueController extends Controller
     {
         // Projects should be limited to issue-modify
         $projects = null;
-        if (!$this->auth->guest() && $this->auth->user()->permission('issue-modify')) {
-            $projects = $this->auth->user()->projects()->get();
+        if (!$this->auth->guest() && $this->getLoggedUser()->permission('issue-modify')) {
+            $projects = $this->getLoggedUser()->projects()->get();
         }
 
         return view('project.issue.index', [
@@ -68,7 +68,7 @@ class IssueController extends Controller
     public function postAssign(Issue $issue, Request $request)
     {
         $response = ['status' => false];
-        if ($issue->reassign((int) $request->input('user_id'), $this->auth->user())) {
+        if ($issue->reassign((int) $request->input('user_id'), $this->getLoggedUser())) {
             $response['status'] = true;
         }
 
@@ -87,7 +87,7 @@ class IssueController extends Controller
     {
         $body = '';
         if ($request->has('body')) {
-            $comment->updateBody((string) $request->input('body'), $this->auth->user());
+            $comment->updateBody((string) $request->input('body'), $this->getLoggedUser());
             $body = \Html::format($comment->comment);
         }
 
@@ -108,7 +108,7 @@ class IssueController extends Controller
     {
         $comment->setRelation('project', $project);
         $comment->setRelation('issue', $issue);
-        $comment->setRelation('user', $this->auth->user());
+        $comment->setRelation('user', $this->getLoggedUser());
         $comment->createComment($request->all());
 
         return redirect($issue->to() . '#comment' . $comment->id)
@@ -124,7 +124,7 @@ class IssueController extends Controller
      */
     public function getDeleteComment(Comment $comment)
     {
-        $comment->deleteComment($this->auth->user());
+        $comment->deleteComment($this->getLoggedUser());
 
         return response()->json(['status' => true]);
     }
@@ -158,7 +158,7 @@ class IssueController extends Controller
     public function postNew(Project $project, Issue $issue, FormRequest\Issue $request)
     {
         $issue->setRelation('project', $project);
-        $issue->setRelation('user', $this->auth->user());
+        $issue->setRelation('user', $this->getLoggedUser());
         $issue->createIssue($request->all());
 
         return redirect($issue->to())
@@ -210,7 +210,7 @@ class IssueController extends Controller
         }
 
         $issue->setRelation('project', $project);
-        $issue->setRelation('updatedBy', $this->auth->user());
+        $issue->setRelation('updatedBy', $this->getLoggedUser());
         $issue->updateIssue($request->all());
 
         return redirect($issue->to())
@@ -235,7 +235,7 @@ class IssueController extends Controller
         }
 
         $issue->setRelation('project', $project);
-        $issue->changeStatus($status, $this->auth->user());
+        $issue->changeStatus($status, $this->getLoggedUser());
 
         return redirect($issue->to())
             ->with('notice', $message);
@@ -253,11 +253,11 @@ class IssueController extends Controller
     public function postUploadAttachment(Project $project, Attachment $attachment, Request $request)
     {
         try {
-            if (!$this->auth->user()->permission('project-all')) {
+            if (!$this->getLoggedUser()->permission('project-all')) {
                 abort(404);
             }
 
-            $attachment->upload($request->all(), $project, $this->auth->user());
+            $attachment->upload($request->all(), $project, $this->getLoggedUser());
 
             $response = [
                 'upload' => [
@@ -293,7 +293,7 @@ class IssueController extends Controller
      */
     public function postRemoveAttachment(Project $project, Attachment $attachment, Request $request)
     {
-        $attachment->remove($request->all(), $project, $this->auth->user());
+        $attachment->remove($request->all(), $project, $this->getLoggedUser());
 
         return response()->json(['status' => true]);
     }

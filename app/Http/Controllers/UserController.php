@@ -35,7 +35,7 @@ class UserController extends Controller
     {
         return view('user.settings', [
             'form'     => $form,
-            'projects' => $this->auth->user()->projects()->get(),
+            'projects' => $this->getLoggedUser()->projects()->get(),
         ]);
     }
 
@@ -48,7 +48,7 @@ class UserController extends Controller
      */
     public function postSettings(FormRequest\UserSetting $request)
     {
-        $this->auth->user()->updateSetting($request->all());
+        $this->getLoggedUser()->updateSetting($request->all());
 
         return redirect('user/settings')->with('notice', trans('tinyissue.settings_updated'));
     }
@@ -70,15 +70,15 @@ class UserController extends Controller
             $data['columns'] = [];
             $data['issues']  = [];
             if ($project->id) {
-                $data['columns'] = $project->getKanbanTagsForUser(auth()->user());
+                $data['columns'] = $project->getKanbanTagsForUser($this->getLoggedUser());
                 $ids             = $data['columns']->lists('id')->all();
-                $data['issues']  = $this->auth->user()->issuesGroupByTags($ids, $project->id);
+                $data['issues']  = $this->getLoggedUser()->issuesGroupByTags($ids, $project->id);
             }
 
             $data['project']  = $project;
-            $data['projects'] = $this->auth->user()->projects()->get();
+            $data['projects'] = $this->getLoggedUser()->projects()->get();
         } else {
-            $data['projects'] = $this->auth->user()->projectsWidthIssues(Project::STATUS_OPEN)->get();
+            $data['projects'] = $this->getLoggedUser()->projectsWidthIssues(Project::STATUS_OPEN)->get();
         }
 
         return view('user.issues-' . $view, $data);
@@ -93,7 +93,7 @@ class UserController extends Controller
      */
     public function getMessagesSettings(MessagesForm $form)
     {
-        $projects = $this->auth->user()->projects()->with('projectUsers')->get();
+        $projects = $this->getLoggedUser()->projects()->with('projectUsers')->get();
         $form->setProjects($projects);
 
         return view('user.messages-settings', [
@@ -111,7 +111,7 @@ class UserController extends Controller
      */
     public function postMessagesSettings(FormRequest\UserMessagesSettings $request)
     {
-        $this->auth->user()->updateMessagesSettings($request->input('projects', []));
+        $this->getLoggedUser()->updateMessagesSettings($request->input('projects', []));
 
         return redirect('user/settings/messages')->with('notice', trans('tinyissue.messages_settings_updated'));
     }
