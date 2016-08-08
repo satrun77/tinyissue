@@ -11,8 +11,8 @@
 
 namespace Tinyissue\Model;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Project\Issue;
 
 /**
  * Tag is model class for tags.
@@ -30,9 +30,9 @@ use Tinyissue\Model\Project\Issue;
  * @property int $message_limit
  * @property int $readonly
  * @property Tag $parent
- * @property Tag[] $tags
- * @property Issue[] $issues
- * @property Project[] $projects
+ * @property Collection $tags
+ * @property Collection $issues
+ * @property Collection $projects
  */
 class Tag extends Model
 {

@@ -11,10 +11,8 @@
 
 namespace Tinyissue\Model;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Project\Note;
-use Tinyissue\Model\Project\User as ProjectUser;
-use Tinyissue\Model\User\Activity;
 use URL;
 
 /**
@@ -27,16 +25,16 @@ use URL;
  * @property int $status
  * @property int $default_assignee
  * @property int $private
- * @property Project\Issue[] $issues
  * @property int $openIssuesCount
  * @property int $closedIssuesCount
  * @property int $closedIssuesCount
- * @property Project\Issue[] $issuesByUser
- * @property \Tinyissue\Model\User[] $users
- * @property ProjectUser[] $projectUsers
- * @property Activity[] $activities
- * @property Note[] $notes
- * @property Tag[] $kanbanTags
+ * @property Collection $issues
+ * @property Collection $issuesByUser
+ * @property Collection $users
+ * @property Collection $projectUsers
+ * @property Collection $activities
+ * @property Collection $notes
+ * @property Collection $kanbanTags
  */
 class Project extends Model
 {

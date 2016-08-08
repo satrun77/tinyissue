@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Project\Issue;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Permission;
@@ -32,7 +33,7 @@ use Tinyissue\Model\User;
  * @property int $created_by
  * @property User $user
  * @property Issue $issue
- * @property Attachment[] $attachments
+ * @property Collection $attachments
  * @property User\Activity $activity
  * @property Queue $messagesQueue
  */

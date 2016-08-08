@@ -18,9 +18,6 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Project\Issue;
-use Tinyissue\Model\Project\Issue\Comment;
-use Tinyissue\Model\Role\Permission as RolePermission;
 
 /**
  * User is model class for users.
@@ -39,14 +36,14 @@ use Tinyissue\Model\Role\Permission as RolePermission;
  * @property int $status
  * @property int $private
  * @property Role $role
- * @property Comment[] $comments
- * @property Issue[] $issuesCreatedBy
- * @property Issue[] $issuesClosedBy
- * @property Issue[] $issuesUpdatedBy
- * @property Issue\Attachment[] $attachments
- * @property Project[] $projects
- * @property Issue[] $issues
- * @property RolePermission[] $permissions
+ * @property Eloquent\Collection $comments
+ * @property Eloquent\Collection $issuesCreatedBy
+ * @property Eloquent\Collection $issuesClosedBy
+ * @property Eloquent\Collection $issuesUpdatedBy
+ * @property Eloquent\Collection $attachments
+ * @property Eloquent\Collection $projects
+ * @property Eloquent\Collection $issues
+ * @property Eloquent\Collection $permissions
  *
  * @method User updateOrCreate($input)
  */

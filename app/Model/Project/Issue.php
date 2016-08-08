@@ -45,13 +45,13 @@ use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
  * @property Model\User $assigned
  * @property Model\User $closers
  * @property Model\User $updatedBy
- * @property Model\Project\Issue\Attachment[] $attachments
- * @property Model\User\Activity[] $activities
- * @property Model\User\Activity[] $generalActivities
- * @property Model\User\Activity[] $commentActivities
- * @property Model\Tag[] $tags
- * @property Model\Project\Issue\Comment[] $tags
- * @property Model\Message\Queue[] $messagesQueue
+ * @property Collection $attachments
+ * @property Collection $activities
+ * @property Collection $generalActivities
+ * @property Collection $commentActivities
+ * @property Collection $tags
+ * @property Collection $comments
+ * @property Collection $messagesQueue
  */
 class Issue extends BaseModel
 {
