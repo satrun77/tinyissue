@@ -88,9 +88,12 @@ class XlsHandler
      */
     public function handle(Exporter $exporter)
     {
-        $params = $exporter->getParams();
-
-        $this->setProject($exporter->getParams('route.project'));
+        $params  = $exporter->getParams();
+        $project = $exporter->getParams('route.project');
+        if (!$project instanceof Project) {
+            throw new \LogicException('Unable to find project instance in the current request.');
+        }
+        $this->setProject($project);
 
         $query = $this->project->issues()->select(array_keys($this->columns));
 
