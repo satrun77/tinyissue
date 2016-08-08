@@ -12,10 +12,9 @@
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Collection;
-use Tinyissue\Model\Message;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Project\Issue;
+use Tinyissue\Model\Project\Issue as ProjectIssue;
 use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
 use Tinyissue\Services\SendMessagesAbstract;
@@ -39,7 +38,7 @@ class SendMessages extends SendMessagesAbstract
     /**
      * Returns an instance of Issue.
      *
-     * @return Issue
+     * @return ProjectIssue
      */
     protected function getIssue()
     {
@@ -236,7 +235,7 @@ class SendMessages extends SendMessagesAbstract
             return false;
         }
 
-        return $this->issue;
+        return true;
     }
 
     /**

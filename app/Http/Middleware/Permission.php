@@ -12,7 +12,6 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
-use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;

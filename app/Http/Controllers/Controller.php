@@ -16,6 +16,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Contracts\Auth\Guard;
 use Tinyissue\Model;
+use Illuminate\View\View;
 
 /**
  * Controller is an abstract class for the controller classes.

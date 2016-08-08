@@ -24,22 +24,23 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                        $id
- * @property int                        $created_by
- * @property int                        $project_id
- * @property string                     $title
- * @property string                     $body
- * @property int                        $assigned_to
- * @property int                        $time_quote
- * @property int                        $closed_by
- * @property int                        $closed_at
- * @property int                        status
- * @property int                        $updated_at
- * @property int                        $updated_by
- * @property Project                    $project
- * @property User                       $user
- * @property User                       $updatedBy
- *
+ * @property int $id
+ * @property int $created_by
+ * @property int $project_id
+ * @property string $title
+ * @property string $body
+ * @property int $assigned_to
+ * @property int $time_quote
+ * @property int $closed_by
+ * @property int $closed_at
+ * @property int status
+ * @property int $updated_at
+ * @property int $updated_by
+ * @property Project $project
+ * @property User $user
+ * @property User $updatedBy
+ * @property Eloquent\Collection $attachments
+ * @property Eloquent\Collection $comments
  * @method   Eloquent\Model             save()
  * @method   Eloquent\Model             fill(array $attributes)
  * @method   Relations\BelongsToMany    tags()
@@ -67,13 +68,13 @@ trait CrudTrait
      * Reassign the issue to a new user.
      *
      * @param int|User $assignTo
-     * @param User     $user
+     * @param User $user
      *
      * @return Eloquent\Model
      */
     public function reassign($assignTo, User $user)
     {
-        $assignToId        = !$assignTo instanceof User ? $assignTo : $assignTo->id;
+        $assignToId = !$assignTo instanceof User ? $assignTo : $assignTo->id;
         $this->assigned_to = $assignToId;
 
         // Add event on successful save
@@ -84,9 +85,9 @@ trait CrudTrait
         $this->save();
 
         return $this->activities()->save(new User\Activity([
-            'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
+            'type_id' => Activity::TYPE_REASSIGN_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id'   => $user->id,
+            'user_id' => $user->id,
             'action_id' => $this->assigned_to,
         ]));
     }
@@ -119,9 +120,9 @@ trait CrudTrait
         /* Add to activity log for assignment if changed */
         if ($input['assigned_to'] != $this->assigned_to) {
             $this->activities()->save(new User\Activity([
-                'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
+                'type_id' => Activity::TYPE_REASSIGN_ISSUE,
                 'parent_id' => $this->project->id,
-                'user_id'   => $this->updatedBy->id,
+                'user_id' => $this->updatedBy->id,
                 'action_id' => $this->assigned_to,
             ]));
         }
@@ -150,13 +151,13 @@ trait CrudTrait
         $fill = [
             'created_by' => $this->user->id,
             'project_id' => $this->project->id,
-            'title'      => $input['title'],
-            'body'       => $input['body'],
+            'title' => $input['title'],
+            'body' => $input['body'],
         ];
 
         if ($this->user->permission('issue-modify')) {
             $fill['assigned_to'] = $input['assigned_to'];
-            $fill['time_quote']  = $input['time_quote'];
+            $fill['time_quote'] = $input['time_quote'];
         }
 
         $this->fill($fill)->save();
@@ -166,9 +167,9 @@ trait CrudTrait
 
         /* Add to user's activity log */
         $this->activities()->save(new User\Activity([
-            'type_id'   => Activity::TYPE_CREATE_ISSUE,
+            'type_id' => Activity::TYPE_CREATE_ISSUE,
             'parent_id' => $this->project->id,
-            'user_id'   => $this->user->id,
+            'user_id' => $this->user->id,
         ]));
 
         /* Add attachments to issue */
@@ -222,9 +223,9 @@ trait CrudTrait
      */
     public function delete()
     {
-        $id          = $this->id;
-        $projectId   = $this->project_id;
-        $comments    = $this->comments;
+        $id = $this->id;
+        $projectId = $this->project_id;
+        $comments = $this->comments;
         $attachments = $this->attachments;
 
         $status = parent::delete();

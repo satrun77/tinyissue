@@ -56,7 +56,7 @@ class Exporter extends NewExcelFile
      *
      * @param string $key
      *
-     * @return string|\Illuminate\Database\Eloquent\Model|null
+     * @return static
      */
     public function getParams($key = null)
     {

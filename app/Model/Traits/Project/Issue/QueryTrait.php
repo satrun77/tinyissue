@@ -12,7 +12,6 @@
 namespace Tinyissue\Model\Traits\Project\Issue;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Tag;
 
 /**
@@ -20,7 +19,7 @@ use Tinyissue\Model\Tag;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\BelongsToMany tags()
+ * @property Eloquent\Collection $tags
  */
 trait QueryTrait
 {

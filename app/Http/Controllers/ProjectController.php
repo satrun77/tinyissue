@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Http\Controllers;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Http\Request;
 use Tinyissue\Form\FilterIssue as FilterForm;
 use Tinyissue\Form\Note as NoteForm;
@@ -158,11 +157,16 @@ class ProjectController extends Controller
      */
     protected function projectMainViewTabs(Project $project, $view, $data = null, $status = false)
     {
-        $notesCount        = $view === 'note' ? $data->count() : $project->notes()->count();
         $user              = $this->getLoggedUser();
         $isLoggedIn        = !$this->auth->guest();
         $isUser            = $isLoggedIn && $user->isUser();
         $isInternalProject = $project->isPrivateInternal();
+
+        if ($view === 'note') {
+            $notesCount = !is_null($data) ? $data->count() : 0;
+        } else {
+            $notesCount = $project->notes()->count();
+        }
 
         if ($view === 'issues') {
             if ($status == Issue::STATUS_OPEN) {
@@ -197,7 +201,7 @@ class ProjectController extends Controller
                 $method              = $isUser ? 'createdIssuesCount' : 'assignedIssuesCount';
                 $assignedIssuesCount = $this->getLoggedUser()->$method($project->id);
             } else {
-                $assignedIssuesCount = $data->count();
+                $assignedIssuesCount = !is_null($data) ? $data->count() : 0;
             }
 
             $tabs[] = [

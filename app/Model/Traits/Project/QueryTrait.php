@@ -30,6 +30,7 @@ use Tinyissue\Model\User;
  * @method   Query\Builder       join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
  * @method   Relations\HasMany   users()
  * @method   Relations\HasMany   issues()
+ * @method   Relations\HasMany   kanbanTags()
  * @method   void                filterAssignTo(Relations\HasMany $query, $userId)
  * @method   void                filterTitleOrBody(Relations\HasMany $query, $keyword)
  * @method   void                filterTags(Relations\HasMany $query, array $tags)

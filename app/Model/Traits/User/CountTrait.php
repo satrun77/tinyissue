@@ -23,6 +23,7 @@ use Tinyissue\Model\User;
  * @method bool              permission($key)
  * @method Relations\HasMany projects($status = Project::STATUS_OPEN)
  * @method Relations\HasMany issues()
+ * @method Relations\HasMany issuesCreatedBy()
  */
 trait CountTrait
 {
