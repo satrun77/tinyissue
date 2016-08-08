@@ -47,6 +47,8 @@ use Tinyissue\Model\Role\Permission as RolePermission;
  * @property Project[] $projects
  * @property Issue[] $issues
  * @property RolePermission[] $permissions
+ *
+ * @method User updateOrCreate($input)
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {

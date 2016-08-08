@@ -167,9 +167,9 @@ class ProjectController extends Controller
         if ($view === 'issues') {
             if ($status == Issue::STATUS_OPEN) {
                 $closedIssuesCount = $project->closedIssuesCount($user)->count();
-                $openIssuesCount   = $data->count();
+                $openIssuesCount   = !is_null($data) ? $data->count() : 0;
             } else {
-                $closedIssuesCount = $data->count();
+                $closedIssuesCount = !is_null($data) ? $data->count() : 0;
                 $openIssuesCount   = $project->openIssuesCount($user)->count();
             }
         } else {
@@ -263,7 +263,7 @@ class ProjectController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getInactiveUsers(Project $project = null)
+    public function getInactiveUsers(Project $project)
     {
         $users = $project->usersNotIn();
 

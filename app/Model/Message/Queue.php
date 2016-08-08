@@ -30,7 +30,7 @@ use Tinyissue\Model\Traits\Message\Queue\RelationTrait;
  * @property string $event
  * @property id $model_id
  * @property string $model_type
- * @property string $payload
+ * @property array $payload
  * @property id $change_by_id
  * @property User $changeBy
  * @property Issue|Comment|Note|Project $model

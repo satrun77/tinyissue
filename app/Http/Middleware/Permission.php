@@ -12,6 +12,7 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
+use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
@@ -138,6 +139,9 @@ class Permission
 
         // Can access the current context
         $context = $this->getCurrentContext($route);
+        if (is_null($context)) {
+            abort(500, 'Permission middleware added to un-supported context.');
+        }
         $action  = $permission == PermissionModel::PERM_ISSUE_MODIFY ? 'canEdit' : 'canView';
 
         return $context->$action($user);
@@ -149,7 +153,7 @@ class Permission
      *
      * @param Route $route
      *
-     * @return ModelAbstract
+     * @return ModelAbstract|null
      */
     protected function getCurrentContext(Route $route)
     {
@@ -160,7 +164,7 @@ class Permission
             }
         }
 
-        return $route->getParameter('project');
+        return null;
     }
 
     /**

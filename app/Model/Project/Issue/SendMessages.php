@@ -39,7 +39,7 @@ class SendMessages extends SendMessagesAbstract
     /**
      * Returns an instance of Issue.
      *
-     * @return bool
+     * @return Issue
      */
     protected function getIssue()
     {
@@ -358,28 +358,24 @@ class SendMessages extends SendMessagesAbstract
     /**
      * Get collection of tags or one by ID.
      *
-     * @param null|int $tagId
+     * @param int $tagId
      *
-     * @return \Illuminate\Support\Collection|Tag
+     * @return Tag
      */
-    protected function getTags($tagId = null)
+    protected function getTag($tagId)
     {
         if (null === $this->tags) {
             $this->tags = collect([]);
         }
 
         // Load & extract tag by ID
-        if (null !== $tagId) {
-            $tag = $this->tags->where('id', $tagId, false)->first();
-            if (!$tag) {
-                $tag = (new Tag())->find($tagId);
-                $this->tags->push($tag);
-            }
-
-            return $tag;
+        $tag = $this->tags->where('id', $tagId, false)->first();
+        if (!$tag) {
+            $tag = (new Tag())->find($tagId);
+            $this->tags->push($tag);
         }
 
-        return $this->tags;
+        return $tag;
     }
 
     /**
@@ -416,7 +412,7 @@ class SendMessages extends SendMessagesAbstract
             }
 
             // Fetch tag details
-            $tag = $this->getTags($change['id']);
+            $tag = $this->getTag($change['id']);
 
             // Check if user allowed to receive the message
             if (!$tag->allowMessagesToUser($user->user)) {

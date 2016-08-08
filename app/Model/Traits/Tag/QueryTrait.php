@@ -97,7 +97,7 @@ trait QueryTrait
     /**
      * Returns collection of tags in status group.
      *
-     * @return Eloquent\Collection
+     * @return Eloquent\Relations\HasMany
      */
     public function getStatusTags()
     {

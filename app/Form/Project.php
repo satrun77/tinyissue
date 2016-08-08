@@ -13,7 +13,6 @@ namespace Tinyissue\Form;
 
 use Tinyissue\Model\Project as ProjectModel;
 use Tinyissue\Model\Tag as TagModel;
-use Tinyissue\Model\Tag;
 
 /**
  * Project is a class to defines fields & rules for add/edit project form.
@@ -111,7 +110,7 @@ class Project extends FormAbstract
         $fields = [];
 
         // All of the status tags
-        $statusTags = (new Tag())->getStatusTags()->get();
+        $statusTags = (new TagModel())->getStatusTags()->get();
 
         // Get selected status tags on editing a project
         $selectTags = [];
@@ -148,12 +147,12 @@ class Project extends FormAbstract
     /**
      * Returns an array structure for a checkbox button in the kanban field.
      *
-     * @param Tag  $tag
-     * @param bool $checked
+     * @param TagModel $tag
+     * @param bool     $checked
      *
      * @return array
      */
-    protected function getKanbanColumnField(Tag $tag, $checked = false)
+    protected function getKanbanColumnField(TagModel $tag, $checked = false)
     {
         return [
             'value'     => $tag->id,

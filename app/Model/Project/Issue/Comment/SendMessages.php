@@ -30,7 +30,7 @@ class SendMessages extends SendMessagesAbstract
     /**
      * Returns an instance of Issue.
      *
-     * @return bool
+     * @return Issue
      */
     protected function getIssue()
     {

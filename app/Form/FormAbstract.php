@@ -12,9 +12,8 @@
 namespace Tinyissue\Form;
 
 use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Project;
-use Tinyissue\Model\User;
-use Illuminate\Contracts\Auth\Guard;
+use Tinyissue\Model\Project as ProjectModel;
+use Tinyissue\Model\User as UserModel;
 
 /**
  * FormAbstract is an abstract class for Form classes.
@@ -33,18 +32,18 @@ abstract class FormAbstract implements FormInterface
     /**
      * An instance of Current logged user.
      *
-     * @var User
+     * @var UserModel
      */
     protected $user;
 
     /**
      * Set an instance of current logged user.
      *
-     * @param User $user
+     * @param UserModel $user
      *
      * @return $this
      */
-    public function setLoggedUser(User $user = null)
+    public function setLoggedUser(UserModel $user = null)
     {
         $this->user = $user;
 
@@ -54,7 +53,7 @@ abstract class FormAbstract implements FormInterface
     /**
      * Returns an instance of current logged user.
      *
-     * @return User
+     * @return UserModel
      */
     public function getLoggedUser()
     {
@@ -171,13 +170,13 @@ abstract class FormAbstract implements FormInterface
     /**
      * Returns project upload fields.
      *
-     * @param string  $name
-     * @param Project $project
-     * @param User    $user
+     * @param string       $name
+     * @param ProjectModel $project
+     * @param UserModel    $user
      *
      * @return array
      */
-    protected function projectUploadFields($name, Project $project, User $user)
+    protected function projectUploadFields($name, ProjectModel $project, UserModel $user)
     {
         return [
             $name => [
