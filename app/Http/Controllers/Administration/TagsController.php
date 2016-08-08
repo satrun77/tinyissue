@@ -29,7 +29,7 @@ class TagsController extends Controller
      *
      * @param Tag $tag
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex(Tag $tag)
     {
@@ -44,7 +44,7 @@ class TagsController extends Controller
      *
      * @param Form $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getNew(Form $form)
     {
@@ -75,7 +75,7 @@ class TagsController extends Controller
      * @param Tag  $tag
      * @param Form $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEdit(Tag $tag, Form $form)
     {

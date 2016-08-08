@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Project;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\Project\Note\CrudTrait;
@@ -22,12 +23,14 @@ use Tinyissue\Model\Traits\Project\Note\QueueTrait;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
- * @property int           $project_id
- * @property int           $created_by
- * @property string        $body
+ * @property int $id
+ * @property int $project_id
+ * @property int $created_by
+ * @property string $body
  * @property Model\Project $project
- * @property Model\User    $createdBy
+ * @property Model\User $createdBy
+ * @property Model\User\Activity $activity
+ * @property Collection $messagesQueue
  */
 class Note extends BaseModel
 {

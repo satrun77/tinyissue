@@ -21,6 +21,7 @@ use Tinyissue\Model\Traits\Role\Permission\RelationTrait;
  *
  * @property int $role_id
  * @property int $permission_id
+ * @property \Tinyissue\Model\Permission permission
  */
 class Permission extends Model
 {

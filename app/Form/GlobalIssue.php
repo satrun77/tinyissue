@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Form;
 
+use Illuminate\Support\Collection;
 use Tinyissue\Model;
 
 /**
@@ -25,16 +26,16 @@ class GlobalIssue extends Issue
      *
      * @var array
      */
-    protected $projects = [];
+    protected $projects;
 
     /**
      * Returns list of logged in user projects.
      *
-     * @return array
+     * @return Collection
      */
     protected function getProjects()
     {
-        if (!$this->projects) {
+        if (is_null($this->projects)) {
             $this->projects = $this->getLoggedUser()->projects()->get()->lists('name', 'id');
         }
 
@@ -76,7 +77,7 @@ class GlobalIssue extends Issue
 
         $fields += $this->fieldBody();
 
-        $fields += $this->fieldTypeTags();
+        $fields += $this->fieldTag('type');
 
         // Only on creating new issue
         $fields += $this->fieldUpload();

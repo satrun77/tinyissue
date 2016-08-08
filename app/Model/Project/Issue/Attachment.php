@@ -23,15 +23,17 @@ use Tinyissue\Model\Traits\Project\Issue\Attachment\RelationTrait;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
- * @property int           $uploaded_by
- * @property int           $issue_id
- * @property int           $comment_id
- * @property string        $filename
- * @property string        $fileextension
- * @property int           $filesize
- * @property string        $upload_token
+ * @property int $id
+ * @property int $uploaded_by
+ * @property int $issue_id
+ * @property int $comment_id
+ * @property string $filename
+ * @property string $fileextension
+ * @property int $filesize
+ * @property string $upload_token
  * @property Project\Issue $issue
+ * @property User $user
+ * @property Comment $comment
  */
 class Attachment extends BaseModel
 {

@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Message;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Comment;
 use Tinyissue\Model\Project\Note;
@@ -25,13 +26,14 @@ use Tinyissue\Model\Traits\Message\Queue\RelationTrait;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int    $id
+ * @property int $id
  * @property string $event
- * @property id     $model_id
+ * @property id $model_id
  * @property string $model_type
  * @property string $payload
- * @property id     $change_by_id
- * @property User   $changeBy
+ * @property id $change_by_id
+ * @property User $changeBy
+ * @property Issue|Comment|Note|Project $model
  */
 class Queue extends Model
 {

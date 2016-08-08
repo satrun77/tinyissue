@@ -12,22 +12,27 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\Project\Issue;
 
 /**
  * Tag is model class for tags.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int    $id
- * @property int    $parent_id
+ * @property int $id
+ * @property int $parent_id
  * @property string $name
  * @property string $fullname
  * @property string $bgcolor
- * @property bool   $group
- * @property Tag    $parent
- * @property int    $role_limit
- * @property int    $message_limit
- * @property int    $readonly
+ * @property bool $group
+ * @property Tag $parent
+ * @property int $role_limit
+ * @property int $message_limit
+ * @property int $readonly
+ * @property Tag $parent
+ * @property Tag[] $tags
+ * @property Issue[] $issues
+ * @property Project[] $projects
  */
 class Tag extends Model
 {

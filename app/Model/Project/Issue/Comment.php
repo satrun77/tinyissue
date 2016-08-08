@@ -12,7 +12,9 @@
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Permission;
+use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Traits\Project\Issue\Comment\CrudTrait;
 use Tinyissue\Model\Traits\Project\Issue\Comment\QueueTrait;
 use Tinyissue\Model\Traits\Project\Issue\Comment\RelationTrait;
@@ -23,11 +25,16 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int    $id
- * @property int    $issue_id
- * @property int    $project_id
+ * @property int $id
+ * @property int $issue_id
+ * @property int $project_id
  * @property string $comment
- * @property int    $created_by
+ * @property int $created_by
+ * @property User $user
+ * @property Issue $issue
+ * @property Attachment[] $attachments
+ * @property User\Activity $activity
+ * @property Queue $messagesQueue
  */
 class Comment extends BaseModel
 {

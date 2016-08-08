@@ -38,7 +38,7 @@ class IssueController extends Controller
      * @param Issue       $issue
      * @param CommentForm $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex(Project $project, Issue $issue, CommentForm $form)
     {
@@ -87,7 +87,7 @@ class IssueController extends Controller
     {
         $body = '';
         if ($request->has('body')) {
-            $comment->updateBody($request->input('body'), $this->auth->user());
+            $comment->updateBody((string) $request->input('body'), $this->auth->user());
             $body = \Html::format($comment->comment);
         }
 
@@ -135,7 +135,7 @@ class IssueController extends Controller
      * @param Project   $project
      * @param IssueForm $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getNew(Project $project, IssueForm $form)
     {
@@ -172,7 +172,7 @@ class IssueController extends Controller
      * @param Issue     $issue
      * @param IssueForm $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEdit(Project $project, Issue $issue, IssueForm $form)
     {
@@ -399,7 +399,7 @@ class IssueController extends Controller
      */
     public function postChangeProject(Issue $issue, Request $request)
     {
-        $issue->changeProject($request->input('project_id'));
+        $issue->changeProject((int) $request->input('project_id'));
 
         return response()->json(['status' => true, 'url' => $issue->to()]);
     }

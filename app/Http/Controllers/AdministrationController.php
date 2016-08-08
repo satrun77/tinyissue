@@ -32,7 +32,7 @@ class AdministrationController extends Controller
      * @param Project $project
      * @param User    $user
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex(Tag $tag, Project $project, User $user)
     {
@@ -52,7 +52,7 @@ class AdministrationController extends Controller
      *
      * @param FormSettings $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getSettings(FormSettings $form)
     {

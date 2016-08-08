@@ -29,7 +29,7 @@ class UserController extends Controller
      *
      * @param Form $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getSettings(Form $form)
     {
@@ -59,7 +59,7 @@ class UserController extends Controller
      * @param string  $display
      * @param Project $project
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIssues($display = 'list', Project $project = null)
     {
@@ -89,7 +89,7 @@ class UserController extends Controller
      *
      * @param MessagesForm $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getMessagesSettings(MessagesForm $form)
     {

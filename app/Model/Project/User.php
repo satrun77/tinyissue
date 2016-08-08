@@ -12,6 +12,8 @@
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\Message;
+use Tinyissue\Model\Project;
 use Tinyissue\Model\Traits\Project\User\RelationTrait;
 
 /**
@@ -23,6 +25,9 @@ use Tinyissue\Model\Traits\Project\User\RelationTrait;
  * @property int $project_id
  * @property int $role_id
  * @property int $message_id
+ * @property \Tinyissue\Model\User $user
+ * @property Message $message
+ * @property Project $project
  */
 class User extends Model
 {

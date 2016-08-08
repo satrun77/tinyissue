@@ -40,17 +40,13 @@ class FilterIssue extends FormAbstract
      *
      * @return \Illuminate\Database\Eloquent\Collection|null
      */
-    protected function getTags($type = null)
+    protected function getTags($type)
     {
         if ($this->tags === null) {
             $this->tags = (new Model\Tag())->getGroupTags();
         }
 
-        if ($type) {
-            return $this->tags->where('name', $type)->first()->tags;
-        }
-
-        return $this->tags;
+        return $this->tags->where('name', $type)->first()->tags;
     }
 
     /**

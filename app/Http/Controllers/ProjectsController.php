@@ -30,7 +30,7 @@ class ProjectsController extends Controller
      *
      * @param int $status
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex($status = Project::STATUS_OPEN)
     {
@@ -72,7 +72,7 @@ class ProjectsController extends Controller
      *
      * @param Form $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getNew(Form $form)
     {
@@ -132,7 +132,7 @@ class ProjectsController extends Controller
      *
      * @param IssueForm $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getNewIssue(IssueForm $form)
     {

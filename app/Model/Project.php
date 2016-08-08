@@ -12,6 +12,9 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\Project\Note;
+use Tinyissue\Model\Project\User as ProjectUser;
+use Tinyissue\Model\User\Activity;
 use URL;
 
 /**
@@ -19,14 +22,21 @@ use URL;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int              $id
- * @property string           $name
- * @property int              $status
- * @property int              $default_assignee
- * @property int              $private
- * @property Project\Issue[]  $issues
- * @property int              $openIssuesCount
- * @property int              $closedIssuesCount
+ * @property int $id
+ * @property string $name
+ * @property int $status
+ * @property int $default_assignee
+ * @property int $private
+ * @property Project\Issue[] $issues
+ * @property int $openIssuesCount
+ * @property int $closedIssuesCount
+ * @property int $closedIssuesCount
+ * @property Project\Issue[] $issuesByUser
+ * @property \Tinyissue\Model\User[] $users
+ * @property ProjectUser[] $projectUsers
+ * @property Activity[] $activities
+ * @property Note[] $notes
+ * @property Tag[] $kanbanTags
  */
 class Project extends Model
 {
@@ -203,8 +213,8 @@ class Project extends Model
      */
     public function getProgress()
     {
-        $total       = $this->openIssuesCount + $this->closedIssuesCount;
-        $progress    = 100;
+        $total    = $this->openIssuesCount + $this->closedIssuesCount;
+        $progress = 100;
         if ($total > 0) {
             $progress = (float) ($this->closedIssuesCount / $total) * 100;
         }

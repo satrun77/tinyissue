@@ -18,6 +18,9 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\Project\Issue;
+use Tinyissue\Model\Project\Issue\Comment;
+use Tinyissue\Model\Role\Permission as RolePermission;
 
 /**
  * User is model class for users.
@@ -34,6 +37,16 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $lastname
  * @property string $fullname
  * @property int $status
+ * @property int $private
+ * @property Role $role
+ * @property Comment[] $comments
+ * @property Issue[] $issuesCreatedBy
+ * @property Issue[] $issuesClosedBy
+ * @property Issue[] $issuesUpdatedBy
+ * @property Issue\Attachment[] $attachments
+ * @property Project[] $projects
+ * @property Issue[] $issues
+ * @property RolePermission[] $permissions
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {

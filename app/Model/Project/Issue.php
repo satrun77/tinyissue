@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Illuminate\Support\Collection;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\CountAttributeTrait;
 use Tinyissue\Model\Traits\Project\Issue\CountTrait;
@@ -26,22 +27,31 @@ use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int              $id
- * @property int              $created_by
- * @property int              $project_id
- * @property string           $title
- * @property string           $body
- * @property int              $assigned_to
- * @property int              $time_quote
- * @property bool             $lock_quote
- * @property int              $closed_by
- * @property int              $closed_at
- * @property int              status
- * @property int              $updated_at
- * @property int              $updated_by
- * @property Model\Project    $project
- * @property Model\User       $user
- * @property Model\User       $updatedBy
+ * @property int $id
+ * @property int $created_by
+ * @property int $project_id
+ * @property string $title
+ * @property string $body
+ * @property int $assigned_to
+ * @property int $time_quote
+ * @property bool $lock_quote
+ * @property int $closed_by
+ * @property int $closed_at
+ * @property int status
+ * @property int $updated_at
+ * @property int $updated_by
+ * @property Model\Project $project
+ * @property Model\User $user
+ * @property Model\User $assigned
+ * @property Model\User $closers
+ * @property Model\User $updatedBy
+ * @property Model\Project\Issue\Attachment[] $attachments
+ * @property Model\User\Activity[] $activities
+ * @property Model\User\Activity[] $generalActivities
+ * @property Model\User\Activity[] $commentActivities
+ * @property Model\Tag[] $tags
+ * @property Model\Project\Issue\Comment[] $tags
+ * @property Model\Message\Queue[] $messagesQueue
  */
 class Issue extends BaseModel
 {

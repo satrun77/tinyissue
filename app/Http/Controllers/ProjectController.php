@@ -34,7 +34,7 @@ class ProjectController extends Controller
      *
      * @param Project $project
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex(Project $project)
     {
@@ -66,7 +66,7 @@ class ProjectController extends Controller
      * @param Project    $project
      * @param int        $status
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
@@ -91,7 +91,7 @@ class ProjectController extends Controller
      *
      * @param Project $project
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getAssigned(Project $project)
     {
@@ -111,7 +111,7 @@ class ProjectController extends Controller
      *
      * @param Project $project
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getCreated(Project $project)
     {
@@ -132,7 +132,7 @@ class ProjectController extends Controller
      * @param Project  $project
      * @param NoteForm $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getNotes(Project $project, NoteForm $form)
     {
@@ -221,7 +221,7 @@ class ProjectController extends Controller
      * @param Project $project
      * @param Form    $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEdit(Project $project, Form $form)
     {

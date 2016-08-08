@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Form;
 
+use Illuminate\Support\Collection;
 use Tinyissue\Model;
 
 /**
@@ -46,17 +47,13 @@ class Issue extends FormAbstract
      *
      * @return \Illuminate\Database\Eloquent\Collection|null
      */
-    protected function getTags($type = null)
+    protected function getTags($type)
     {
         if ($this->tags === null) {
             $this->tags = (new Model\Tag())->getGroupTags();
         }
 
-        if ($type) {
-            return $this->tags->where('name', $type)->first()->tags;
-        }
-
-        return $this->tags;
+        return $this->tags->where('name', $type)->first()->tags;
     }
 
     /**
@@ -78,17 +75,7 @@ class Issue extends FormAbstract
             $tags = $this->getTags($type);
         }
 
-        $options = [];
-        foreach ($tags as $tag) {
-            $options[ucwords($tag->name)] = [
-                'name'      => 'tag_' . $type,
-                'value'     => $tag->id,
-                'data-tags' => $tag->id,
-                'color'     => $tag->bgcolor,
-            ];
-        }
-
-        return $options;
+        return $this->generateTagRadioButtonOptions($tags, $type);
     }
 
     /**
@@ -96,7 +83,7 @@ class Issue extends FormAbstract
      *
      * @param string $type
      *
-     * @return int
+     * @return Model\Tag
      */
     protected function getIssueTag($type)
     {
@@ -164,7 +151,7 @@ class Issue extends FormAbstract
         $fields += $this->readOnlyMessage();
         $fields += $this->fieldTitle();
         $fields += $this->fieldBody();
-        $fields += $this->fieldTypeTags();
+        $fields += $this->fieldTag('type');
 
         // Only on creating new issue
         if (!$this->isEditing()) {
@@ -193,7 +180,7 @@ class Issue extends FormAbstract
         ];
 
         // Status tags
-        $fields += $this->fieldStatusTags();
+        $fields += $this->fieldTag('status');
 
         // Assign users
         $fields += $this->fieldAssignedTo();
@@ -260,39 +247,24 @@ class Issue extends FormAbstract
     }
 
     /**
-     * Returns status tag field.
+     * Returns tag field.
+     *
+     * @param string $type
+     * @param array  $prepend
      *
      * @return array
      */
-    protected function fieldStatusTags()
+    protected function fieldTag($type, array $prepend = [])
     {
-        $options = $this->getSelectableTags('status');
+        $options = $prepend + $this->getSelectableTags($type);
+        $name    = 'tag_' . $type;
 
         return [
-            'tag_status' => [
-                'label'  => 'status',
+            $name => [
+                'label'  => $type,
                 'type'   => 'radioButton',
                 'radios' => $options,
-                'check'  => $this->getIssueTag('status')->id,
-            ],
-        ];
-    }
-
-    /**
-     * Returns tags field.
-     *
-     * @return array
-     */
-    protected function fieldTypeTags()
-    {
-        $options = $this->getSelectableTags('type');
-
-        return [
-            'tag_type' => [
-                'label'  => 'type',
-                'type'   => 'radioButton',
-                'radios' => $options,
-                'check'  => $this->getIssueTag('type')->id,
+                'check'  => $this->getIssueTag($type)->id,
             ],
         ];
     }
@@ -304,27 +276,14 @@ class Issue extends FormAbstract
      */
     protected function fieldResolutionTags()
     {
-        $options = $this->getSelectableTags('resolution');
-
-        if (!empty($options)) {
-            $options = [
-                    trans('tinyissue.none') => [
-                        'name'      => 'tag_resolution',
-                        'value'     => 0,
-                        'data-tags' => 0,
-                        'color'     => '#62CFFC',
-                    ],
-                ] + $options;
-        }
-
-        return [
-            'tag_resolution' => [
-                'label'  => 'resolution',
-                'type'   => 'radioButton',
-                'radios' => $options,
-                'check'  => $this->getIssueTag('resolution')->id,
+        return $this->fieldTag('resolution', [
+            trans('tinyissue.none') => [
+                'name'      => 'tag_resolution',
+                'value'     => 0,
+                'data-tags' => 0,
+                'color'     => '#62CFFC',
             ],
-        ];
+        ]);
     }
 
     /**
@@ -462,5 +421,31 @@ class Issue extends FormAbstract
         }
 
         return 0;
+    }
+
+    /**
+     * Returns an array structured for radio button element.
+     *
+     * @param Collection|array $tags
+     * @param string           $type
+     *
+     * @return array
+     */
+    protected function generateTagRadioButtonOptions($tags, $type)
+    {
+        $options = [];
+
+        if (is_array($tags) || $tags instanceof Collection) {
+            foreach ($tags as $tag) {
+                $options[ucwords($tag->name)] = [
+                    'name'      => 'tag_' . $type,
+                    'value'     => $tag->id,
+                    'data-tags' => $tag->id,
+                    'color'     => $tag->bgcolor,
+                ];
+            }
+        }
+
+        return $options;
     }
 }

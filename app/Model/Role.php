@@ -12,6 +12,7 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\Project\User;
 
 /**
  * Role is model class for roles.
@@ -22,6 +23,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $role
  * @property string $description
+ * @property \Tinyissue\Model\User[] $users
+ * @property User[] $projectUsers
+ * @property Permission[] $permissions
  */
 class Role extends Model
 {

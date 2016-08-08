@@ -1,6 +1,7 @@
 <?php
 
 use Tinyissue\Model\Message;
+use Tinyissue\Model\Setting;
 
 class SettingsCest
 {
@@ -15,6 +16,10 @@ class SettingsCest
     {
         $settingsString = trans('tinyissue.settings');
         $enableString   = trans('tinyissue.enable');
+        $settings = app('tinyissue.settings');
+        $settings->save([
+            'enable_public_projects' => Setting::DISABLE,
+        ]);
         $I->am('Admin User');
         $I->wantTo('edit the application settings');
 

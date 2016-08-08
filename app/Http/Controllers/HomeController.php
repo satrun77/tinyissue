@@ -31,7 +31,7 @@ class HomeController extends Controller
      * @param User    $user
      * @param Project $project
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIssues(User $user, Project $project)
     {
@@ -45,7 +45,7 @@ class HomeController extends Controller
     /**
      * User dashboard.
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getDashboard()
     {

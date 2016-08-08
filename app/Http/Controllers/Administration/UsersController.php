@@ -29,7 +29,7 @@ class UsersController extends Controller
      *
      * @param Role $role
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getIndex(Role $role)
     {
@@ -44,7 +44,7 @@ class UsersController extends Controller
      *
      * @param Form $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getAdd(Form $form)
     {
@@ -76,7 +76,7 @@ class UsersController extends Controller
      * @param User $user
      * @param Form $form
      *
-     * @return \Illuminate\View\View
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function getEdit(User $user, Form $form)
     {
