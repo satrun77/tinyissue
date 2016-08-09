@@ -21,12 +21,20 @@ use Illuminate\Support\ServiceProvider;
 class BladeServiceProvider extends ServiceProvider
 {
     /**
+     * @var array
+     */
+    protected $replacements = [
+        'macro'    => "<?php \$___tiny['%s']=function(%s)use(\$__env){ ob_start(); ?>\n",
+        'usemacro' => "<?php echo \$___tiny['%s'](%s); ?>\n",
+    ];
+
+    /**
      * Bootstrap any application services.
      */
     public function boot()
     {
         \Blade::directive('macro', function($expression) {
-            return $this->macroDirective($expression);
+            return $this->directive('macro', $expression);
         });
 
         \Blade::directive(
@@ -36,7 +44,7 @@ class BladeServiceProvider extends ServiceProvider
             }
         );
         \Blade::directive('usemacro', function($expression) {
-            return $this->usemacroDirective($expression);
+            return $this->directive('usemacro', $expression);
         });
 
         \Blade::directive(
@@ -88,31 +96,16 @@ class BladeServiceProvider extends ServiceProvider
     /**
      * Callback method for macro directive.
      *
-     * @param $expression
+     * @param string $name
+     * @param string $expression
      *
      * @return string
      */
-    protected function macroDirective($expression)
+    protected function directive($name, $expression)
     {
-        $name = $args = '';
-        extract($this->extractArgumentsAndName($expression));
+        $arguments = $this->extractArgumentsAndName($expression);
 
-        return sprintf("<?php \$___tiny['%s']=function(%s)use(\$__env){ ob_start(); ?>\n", $name, $args);
-    }
-
-    /**
-     * Callback method for usemacro directive.
-     *
-     * @param $expression
-     *
-     * @return string
-     */
-    protected function usemacroDirective($expression)
-    {
-        $name = $args = '';
-        extract($this->extractArgumentsAndName($expression));
-
-        return sprintf("<?php echo \$___tiny['%s'](%s); ?>\n", $name, $args);
+        return sprintf($this->replacements[$name], $arguments['name'], $arguments['args']);
     }
 
     /**

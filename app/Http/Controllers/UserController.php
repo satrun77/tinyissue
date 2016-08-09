@@ -11,11 +11,10 @@
 
 namespace Tinyissue\Http\Controllers;
 
-use Tinyissue\Form\UserSetting as Form;
 use Tinyissue\Form\UserMessagesSettings as MessagesForm;
+use Tinyissue\Form\UserSetting as Form;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\User;
 
 /**
  * UserController is the controller class for managing request related to logged in user account.
@@ -111,7 +110,7 @@ class UserController extends Controller
      */
     public function postMessagesSettings(FormRequest\UserMessagesSettings $request)
     {
-        $this->getLoggedUser()->updateMessagesSettings($request->input('projects', []));
+        $this->getLoggedUser()->updateMessagesSettings((array)$request->input('projects', []));
 
         return redirect('user/settings/messages')->with('notice', trans('tinyissue.messages_settings_updated'));
     }

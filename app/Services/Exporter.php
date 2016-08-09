@@ -56,7 +56,7 @@ class Exporter extends NewExcelFile
      *
      * @param string $key
      *
-     * @return static
+     * @return mixed|array
      */
     public function getParams($key = null)
     {
