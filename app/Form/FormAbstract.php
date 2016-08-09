@@ -61,6 +61,10 @@ abstract class FormAbstract implements FormInterface
             $this->user = auth()->user();
         }
 
+        if (is_null($this->user)) {
+            throw new \DomainException('Unable to find a valid instance of logged user.');
+        }
+
         return $this->user;
     }
 

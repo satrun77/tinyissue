@@ -15,7 +15,6 @@ use Closure;
 use Tinyissue\Model\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Illuminate\Contracts\Auth\Guard;
 use Tinyissue\Model\Project as ProjectModel;
 use Tinyissue\Model\Permission as PermissionModel;
 use Illuminate\Database\Eloquent\Model as ModelAbstract;
@@ -25,15 +24,8 @@ use Illuminate\Database\Eloquent\Model as ModelAbstract;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class Permission
+class Permission extends MiddlewareAbstract
 {
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
     /**
      * List of permissions that can be accessed by public users.
      *
@@ -54,16 +46,6 @@ class Permission
         'issue',
         'project',
     ];
-
-    /**
-     * Create a new filter instance.
-     *
-     * @param Guard $auth
-     */
-    public function __construct(Guard $auth)
-    {
-        $this->auth = $auth;
-    }
 
     /**
      * Handle an incoming request.
@@ -114,9 +96,13 @@ class Permission
      */
     protected function canAccess(Request $request, $permission)
     {
-        $user = $this->auth->user();
+        try {
+            $user = $this->getLoggedUser();
+        } catch (\Exception $e) {
+            return false;
+        }
 
-        return !(!is_null($user) && (!$user->permission($permission) || !$this->canAccessContext($user, $request->route(), $permission)));
+        return !(!$user->permission($permission) || !$this->canAccessContext($user, $request->route(), $permission));
     }
 
     /**

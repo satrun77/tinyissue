@@ -310,7 +310,7 @@ class Issue extends FormAbstract
      */
     protected function fieldUpload()
     {
-        $user                      = !$this->getLoggedUser() ? new Model\User() : $this->getLoggedUser();
+        $user                      = $this->getLoggedUser();
         $fields                    = $this->projectUploadFields('upload', $this->project, $user);
         $fields['upload']['label'] = 'attachments';
 

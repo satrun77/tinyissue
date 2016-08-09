@@ -12,42 +12,14 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
-use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Illuminate\Http\Request;
 
 /**
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class CheckForMaintenanceMode
+class CheckForMaintenanceMode extends MiddlewareAbstract
 {
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
-    /**
-     * The application implementation.
-     *
-     * @var \Illuminate\Contracts\Foundation\Application
-     */
-    protected $app;
-
-    /**
-     * Create a new filter instance.
-     *
-     * @param Guard                                        $auth
-     * @param \Illuminate\Contracts\Foundation\Application $app
-     */
-    public function __construct(Guard $auth, Application $app)
-    {
-        $this->auth = $auth;
-        $this->app  = $app;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -64,7 +36,7 @@ class CheckForMaintenanceMode
         $isLogin  = $request->is('/', 'logout', 'signin');
 
         // Allow admin & login page to always view the site event in maintenance mode
-        if ($siteDown && !$isLogin && ($this->auth->guest() || !$this->auth->user()->isAdmin())) {
+        if ($siteDown && !$isLogin && ($this->auth->guest() || !$this->getLoggedUser()->isAdmin())) {
             throw new HttpException(503);
         }
 

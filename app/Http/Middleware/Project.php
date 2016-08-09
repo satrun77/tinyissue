@@ -22,7 +22,7 @@ use Tinyissue\Model\Project as ProjectModel;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class Project
+class Project extends MiddlewareAbstract
 {
     /**
      * List of callbacks to handle the incoming request.

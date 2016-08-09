@@ -20,25 +20,8 @@ use Illuminate\Http\Request;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  */
-class Locale
+class Locale extends MiddlewareAbstract
 {
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
-
-    /**
-     * Create a new filter instance.
-     *
-     * @param Guard $auth
-     */
-    public function __construct(Guard $auth)
-    {
-        $this->auth = $auth;
-    }
-
     /**
      * Handle an incoming request.
      *
@@ -50,7 +33,7 @@ class Locale
     public function handle(Request $request, Closure $next)
     {
         if (!$this->auth->guest()) {
-            app()->setLocale($this->auth->user()->language);
+            app()->setLocale($this->getLoggedUser()->language);
         }
 
         return $next($request);
