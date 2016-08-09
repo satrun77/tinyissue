@@ -428,7 +428,7 @@ class IssueController extends Controller
      * @param Project $project
      * @param Issue   $issue
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\Vie
      */
     public function getIssueComments(Project $project, Issue $issue)
     {
@@ -441,22 +441,12 @@ class IssueController extends Controller
             $activity->setRelation('issue', $issue);
         });
 
-        $activityString = $activities->map(function (UserActivity $activity) use ($project, $issue) {
-            return view('project/issue/activity/' . $activity->activity->activity, [
-                'issue'           => $issue,
-                'userActivity'    => $activity,
-                'project'         => $project,
-                'user'            => $activity->user,
-                'comment'         => $activity->comment,
-                'assigned'        => $activity->assignTo,
-            ])->render();
-        })->implode('');
-
-        if (empty($activityString)) {
-            $activityString = '<li class="no-records">There are no comments yet on this issue.</li>';
-        }
-
-        return response()->json(['status' => true, 'activity' => $activityString]);
+        return view('project.issue.partials.activities', [
+            'noData'     => trans('tinyissue.no_comments'),
+            'activities' => $activities,
+            'project'    => $project,
+            'issue'      => $issue,
+        ]);
     }
 
     /**
@@ -465,7 +455,7 @@ class IssueController extends Controller
      * @param Project $project
      * @param Issue   $issue
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\Vie
      */
     public function getIssueActivity(Project $project, Issue $issue)
     {
@@ -474,22 +464,11 @@ class IssueController extends Controller
             $activity->setRelation('issue', $issue);
         });
 
-        $activityString = $activities->map(function (UserActivity $activity) use ($project, $issue) {
-            return view('project/issue/activity/' . $activity->activity->activity, [
-                'issue'           => $issue,
-                'userActivity'    => $activity,
-                'activity'        => $activity,
-                'project'         => $project,
-                'user'            => $activity->user,
-                'comment'         => $activity->comment,
-                'assigned'        => $activity->assignTo,
-            ])->render();
-        })->implode('');
-
-        if (empty($activityString)) {
-            $activityString = '<li class="no-records">There are no activity yet on this issue.</li>';
-        }
-
-        return response()->json(['status' => true, 'activity' => $activityString]);
+        return view('project.issue.partials.activities', [
+            'noData'     => trans('tinyissue.no_activities'),
+            'activities' => $activities,
+            'project'    => $project,
+            'issue'      => $issue,
+        ]);
     }
 }

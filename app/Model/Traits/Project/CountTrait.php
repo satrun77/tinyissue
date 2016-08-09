@@ -109,22 +109,9 @@ trait CountTrait
      *
      * @return Eloquent\Relations\HasOne
      */
-    public function closedIssuesCount($limitByUser = null)
+    public function closedIssuesCount(User $limitByUser = null)
     {
-        $query = $this
-            ->hasOne(
-                'Tinyissue\Model\Project\Issue',
-                'project_id'
-            )
-            ->selectRaw('project_id, count(*) as aggregate')
-            ->where('status', '=', Project\Issue::STATUS_CLOSED)
-            ->groupBy('project_id');
-
-        if ($limitByUser && $limitByUser->isUser() && $this->isPrivateInternal()) {
-            $query->where('created_by', '=', $limitByUser->id);
-        }
-
-        return $query;
+        return $this->issuesCountByStatus(Project\Issue::STATUS_CLOSED, $limitByUser);
     }
 
     /**
@@ -136,13 +123,26 @@ trait CountTrait
      */
     public function openIssuesCount(User $limitByUser = null)
     {
+        return $this->issuesCountByStatus(Project\Issue::STATUS_OPEN, $limitByUser);
+    }
+
+    /**
+     * For eager loading: include number of issues by open/closed status.
+     *
+     * @param int       $status
+     * @param User|null $limitByUser
+     *
+     * @return Eloquent\Relations\HasOne
+     */
+    protected function issuesCountByStatus($status, User $limitByUser = null)
+    {
         $query = $this
             ->hasOne(
                 'Tinyissue\Model\Project\Issue',
                 'project_id'
             )
             ->selectRaw('project_id, count(*) as aggregate')
-            ->where('status', '=', Project\Issue::STATUS_OPEN)
+            ->where('status', '=', $status)
             ->groupBy('project_id');
 
         if ($limitByUser && $limitByUser->isUser() && $this->isPrivateInternal()) {

@@ -21,6 +21,7 @@ use Tinyissue\Model\Tag;
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
  * @property int $id
+ *
  * @method Eloquent\Model where($column, $operator = null, $value = null, $boolean = 'and')
  */
 trait CrudTrait

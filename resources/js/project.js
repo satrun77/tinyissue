@@ -8,9 +8,9 @@ $(function () {
     $('.activities .nav-tabs a').addClass('has-event').on('click', function(e) {
         e.preventDefault();
         var link = $(this).parent(), siblings = link.siblings();
-        Ajax.get($(this).attr('href'), function (data) {
+        Ajax.getHtml($(this).attr('href'), function (data) {
             GlobalSaving.toggle();
-            $('.activities .discussion.comments').html(data.activity);
+            $('.activities .discussion.comments').html(data);
             siblings.removeClass('active');
             link.addClass('active');
         });

@@ -155,6 +155,9 @@ var Ajax = {
     get: function (url, callback) {
         $.getJSON(url, callback);
     },
+    getHtml: function (url, callback) {
+        $.get(url, callback);
+    },
     relGet: function (url, callback) {
         this.get(TINY.baseUrl + url, callback);
     }

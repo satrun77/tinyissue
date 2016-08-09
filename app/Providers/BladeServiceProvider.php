@@ -25,20 +25,7 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Blade::directive(
-            'macro',
-            function ($expression) {
-                $pattern = '/(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
-                $matches = [];
-                preg_match_all($pattern, $expression, $matches);
-
-                if (!isset($matches[3][0])) {
-                    throw new \InvalidArgumentException(sprintf('Invalid arguments in blade: macro%s', $expression));
-                }
-
-                return sprintf("<?php \$___tiny['%s']=function(%s)use(\$__env){ ob_start(); ?>\n", $matches[2][0], $matches[3][0]);
-            }
-        );
+        \Blade::directive('macro', [$this, 'macroDirective']);
 
         \Blade::directive(
             'endmacro',
@@ -46,21 +33,7 @@ class BladeServiceProvider extends ServiceProvider
                 return "\n<?php return ob_get_clean();} ?>\n";
             }
         );
-
-        \Blade::directive(
-            'usemacro',
-            function ($expression) {
-                $pattern = '/(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
-                $matches = [];
-                preg_match_all($pattern, $expression, $matches);
-
-                if (!isset($matches[3][0])) {
-                    throw new \InvalidArgumentException(sprintf('Invalid arguments in blade: usemacro%s', $expression));
-                }
-
-                return sprintf("<?php echo \$___tiny['%s'](%s); ?>\n", $matches[2][0], $matches[3][0]);
-            }
-        );
+        \Blade::directive('usemacro', [$this, 'usemacroDirective']);
 
         \Blade::directive(
             'permission',
@@ -106,6 +79,59 @@ class BladeServiceProvider extends ServiceProvider
                 return "<?php echo '" . \Html::attributes($style) . "'; ?>";
             }
         );
+    }
+
+    /**
+     * Callback method for macro directive.
+     *
+     * @param $expression
+     *
+     * @return string
+     */
+    protected function macroDirective($expression)
+    {
+        $name = $args = '';
+        extract($this->extractArgumentsAndName($expression));
+
+        return sprintf("<?php \$___tiny['%s']=function(%s)use(\$__env){ ob_start(); ?>\n", $name, $args);
+    }
+
+    /**
+     * Callback method for usemacro directive.
+     *
+     * @param $expression
+     *
+     * @return string
+     */
+    protected function usemacroDirective($expression)
+    {
+        $name = $args = '';
+        extract($this->extractArgumentsAndName($expression));
+
+        return sprintf("<?php echo \$___tiny['%s'](%s); ?>\n", $name, $args);
+    }
+
+    /**
+     * Return arguments and name from blade expression.
+     *
+     * @param $expression
+     *
+     * @return array
+     */
+    protected function extractArgumentsAndName($expression)
+    {
+        $pattern = '/(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
+        $matches = [];
+        preg_match_all($pattern, $expression, $matches);
+
+        if (!isset($matches[3][0])) {
+            throw new \InvalidArgumentException(sprintf('Invalid arguments in blade: macro%s', $expression));
+        }
+
+        return [
+            'name' => $matches[2][0],
+            'args' => $matches[3][0],
+        ];
     }
 
     /**

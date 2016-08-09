@@ -237,4 +237,6 @@ return [
     'site_maintenance_message'           => 'Tinyissue is in maintenance mode.',
     'maintenance_off'                    => 'Bring site back online',
     'maintenance_on'                     => 'Take site offline',
+    'no_comments'                        => 'There are no comments yet on this issue.',
+    'no_activities'                      => 'There are no activity yet on this issue.',
 ];

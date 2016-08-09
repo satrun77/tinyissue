@@ -16,7 +16,7 @@ use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Comment;
 use Tinyissue\Model\Project\Note;
-use Tinyissue\Model\Project\User;
+use Tinyissue\Model\User;
 use Tinyissue\Model\Traits\Message\Queue\CrudTrait;
 use Tinyissue\Model\Traits\Message\Queue\QueryTrait;
 use Tinyissue\Model\Traits\Message\Queue\RelationTrait;
@@ -33,6 +33,7 @@ use Tinyissue\Model\Traits\Message\Queue\RelationTrait;
  * @property array $payload
  * @property id $change_by_id
  * @property User $changeBy
+ * @property int $created_at
  * @property Issue|Comment|Note|Project $model
  */
 class Queue extends Model

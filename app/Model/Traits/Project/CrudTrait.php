@@ -128,6 +128,10 @@ trait CrudTrait
      */
     public function assignUser($userId, $roleId = 0)
     {
+        if ($userId <= 0) {
+            return false;
+        }
+
         return $this->projectUsers()->save(new Project\User([
             'user_id' => $userId,
             'role_id' => $roleId,
