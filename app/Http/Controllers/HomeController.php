@@ -75,7 +75,7 @@ class HomeController extends Controller
      */
     public function getIndex(LoginForm $form)
     {
-        if ($this->getLoggedUser()) {
+        if (!$this->auth->guest()) {
             return redirect('dashboard');
         }
 
