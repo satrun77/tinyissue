@@ -28,56 +28,6 @@ use Tinyissue\Services\Exporter;
  */
 class ProjectController extends Controller
 {
-    /*
-    protected function indexAction($action, $active, $data, $extra)
-    {
-        if ($project->isPrivateInternal() && $this->getLoggedUser()->isUser()) {
-            $request['created_by'] = $this->getLoggedUser()->id;
-        }
-        $active                = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
-        $issues                = $project->listIssues($status, $request->all());
-
-        return view('project.index', [
-            'tabs' => $this->projectMainViewTabs($project, $action, $issues, $status),
-            'tabs' => $this->projectMainViewTabs($project, $action),
-            'tabs' => $this->projectMainViewTabs($project, $action, $issues),
-            'tabs' => $this->projectMainViewTabs($project, $action, $issues),
-            'tabs' => $this->projectMainViewTabs($project, $action, $notes),
-
-            // index
-            'project'    => $project,//
-            'active'     => $active,//
-            'activities' => $activities->get(), // $data
-            'sidebar'    => 'project',//
-
-            // issues
-            'project'    => $project,//
-            'active'     => $active,//
-            'issues'     => $issues,// $data
-            'sidebar'    => 'project',//
-            'filterForm' => $filterForm, //$extra
-
-            // assigned
-            'project'    => $project,//
-            'active'     => $active,//
-            'issues'     => $issues,// $data
-            'sidebar'    => 'project',//
-
-            // created
-            'project'    => $project,//
-            'active'     => $active,//
-            'issues'     => $issues,// $data
-            'sidebar'    => 'project',//
-
-            // notes
-            'project'    => $project,//
-            'active'     => $active,//
-            'notes'      => $notes,// $data
-            'sidebar'    => 'project', //
-            'noteForm'   => $form,//$extra
-        ]);
-    }
-     */
     /**
      * Display activity for a project.
      *

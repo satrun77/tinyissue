@@ -435,7 +435,7 @@ class Issue extends FormAbstract
     {
         $options = [];
 
-        if (is_array($tags) || $tags instanceof Collection) {
+        if (!is_null($tags) && (is_array($tags) || $tags instanceof Collection)) {
             foreach ($tags as $tag) {
                 $options[ucwords($tag->name)] = [
                     'name'      => 'tag_' . $type,

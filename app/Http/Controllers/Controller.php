@@ -54,7 +54,7 @@ abstract class Controller extends BaseController
         $user = $this->auth->user();
 
         if (!$user instanceof Model\User) {
-            $user =  null;
+            throw new \DomainException('Unable to find a valid instance of logged user.');
         }
 
         return $user;
