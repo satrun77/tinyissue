@@ -25,7 +25,9 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Blade::directive('macro', [$this, 'macroDirective']);
+        \Blade::directive('macro', function($expression) {
+            return $this->macroDirective($expression);
+        });
 
         \Blade::directive(
             'endmacro',
@@ -33,7 +35,9 @@ class BladeServiceProvider extends ServiceProvider
                 return "\n<?php return ob_get_clean();} ?>\n";
             }
         );
-        \Blade::directive('usemacro', [$this, 'usemacroDirective']);
+        \Blade::directive('usemacro', function($expression) {
+            return $this->usemacroDirective($expression);
+        });
 
         \Blade::directive(
             'permission',
