@@ -15,6 +15,7 @@ use Closure;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Request;
 
 /**
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
@@ -57,7 +58,7 @@ class CheckForMaintenanceMode
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      */
-    public function handle($request, Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         $siteDown = $this->app->isDownForMaintenance();
         $isLogin  = $request->is('/', 'logout', 'signin');

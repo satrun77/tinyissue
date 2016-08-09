@@ -125,12 +125,8 @@ abstract class SendMessagesAbstract
     {
         $this->setup($latestMessage, $changes);
 
-        // Is model deleted?
-        if (!$this->getModel()) {
-            return;// $this->sendMessageToAll($this->latestMessage);
-        }
-
-        if (!$this->validateData()) {
+        // Is model deleted? or in valid
+        if (!$this->getModel() || !$this->validateData()) {
             return;
         }
 
