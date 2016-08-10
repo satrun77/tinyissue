@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Collection;
+use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\CountAttributeTrait;
 use Tinyissue\Model\Traits\Project\Issue\CountTrait;
@@ -61,7 +62,8 @@ class Issue extends BaseModel
         CrudTagTrait,
         RelationTrait,
         QueryTrait,
-        QueueTrait;
+        QueueTrait,
+        LoggedUser;
 
     /**
      * Issue status: Open.

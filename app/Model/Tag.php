@@ -13,6 +13,7 @@ namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Extensions\Auth\LoggedUser;
 
 /**
  * Tag is model class for tags.
@@ -39,7 +40,8 @@ class Tag extends Model
     use Traits\Tag\CrudTrait,
         Traits\Tag\QueryTrait,
         Traits\Tag\RelationTrait,
-        Traits\Tag\CountTrait;
+        Traits\Tag\CountTrait,
+        LoggedUser;
 
     /**
      * Core tag: Open.
@@ -126,7 +128,7 @@ class Tag extends Model
      */
     public function canView()
     {
-        return auth()->user()->role_id >= $this->role_limit;
+        return $this->getLoggedUser()->role_id >= $this->role_limit;
     }
 
     /**

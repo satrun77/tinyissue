@@ -110,7 +110,7 @@ class UserController extends Controller
      */
     public function postMessagesSettings(FormRequest\UserMessagesSettings $request)
     {
-        $this->getLoggedUser()->updateMessagesSettings((array)$request->input('projects', []));
+        $this->getLoggedUser()->updateMessagesSettings((array) $request->input('projects', []));
 
         return redirect('user/settings/messages')->with('notice', trans('tinyissue.messages_settings_updated'));
     }

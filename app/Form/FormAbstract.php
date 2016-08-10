@@ -12,6 +12,7 @@
 namespace Tinyissue\Form;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Model\Project as ProjectModel;
 use Tinyissue\Model\User as UserModel;
 
@@ -22,51 +23,14 @@ use Tinyissue\Model\User as UserModel;
  */
 abstract class FormAbstract implements FormInterface
 {
+    use LoggedUser;
+
     /**
      * An instance of Model.
      *
      * @var Model
      */
     protected $model;
-
-    /**
-     * An instance of Current logged user.
-     *
-     * @var UserModel
-     */
-    protected $user;
-
-    /**
-     * Set an instance of current logged user.
-     *
-     * @param UserModel $user
-     *
-     * @return $this
-     */
-    public function setLoggedUser(UserModel $user = null)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * Returns an instance of current logged user.
-     *
-     * @return UserModel
-     */
-    public function getLoggedUser()
-    {
-        if (null === $this->user) {
-            $this->user = auth()->user();
-        }
-
-        if (is_null($this->user)) {
-            throw new \DomainException('Unable to find a valid instance of logged user.');
-        }
-
-        return $this->user;
-    }
 
     /**
      * Set an instance of model currently being edited.

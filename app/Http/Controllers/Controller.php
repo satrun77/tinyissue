@@ -15,8 +15,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Contracts\Auth\Guard;
-use Tinyissue\Model;
-use Illuminate\View\View;
+use Tinyissue\Extensions\Auth\LoggedUser;
 
 /**
  * Controller is an abstract class for the controller classes.
@@ -25,7 +24,7 @@ use Illuminate\View\View;
  */
 abstract class Controller extends BaseController
 {
-    use DispatchesJobs, ValidatesRequests;
+    use DispatchesJobs, ValidatesRequests, LoggedUser;
 
     /**
      * Current logged in user.
@@ -42,21 +41,5 @@ abstract class Controller extends BaseController
     public function __construct(Guard $auth)
     {
         $this->auth = $auth;
-    }
-
-    /**
-     * Return instance of the logged user.
-     *
-     * @return Model\User
-     */
-    protected function getLoggedUser()
-    {
-        $user = $this->auth->user();
-
-        if (!$user instanceof Model\User) {
-            throw new \DomainException('Unable to find a valid instance of logged user.');
-        }
-
-        return $user;
     }
 }

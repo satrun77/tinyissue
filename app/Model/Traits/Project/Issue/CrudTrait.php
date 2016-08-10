@@ -241,7 +241,7 @@ trait CrudTrait
                 $attachment->delete();
             });
             $comments->each(function (Project\Issue\Comment $comment) {
-                $comment->deleteComment(auth()->user());
+                $comment->deleteComment($this->getLoggedUser()->user());
             });
             User\Activity::where('parent_id', '=', $projectId)->where('item_id', '=', $id)->delete();
             \DB::table('projects_issues_tags')->where('issue_id', '=', $id)->delete();

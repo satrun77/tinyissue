@@ -10,6 +10,7 @@
 
 namespace Tinyissue\Http\Middleware;
 
+use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Model\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
@@ -19,6 +20,8 @@ use Illuminate\Contracts\Foundation\Application;
  */
 abstract class MiddlewareAbstract
 {
+    use LoggedUser;
+
     /**
      * The Guard implementation.
      *
@@ -43,21 +46,5 @@ abstract class MiddlewareAbstract
     {
         $this->auth = $auth;
         $this->app  = $app;
-    }
-
-    /**
-     * Return instance of the logged user.
-     *
-     * @return User
-     */
-    protected function getLoggedUser()
-    {
-        $user = $this->auth->user();
-
-        if (!$user instanceof User) {
-            throw new \DomainException('Unable to find a valid instance of logged user.');
-        }
-
-        return $user;
     }
 }

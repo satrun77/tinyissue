@@ -18,6 +18,7 @@ use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Extensions\Auth\LoggedUser;
 
 /**
  * User is model class for users.
@@ -54,7 +55,8 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
         Traits\User\CountTrait,
         Traits\User\RelationTrait,
         Traits\User\CrudTrait,
-        Traits\User\QueryTrait;
+        Traits\User\QueryTrait,
+        LoggedUser;
 
     /**
      * User name is private.
@@ -159,7 +161,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
      */
     public function me()
     {
-        return $this->id == \Auth::user()->id;
+        return $this->id == $this->getLoggedUser()->id;
     }
 
     /**
@@ -189,7 +191,7 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function getFullNameAttribute()
     {
         if (!$this->private ||
-            (!Auth::guest() && ((int) Auth::user()->id === (int) $this->id || Auth::user()->permission(Permission::PERM_PROJECT_ALL)))
+            (!Auth::guest() && ((int) $this->getLoggedUser()->id === (int) $this->id || $this->getLoggedUser()->permission(Permission::PERM_PROJECT_ALL)))
         ) {
             return $this->attributes['firstname'] . ' ' . $this->attributes['lastname'];
         }

@@ -43,6 +43,7 @@ class BladeServiceProvider extends ServiceProvider
                 return "\n<?php return ob_get_clean();} ?>\n";
             }
         );
+
         \Blade::directive('usemacro', function($expression) {
             return $this->directive('usemacro', $expression);
         });
