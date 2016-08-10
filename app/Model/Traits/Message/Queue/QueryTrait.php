@@ -31,6 +31,4 @@ trait QueryTrait
     {
         return $this->with('changeBy', 'model')->orderBy('created_at', 'DESC')->orderBy('id', 'DESC');
     }
-
-    abstract public static function with($relations);
 }

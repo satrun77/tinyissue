@@ -119,6 +119,5 @@ trait QueryTrait
         return $this->getTagByName('resolution')->tags();
     }
 
-    abstract public static function with($relations);
     abstract public function getLoggedUser();
 }
