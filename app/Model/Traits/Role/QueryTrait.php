@@ -20,6 +20,7 @@ use Tinyissue\Model\Role;
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
  * @property static $this
+ * @method $this with($relations);
  */
 trait QueryTrait
 {
