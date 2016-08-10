@@ -1,12 +1,13 @@
 # Tiny Issue v2.7.1 - for Laravel 5.1+
+[![Build Status](https://travis-ci.org/satrun77/tinyissue.svg?branch=master&?style=flat-square)](https://travis-ci.org/satrun77/tinyissue)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a6c6ecdf-13f6-4e51-a9f0-f1fffebf1fdd/mini.png)](https://insight.sensiolabs.com/projects/a6c6ecdf-13f6-4e51-a9f0-f1fffebf1fdd)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satrun77/tinyissue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satrun77/tinyissue/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/satrun77/tinyissue/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/satrun77/tinyissue/?branch=master)
-[![Build Status](https://travis-ci.org/satrun77/tinyissue.svg?branch=master)](https://travis-ci.org/satrun77/tinyissue)
+[![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000?style=flat-square)](https://github.com/satrun77/tinyissue)
+[![GitHub issues](https://img.shields.io/github/issues/satrun77/tinyissue.svg?maxAge=2592000?style=flat-square)](https://github.com/satrun77/tinyissue/issues)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%205.5-8892BF.svg?style=flat-square)](https://php.net/)
+[![Latest Version](https://img.shields.io/github/release/satrun77/tinyissue.svg?style=flat-square)](https://github.com/satrun77/tinyissue/releases)
 [![Gitter](https://badges.gitter.im/satrun77/tinyissue.svg)](https://gitter.im/satrun77/tinyissue?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-Simple Issue Tracking for Teams - for Laravel 5 and above.
-
 
 # Installation
 
