@@ -14,7 +14,6 @@ namespace Tinyissue\Model\Traits\Project\Issue\Attachment;
 use Illuminate\Database\Eloquent;
 use Tinyissue\Model\User;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model;
 
 /**
@@ -22,19 +21,7 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                $id
- * @property int                $uploaded_by
- * @property int                $issue_id
- * @property int                $comment_id
- * @property string             $filename
- * @property string             $fileextension
- * @property int                $filesize
- * @property string             $upload_token
- * @property Project\Issue      $issue
- *
- * @method   Eloquent\Model     save()
- * @method   Eloquent\Model     delete()
- * @method   Eloquent\Model     where()
+ * @property static $this
  */
 trait CrudTrait
 {

@@ -12,7 +12,6 @@
 namespace Tinyissue\Model\Traits\Project\Issue;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project;
@@ -24,29 +23,7 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- * @property int $created_by
- * @property int $project_id
- * @property string $title
- * @property string $body
- * @property int $assigned_to
- * @property int $time_quote
- * @property int $closed_by
- * @property int $closed_at
- * @property int status
- * @property int $updated_at
- * @property int $updated_by
- * @property Project $project
- * @property User $user
- * @property User $updatedBy
- * @property Eloquent\Collection $attachments
- * @property Eloquent\Collection $comments
- *
- * @method   Eloquent\Model             save()
- * @method   Eloquent\Model             fill(array $attributes)
- * @method   Relations\BelongsToMany    tags()
- * @method   Relations\HasMany          activities()
- * @method   Relations\HasMany          comments()
+ * @property static $this
  */
 trait CrudTrait
 {

@@ -12,7 +12,6 @@
 namespace Tinyissue\Model\Traits\Project;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 
@@ -21,11 +20,7 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int   $id
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
- * @method   Eloquent\Model hasOne($related, $foreignKey = null, $localKey = null)
- * @method   RelationTrait issues()
+ * @property static $this
  */
 trait CountTrait
 {

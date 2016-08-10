@@ -14,9 +14,7 @@ namespace Tinyissue\Model\Traits\Project;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Relations;
 use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Role;
 use Tinyissue\Model\User;
 
 /**
@@ -24,18 +22,7 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- *
- * @method   Eloquent\Model      where($column, $operator = null, $value = null, $boolean = 'and')
- * @method   Query\Builder       join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
- * @method   Relations\HasMany   users()
- * @method   Relations\HasMany   issues()
- * @method   Relations\HasMany   kanbanTags()
- * @method   void                filterAssignTo(Relations\HasMany $query, $userId)
- * @method   void                filterTitleOrBody(Relations\HasMany $query, $keyword)
- * @method   void                filterTags(Relations\HasMany $query, array $tags)
- * @method   void                sortByUpdated(Relations\HasMany $query, $order = 'asc')
- * @method   Eloquent\Collection sortByTag(Relations\HasMany $query, $tagGroup, $order = 'asc')
+ * @property static $this
  */
 trait QueryTrait
 {

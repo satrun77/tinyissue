@@ -14,18 +14,13 @@ namespace Tinyissue\Model\Traits\User;
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Role;
 
 /**
  * QueryTrait is trait class containing the database queries methods for the User model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                 $id
- * @property Eloquent\Collection $permission
- *
- * @method   Relations\HasMany projects($status = Project::STATUS_OPEN)
- * @method   Relations\HasMany permissions()
+ * @property static $this
  */
 trait QueryTrait
 {

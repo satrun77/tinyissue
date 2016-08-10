@@ -12,16 +12,13 @@
 namespace Tinyissue\Model\Traits\Project;
 
 use Illuminate\Database\Eloquent\Relations;
-use Tinyissue\Model\Project;
-use Tinyissue\Model\Tag;
 
 /**
  * RelationTrait is trait class containing the relationship methods for the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\HasMany       hasMany($related, $foreignKey = null, $localKey = null)
- * @method Relations\BelongsToMany belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null)
+ * @property static $this
  */
 trait RelationTrait
 {

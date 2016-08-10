@@ -11,8 +11,6 @@
 
 namespace Tinyissue\Model\Traits\Tag;
 
-use Illuminate\Database\Eloquent;
-use Tinyissue\Model\Project;
 use Tinyissue\Model\Tag;
 
 /**
@@ -20,9 +18,7 @@ use Tinyissue\Model\Tag;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- *
- * @method Eloquent\Model where($column, $operator = null, $value = null, $boolean = 'and')
+ * @property static $this
  */
 trait CrudTrait
 {

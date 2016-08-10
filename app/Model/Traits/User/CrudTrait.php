@@ -13,8 +13,6 @@ namespace Tinyissue\Model\Traits\User;
 
 use Hash;
 use Illuminate\Database\Eloquent;
-use Illuminate\Mail\Message as MailMessage;
-use Illuminate\Support\Str;
 use Mail;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
@@ -24,13 +22,7 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
- * @property string        $email
- * @property string        $fullname
- *
- * @method   Eloquent\Model where($column, $operator = null, $value = null, $boolean = 'and')
- * @method   Eloquent\Model fill(array $attributes)
- * @method   Eloquent\Model update(array $attributes = array())
+ * @property static $this
  */
 trait CrudTrait
 {

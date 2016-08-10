@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @property static $this
  */
 trait RelationTrait
 {

@@ -12,17 +12,13 @@
 namespace Tinyissue\Model\Traits\Message\Queue;
 
 use Illuminate\Database\Eloquent\Eloquent;
-use Illuminate\Database\Eloquent\Relations;
-use Tinyissue\Model\Message;
-use Tinyissue\Model\Project\Issue;
-use Tinyissue\Model\User;
 
 /**
  * QueryTrait is trait class containing the database queries methods for the message queue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\BelongsToMany tags()
+ * @property static $this
  */
 trait QueryTrait
 {

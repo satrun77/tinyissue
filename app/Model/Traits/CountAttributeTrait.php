@@ -16,10 +16,7 @@ namespace Tinyissue\Model\Traits;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property array $relations
- *
- * @method \Illuminate\Database\Eloquent\Model load($relations)
- * @method \Illuminate\Database\Eloquent\Model getRelation($relation)
+ * @property static $this
  */
 trait CountAttributeTrait
 {

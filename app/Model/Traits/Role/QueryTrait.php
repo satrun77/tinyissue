@@ -19,7 +19,7 @@ use Tinyissue\Model\Role;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Builder with($relations)
+ * @property static $this
  */
 trait QueryTrait
 {

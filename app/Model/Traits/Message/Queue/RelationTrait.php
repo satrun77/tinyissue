@@ -11,12 +11,12 @@
 
 namespace Tinyissue\Model\Traits\Message\Queue;
 
-use Illuminate\Database\Eloquent\Relations;
-
 /**
  * RelationTrait is trait class containing the relationship methods for the message queue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * @property static $this
  */
 trait RelationTrait
 {

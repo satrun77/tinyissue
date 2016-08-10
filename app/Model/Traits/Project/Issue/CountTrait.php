@@ -19,13 +19,7 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                $project_id
- * @property int                $created_by
- * @property string             $body
- * @property Model\Project      $project
- * @property Model\User         $createdBy
- *
- * @method Relations\HasOne     hasOne($related, $foreignKey = null, $localKey = null)
+ * @property static $this
  */
 trait CountTrait
 {

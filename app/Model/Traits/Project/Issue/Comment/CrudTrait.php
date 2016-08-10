@@ -12,34 +12,18 @@
 namespace Tinyissue\Model\Traits\Project\Issue\Comment;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\User;
-use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Attachment;
-use Illuminate\Database\Eloquent\Collection;
 
 /**
  * CrudTrait is trait class containing the methods for adding/editing/deleting the Project\Issue\Comment model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                $id
- * @property int                $issue_id
- * @property int                $project_id
- * @property string             $comment
- * @property int                $created_by
- * @property User               $user
- * @property Project            $project
- * @property Issue              $issue
- * @property Collection         $attachments
- *
- * @method   Eloquent\Model     save()
- * @method   Eloquent\Model     fill(array $attributes)
- * @method   Relations\HasOne   activity()
- * @method   Eloquent\Model     delete()
+ * @property static $this
  */
 trait CrudTrait
 {

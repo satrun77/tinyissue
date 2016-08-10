@@ -24,21 +24,7 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- * @property int $created_by
- * @property int $project_id
- * @property string $title
- * @property string $body
- * @property int $assigned_to
- * @property int $time_quote
- * @property int $closed_by
- * @property int $closed_at
- * @property int status
- * @property int $updated_at
- * @property int $updated_by
- * @property Model\Project $project
- * @property Model\User $user
- * @property Model\User $updatedBy
+ * @property static $this
  */
 trait CrudTagTrait
 {

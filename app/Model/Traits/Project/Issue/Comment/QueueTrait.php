@@ -21,6 +21,8 @@ use Tinyissue\Model\User;
  * QueueTrait is trait class for adding method to insert records into a queue.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * @property static $this
  */
 trait QueueTrait
 {

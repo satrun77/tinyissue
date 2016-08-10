@@ -46,7 +46,7 @@ use Tinyissue\Extensions\Auth\LoggedUser;
  * @property Eloquent\Collection $issues
  * @property Eloquent\Collection $permissions
  *
- * @method User updateOrCreate($input)
+ * @method User updateOrCreate(array $where, array $input)
  */
 class User extends Model implements AuthenticatableContract, CanResetPasswordContract
 {

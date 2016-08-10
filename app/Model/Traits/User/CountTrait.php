@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Traits\User;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
@@ -20,10 +21,7 @@ use Tinyissue\Model\User;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method bool              permission($key)
- * @method Relations\HasMany projects($status = Project::STATUS_OPEN)
- * @method Relations\HasMany issues()
- * @method Relations\HasMany issuesCreatedBy()
+ * @property static $this
  */
 trait CountTrait
 {
@@ -80,7 +78,7 @@ trait CountTrait
      *
      * @param int $status
      *
-     * @return $this
+     * @return Builder|Relations\BelongsToMany
      */
     public function projectsWithCountOpenIssues($status = Project::STATUS_OPEN)
     {

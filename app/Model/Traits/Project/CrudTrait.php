@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Model\Traits\Project;
 
-use Illuminate\Database\Query;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\User;
 use Illuminate\Support\Collection;
@@ -22,12 +21,7 @@ use Tinyissue\Model\Tag;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
- * @method   Query\Builder join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
- * @method   Project       fill(array $attributes)
- * @method   RelationTrait projectUsers()
+ * @property static $this
  */
 trait CrudTrait
 {

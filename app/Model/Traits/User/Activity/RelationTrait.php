@@ -12,14 +12,13 @@
 namespace Tinyissue\Model\Traits\User\Activity;
 
 use Illuminate\Database\Eloquent\Relations;
-use Tinyissue\Model\Project;
 
 /**
  * RelationTrait is trait class containing the relationship method for the User\Activity model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\BelongsTo     belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
+ * @property static $this
  */
 trait RelationTrait
 {

@@ -12,18 +12,13 @@
 namespace Tinyissue\Model\Traits\Tag;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Query;
-use Tinyissue\Model\Role;
-use Tinyissue\Model\Tag as TagModel;
 
 /**
  * QueryTrait is trait class containing the database queries methods for the Tag model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Eloquent\Builder with($relations)
- * @method Eloquent\Model   where($column, $operator = null, $value = null, $boolean = 'and')
- * @method Query\Builder    whereIn($column, $values, $boolean = 'and', $not = false)
+ * @property static $this
  */
 trait QueryTrait
 {

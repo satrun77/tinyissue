@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Model\Traits\Message\Queue;
 
-use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Model\Message;
 use Tinyissue\Model\Project\Issue;
@@ -21,6 +20,8 @@ use Tinyissue\Model\User;
  * CrudTrait is trait class containing the methods for adding/editing/deleting the message queue model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
+ *
+ * @property static $this
  */
 trait CrudTrait
 {

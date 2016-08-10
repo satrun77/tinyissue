@@ -18,9 +18,7 @@ use Illuminate\Database\Eloquent\Relations;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\HasMany   hasMany($related, $foreignKey = null, $localKey = null)
- * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Relations\HasOne    hasOne($related, $foreignKey = null, $localKey = null)
+ * @property static $this
  */
 trait RelationTrait
 {

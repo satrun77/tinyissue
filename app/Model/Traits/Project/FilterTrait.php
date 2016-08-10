@@ -13,18 +13,13 @@ namespace Tinyissue\Model\Traits\Project;
 
 use Illuminate\Database\Eloquent;
 use Illuminate\Database\Eloquent\Relations;
-use Illuminate\Database\Query;
-use Tinyissue\Model\Project;
 
 /**
  * FilterTrait is trait class containing the methods for filtering database queries of the Project model.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int           $id
- *
- * @method   Query\Builder where($column, $operator = null, $value = null, $boolean = 'and')
- * @method   Query\Builder join($table, $one, $operator = null, $two = null, $type = 'inner', $where = false)
+ * @property static $this
  */
 trait FilterTrait
 {

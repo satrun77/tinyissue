@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\Relations;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\HasOne hasOne($related, $foreignKey = null, $localKey = null)
+ * @property static $this
  */
 trait RelationTrait
 {

@@ -19,14 +19,14 @@ use Tinyissue\Model\User;
 trait LoggedUser
 {
     /**
-     * @var User
+     * @var mixed
      */
     protected $loggedUser;
 
     /**
      * Return instance of the logged user.
      *
-     * @param static $user
+     * @param mixed $user
      *
      * @return $this
      */

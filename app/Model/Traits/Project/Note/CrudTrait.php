@@ -12,7 +12,6 @@
 namespace Tinyissue\Model\Traits\Project\Note;
 
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Eloquent\Relations;
 use Tinyissue\Model;
 
 /**
@@ -20,15 +19,7 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int                  $project_id
- * @property int                  $created_by
- * @property string               $body
- * @property Model\Project        $project
- * @property Model\User           $createdBy
- *
- * @method   Relations\BelongsTo  belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method   Eloquent\Model       save()
- * @method   Relations\HasOne     activity()
+ * @property static $this
  */
 trait CrudTrait
 {
@@ -100,6 +91,6 @@ trait CrudTrait
             $this->queueDelete($note, $user);
         });
 
-        return parent::delete();
+        return $this->delete();
     }
 }

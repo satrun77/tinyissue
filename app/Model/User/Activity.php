@@ -13,31 +13,14 @@ namespace Tinyissue\Model\User;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Tinyissue\Model\Project;
-use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Traits\User\Activity\RelationTrait;
-use Tinyissue\Model\Activity as ActivityModel;
-use Tinyissue\Model\User;
 
 /**
  * Activity is model class for user activities.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- * @property string $data
- * @property int $type_id
- * @property int $parent_id
- * @property int $user_id
- * @property int $item_id
- * @property int $action_id
- * @property ActivityModel $activity
- * @property Issue $issue
- * @property User $user
- * @property User $assignTo
- * @property Issue\Comment $comment
- * @property Project $project
- * @property Project\Note $note
+ * @property static $this
  */
 class Activity extends Model
 {

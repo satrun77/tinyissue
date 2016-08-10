@@ -19,8 +19,7 @@ use Tinyissue\Model;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @method Relations\BelongsTo belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null)
- * @method Relations\HasOne    hasOne($related, $foreignKey = null, $localKey = null)
+ * @property static $this
  */
 trait RelationTrait
 {

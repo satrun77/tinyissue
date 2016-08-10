@@ -44,13 +44,15 @@ class BusServiceProvider extends ServiceProvider
     public function register()
     {
         // Resolve form object by injecting the current model being edited
-        $this->app->resolving(function (FormInterface $form, Application $app) {
+        $this->app->resolving(FormInterface::class, function (FormInterface $form, Application $app) {
             $form->setup($app->router->getCurrentRoute()->parameters());
             $form->setLoggedUser(auth()->user());
+
+            return $form;
         });
 
         // Resolve form request by injecting the current model being edited
-        $this->app->resolving(function (FormRequest $request, Application $app) {
+        $this->app->resolving(FormRequest::class, function (FormRequest $request, Application $app) {
             $form = array_first($app->router->getCurrentRoute()->parameters(), function ($key, $value) {
                 return $value instanceof FormInterface;
             }, function () use ($request, $app) {
