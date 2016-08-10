@@ -93,4 +93,11 @@ trait CrudTrait
 
         return $this->delete();
     }
+
+    abstract public function activity();
+    abstract public function save(array $options = []);
+    abstract public function queueDelete(Model\Project\Note $note, Model\User $changeBy);
+    abstract public function queueUpdate(Model\Project\Note $note, Model\User $changeBy);
+    abstract public function queueAdd(Model\Project\Note $note, Model\User $changeBy);
+    abstract public function fill(array $attributes);
 }

@@ -170,4 +170,10 @@ trait CrudTrait
 
         return parent::delete();
     }
+
+    abstract public function fill(array $attributes);
+    abstract public function projectUsers();
+    abstract public function kanbanTags();
+    abstract public function issues();
+    abstract public function notes();
 }

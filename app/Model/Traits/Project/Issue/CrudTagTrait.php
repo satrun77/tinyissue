@@ -177,4 +177,10 @@ trait CrudTagTrait
 
         return $this;
     }
+
+    abstract public function activities();
+    abstract public function queueUpdate(Project\Issue $issue, User $changeBy);
+    abstract public function queueChangeTags(Project\Issue $issue, array $addedTags, array $removedTags, User $changeBy);
+    abstract public function save(array $options = []);
+    abstract public function tags();
 }

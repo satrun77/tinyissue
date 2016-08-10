@@ -51,4 +51,6 @@ trait RelationTrait
     {
         return $this->belongsTo('Tinyissue\Model\Project', 'project_id')->orderBy('name', 'ASC');
     }
+
+    abstract public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null);
 }

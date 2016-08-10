@@ -12,6 +12,7 @@
 namespace Tinyissue\Model\Traits\Project\Issue;
 
 use Illuminate\Database\Eloquent;
+use Illuminate\Support\Collection;
 use Tinyissue\Model;
 use Tinyissue\Model\Activity;
 use Tinyissue\Model\Project;
@@ -122,7 +123,7 @@ trait CrudTrait
      *
      * @param array $input
      *
-     * @return CrudTrait
+     * @return static
      */
     public function createIssue(array $input)
     {
@@ -226,4 +227,17 @@ trait CrudTrait
 
         return $status;
     }
+
+    abstract public function touch();
+    abstract public function getLoggedUser();
+    abstract public function save(array $options = []);
+    abstract public function queueAssign(Project\Issue $issue, User $changeBy);
+    abstract public function queueUpdate(Project\Issue $issue, User $changeBy);
+    abstract public function queueAdd(Project\Issue $issue, User $changeBy);
+    abstract public function activities();
+    abstract public function comments();
+    abstract public function tags();
+    abstract public function isQuoteLocked();
+    abstract public function fill(array $attributes);
+    abstract public function syncTags(array $input, Collection $currentTags = null);
 }

@@ -53,4 +53,6 @@ trait CrudTrait
 
         return parent::delete();
     }
+
+    abstract public function fill(array $attributes);
 }

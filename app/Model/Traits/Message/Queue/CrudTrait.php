@@ -124,4 +124,6 @@ trait CrudTrait
 
         return $fill;
     }
+
+    abstract public function fill(array $attributes);
 }

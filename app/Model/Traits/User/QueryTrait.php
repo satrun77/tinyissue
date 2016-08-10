@@ -137,4 +137,7 @@ trait QueryTrait
 
         return $this->permission;
     }
+
+    abstract public static function with($relations);
+    abstract public function getLoggedUser();
 }

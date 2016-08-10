@@ -34,4 +34,6 @@ trait CountTrait
             ->selectRaw('issue_id, count(*) as aggregate')
             ->groupBy('issue_id');
     }
+
+    abstract public function hasOne($related, $foreignKey = null, $localKey = null);
 }

@@ -181,4 +181,8 @@ trait CountTrait
 
         return $query;
     }
+
+    abstract public static function with($relations);
+    abstract public function hasOne($related, $foreignKey = null, $localKey = null);
+    abstract public function isPrivateInternal();
 }

@@ -91,4 +91,6 @@ trait RelationTrait
     {
         return $this->belongsTo('\Tinyissue\Model\Project\Note', 'action_id');
     }
+
+    abstract public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null);
 }

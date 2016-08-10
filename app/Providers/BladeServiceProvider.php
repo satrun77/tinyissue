@@ -33,7 +33,7 @@ class BladeServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \Blade::directive('macro', function($expression) {
+        \Blade::directive('macro', function ($expression) {
             return $this->directive('macro', $expression);
         });
 
@@ -44,7 +44,7 @@ class BladeServiceProvider extends ServiceProvider
             }
         );
 
-        \Blade::directive('usemacro', function($expression) {
+        \Blade::directive('usemacro', function ($expression) {
             return $this->directive('usemacro', $expression);
         });
 

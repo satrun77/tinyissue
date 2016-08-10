@@ -90,4 +90,8 @@ trait CountTrait
 
         return $this->projects($status)->with('openIssuesCount');
     }
+
+    abstract public function issuesCreatedBy();
+
+    abstract public function permission($key);
 }

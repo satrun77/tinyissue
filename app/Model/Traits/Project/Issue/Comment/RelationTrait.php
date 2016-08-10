@@ -71,4 +71,9 @@ trait RelationTrait
     {
         return $this->morphMany('Tinyissue\Model\Message\Queue', 'model');
     }
+
+    abstract public function morphMany($related, $name, $type = null, $id = null, $localKey = null);
+    abstract public function hasOne($related, $foreignKey = null, $localKey = null);
+    abstract public function hasMany($related, $foreignKey = null, $localKey = null);
+    abstract public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null);
 }

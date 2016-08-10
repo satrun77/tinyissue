@@ -31,4 +31,6 @@ trait RelationTrait
     {
         return $this->hasOne('Tinyissue\Model\Permission', 'id', 'permission_id');
     }
+
+    abstract public function hasOne($related, $foreignKey = null, $localKey = null);
 }

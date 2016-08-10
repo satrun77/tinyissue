@@ -39,4 +39,22 @@ trait CountAttributeTrait
         // then return the count directly
         return ($related) ? (int) $related->aggregate : 0;
     }
+
+    /**
+     * Eager load relations on the model.
+     *
+     * @param array|string $relations
+     *
+     * @return $this
+     */
+    abstract public function load($relations);
+
+    /**
+     * Get a specified relationship.
+     *
+     * @param string $relation
+     *
+     * @return mixed
+     */
+    abstract public function getRelation($relation);
 }

@@ -90,4 +90,6 @@ trait CrudTrait
             rmdir($path);
         }
     }
+
+    abstract public function save(array $options = []);
 }

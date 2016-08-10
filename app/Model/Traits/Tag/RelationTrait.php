@@ -61,4 +61,8 @@ trait RelationTrait
     {
         return $this->belongsToMany('Tinyissue\Model\Project', 'projects_kanban_tags', 'project_id', 'tag_id');
     }
+
+    abstract public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null);
+    abstract public function hasMany($related, $foreignKey = null, $localKey = null);
+    abstract public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null);
 }

@@ -42,4 +42,6 @@ trait QueryTrait
     {
         return $this->with('users')->orderBy('id', 'DESC')->get();
     }
+
+    abstract public static function with($relations);
 }

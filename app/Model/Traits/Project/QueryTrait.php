@@ -210,4 +210,13 @@ trait QueryTrait
     {
         return $this->users()->where('users.role_id', '>', 1)->where('users.deleted', '=', User::NOT_DELETED_USERS);
     }
+
+    abstract public function users();
+    abstract public function filterAssignTo(Relations\HasMany $query, $userId);
+    abstract public function filterTitleOrBody(Relations\HasMany $query, $keyword);
+    abstract public function filterTags(Relations\HasMany $query, $tags);
+    abstract public function isPrivateInternal();
+    abstract public function filterCreatedBy(Relations\HasMany $query, $userId, $enabled = false);
+    abstract public function sortByUpdated(Relations\HasMany $query, $order = 'asc');
+    abstract public function sortByTag(Relations\HasMany $query, $tagGroup, $order = 'asc');
 }

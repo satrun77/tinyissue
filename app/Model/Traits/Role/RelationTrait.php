@@ -61,4 +61,7 @@ trait RelationTrait
             'role_id'
         );
     }
+
+    abstract public function hasMany($related, $foreignKey = null, $localKey = null);
+    abstract public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null);
 }

@@ -104,4 +104,7 @@ trait RelationTrait
         return $this->belongsToMany('Tinyissue\Model\Tag', 'projects_kanban_tags', 'project_id', 'tag_id')
             ->orderBy('position');
     }
+
+    abstract public function hasMany($related, $foreignKey = null, $localKey = null);
+    abstract public function belongsToMany($related, $table = null, $foreignKey = null, $otherKey = null, $relation = null);
 }

@@ -122,4 +122,11 @@ trait CrudTrait
 
         return $this->delete();
     }
+
+    abstract public function fill(array $attributes);
+    abstract public function queueAdd(Issue\Comment $issue, $changeBy);
+    abstract public function queueUpdate(Issue\Comment $issue, $changeBy);
+    abstract public function queueDelete(Issue\Comment $issue, $changeBy);
+    abstract public function save(array $options = []);
+    abstract public function activity();
 }

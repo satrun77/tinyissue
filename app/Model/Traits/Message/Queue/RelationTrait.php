@@ -35,4 +35,7 @@ trait RelationTrait
     {
         return $this->morphTo();
     }
+
+    abstract public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null);
+    abstract public function morphTo($name = null, $type = null, $id = null);
 }

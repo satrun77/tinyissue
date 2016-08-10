@@ -51,4 +51,6 @@ trait RelationTrait
     {
         return $this->belongsTo('Tinyissue\Model\Project\Issue\Comment', 'comment_id');
     }
+
+    abstract public function belongsTo($related, $foreignKey = null, $otherKey = null, $relation = null);
 }
