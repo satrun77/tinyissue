@@ -33,8 +33,8 @@ class Authenticate extends MiddlewareAbstract
     public function handle(Request $request, Closure $next)
     {
         if ($this->auth->guest()) {
-            if ($request->ajax()) {
-                abort(401);
+            if ($request->ajax() || $request->wantsJson()) {
+                return response('Unauthorized.', 401);
             }
 
             return redirect()->guest('/');

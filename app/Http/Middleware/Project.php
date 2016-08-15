@@ -97,7 +97,7 @@ class Project extends MiddlewareAbstract
         }
 
         // Abort request invalid data
-        if ($entity->project_id !== $project->id) {
+        if ((int) $entity->project_id !== (int) $project->id) {
             abort(401);
         }
 

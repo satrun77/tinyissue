@@ -162,7 +162,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function validateData()
     {
-        return $this->getProject() && $this->getModel() && $this->getModel()->project_id === $this->getProject()->id;
+        return $this->getProject() && $this->getModel() && (int) $this->getModel()->project_id === (int) $this->getProject()->id;
     }
 
     /**

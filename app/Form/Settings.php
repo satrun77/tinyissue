@@ -110,7 +110,7 @@ class Settings extends FormAbstract
             'type'        => 'select',
             'label'       => 'first_status_tag',
             'value'       => $setting->value,
-            'options'     => (new Model\Tag())->getStatusTags()->get()->lists('fullname', 'id'),
+            'options'     => (new Model\Tag())->getStatusTags()->get()->pluck('fullname', 'id'),
         ];
     }
 

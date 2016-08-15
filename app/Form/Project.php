@@ -87,7 +87,7 @@ class Project extends FormAbstract
             $fields['default_assignee'] = [
                 'type'    => 'select',
                 'label'   => 'default_assignee',
-                'options' => [0 => ''] + $this->getModel()->usersCanFixIssue()->get()->lists('fullname', 'id')->all(),
+                'options' => [0 => ''] + $this->getModel()->usersCanFixIssue()->get()->pluck('fullname', 'id')->all(),
             ];
         }
 
@@ -115,7 +115,7 @@ class Project extends FormAbstract
         // Get selected status tags on editing a project
         $selectTags = [];
         if ($this->isEditing()) {
-            $selectTags = $this->getModel()->kanbanTags()->get()->lists('id');
+            $selectTags = $this->getModel()->kanbanTags()->get()->pluck('id');
         }
 
         // An array for checkboxes

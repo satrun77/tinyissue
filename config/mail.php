@@ -11,11 +11,13 @@ return [
     | sending of e-mail. You may specify which one you're using throughout
     | your application here. By default, Laravel is setup for SMTP mail.
     |
-    | Supported: "smtp", "mail", "sendmail", "mailgun", "mandrill", "log"
+    | Supported: "smtp", "mail", "sendmail", "mailgun", "mandrill",
+    |            "ses", "sparkpost", "log"
     |
     */
 
-    'driver' => 'smtp',
+    'driver' => env('MAIL_DRIVER', 'smtp'),
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Address
@@ -28,6 +30,7 @@ return [
     */
 
     'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Host Port
@@ -40,6 +43,7 @@ return [
     */
 
     'port' => env('MAIL_PORT', 587),
+
     /*
     |--------------------------------------------------------------------------
     | Global "From" Address
@@ -63,7 +67,8 @@ return [
     |
     */
 
-    'encryption' => 'tls',
+    'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Username
@@ -75,7 +80,8 @@ return [
     |
     */
 
-    'username' => env('MAIL_USERNAME', null),
+    'username' => env('MAIL_USERNAME'),
+
     /*
     |--------------------------------------------------------------------------
     | SMTP Server Password
@@ -87,7 +93,8 @@ return [
     |
     */
 
-    'password' => env('MAIL_PASSWORD', null),
+    'password' => env('MAIL_PASSWORD'),
+
     /*
     |--------------------------------------------------------------------------
     | Sendmail System Path
@@ -100,17 +107,5 @@ return [
     */
 
     'sendmail' => '/usr/sbin/sendmail -bs',
-    /*
-    |--------------------------------------------------------------------------
-    | Mail "Pretend"
-    |--------------------------------------------------------------------------
-    |
-    | When this option is enabled, e-mail will not actually be sent over the
-    | web and will instead be written to your application's logs files so
-    | you may inspect the message. This is great for local development.
-    |
-    */
-
-    'pretend' => false,
 
 ];

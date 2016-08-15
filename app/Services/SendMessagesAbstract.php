@@ -321,7 +321,7 @@ abstract class SendMessagesAbstract
         if (null === $this->projectUsers) {
             $this->projectUsers = (new Project\User())
                 ->with('message', 'user', 'user.role')
-                ->whereNotIn('user_id', $this->getExcludeUsers()->lists('id'))
+                ->whereNotIn('user_id', $this->getExcludeUsers()->pluck('id'))
                 ->where('project_id', '=', $this->getProjectId())
                 ->get();
         }
@@ -537,7 +537,7 @@ abstract class SendMessagesAbstract
         // For issue only send messages if user is assignee or creator
         $creator  = $this->getIssue()->user;
         $assignee = $this->getIssue()->assigned;
-        if ($user->user_id === $creator->id || ($assignee && $user->user_id === $assignee->id)) {
+        if ((int) $user->user_id === (int) $creator->id || ($assignee && (int) $user->user_id === (int) $assignee->id)) {
             return true;
         }
 

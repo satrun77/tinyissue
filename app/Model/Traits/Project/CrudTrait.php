@@ -68,10 +68,11 @@ trait CrudTrait
      * Update project details.
      *
      * @param array $attributes
+     * @param array $options
      *
      * @return bool
      */
-    public function update(array $attributes = [])
+    public function update(array $attributes = [], array $options = [])
     {
         if (array_key_exists('columns', $attributes)) {
             $this->saveTags($attributes['columns']);

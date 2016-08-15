@@ -11,17 +11,12 @@
 
 namespace Tinyissue\Http\Middleware;
 
-use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as BaseVerifier;
+use Illuminate\Cookie\Middleware\EncryptCookies as BaseEncrypter;
 
-/**
- * VerifyCsrfToken is a Middleware class verify the session token.
- *
- * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
- */
-class VerifyCsrfToken extends BaseVerifier
+class EncryptCookies extends BaseEncrypter
 {
     /**
-     * The URIs that should be excluded from CSRF verification.
+     * The names of the cookies that should not be encrypted.
      *
      * @var array
      */

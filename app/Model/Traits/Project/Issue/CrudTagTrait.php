@@ -114,7 +114,7 @@ trait CrudTagTrait
         }
 
         // Save relation
-        $this->tags()->sync($tags->lists('id')->all());
+        $this->tags()->sync($tags->pluck('id')->all());
 
         // Activity is added when new issue create with tags or updated with tags excluding the open status tag
         if (!empty($removedTags) || !empty($addedTags)) {

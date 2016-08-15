@@ -58,13 +58,13 @@ trait QueryTrait
     public function usersNotIn()
     {
         if ($this->id > 0) {
-            $userIds = $this->users()->lists('user_id')->all();
+            $userIds = $this->users()->pluck('user_id')->all();
             $users   = User::where('deleted', '=', User::NOT_DELETED_USERS)->whereNotIn('id', $userIds)->get();
         } else {
             $users = User::where('deleted', '=', User::NOT_DELETED_USERS)->get();
         }
 
-        return $users->lists('fullname', 'id')->all();
+        return $users->pluck('fullname', 'id')->all();
     }
 
     /**

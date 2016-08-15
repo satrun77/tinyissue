@@ -36,7 +36,7 @@ class GlobalIssue extends Issue
     protected function getProjects()
     {
         if (is_null($this->projects)) {
-            $this->projects = $this->getLoggedUser()->projects()->get()->lists('name', 'id');
+            $this->projects = $this->getLoggedUser()->projects()->get()->pluck('name', 'id');
         }
 
         return $this->projects;

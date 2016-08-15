@@ -13,7 +13,6 @@ namespace Tinyissue\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Tinyissue\Console\Commands;
 
 /**
  * Kernel is class to define the commands schedule for application cron jobs.

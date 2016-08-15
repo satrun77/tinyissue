@@ -122,7 +122,7 @@ class ProjectsController extends Controller
                     'value' => $progress,
                 ],
             ];
-        })->lists('progress', 'id')->all();
+        })->pluck('progress', 'id')->all();
 
         return response()->json(['status' => true, 'progress' => $progress]);
     }

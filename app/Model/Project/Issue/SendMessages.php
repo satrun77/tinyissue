@@ -304,7 +304,7 @@ class SendMessages extends SendMessagesAbstract
         // or if there is only one user and is not matching the new assignee.
         // then skip this message
         if ($assignObjects->count() === 0
-            || ($assignObjects->count() === 1 && (int) $assignObjects->first()->id !== $assigns['new'])
+            || ($assignObjects->count() === 1 && (int) $assignObjects->first()->id !== (int) $assigns['new'])
         ) {
             return;
         }

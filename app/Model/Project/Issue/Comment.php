@@ -90,6 +90,6 @@ class Comment extends BaseModel
      */
     public function canEdit(User $user)
     {
-        return $user->id === $this->created_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
+        return (int) $user->id === (int) $this->created_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
     }
 }

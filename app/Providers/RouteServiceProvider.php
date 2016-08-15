@@ -66,7 +66,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapRoutes(Router $router, $directory)
     {
-        $router->group(['namespace' => $this->namespace], function (Router $router) use ($directory) {
+        $router->group(['namespace' => $this->namespace, 'middleware' => $directory], function (Router $router) use ($directory) {
             require base_path('routes/' . $directory . '.php');
         });
     }

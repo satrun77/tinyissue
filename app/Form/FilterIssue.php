@@ -85,7 +85,7 @@ class FilterIssue extends FormAbstract
         $sort = ['updated' => trans('tinyissue.updated')] + $tagGroups;
 
         // Array of project users
-        $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->lists('fullname', 'id')->all();
+        $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->pluck('fullname', 'id')->all();
 
         $fields = [
             'keyword' => [
@@ -97,13 +97,13 @@ class FilterIssue extends FormAbstract
                 'type'            => 'select',
                 'placeholder'     => trans('tinyissue.status'),
                 'onGroupAddClass' => 'toolbar-item',
-                'options'         => $this->getTags('status')->lists('fullname', 'id'),
+                'options'         => $this->getTags('status')->pluck('fullname', 'id'),
             ],
             'tag_type' => [
                 'type'            => 'select',
                 'placeholder'     => trans('tinyissue.type'),
                 'onGroupAddClass' => 'toolbar-item',
-                'options'         => $this->getTags('type')->lists('fullname', 'id'),
+                'options'         => $this->getTags('type')->pluck('fullname', 'id'),
             ],
             'sort' => [
                 'type'            => 'groupField',

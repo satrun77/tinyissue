@@ -70,7 +70,7 @@ class UserMessagesSettings extends FormAbstract
         \Former::setOption('TwitterBootstrap3.labelWidths', ['large' => 4, 'small' => 4]);
 
         /** @var Collection $messages Available message options */
-        $messages = $this->getMessages()->lists('name', 'id');
+        $messages = $this->getMessages()->pluck('name', 'id');
 
         // Create field for each project
         $this->projects->each(function (ProjectModel $project) use (&$fields, $messages) {

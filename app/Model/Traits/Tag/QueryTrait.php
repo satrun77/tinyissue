@@ -64,7 +64,7 @@ trait QueryTrait
             $group->name = ucwords($group->name);
 
             return $group;
-        })->lists('name', 'keyname')->all();
+        })->pluck('name', 'keyname')->all();
     }
 
     /**

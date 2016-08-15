@@ -58,7 +58,7 @@ class Tag extends FormAbstract
             'parent_id' => [
                 'type'    => 'select',
                 'label'   => 'group',
-                'options' => $tag->getGroups()->lists('name', 'id')->all(),
+                'options' => $tag->getGroups()->pluck('name', 'id')->all(),
             ],
             'bgcolor' => [
                 'type'  => 'color',

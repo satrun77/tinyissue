@@ -47,8 +47,8 @@ trait LoggedUser
         if (null === $this->loggedUser) {
             $this->loggedUser = auth()->user();
         }
-
-        if (!$this->loggedUser instanceof User) {
+        /* @var \Tinyissue\Services\SettingsManager $settings */
+        if (!$this->loggedUser instanceof User && !app('tinyissue.settings')->isPublicProjectsEnabled()) {
             throw new \DomainException('Unable to find a valid instance of logged user.');
         }
 

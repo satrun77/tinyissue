@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Http\Controllers;
 
-use Auth as Auth;
 use Lang;
 use Tinyissue\Form\Login as LoginForm;
 use Tinyissue\Http\Requests\FormRequest;

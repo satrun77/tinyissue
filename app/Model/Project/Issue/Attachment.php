@@ -137,6 +137,6 @@ class Attachment extends BaseModel
      */
     public function canEdit(User $user)
     {
-        return $user->id === $this->uploaded_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
+        return (int) $user->id === (int) $this->uploaded_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
     }
 }

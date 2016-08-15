@@ -20,6 +20,7 @@ use Tinyissue\Model\Role;
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
  * @property static $this
+ *
  * @method $this with($relations);
  */
 trait QueryTrait
@@ -31,7 +32,7 @@ trait QueryTrait
      */
     public static function dropdown()
     {
-        return Role::lists('name', 'id');
+        return Role::pluck('name', 'id');
     }
 
     /**

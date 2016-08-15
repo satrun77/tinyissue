@@ -52,7 +52,7 @@ trait QueueTrait
 
         // If the assignee has changed and it is not the logged in user who made the action
         if ($issue->assigned_to !== $issue->getOriginal('assigned_to', $issue->assigned_to)
-            && $changeBy->id !== $issue->assigned_to
+            && (int) $changeBy->id !== (int) $issue->assigned_to
         ) {
             (new Queue())->queue(Queue::ASSIGN_ISSUE, $issue, $changeBy);
             $noMessageForMe = $issue->assigned_to;
@@ -88,7 +88,7 @@ trait QueueTrait
     public function queueAssign(Issue $issue, User $changeBy)
     {
         // If the assignee has changed and it is not the logged in user who made the action
-        if ($issue->assigned_to > 0 && $changeBy->id !== $issue->assigned_to) {
+        if ($issue->assigned_to > 0 && (int) $changeBy->id !== (int) $issue->assigned_to) {
             return (new Queue())->queue(Queue::ASSIGN_ISSUE, $issue, $changeBy);
         }
     }

@@ -240,7 +240,7 @@ class Issue extends BaseModel
      */
     public function isCreatedBy(Model\User $user)
     {
-        return $this->created_by === $user->id;
+        return (int) $this->created_by === (int) $user->id;
     }
 
     /**
