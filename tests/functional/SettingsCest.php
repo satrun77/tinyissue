@@ -16,7 +16,7 @@ class SettingsCest
     {
         $settingsString = trans('tinyissue.settings');
         $enableString   = trans('tinyissue.enable');
-        $settings = app('tinyissue.settings');
+        $settings       = app('tinyissue.settings');
         $settings->save([
             'enable_public_projects' => Setting::DISABLE,
         ]);

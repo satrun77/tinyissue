@@ -16,8 +16,10 @@ class UserSteps extends \FunctionalTester
     public function login($email, $password, $see = null)
     {
         $I = $this;
-        $I->amOnAction('HomeController@getIndex');
+        $I->amOnAction('HomeController@getDashboard');
+        $I->logout();
         $I->dontSeeAuthentication();
+        $I->amOnAction('HomeController@getIndex');
         $I->see('Login');
         $I->fillField('email', $email);
         $I->fillField('password', $password);

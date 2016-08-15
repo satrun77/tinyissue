@@ -96,4 +96,25 @@ class CrudProjectCest
         $I->dontSeeLink('Project 1');
         $I->dontSeeRecord($project->getTable(), ['name' => 'Project 1']);
     }
+
+    public function _before()
+    {
+        $this->removeUploadDirectory();
+        $this->createUploadDirectory();
+    }
+
+    public function _after()
+    {
+        $this->removeUploadDirectory();
+    }
+
+    protected function createUploadDirectory()
+    {
+        exec('mkdir ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
+    }
+
+    protected function removeUploadDirectory()
+    {
+        exec('rm -rf ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
+    }
 }

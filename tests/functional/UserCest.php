@@ -66,6 +66,7 @@ class UserCest
 
         $user = $I->createUser(1);
         $I->amLoggedAs($user);
+        $I->seeAuthentication();
         $I->amOnAction('UserController@getSettings');
         $I->fillField('password', '123');
         $I->fillField('password_confirmation', '1234');
@@ -75,7 +76,8 @@ class UserCest
         $I->fillField('password', 'newpass');
         $I->fillField('password_confirmation', 'newpass');
         $I->click(trans('tinyissue.update'));
-        $I->logout();
+        $I->click(trans('tinyissue.logout'));
+        $I->dontSeeAuthentication();
         $I->login($user->email, 'newpass', $user->firstname);
     }
 

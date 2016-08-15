@@ -5,13 +5,13 @@ use Tinyissue\Model\Tag;
 class KanbanCest
 {
     /**
-     * @param FunctionalTester $I
+     * @param FunctionalTester\UserSteps $I
      *
-     * @actor FunctionalTester
+     * @actor FunctionalTester\UserSteps
      *
      * @return void
      */
-    public function viewKanbanAndMoveIssue(FunctionalTester $I)
+    public function viewKanbanAndMoveIssue(FunctionalTester\UserSteps $I)
     {
         $I->am('Developer User');
         $I->wantTo('view my Kanban page of my issues & change status of an issue');
@@ -40,10 +40,12 @@ class KanbanCest
         $I->checkOption('//input[@value="' . $statuses['open']->id . '"]');
         $I->checkOption('//input[@value="' . $statuses['progress']->id . '"]');
         $I->click(trans('tinyissue.update'));
-        $I->logout();
-
+        $I->click(trans('tinyissue.logout'), 'a');
+        $I->dontSeeAuthentication();
+        $I->amOnAction('HomeController@getIndex');
+        $I->login($developer->email, '123');
         $xpathProjectLink = '//nav[@id="kanban-projects-nav"]//a[@data-project-id="' . $project->id . '"]';
-        $I->amLoggedAs($developer);
+        $I->amOnAction('HomeController@getDashboard');
         $I->amOnAction('UserController@getIssues', ['display' => 'kanban']);
         $I->see($project->name, $xpathProjectLink);
         $I->click($project->name, $xpathProjectLink);

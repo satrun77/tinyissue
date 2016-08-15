@@ -4,12 +4,13 @@ class CrudAttachmentCest
 {
     public function _before()
     {
-        exec('mkdir ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
+        $this->removeUploadDirectory();
+        $this->createUploadDirectory();
     }
 
     public function _after()
     {
-        exec('rm -rf ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
+        $this->removeUploadDirectory();
     }
 
     /**
@@ -59,13 +60,13 @@ class CrudAttachmentCest
     }
 
     /**
-     * @param FunctionalTester $I
+     * @param FunctionalTester\UserSteps $I
      *
-     * @actor FunctionalTester
+     * @actor FunctionalTester\UserSteps
      *
      * @return void
      */
-    public function addIssueComment(FunctionalTester $I)
+    public function addIssueComment(FunctionalTester\UserSteps $I)
     {
         $comment   = 'Comment 1';
         $fileName1 = 'upload1.txt';
@@ -80,7 +81,6 @@ class CrudAttachmentCest
         $project = $issue->project;
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeResponseCodeIs(200);
-
         $uri = $I->getApplication()->url->action('Project\IssueController@postUploadAttachment', [
             'project' => $project,
         ]);
@@ -143,6 +143,7 @@ class CrudAttachmentCest
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(200);
+
         $I->sendAjaxGetRequest(
             $I->getApplication()->url->action(
                 'Project\IssueController@getIssueComments',
@@ -166,5 +167,15 @@ class CrudAttachmentCest
             'attachment' => $attachment,
         ]);
         $I->seeResponseCodeIs(404);
+    }
+
+    protected function createUploadDirectory()
+    {
+        exec('mkdir ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
+    }
+
+    protected function removeUploadDirectory()
+    {
+        exec('rm -rf ' . config('filesystems.disks.local.root') . '/' . config('tinyissue.uploads_dir'));
     }
 }

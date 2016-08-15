@@ -21,7 +21,6 @@ class CrudIssueCest
         $admin      = $I->createUser(1, 4);
         $developer1 = $I->createUser(2, 2); // developer
         $I->amLoggedAs($admin);
-
         $project = $I->createProject(1, [$developer1, $admin]);
         $type    = (new Tag())->getTypeTags()->first();
         $I->amOnAction('ProjectsController@getNewIssue');
@@ -34,7 +33,6 @@ class CrudIssueCest
         ];
         $I->submitForm('#content .form-horizontal', $params);
         $issue = $I->fetchIssueBy('title', $params['title']);
-        $I->comment(print_r($issue->tags, true));
         $I->seeCurrentActionIs('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeResponseCodeIs(200);
         $I->seeLink($params['title']);

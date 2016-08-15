@@ -89,6 +89,7 @@ class CrudIssueCommentCest
         $comment1 = $I->createComment(1, $admin, $issue);
         $comment2 = $I->createComment(2, $admin, $issue);
 
+        $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->sendAjaxGetRequest(
             $I->getApplication()->url->action(
                 'Project\IssueController@getIssueComments',

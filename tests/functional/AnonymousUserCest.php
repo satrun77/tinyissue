@@ -33,7 +33,8 @@ class AnonymousUserCest
                 'enable_public_projects' => Setting::ENABLE,
             ]
         );
-
+        // amOnAction repeated to make sure the routes are refreshed!
+        $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('HomeController@getIssues');
         $I->seeResponseCodeIs(200);
@@ -42,6 +43,7 @@ class AnonymousUserCest
         $I->click(trans('tinyissue.projects'));
         $I->click($project1->name);
         $I->see(trans('tinyissue.anonymous'));
+        $I->see($issue->title);
     }
 
     /**
@@ -69,6 +71,8 @@ class AnonymousUserCest
         $developer = $I->createUser(3, 2); // developer
         $user      = $I->createUser(4, 1); // user
 
+        // amOnAction repeated to make sure the routes are refreshed!
+        $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('HomeController@getIssues');
 
