@@ -12,12 +12,13 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
-use Tinyissue\Model\User;
+use Illuminate\Database\Eloquent\Model as ModelAbstract;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
-use Tinyissue\Model\Project as ProjectModel;
+use Tinyissue\Contracts\Model\AccessControl;
 use Tinyissue\Model\Permission as PermissionModel;
-use Illuminate\Database\Eloquent\Model as ModelAbstract;
+use Tinyissue\Model\Project as ProjectModel;
+use Tinyissue\Model\User;
 
 /**
  * Permission is a Middleware class to for checking if current user has the permission to access the request.
@@ -102,34 +103,26 @@ class Permission extends MiddlewareAbstract
             return false;
         }
 
-        return !(!$user->permission($permission) || !$this->canAccessContext($user, $request->route(), $permission));
-    }
-
-    /**
-     * Whether or not the user has a valid permission in current context
-     * e.g. can access the issue or the project.
-     *
-     * @param User   $user
-     * @param Route  $route
-     * @param string $permission
-     *
-     * @return bool
-     */
-    public function canAccessContext(User $user, Route $route, $permission)
-    {
         // Can access all projects
-        if ($user->permission(PermissionModel::PERM_PROJECT_ALL)) {
+        if ($permission !== PermissionModel::PERM_ADMIN && $user->permission(PermissionModel::PERM_PROJECT_ALL)) {
             return true;
         }
 
-        // Can access the current context
-        $context = $this->getCurrentContext($route);
-        if (is_null($context)) {
-            abort(500, 'Permission middleware added to un-supported context.');
-        }
-        $action  = $permission == PermissionModel::PERM_ISSUE_MODIFY ? 'canEdit' : 'canView';
+        $hasPermission = $user->permission($permission);
 
-        return $context->$action($user);
+        // Can access the current context
+        $context       = $this->getCurrentContext($request->route());
+        $contextAccess = true;
+        if ($context instanceof AccessControl) {
+            $contextAccess = $context->can($permission, $user);
+            if (!$contextAccess) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return $hasPermission;
     }
 
     /**
