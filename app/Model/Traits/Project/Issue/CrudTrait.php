@@ -97,7 +97,8 @@ trait CrudTrait
         }
 
         /* Add to activity log for assignment if changed */
-        if ($input['assigned_to'] != $this->assigned_to) {
+        $assignToId = (int)array_get($input, 'assigned_to');
+        if ($assignToId > 0 && $assignToId !== (int)$this->assigned_to) {
             $this->activities()->save(new User\Activity([
                 'type_id'   => Activity::TYPE_REASSIGN_ISSUE,
                 'parent_id' => $this->project->id,
