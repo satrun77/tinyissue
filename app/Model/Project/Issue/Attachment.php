@@ -11,6 +11,7 @@
 
 namespace Tinyissue\Model\Project\Issue;
 
+use Tinyissue\Contracts\Model\AccessControl;
 use Tinyissue\Model\User;
 use Tinyissue\Model\Permission;
 use Illuminate\Database\Eloquent\Model as BaseModel;
@@ -35,7 +36,7 @@ use Tinyissue\Model\Traits\Project\Issue\Attachment\RelationTrait;
  * @property User $user
  * @property Comment $comment
  */
-class Attachment extends BaseModel
+class Attachment extends BaseModel implements AccessControl
 {
     use CrudTrait,
         RelationTrait;
@@ -138,5 +139,25 @@ class Attachment extends BaseModel
     public function canEdit(User $user)
     {
         return $user->id === $this->uploaded_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
+    }
+
+    /**
+     * @param string $permission
+     * @param User   $user
+     *
+     * @return bool
+     */
+    public function can($permission, User $user)
+    {
+        $editPermissions = [
+            Permission::PERM_ISSUE_CREATE,
+            Permission::PERM_ISSUE_MODIFY,
+        ];
+
+        if (in_array($permission, $editPermissions)) {
+            return $this->canEdit($user);
+        }
+
+        return $this->canView($user);
     }
 }

@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Collection;
+use Tinyissue\Contracts\Model\AccessControl;
 use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Model;
 use Tinyissue\Model\Traits\CountAttributeTrait;
@@ -54,7 +55,7 @@ use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
  * @property Collection $comments
  * @property Collection $messagesQueue
  */
-class Issue extends BaseModel
+class Issue extends BaseModel implements AccessControl
 {
     use CountAttributeTrait,
         CountTrait,
@@ -274,5 +275,26 @@ class Issue extends BaseModel
     {
         // If you have permission to modify issue or a creator and current tag is not read only.
         return ($this->isCreatedBy($user) && !$this->hasReadOnlyTag($user)) || ($this->canView($user) && $user->permission(Model\Permission::PERM_ISSUE_MODIFY));
+    }
+
+    /**
+     * @param string     $permission
+     * @param Model\User $user
+     *
+     * @return bool
+     */
+    public function can($permission, Model\User $user)
+    {
+        $editPermissions = [
+            Model\Permission::PERM_ISSUE_COMMENT,
+            Model\Permission::PERM_ISSUE_MODIFY,
+            Model\Permission::PERM_ISSUE_LOCK_QUOTE,
+        ];
+
+        if (in_array($permission, $editPermissions)) {
+            return $this->canEdit($user);
+        }
+
+        return $this->canView($user);
     }
 }

@@ -13,6 +13,7 @@ namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model as BaseModel;
+use Tinyissue\Contracts\Model\AccessControl;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Permission;
 use Tinyissue\Model\Project\Issue;
@@ -37,7 +38,7 @@ use Tinyissue\Model\User;
  * @property User\Activity $activity
  * @property Queue $messagesQueue
  */
-class Comment extends BaseModel
+class Comment extends BaseModel implements AccessControl
 {
     use CrudTrait,
         RelationTrait,
@@ -91,5 +92,25 @@ class Comment extends BaseModel
     public function canEdit(User $user)
     {
         return $user->id === $this->created_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
+    }
+
+    /**
+     * @param string $permission
+     * @param User   $user
+     *
+     * @return bool
+     */
+    public function can($permission, User $user)
+    {
+        $editPermissions = [
+            Permission::PERM_ISSUE_COMMENT,
+            Permission::PERM_ISSUE_MODIFY,
+        ];
+
+        if (in_array($permission, $editPermissions)) {
+            return $this->canEdit($user);
+        }
+
+        return $this->canView($user);
     }
 }

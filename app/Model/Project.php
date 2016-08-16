@@ -13,6 +13,7 @@ namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Contracts\Model\AccessControl;
 use URL;
 
 /**
@@ -36,7 +37,7 @@ use URL;
  * @property Collection $notes
  * @property Collection $kanbanTags
  */
-class Project extends Model
+class Project extends Model implements AccessControl
 {
     use Traits\CountAttributeTrait,
         Traits\Project\CountTrait,
@@ -328,5 +329,25 @@ class Project extends Model
     public function canEdit(User $user)
     {
         return $user->permission(Permission::PERM_PROJECT_MODIFY) || $user->permission(Permission::PERM_PROJECT_ALL);
+    }
+
+    /**
+     * @param string $permission
+     * @param User   $user
+     *
+     * @return bool
+     */
+    public function can($permission, User $user)
+    {
+        $editPermissions = [
+            Permission::PERM_PROJECT_CREATE,
+            Permission::PERM_PROJECT_MODIFY,
+        ];
+
+        if (in_array($permission, $editPermissions)) {
+            return $this->canEdit($user);
+        }
+
+        return $this->canView($user);
     }
 }
