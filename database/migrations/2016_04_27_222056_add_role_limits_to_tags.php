@@ -24,7 +24,7 @@ class AddRoleLimitsToTags extends Migration
             ->get();
 
         // Array of tag ids
-        $ids = $tags->lists('id')->toArray();
+        $ids = $tags->pluck('id')->toArray();
 
         // Remove activities
         (new Activity())->where('data', 'like', '%open%')

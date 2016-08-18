@@ -1,7 +1,5 @@
 <?php
 
-use Tinyissue\Model\Project;
-
 class IssueCest
 {
     /**

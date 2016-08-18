@@ -13,9 +13,8 @@ namespace Tinyissue\Model\Project\Issue\Comment;
 
 use Illuminate\Support\Collection;
 use Tinyissue\Model\Message\Queue;
-use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\User;
+use Tinyissue\Model\Project\Issue;
 use Tinyissue\Services\SendMessagesAbstract;
 
 /**
@@ -30,7 +29,7 @@ class SendMessages extends SendMessagesAbstract
     /**
      * Returns an instance of Issue.
      *
-     * @return Issue
+     * @return Issue|bool
      */
     protected function getIssue()
     {
@@ -156,7 +155,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function validateData()
     {
-        return $this->getIssue() && $this->getModel() && (int) $this->getModel()->issue_id === (int) $this->getIssue()->id;
+        return $this->getIssue() && $this->getModel() && $this->getModel()->issue_id === $this->getIssue()->id;
     }
 
     /**

@@ -70,22 +70,33 @@ class UserMessagesSettings extends FormAbstract
         \Former::setOption('TwitterBootstrap3.labelWidths', ['large' => 4, 'small' => 4]);
 
         /** @var Collection $messages Available message options */
-        $messages = $this->getMessages()->pluck('name', 'id');
+        $messages = $this->getMessages()->dropdown();
 
         // Create field for each project
         $this->projects->each(function (ProjectModel $project) use (&$fields, $messages) {
-            $messageId = $this->getSelectedMessage($project);
-
-            $fields['projects[' . $project->id . ']'] = [
-                'type'    => 'select',
-                'label'   => $project->name,
-                'options' => $messages,
-                'value'   => $messageId,
-                'help'    => trans('tinyissue.messages_' . strtolower($messages->get($messageId) . '_help')),
-            ];
+            $fields['projects[' . $project->id . ']'] = $this->getSelectField($project, $messages);
         });
 
         return $fields;
+    }
+
+    /**
+     * @param ProjectModel $project
+     * @param array        $messages
+     *
+     * @return array
+     */
+    protected function getSelectField(ProjectModel $project, array $messages)
+    {
+        $messageId = $this->getSelectedMessage($project);
+
+        return [
+            'type'    => 'select',
+            'label'   => $project->name,
+            'options' => $messages,
+            'value'   => $messageId,
+            'help'    => trans('tinyissue.messages_' . strtolower($messages[$messageId] . '_help')),
+        ];
     }
 
     /**
@@ -96,7 +107,7 @@ class UserMessagesSettings extends FormAbstract
     protected function getMessages()
     {
         if (null === $this->messages) {
-            $this->messages = Message::orderBy('id');
+            $this->messages = $this->app->make(Message::class)->all();
         }
 
         return $this->messages;
@@ -110,8 +121,8 @@ class UserMessagesSettings extends FormAbstract
     protected function getDefaultMessage()
     {
         if (null === $this->defaultMessage) {
-            $name                 = Message::$defaultMessageToRole[$this->getLoggedUser()->role->role];
-            $this->defaultMessage = $this->getMessages()->where('name', $name)->first();
+            $name = Message::$defaultMessageToRole[$this->getLoggedUser()->getRoleName()];
+            $this->defaultMessage = $this->getMessages()->getByName($name);
         }
 
         return $this->defaultMessage;
@@ -126,10 +137,7 @@ class UserMessagesSettings extends FormAbstract
      */
     protected function getSelectedMessage(ProjectModel $project)
     {
-        $selected = $project->projectUsers()
-            ->where('user_id', '=', $this->getLoggedUser()->id)
-            ->first()
-            ->message_id;
+        $selected = $project->getPreferredMessageIdForUser($this->getLoggedUser()->id);
 
         if ($selected <= 0) {
             $selected = $this->getDefaultMessage()->id;

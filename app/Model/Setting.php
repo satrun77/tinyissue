@@ -22,6 +22,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $name
  * @property string $value
  * @property string $key
+ *
+ * @method static where($key, $operator, $value = null)
  */
 class Setting extends Model
 {

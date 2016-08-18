@@ -12,13 +12,10 @@
 namespace Tinyissue\Model\Project\Issue;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model\Message\Queue;
-use Tinyissue\Model\Permission;
+use Tinyissue\Model\ModelAbstract;
+use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
-use Tinyissue\Model\Traits\Project\Issue\Comment\CrudTrait;
-use Tinyissue\Model\Traits\Project\Issue\Comment\QueueTrait;
-use Tinyissue\Model\Traits\Project\Issue\Comment\RelationTrait;
 use Tinyissue\Model\User;
 
 /**
@@ -33,15 +30,14 @@ use Tinyissue\Model\User;
  * @property int $created_by
  * @property User $user
  * @property Issue $issue
+ * @property Project $project
  * @property Collection $attachments
  * @property User\Activity $activity
  * @property Queue $messagesQueue
  */
-class Comment extends BaseModel
+class Comment extends ModelAbstract
 {
-    use CrudTrait,
-        RelationTrait,
-        QueueTrait;
+    use CommentRelations;
 
     /**
      * Timestamp enabled.
@@ -70,26 +66,12 @@ class Comment extends BaseModel
     ];
 
     /**
-     * Whether a user can view the issue.
+     * @param User|null $user
      *
-     * @param User $user
-     *
-     * @return bool
+     * @return \Tinyissue\Repository\Project\Issue\Comment\Updater
      */
-    public function canView(User $user)
+    public function updater(User $user = null)
     {
-        return $this->issue->canView($user);
-    }
-
-    /**
-     * Whether a user can edit the comment.
-     *
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function canEdit(User $user)
-    {
-        return (int) $user->id === (int) $this->created_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
+        return parent::updater($user);
     }
 }

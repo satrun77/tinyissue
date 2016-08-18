@@ -49,20 +49,6 @@ class BladeServiceProvider extends ServiceProvider
         });
 
         \Blade::directive(
-            'permission',
-            function ($expression) {
-                return "<?php if(!Auth::guest() && Auth::user()->permission{$expression}): ?>";
-            }
-        );
-
-        \Blade::directive(
-            'endpermission',
-            function () {
-                return '<?php endif; ?>';
-            }
-        );
-
-        \Blade::directive(
             'mailattrs',
             function ($expression) {
                 // Get parameters
@@ -118,7 +104,7 @@ class BladeServiceProvider extends ServiceProvider
      */
     protected function extractArgumentsAndName($expression)
     {
-        $pattern = '/(\([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*))\))/xim';
+        $pattern = '/([\'|\"](\w+)[\'|\"],\s*(([^\@])+|(.*)))/xim';
         $matches = [];
         preg_match_all($pattern, $expression, $matches);
 

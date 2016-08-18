@@ -39,18 +39,23 @@ class ExportIssues extends FilterIssue
      */
     public function fields()
     {
+        // Inherited fields
         $fields = parent::fields();
 
-        // Remove sort fields
-        unset($fields['sort']);
+        // Remove unwanted fields
+        $fields = $this->removeUnwantedFields($fields);
 
-        // Remove extra group class
-        $fields = array_map(function ($field) {
-            unset($field['onGroupAddClass']);
+        // Add extra fields for export
+        return $this->extraFields($fields);
+    }
 
-            return $field;
-        }, $fields);
-
+    /**
+     * @param array $fields
+     *
+     * @return array
+     */
+    protected function extraFields(array $fields)
+    {
         // Add extra fields
         $fields['format'] = [
             'type'        => 'select',
@@ -61,6 +66,26 @@ class ExportIssues extends FilterIssue
                 Exporter::TYPE_CSV  => trans('tinyissue.csv'),
             ],
         ];
+
+        return $fields;
+    }
+
+    /**
+     * @param array $fields
+     *
+     * @return array
+     */
+    protected function removeUnwantedFields(array $fields)
+    {
+        // Remove sort fields
+        unset($fields['sort']);
+
+        // Remove extra group class
+        $fields = array_map(function ($field) {
+            unset($field['onGroupAddClass']);
+
+            return $field;
+        }, $fields);
 
         return $fields;
     }

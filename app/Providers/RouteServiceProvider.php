@@ -13,6 +13,14 @@ namespace Tinyissue\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use Tinyissue\Model\Project;
+use Tinyissue\Model\Project\Issue;
+use Tinyissue\Model\Project\Issue\Attachment;
+use Tinyissue\Model\Project\Issue\Comment;
+use Tinyissue\Model\Project\Note;
+use Tinyissue\Model\Tag;
+use Tinyissue\Model\User;
 
 /**
  * RouteServiceProvider is the route service provider for registering the application routes to controllers and actions.
@@ -30,54 +38,49 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected $namespace = 'Tinyissue\Http\Controllers';
 
+    protected $bindRepositories = [
+        'project'    => Project::class,
+        'issue'      => Issue::class,
+        'user'       => User::class,
+        'tag'        => Tag::class,
+        'note'       => Note::class,
+        'comment'    => Comment::class,
+        'attachment' => Attachment::class,
+    ];
+
     /**
      * Define your route model bindings, pattern filters, etc.
-     *
-     * @param \Illuminate\Routing\Router $router
      */
-    public function boot(Router $router)
+    public function boot()
     {
-        $router->model('project', 'Tinyissue\Model\Project');
-        $router->model('issue', 'Tinyissue\Model\Project\Issue');
-        $router->model('attachment', 'Tinyissue\Model\Project\Issue\Attachment');
-        $router->model('comment', 'Tinyissue\Model\Project\Issue\Comment');
-        $router->model('note', 'Tinyissue\Model\Project\Note');
-        $router->model('tag', 'Tinyissue\Model\Tag');
-        $router->model('user', 'Tinyissue\Model\User');
+        foreach ($this->bindRepositories as $key => $model) {
+            Route::model($key, $model);
+            Route::pattern($key, '[0-9]+');
+        }
 
-        $router->pattern('project', '[0-9]+');
-        $router->pattern('issue', '[0-9]+');
-        $router->pattern('comment', '[0-9]+');
-        $router->pattern('issue', '[0-9]+');
-        $router->pattern('limit', '[0-9]+');
-        $router->pattern('attachment', '[0-9]+');
-        $router->pattern('note', '[0-9]+');
-        $router->pattern('term', '\w+');
-        $router->pattern('tag', '[0-9]+');
+        Route::pattern('limit', '[0-9]+');
+        Route::pattern('term', '\w+');
 
-        parent::boot($router);
+        parent::boot();
     }
 
     /**
      * Load routes for the web.
      *
-     * @param Router $router
      * @param string $directory
      */
-    protected function mapRoutes(Router $router, $directory)
+    protected function mapRoutes($directory)
     {
-        $router->group(['namespace' => $this->namespace, 'middleware' => $directory], function (Router $router) use ($directory) {
+        Route::group(['namespace' => $this->namespace, 'middleware' => $directory], function (Router $router) use ($directory) {
             require base_path('routes/' . $directory . '.php');
         });
     }
 
     /**
      * Define the routes for the application.
-     *
-     * @param Router $router
      */
-    public function map(Router $router)
+    public function map()
     {
-        $this->mapRoutes($router, 'web');
+        $this->mapRoutes('web');
     }
 }

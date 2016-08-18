@@ -11,11 +11,13 @@
 
 namespace Tinyissue\Http\Controllers;
 
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Gate;
 use Tinyissue\Extensions\Auth\LoggedUser;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 /**
  * Controller is an abstract class for the controller classes.
@@ -24,14 +26,7 @@ use Tinyissue\Extensions\Auth\LoggedUser;
  */
 abstract class Controller extends BaseController
 {
-    use DispatchesJobs, ValidatesRequests, LoggedUser;
-
-    /**
-     * Current logged in user.
-     *
-     * @var Guard
-     */
-    protected $auth;
+    use DispatchesJobs, ValidatesRequests, LoggedUser, AuthorizesRequests;
 
     /**
      * Constructor, inject an instance of logged user.
@@ -40,6 +35,19 @@ abstract class Controller extends BaseController
      */
     public function __construct(Guard $auth)
     {
-        $this->auth = $auth;
+        $this->setAuth($auth);
+    }
+
+    /**
+     * Proxy to gate allows method.
+     *
+     * @param string $ability
+     * @param array  ...$arguments
+     *
+     * @return mixed
+     */
+    protected function allows($ability, ...$arguments)
+    {
+        return Gate::allows($ability, ...$arguments);
     }
 }

@@ -128,6 +128,8 @@ class OtherFunctionalCest
         $I->amOnAction('HomeController@getIndex');
         $I->amOnAction('ProjectsController@getIndex');
         $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
-        $I->seeResponseCodeIs(401);
+        $I->dontSee($project->name);
+        $I->amOnAction('ProjectController@getIndex', ['project' => $project]);
+        $I->dontSee($project->name);
     }
 }

@@ -1,7 +1,7 @@
 <h2>
-    @permission('project-modify')
+    @can('update', $project)
     <a href="{{ $project->to('edit') }}" class="edit">@lang('tinyissue.edit')</a>
-    @endpermission
+    @endcan
 
     {!! Html::link($project->to(), $project->name) !!}
     <span>@lang('tinyissue.assign_users_and_edit_the_project')</span>
@@ -11,11 +11,7 @@
     <li>
         <a href="{{ $project->to('issues') }}">
         <span>
-            @if (!empty($open_issues_count))
-                {{ $open_issues_count }}
-            @else
-                {{ $project->openIssuesCount(auth()->user())->count() }}
-            @endif
+            {{ $open_issues_count }}
             @lang('tinyissue.open_issues')
         </span>
         </a>
@@ -23,11 +19,7 @@
     <li>
         <a href="{{ $project->to('issues') }}/0">
         <span>
-            @if (!empty($closed_issues_count))
-                {{ $closed_issues_count }}
-            @else
-                {{ $project->closedIssuesCount(auth()->user())->count() }}
-            @endif
+            {{ $closed_issues_count }}
             @lang('tinyissue.closed_issues')
         </span>
         </a>
@@ -41,21 +33,23 @@
 
 <div class="content">
     <ul class="sidebar-users">
-        @foreach($project->users()->get() as $row)
+        @foreach($project_users as $row)
             <li id="project-user{{ $row->id }}">
-                @permission('project-modify')
+                @can('update', $project)
                 <a href="{{ $project->to('unassign_user') }}" data-message="@lang('tinyissue.confirm_unassign_user')"
                    data-user-id="{{ $row->id }}" data-project-id="{{ $project->id }}"
                    class="delete delete-from-project">@lang('tinyissue.remove')</a>
-                @endpermission
+                @endcan
                 {{ $row->fullname }}
             </li>
         @endforeach
     </ul>
+</div>
 
-    @permission('project-modify')
-    {!! Former::text('add-user-project')->placeholder(trans('tinyissue.assign_a_user'))->setAttribute('data-project-id',
-    $project->id) !!}
+@can('update', $project)
+
+<div class="content">
+    {!! Former::text('add-user-project')->placeholder(trans('tinyissue.assign_a_user'))->setAttribute('data-project-id', $project->id) !!}
 </div>
 
 <h2>
@@ -64,8 +58,6 @@
 </h2>
 
 <div class="content">
-    {!! Form::form($exportForm, ['action'=> $project->to('export_issues'), 'method'=>'POST',
-    'id'=>'export-project-issues']) !!}
-    @endpermission
-
+    {!! Form::form($exportForm, ['action'=> $project->to('export_issues'), 'method'=>'POST', 'id'=>'export-project-issues']) !!}
 </div>
+@endcan

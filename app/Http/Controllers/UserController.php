@@ -34,7 +34,7 @@ class UserController extends Controller
     {
         return view('user.settings', [
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -47,40 +47,47 @@ class UserController extends Controller
      */
     public function postSettings(FormRequest\UserSetting $request)
     {
-        $this->getLoggedUser()->updateSetting($request->all());
+        $this->getLoggedUser()->updater()->update($request->all());
 
         return redirect('user/settings')->with('notice', trans('tinyissue.settings_updated'));
     }
 
     /**
-     * Shows the user's assigned issues.
+     * Shows the user's assigned issues (Kanban view).
      *
-     * @param string  $display
-     * @param Project $project
+     * @param Project|null $project
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function getIssues($display = 'list', Project $project = null)
+    protected function getKanbanIssues(Project $project = null)
     {
-        $view = $display === 'kanban' ? 'kanban' : 'list';
-        $data = [];
+        $columns = $issues = [];
 
-        if ($display === 'kanban') {
-            $data['columns'] = [];
-            $data['issues']  = [];
-            if ($project->id) {
-                $data['columns'] = $project->getKanbanTagsForUser($this->getLoggedUser());
-                $ids             = $data['columns']->pluck('id')->all();
-                $data['issues']  = $this->getLoggedUser()->issuesGroupByTags($ids, $project->id);
-            }
-
-            $data['project']  = $project;
-            $data['projects'] = $this->getLoggedUser()->projects()->get();
-        } else {
-            $data['projects'] = $this->getLoggedUser()->projectsWidthIssues(Project::STATUS_OPEN)->get();
+        if ($project->id) {
+            $columns = $project->getKanbanTagsForUser($this->getLoggedUser());
+            $issues  = $this->getLoggedUser()->getIssuesGroupByTags($columns, $project->id);
         }
 
-        return view('user.issues-' . $view, $data);
+        return view('user.issues-kanban', [
+            'columns'  => $columns,
+            'issues'   => $issues,
+            'project'  => $project,
+            'projects' => $this->getLoggedUser()->getProjects(),
+        ]);
+    }
+
+    /**
+     * Shows the user's assigned issues (List view).
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    protected function getListIssues()
+    {
+        $projects = $this->getLoggedUser()->getProjectsWithRecentIssues();
+
+        return view('user.issues-list', [
+            'projects' => $projects,
+        ]);
     }
 
     /**
@@ -92,7 +99,7 @@ class UserController extends Controller
      */
     public function getMessagesSettings(MessagesForm $form)
     {
-        $projects = $this->getLoggedUser()->projects()->with('projectUsers')->get();
+        $projects = $this->getLoggedUser()->getProjectsWithSettings();
         $form->setProjects($projects);
 
         return view('user.messages-settings', [
@@ -110,7 +117,7 @@ class UserController extends Controller
      */
     public function postMessagesSettings(FormRequest\UserMessagesSettings $request)
     {
-        $this->getLoggedUser()->updateMessagesSettings((array) $request->input('projects', []));
+        $this->getLoggedUser()->updater()->updateMessagesSettings((array) $request->input('projects', []));
 
         return redirect('user/settings/messages')->with('notice', trans('tinyissue.messages_settings_updated'));
     }

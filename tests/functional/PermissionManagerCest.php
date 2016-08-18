@@ -171,6 +171,6 @@ class PermissionManagerCest
 
         $I->amLoggedAs($I->createUser(1, 3));
         $I->amOnAction('Administration\\UsersController@getAdd');
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 }

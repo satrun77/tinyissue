@@ -60,9 +60,10 @@ class CsvHandler
         }));
 
         // Filter issues
-        $project->filterTags($query, $params['tags']);
-        $project->filterAssignTo($query, $params['assignto']);
-        $project->filterTitleOrBody($query, $params['keyword']);
+        $query
+            ->assignedTo((int) array_get($params, 'assignto'))
+            ->whereTags(array_get($params, 'tag_status'), array_get($params, 'tag_type'))
+            ->searchContent(array_get($params, 'keyword'));
 
         // Fetch issues
         $issues = $query->get()->map(function (Project\Issue $issue) use ($project) {

@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Form;
 
-use Request;
+use Tinyissue\Extensions\Model\FetchTagsTrait;
 use Tinyissue\Model;
 
 /**
@@ -21,33 +21,14 @@ use Tinyissue\Model;
  */
 class FilterIssue extends FormAbstract
 {
+    use FetchTagsTrait;
+
     /**
-     * An instance of project model.
+     * An instance of project .
      *
-     * @var Model\Project
+     * @var \Tinyissue\Model\Project
      */
     protected $project;
-
-    /**
-     * Collection of all tags.
-     *
-     * @var \Illuminate\Database\Eloquent\Collection
-     */
-    protected $tags = null;
-
-    /**
-     * @param string $type
-     *
-     * @return \Illuminate\Database\Eloquent\Collection|null
-     */
-    protected function getTags($type)
-    {
-        if ($this->tags === null) {
-            $this->tags = (new Model\Tag())->getGroupTags();
-        }
-
-        return $this->tags->where('name', $type)->first()->tags;
-    }
 
     /**
      * @param array $params
@@ -79,13 +60,13 @@ class FilterIssue extends FormAbstract
     public function fields()
     {
         // Prefix tag groups with "tag:"
-        $tagGroups = (new Model\Tag())->groupsDropdown();
+        $tagGroups = Model\Tag::instance()->getGroupsDropdown();
 
         // Array of sort optins
         $sort = ['updated' => trans('tinyissue.updated')] + $tagGroups;
 
         // Array of project users
-        $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->users()->get()->pluck('fullname', 'id')->all();
+        $assignTo = [0 => trans('tinyissue.allusers')] + $this->project->getUsersCanFixIssue()->dropdown('fullname');
 
         $fields = [
             'keyword' => [
@@ -97,13 +78,13 @@ class FilterIssue extends FormAbstract
                 'type'            => 'select',
                 'placeholder'     => trans('tinyissue.status'),
                 'onGroupAddClass' => 'toolbar-item',
-                'options'         => $this->getTags('status')->pluck('fullname', 'id'),
+                'options'         => $this->getTags('status')->dropdown('fullname'),
             ],
             'tag_type' => [
                 'type'            => 'select',
                 'placeholder'     => trans('tinyissue.type'),
                 'onGroupAddClass' => 'toolbar-item',
-                'options'         => $this->getTags('type')->pluck('fullname', 'id'),
+                'options'         => $this->getTags('type')->dropdown('fullname'),
             ],
             'sort' => [
                 'type'            => 'groupField',

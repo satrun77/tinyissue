@@ -30,7 +30,7 @@ class IssueReadOnlyTest extends \Codeception\TestCase\Test
 
         $issue->setRelation('project', $project);
         $issue->setRelation('updatedBy', $manager);
-        $issue->updateIssue([
+        $issue->updater()->update([
             'title'       => $issue->title,
             'body'        => $issue->body,
             'assigned_to' => $issue->assigned_to,
@@ -40,7 +40,7 @@ class IssueReadOnlyTest extends \Codeception\TestCase\Test
 
         // Login as developer
         auth()->login($developer);
-        $form = new FormIssue();
+        $form = new FormIssue($this->tester->getApplication());
         $form->setLoggedUser($developer);
         $form->setup([
             'project' => $project,

@@ -1,6 +1,16 @@
 <?php
 
 return [
+    /*
+    |--------------------------------------------------------------------------
+    | Application Name
+    |--------------------------------------------------------------------------
+    |
+    | This value is the name of your application. This value is used when the
+    | framework needs to place the application's name in a notification or
+    | any other location as required by the application or its packages.
+    */
+    'name' => 'Tinyissue',
 
     /*
     |--------------------------------------------------------------------------
@@ -91,8 +101,8 @@ return [
     |
     */
 
-    'key' => env('APP_KEY'),
-    'cipher' => MCRYPT_RIJNDAEL_128,
+    'key'    => env('APP_KEY'),
+    'cipher' => 'AES-256-CBC',
 
     /*
     |--------------------------------------------------------------------------
@@ -107,7 +117,8 @@ return [
     |
     */
 
-    'log' => env('APP_LOG', 'single'),
+    'log'       => env('APP_LOG', 'single'),
+    'log_level' => env('APP_LOG_LEVEL', 'debug'),
 
     /*
     |--------------------------------------------------------------------------
@@ -127,7 +138,6 @@ return [
          */
         Illuminate\Auth\AuthServiceProvider::class,
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
-        Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
@@ -154,15 +164,16 @@ return [
         Former\FormerServiceProvider::class,
         GrahamCampbell\Markdown\MarkdownServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        AltThree\Bus\BusServiceProvider::class,
         Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider::class,
 
         /*
          * Application Service Providers...
          */
+        Tinyissue\Providers\AuthServiceProvider::class,
         Tinyissue\Providers\AppServiceProvider::class,
-        Tinyissue\Providers\BusServiceProvider::class,
         Tinyissue\Providers\ConfigServiceProvider::class,
-        Tinyissue\Providers\EventServiceProvider::class,
+        Tinyissue\Providers\CollectionMacroServiceProvider::class,
         Tinyissue\Providers\RouteServiceProvider::class,
         Tinyissue\Providers\HtmlServiceProvider::class,
         Tinyissue\Providers\FormerServiceProvider::class,

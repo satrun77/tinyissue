@@ -11,8 +11,6 @@
 
 namespace Tinyissue\Model;
 
-use Illuminate\Database\Eloquent\Model;
-
 /**
  * Activity is model class for activities.
  *
@@ -22,7 +20,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property string $activity
  */
-class Activity extends Model
+class Activity extends ModelAbstract
 {
     /**
      * Activity Id: create issue.
@@ -86,4 +84,14 @@ class Activity extends Model
      * @var string
      */
     protected $table = 'activity';
+
+    /**
+     * @param User|null $user
+     *
+     * @return \Tinyissue\Repository\Activity\Updater
+     */
+    public function updater(User $user = null)
+    {
+        return parent::updater($user);
+    }
 }

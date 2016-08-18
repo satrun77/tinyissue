@@ -24,7 +24,7 @@
 
 @section('content')
 
-{!! Html::tab($tabs, $active) !!}
+    @include('partials.project_tabs', ['active' => $active])
 
     <div class="inside-tabs {{ $active }}">
 

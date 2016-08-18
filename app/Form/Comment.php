@@ -11,6 +11,8 @@
 
 namespace Tinyissue\Form;
 
+use Tinyissue\Model;
+
 /**
  * Comment is a class to defines fields & rules for add/edit comments form.
  *
@@ -19,15 +21,15 @@ namespace Tinyissue\Form;
 class Comment extends FormAbstract
 {
     /**
-     * An instance of project model.
+     * An instance of project .
      *
-     * @var \Tinyissue\Model\Project
+     * @var Model\Project
      */
     protected $project;
     /**
-     * An instance of project issue model.
+     * An instance of project issue .
      *
-     * @var \Tinyissue\Model\Project\issue
+     * @var Model\Project\Issue
      */
     protected $issue;
 

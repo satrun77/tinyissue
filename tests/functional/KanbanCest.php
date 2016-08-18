@@ -27,7 +27,7 @@ class KanbanCest
         $issue   = $I->createIssue(1, $admin, $developer, $project);
         $issue->setRelation('project', $project);
         $issue->setRelation('updatedBy', $admin);
-        $issue->updateIssue([
+        $issue->updater()->update([
             'title'       => $issue->title,
             'body'        => $issue->body,
             'assigned_to' => $issue->assigned_to,
@@ -46,10 +46,10 @@ class KanbanCest
         $I->login($developer->email, '123');
         $xpathProjectLink = '//nav[@id="kanban-projects-nav"]//a[@data-project-id="' . $project->id . '"]';
         $I->amOnAction('HomeController@getDashboard');
-        $I->amOnAction('UserController@getIssues', ['display' => 'kanban']);
+        $I->amOnAction('UserController@getKanbanIssues');
         $I->see($project->name, $xpathProjectLink);
         $I->click($project->name, $xpathProjectLink);
-        $I->seeCurrentActionIs('UserController@getIssues', ['display' => 'kanban', 'project' => $project]);
+        $I->seeCurrentActionIs('UserController@getKanbanIssues', ['project' => $project]);
 
         foreach ($statuses as $status) {
             $statusClassName = 'column-' . $status->id;
@@ -68,7 +68,7 @@ class KanbanCest
             '_token' => csrf_token(),
         ]);
         $I->seeResponseCodeIs(200);
-        $I->amOnAction('UserController@getIssues', ['display' => 'kanban', 'project' => $project]);
+        $I->amOnAction('UserController@getKanbanIssues', ['project' => $project]);
 
         $statusClassName = 'column-' . $statuses['progress']->id;
         $I->seeElement('//li[contains(@class, \'' . $statusClassName . '\')]//div[contains(@class, \'' . $issueClassName . '\')]');

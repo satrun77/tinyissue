@@ -33,7 +33,7 @@ class IssueMessaging2Test extends MessagingSystemAbstract
 
         $issue->setRelation('project', $project);
         $issue->setRelation('updatedBy', $admin);
-        $issue->updateIssue([
+        $issue->updater($admin)->update([
             'title'       => $issue->title,
             'body'        => $issue->body,
             'assigned_to' => $issue->assigned_to,
@@ -50,17 +50,17 @@ class IssueMessaging2Test extends MessagingSystemAbstract
         $data['title']      = 'Update Issue Title';
         $data['tag_status'] = $statusTag->id;
         $data['tag_type']   = $typeTag->id;
-        $issue->updateIssue($data);
+        $issue->updater($admin)->update($data);
 
         $this->sendMessagesAndAssert('assertUpdateIssue', [$manager1, $fullSubscriber, $admin, $issue]);
         Issue::flushEventListeners();
 
-        $issue->changeStatus(Issue::STATUS_CLOSED, $manager1);
+        $issue->updater($manager1)->changeStatus(Issue::STATUS_CLOSED, $manager1);
 
         $this->sendMessagesAndAssert('assertCloseIssue', [$manager1, $fullSubscriber, $issue]);
         Issue::flushEventListeners();
 
-        $issue->changeStatus(Issue::STATUS_OPEN, $admin);
+        $issue->updater($admin)->changeStatus(Issue::STATUS_OPEN, $admin);
 
         $this->sendMessagesAndAssert('assertReopenIssue', [$manager1, $fullSubscriber, $admin, $issue]);
     }

@@ -12,7 +12,6 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 /**
@@ -32,7 +31,7 @@ class Locale extends MiddlewareAbstract
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!$this->auth->guest()) {
+        if (!$this->getAuth()->guest()) {
             app()->setLocale($this->getLoggedUser()->language);
         }
 

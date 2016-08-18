@@ -1,7 +1,7 @@
 <?php
 
-use Tinyissue\Model\Permission;
 use Tinyissue\Model\Project\Issue;
+use Tinyissue\Model\Project;
 use Tinyissue\Form\Issue as FormIssue;
 
 class IssueQuoteLockTest extends \Codeception\TestCase\Test
@@ -28,7 +28,7 @@ class IssueQuoteLockTest extends \Codeception\TestCase\Test
 
         $this->assertFalse($issue->isQuoteLocked());
         $users->each(function ($user) use ($issue) {
-            $this->assertTrue($issue->canUserViewQuote($user));
+            $this->assertTrue($user->can('viewLockedQuote', $issue));
         });
 
         $issue             = $this->tester->createIssue(1, $admin, null, $project);
@@ -37,7 +37,7 @@ class IssueQuoteLockTest extends \Codeception\TestCase\Test
 
         $this->assertFalse($issue->isQuoteLocked());
         $users->each(function ($user) use ($issue) {
-            $this->assertFalse($issue->canUserViewQuote($user));
+            $this->assertFalse($user->can('viewLockedQuote', $issue));
         });
     }
 
@@ -57,24 +57,23 @@ class IssueQuoteLockTest extends \Codeception\TestCase\Test
         $issue->save();
 
         $this->assertTrue($issue->isQuoteLocked());
-        $this->assertTrue($issue->canUserViewQuote($admin));
-        $this->assertTrue($issue->canUserViewQuote($manager));
-        $this->assertTrue($issue->canUserViewQuote($developer));
-        $this->assertFalse($issue->canUserViewQuote($user));
+        $this->assertTrue($admin->can('viewLockedQuote', $issue));
+        $this->assertTrue($manager->can('viewLockedQuote', $issue));
+        $this->assertTrue($developer->can('viewLockedQuote', $issue));
+        $this->assertFalse($user->can('viewLockedQuote', $issue));
 
         // Developer cannot lock issue
-        $this->assertFalse($developer->permission(Permission::PERM_ISSUE_LOCK_QUOTE));
+        $this->assertFalse($developer->can('lockQuote', [$issue, $project]));
 
         // Login as developer
         auth()->login($developer);
-        $form = new FormIssue();
+        $form = new FormIssue($this->tester->getApplication());
         $form->setLoggedUser($developer);
         $form->setup([
             'project' => $project,
             'issue'   => $issue,
         ]);
         $this->assertArrayNotHasKey('time_quote', $form->fields());
-
         auth()->login($admin);
         $form->setLoggedUser($admin);
         $form->setup([

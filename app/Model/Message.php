@@ -11,18 +11,19 @@
 
 namespace Tinyissue\Model;
 
-use Illuminate\Database\Eloquent\Model;
-use Tinyissue\Model\Role;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * Tag is model class for tags.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
+ * @property int    $id
  * @property string $name
+ *
+ * @method  Collection getAll()
  */
-class Message extends Model
+class Message extends ModelAbstract
 {
     /**
      * Timestamp disabled.

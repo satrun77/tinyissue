@@ -11,13 +11,14 @@
   "type": "project",
   "require": {
     "php": ">=5.6.0",
-    "laravel/framework": "~5.2",
-    "laravelcollective/html": "~5.2",
+    "laravel/framework": "^5.3",
+    "laravelcollective/html": "^5.3",
     "anahkiasen/former": "^4.0",
     "graham-campbell/markdown": "~6.0",
     "maatwebsite/excel": "~2.1",
     "overtrue/laravel-lang": "~3.0",
-    "thomaswelton/laravel-gravatar": "^1.1"
+    "thomaswelton/laravel-gravatar": "^1.1",
+    "alt-three/bus": "^2.0"
   },
   "require-dev": {
     "codeception/codeception": "2.2.4",

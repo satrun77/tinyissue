@@ -34,8 +34,8 @@ class UsersController extends Controller
     public function getIndex(Role $role)
     {
         return view('administration.users.index', [
-            'projects' => $this->getLoggedUser()->projects()->get(),
-            'roles'    => $role->rolesWithUsers(),
+            'projects' => $this->getLoggedUser()->getProjects(),
+            'roles'    => $role->getRolesWithUsers(),
         ]);
     }
 
@@ -50,7 +50,7 @@ class UsersController extends Controller
     {
         return view('administration.users.add', [
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -64,7 +64,7 @@ class UsersController extends Controller
      */
     public function postAdd(User $user, FormRequest\User $request)
     {
-        $user->createUser($request->all());
+        $user->updater()->create($request->all());
 
         return redirect('administration/users')
             ->with('notice', trans('tinyissue.user_added'));
@@ -83,7 +83,7 @@ class UsersController extends Controller
         return view('administration.users.edit', [
             'user'     => $user,
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -97,7 +97,7 @@ class UsersController extends Controller
      */
     public function postEdit(User $user, FormRequest\User $request)
     {
-        $user->updateUser($request->all());
+        $user->updater()->update($request->all());
 
         return redirect('administration/users')
             ->with('notice', trans('tinyissue.user_updated'));
@@ -112,7 +112,7 @@ class UsersController extends Controller
      */
     public function getDelete(User $user)
     {
-        $user->delete();
+        $user->updater()->delete();
 
         return redirect('administration/users')
             ->with('notice', trans('tinyissue.user_deleted'));

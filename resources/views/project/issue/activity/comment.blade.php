@@ -1,7 +1,7 @@
 <li id="comment{{ $comment->id }}" class="comment">
     <div class="insides">
         <div class="topbar">
-            @if($comment->canEdit(auth()->user()))
+            @can('update', $comment)
             <ul>
                 <li class="edit">
                     <a href="{{ url('project/issue/edit_comment/' . $comment->id) }}" class="has-event edit" data-comment-id="{{ $comment->id }}">Edit</a>
@@ -10,7 +10,7 @@
                     <a href="{{ url('project/issue/delete_comment/' . $comment->id) }}" class="has-event delete" data-message="@lang('tinyissue.confirm_delete_comment')" data-comment-id="{{ $comment->id }}">Delete</a>
                 </li>
             </ul>
-            @endif
+            @endcan
             <strong>{{ $user->fullname }}</strong>
             @lang('tinyissue.commented') {{ Html::date($comment->updated_at) }}
         </div>
@@ -19,7 +19,7 @@
             {!! Html::format($comment->comment) !!}
         </div>
 
-        @permission('issue-modify')
+        @can('update', $comment)
         <div class="form">
             {!! Former::textarea('body')->value(stripslashes($comment->comment)) !!}
             <div class="right">
@@ -27,16 +27,16 @@
                 {!! Former::info_button('cancel-btn')->value(trans('tinyissue.cancel'))->data_comment_id($comment->id)->addClass('cancel')!!}
             </div>
         </div>
-        @endpermission
+        @endcan
 
         <ul class="attachments">
             @foreach($comment->attachments as $attachment)
                 <li>
-                    @if($attachment->canEdit(auth()->user()))
+                    @can('update', $attachment)
                         <a href="{{ $attachment->toDelete() }}" class="delete delete-attach" data-message="@lang('tinyissue.confirm_delete_attachment')" data-tag-id="{{ $attachment->id }}">
                             @lang('tinyissue.remove')
                         </a>
-                    @endif
+                    @endcan
 
                     @if($attachment->setRelation('issue', $issue) && $attachment->isImage())
                         <a href="{{ $attachment->download() }}" title="{{ $attachment->filename }}"><img src="{{ $attachment->display() }}" alt="{{ $attachment->filename }}" class="image"/></a>

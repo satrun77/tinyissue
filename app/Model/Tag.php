@@ -12,8 +12,8 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Extensions\Auth\LoggedUser;
+use URL;
 
 /**
  * Tag is model class for tags.
@@ -34,14 +34,23 @@ use Tinyissue\Extensions\Auth\LoggedUser;
  * @property Collection $tags
  * @property Collection $issues
  * @property Collection $projects
+ *
+ * @method  Collection getGroupWithTags()
+ * @method  array getGroupsDropdown()
+ * @method  Collection getGroups()
+ * @method  Collection getStatusTags()
+ * @method  Collection getTypeTags()
+ * @method  Collection getResolutionTags()
+ * @method  int countNumberOfTags()
+ * @method  $this groupOnly()
+ * @method  $this notGroup()
+ * @method  $this ofType($type)
+ * @method  $this accessibleToUser(User $user)
+ * @method  $this accessibleToLoggedUser()
  */
-class Tag extends Model
+class Tag extends ModelAbstract
 {
-    use Traits\Tag\CrudTrait,
-        Traits\Tag\QueryTrait,
-        Traits\Tag\RelationTrait,
-        Traits\Tag\CountTrait,
-        LoggedUser;
+    use TagRelations, TagScopes, LoggedUser;
 
     /**
      * Core tag: Open.
@@ -100,6 +109,16 @@ class Tag extends Model
     protected $table = 'tags';
 
     /**
+     * @param User|null $user
+     *
+     * @return \Tinyissue\Repository\Tag\Updater
+     */
+    public function updater(User $user = null)
+    {
+        return parent::updater($user);
+    }
+
+    /**
      * Generate a URL for the tag.
      *
      * @param string $url
@@ -108,7 +127,7 @@ class Tag extends Model
      */
     public function to($url)
     {
-        return \URL::to('administration/tag/' . $this->id . (($url) ? '/' . $url : ''));
+        return URL::to('administration/tag/' . $this->id . (($url) ? '/' . $url : ''));
     }
 
     /**

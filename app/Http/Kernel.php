@@ -11,13 +11,15 @@
 
 namespace Tinyissue\Http;
 
-use Tinyissue\Http\Middleware as AppMiddleware;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Routing\Middleware\ThrottleRequests;
-use Illuminate\Foundation\Http\Kernel as HttpKernel;
-use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
+use Illuminate\Auth\Middleware\Authorize as AuthorizeMiddleware;
 use Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Illuminate\Routing\Middleware\SubstituteBindings;
+use Illuminate\Routing\Middleware\ThrottleRequests;
+use Illuminate\Session\Middleware\StartSession;
+use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Tinyissue\Http\Middleware as AppMiddleware;
 
 /**
  * Kernel is the Http kernel class.
@@ -34,7 +36,6 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        AppMiddleware\CheckForMaintenanceMode::class,
         AppMiddleware\Locale::class,
     ];
 
@@ -49,11 +50,14 @@ class Kernel extends HttpKernel
             AddQueuedCookiesToResponse::class,
             StartSession::class,
             ShareErrorsFromSession::class,
+            AppMiddleware\CheckForMaintenanceMode::class,
             AppMiddleware\VerifyCsrfToken::class,
+            SubstituteBindings::class,
         ],
 
         'api' => [
             'throttle:60,1',
+            'bindings',
         ],
     ];
 
@@ -67,9 +71,10 @@ class Kernel extends HttpKernel
     protected $routeMiddleware = [
         'auth'       => AppMiddleware\Authenticate::class,
         'auth.basic' => AuthenticateWithBasicAuth::class,
-        'permission' => AppMiddleware\Permission::class,
+        'can'        => AuthorizeMiddleware::class,
         'ajax'       => AppMiddleware\VerifyAjaxRequest::class,
         'project'    => AppMiddleware\Project::class,
         'throttle'   => ThrottleRequests::class,
+        'bindings'   => SubstituteBindings::class,
     ];
 }

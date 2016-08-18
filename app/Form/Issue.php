@@ -12,6 +12,7 @@
 namespace Tinyissue\Form;
 
 use Illuminate\Support\Collection;
+use Tinyissue\Extensions\Model\FetchTagsTrait;
 use Tinyissue\Model;
 
 /**
@@ -21,6 +22,8 @@ use Tinyissue\Model;
  */
 class Issue extends FormAbstract
 {
+    use FetchTagsTrait;
+
     /**
      * An instance of project model.
      *
@@ -29,32 +32,11 @@ class Issue extends FormAbstract
     protected $project;
 
     /**
-     * Collection of all tags.
-     *
-     * @var \Illuminate\Database\Eloquent\Collection
-     */
-    protected $tags = null;
-
-    /**
      * Is issue readonly.
      *
      * @var bool
      */
     protected $readOnly = false;
-
-    /**
-     * @param string $type
-     *
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
-    protected function getTags($type)
-    {
-        if ($this->tags === null) {
-            $this->tags = (new Model\Tag())->getGroupTags();
-        }
-
-        return $this->tags->where('name', $type)->first()->tags;
-    }
 
     /**
      * Returns an array of tags to be used as the selectable options.
@@ -67,7 +49,7 @@ class Issue extends FormAbstract
     {
         $currentTag = $this->getIssueTag($type);
 
-        if ($currentTag->id && (!$currentTag->canView() || $this->readOnly)) {
+        if ($currentTag && $currentTag->id && (!\Gate::allows('view', $currentTag) || $this->readOnly)) {
             $tags = [$currentTag];
         } elseif ($this->readOnly) {
             $tags = [];
@@ -79,27 +61,6 @@ class Issue extends FormAbstract
     }
 
     /**
-     * Get issue tag for specific type/group.
-     *
-     * @param string $type
-     *
-     * @return Model\Tag
-     */
-    protected function getIssueTag($type)
-    {
-        if ($this->isEditing()) {
-            $groupId     = $this->getTags($type)->first()->parent_id;
-            $selectedTag = $this->getModel()->tags->where('parent_id', $groupId);
-
-            if ($selectedTag->count() > 0) {
-                return $selectedTag->last();
-            }
-        }
-
-        return new Model\Tag();
-    }
-
-    /**
      * @param array $params
      *
      * @return void
@@ -108,7 +69,7 @@ class Issue extends FormAbstract
     {
         $this->project = $params['project'];
         if (!empty($params['issue'])) {
-            $this->editingModel($params['issue']);
+            $this->setModel($params['issue']);
             $this->readOnly = $this->getModel()->hasReadOnlyTag($this->getLoggedUser());
         }
     }
@@ -126,7 +87,7 @@ class Issue extends FormAbstract
                 'submit' => $this->isEditing() ? 'update_issue' : 'create_issue',
             ];
 
-            if ($this->isEditing() && $this->getLoggedUser()->permission(Model\Permission::PERM_ISSUE_MODIFY)) {
+            if ($this->isEditing() && $this->getLoggedUser()->can('update', $this->getModel())) {
                 $actions['delete'] = [
                     'type'         => 'danger_submit',
                     'label'        => trans('tinyissue.delete_something', ['name' => '#' . $this->getModel()->id]),
@@ -145,8 +106,6 @@ class Issue extends FormAbstract
      */
     public function fields()
     {
-        $issueModify = $this->getLoggedUser()->permission('issue-modify');
-
         $fields = [];
         $fields += $this->readOnlyMessage();
         $fields += $this->fieldTitle();
@@ -159,7 +118,7 @@ class Issue extends FormAbstract
         }
 
         // Show fields for users with issue modify permission
-        if ($issueModify) {
+        if ($this->getLoggedUser()->isManagerOrMore()) {
             $fields += $this->issueModifyFields();
         }
 
@@ -297,7 +256,7 @@ class Issue extends FormAbstract
             'assigned_to' => [
                 'type'    => 'select',
                 'label'   => 'assigned_to',
-                'options' => [0 => ''] + $this->project->usersCanFixIssue()->get()->pluck('fullname', 'id')->all(),
+                'options' => [0 => ''] + $this->project->getUsersCanFixIssue()->dropdown('fullname'),
                 'value'   => (int) $this->project->default_assignee,
             ],
         ];
@@ -363,7 +322,8 @@ class Issue extends FormAbstract
         ];
 
         // If user does not have access to lock quote, then remove the field
-        if (!$this->getLoggedUser()->permission(Model\Permission::PERM_ISSUE_LOCK_QUOTE)) {
+//        if (!$this->getLoggedUser()->can('lockQuote', $this->getModel())) {
+        if (!\Gate::allows('lockQuote', $this->getModel())) {
             unset($fields['time_quote']['fields']['lock']);
 
             // If quote is locked then remove quote fields
@@ -426,7 +386,7 @@ class Issue extends FormAbstract
     /**
      * Returns an array structured for radio button element.
      *
-     * @param Collection|array $tags
+     * @param Collection|array|null $tags
      * @param string           $type
      *
      * @return array
@@ -447,5 +407,23 @@ class Issue extends FormAbstract
         }
 
         return $options;
+    }
+
+    /**
+     * Get issue tag for specific type/group.
+     *
+     * @param string $type
+     *
+     * @return Model\Tag
+     */
+    protected function getIssueTag($type)
+    {
+        $tag = null;
+
+        if ($this->isEditing()) {
+            $tag = $this->getModel()->{'get' . ucfirst($type) . 'Tag'}();
+        }
+
+        return $tag ? $tag : Model\Tag::instance();
     }
 }

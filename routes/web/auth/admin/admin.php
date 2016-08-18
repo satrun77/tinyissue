@@ -5,7 +5,7 @@
 
 /** @var \Illuminate\Routing\Router $router */
 /** @var \Tinyissue\Providers\RouteServiceProvider $this */
-$router->group(['middleware' => 'permission', 'permission' => 'administration'], function ($router) use ($directory) {
+$router->group(['middleware' => 'can:manage-admin'], function ($router) use ($directory) {
     // Index
     $router->get('administration', 'AdministrationController@getIndex');
 

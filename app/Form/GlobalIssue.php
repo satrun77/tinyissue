@@ -24,7 +24,7 @@ class GlobalIssue extends Issue
     /**
      * List of projects.
      *
-     * @var array
+     * @var Collection
      */
     protected $projects;
 
@@ -36,7 +36,7 @@ class GlobalIssue extends Issue
     protected function getProjects()
     {
         if (is_null($this->projects)) {
-            $this->projects = $this->getLoggedUser()->projects()->get()->pluck('name', 'id');
+            $this->projects = $this->getLoggedUser()->getProjects();
         }
 
         return $this->projects;
@@ -49,7 +49,7 @@ class GlobalIssue extends Issue
      */
     public function setup(array $params)
     {
-        $this->project = new Model\Project();
+        $this->project = $this->app->make(Model\Project::class);
     }
 
     /**
@@ -72,7 +72,7 @@ class GlobalIssue extends Issue
         $fields['project'] = [
             'type'    => 'select',
             'label'   => 'project',
-            'options' => $this->getProjects()->all(),
+            'options' => $this->getProjects()->dropdown(),
         ];
 
         $fields += $this->fieldBody();
@@ -91,7 +91,7 @@ class GlobalIssue extends Issue
     public function rules()
     {
         $rules            = parent::rules();
-        $rules['project'] = 'required|in:' . $this->getProjects()->keys()->implode(',');
+        $rules['project'] = 'required|in:' . $this->getProjects()->implode('id', ',');
 
         return $rules;
     }
@@ -101,6 +101,6 @@ class GlobalIssue extends Issue
      */
     public function getRedirectUrl()
     {
-        return 'projects/new-issue';
+        return 'projects/new_issue';
     }
 }

@@ -31,14 +31,6 @@ class CreateDatabase extends Migration
             $table->string('activity', 255)->nullable();
         });
 
-        // permissions
-        Schema::create('permissions', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->string('permission', 255)->nullable();
-            $table->text('description')->nullable();
-            $table->string('auto_has', 255)->nullable();
-        });
-
         // projects
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id')->unsigned();
@@ -102,13 +94,6 @@ class CreateDatabase extends Migration
             $table->string('description', 255)->nullable();
         });
 
-        // roles_permissions
-        Schema::create('roles_permissions', function (Blueprint $table) {
-            $table->increments('id')->unsigned();
-            $table->bigInteger('role_id')->nullable();
-            $table->bigInteger('permission_id')->nullable();
-        });
-
         // sessions
         Schema::create('sessions', function (Blueprint $table) {
             $table->increments('id', 40);
@@ -150,53 +135,6 @@ class CreateDatabase extends Migration
             $table->timestamps();
         });
 
-        // Insert Permisions Data
-        $permissions = [
-            [
-                'permission'  => 'issue-view',
-                'description' => 'View issues in project assigned to',
-                'auto_has'    => null,
-            ],
-            [
-                'permission'  => 'issue-create',
-                'description' => 'Create issues in projects assigned to',
-                'auto_has'    => null,
-            ],
-            [
-                'permission'  => 'issue-comment',
-                'description' => 'Comment in issues in projects assigned to',
-                'auto_has'    => '1',
-            ],
-            [
-                'permission'  => 'issue-modify',
-                'description' => 'Modify issues in projects assigned to',
-                'auto_has'    => '1',
-            ],
-            [
-                'permission'  => 'administration',
-                'description' => 'Administration tools, such as user management and application settings',
-                'auto_has'    => null,
-            ],
-            [
-                'permission'  => 'project-create',
-                'description' => 'Create a new project',
-                'auto_has'    => null,
-            ],
-            [
-                'permission'  => 'project-modify',
-                'description' => 'Modify a project assigned to',
-                'auto_has'    => null,
-            ],
-            [
-                'permission'  => 'project-all',
-                'description' => 'View, modify all projects and issues',
-                'auto_has'    => '1,2,3,4',
-            ],
-        ];
-        foreach ($permissions as $permission) {
-            $this->insert(new  Model\Permission(), $permission);
-        }
-
         // Insert Roles Data
         $roles = [
             [
@@ -223,34 +161,6 @@ class CreateDatabase extends Migration
 
         foreach ($roles as $role) {
             $this->insert(new Model\Role(), $role);
-        }
-
-        // Insert Roles Permissions Data
-        $rolesPermissions = [
-            ['role_id' => '1', 'permission_id' => '1'],
-            ['role_id' => '1', 'permission_id' => '2'],
-            ['role_id' => '1', 'permission_id' => '3'],
-            ['role_id' => '2', 'permission_id' => '1'],
-            ['role_id' => '2', 'permission_id' => '2'],
-            ['role_id' => '2', 'permission_id' => '3'],
-            ['role_id' => '2', 'permission_id' => '4'],
-            ['role_id' => '3', 'permission_id' => '8'],
-            ['role_id' => '3', 'permission_id' => '1'],
-            ['role_id' => '3', 'permission_id' => '2'],
-            ['role_id' => '3', 'permission_id' => '3'],
-            ['role_id' => '3', 'permission_id' => '4'],
-            ['role_id' => '4', 'permission_id' => '1'],
-            ['role_id' => '4', 'permission_id' => '2'],
-            ['role_id' => '4', 'permission_id' => '3'],
-            ['role_id' => '4', 'permission_id' => '5'],
-            ['role_id' => '4', 'permission_id' => '6'],
-            ['role_id' => '4', 'permission_id' => '7'],
-            ['role_id' => '4', 'permission_id' => '8'],
-            ['role_id' => '4', 'permission_id' => '4'],
-        ];
-
-        foreach ($rolesPermissions as $rolePermission) {
-            $this->insert(new Model\Role\Permission(), $rolePermission);
         }
 
         $activities = [
@@ -281,14 +191,12 @@ class CreateDatabase extends Migration
     public function down()
     {
         Schema::drop('activity');
-        Schema::drop('permissions');
         Schema::drop('projects');
         Schema::drop('projects_issues');
         Schema::drop('projects_issues_attachments');
         Schema::drop('projects_issues_comments');
         Schema::drop('projects_users');
         Schema::drop('roles');
-        Schema::drop('roles_permissions');
         Schema::drop('sessions');
         Schema::drop('settings');
         Schema::drop('users');

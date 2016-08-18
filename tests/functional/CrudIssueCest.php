@@ -7,13 +7,13 @@ use Tinyissue\Model\Tag;
 class CrudIssueCest
 {
     /**
-     * @param FunctionalTester\UserSteps $I
+     * @param FunctionalTester $I
      *
-     * @actor FunctionalTester\UserSteps
+     * @actor FunctionalTester
      *
      * @return void
      */
-    public function addGlobalIssue(FunctionalTester\UserSteps $I)
+    public function addGlobalIssue(FunctionalTester $I)
     {
         $I->am('Admin User');
         $I->wantTo('add new global issue to a project');
@@ -58,7 +58,7 @@ class CrudIssueCest
 
         $project = $I->createProject(1, [$developer1]);
         $type    = (new Tag())->getTypeTags()->first();
-        $status  = (new Tag())->getStatusTags()->get()->last();
+        $status  = (new Tag())->getStatusTags()->last();
 
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project]);
         $I->seeOptionIsSelected('assigned_to', $developer1->fullname);
@@ -109,7 +109,7 @@ class CrudIssueCest
 
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project, 'issue' => $issue]);
         $I->seeLink('Issue 1');
-        $I->dontSee(\Html::duration($issue->time_quote), '.issue-quote');
+        $I->dontSeeElement('.issue-quote');
         $I->click('Issue 1', '.edit-issue');
         $I->seeCurrentActionIs('Project\IssueController@getEdit', ['project' => $project, 'issue' => $issue]);
 

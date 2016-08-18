@@ -11,10 +11,12 @@
 
 namespace Tinyissue\Providers;
 
-use Illuminate\Bus\Dispatcher;
+use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\View\View;
+use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Form\ExportIssues;
+use Tinyissue\Model\Project;
 
 /**
  * ComposerServiceProvider is the view service provider binding data to specific views.
@@ -23,19 +25,55 @@ use Tinyissue\Form\ExportIssues;
  */
 class ComposerServiceProvider extends ServiceProvider
 {
+    use LoggedUser;
+
     /**
      * Bootstrap any application services.
-     *
-     * @param \Illuminate\Bus\Dispatcher $dispatcher
      */
-    public function boot(Dispatcher $dispatcher)
+    public function boot()
     {
-        // Add export form to project sidebar
+        // Load variable into project side bar template
         \View::composer('layouts/sidebar/project', function (View $view) {
-            $exportForm = new ExportIssues();
-            $exportForm->setup(['project' => $view->project]);
-            $view->with('exportForm', $exportForm);
+            $this->loadExportIssuesForm($view);
+
+            $this->loadProjectSideBarDefaultVariables($view->project, $view);
         });
+    }
+
+    /**
+     * Load any variables that are default to project side bar.
+     *
+     * @param Project $project
+     * @param View    $view
+     */
+    protected function loadProjectSideBarDefaultVariables(Project $project, View $view)
+    {
+        if (!$view->offsetExists('closed_issues_count')) {
+            $view->with('closed_issues_count', $project->countClosedIssues($this->getLoggedUser()));
+        }
+
+        if (!$view->offsetExists('open_issues_count')) {
+            $view->with('open_issues_count', $project->countOpenIssues($this->getLoggedUser()));
+        }
+
+        if (!$view->offsetExists('project_users') || !$view->project_users instanceof Collection) {
+            $view->with('project_users', $project->getUsers());
+        }
+    }
+
+    /**
+     * Add export form to project sidebar.
+     *
+     * @param View $view
+     *
+     * @return void
+     */
+    protected function loadExportIssuesForm(View $view)
+    {
+        $exportForm = new ExportIssues($this->app);
+        $exportForm->setup(['project' => $view->project]);
+
+        $view->with('exportForm', $exportForm);
     }
 
     /**

@@ -11,7 +11,7 @@
 
 namespace Tinyissue\Form;
 
-use Tinyissue\Model\Role;
+use Tinyissue\Extensions\Model\FetchRoleTrait;
 use Tinyissue\Model\User as UserModel;
 
 /**
@@ -21,6 +21,8 @@ use Tinyissue\Model\User as UserModel;
  */
 class User extends FormAbstract
 {
+    use FetchRoleTrait;
+
     /**
      * @return array
      */
@@ -40,63 +42,12 @@ class User extends FormAbstract
      */
     public function fields()
     {
-        $fields = [
-            'firstname' => [
-                'type'  => 'text',
-                'label' => 'first_name',
-            ],
-            'lastname'  => [
-                'type'  => 'text',
-                'label' => 'last_name',
-            ],
-            'email'     => [
-                'type'  => 'text',
-                'label' => 'email',
-            ],
-            'private'   => [
-                'type'    => 'select',
-                'label'   => 'visibility',
-                'options' => [
-                    UserModel::PRIVATE_YES => trans('tinyissue.private'),
-                    UserModel::PRIVATE_NO  => trans('tinyissue.public'),
-                ],
-            ],
-        ];
-
-        if (!$this->isEditing()) {
-            $fields['password'] = [
-                'type'         => 'password',
-                'label'        => 'password',
-                'autocomplete' => 'off',
-            ];
-        }
-
+        $fields = $this->firstNameField();
+        $fields += $this->lastNameField();
+        $fields += $this->emailField();
+        $fields += $this->privateField();
+        $fields += $this->passwordField();
         $fields += $this->innerFields();
-
-        return $fields;
-    }
-
-    /**
-     * Return password fields.
-     *
-     * @return array
-     */
-    protected function passwordFields()
-    {
-        $fields                                       = [];
-        $fields['only_complete_if_changing_password'] = [
-            'type' => 'legend',
-        ];
-        $fields['password'] = [
-            'type'         => 'password',
-            'label'        => 'new_password',
-            'autocomplete' => 'off',
-        ];
-        $fields['password_confirmation'] = [
-            'type'         => 'password',
-            'label'        => 'confirm',
-            'autocomplete' => 'off',
-        ];
 
         return $fields;
     }
@@ -108,27 +59,154 @@ class User extends FormAbstract
      */
     protected function innerFields()
     {
-        $fields = [
+        $fields = $this->extendedSettingsGroup();
+        $fields += $this->roleField();
+        $fields += $this->statusField();
+        $fields += $this->passwordFields();
+
+        return $fields;
+    }
+
+    /**
+     * @return array
+     */
+    protected function firstNameField()
+    {
+        return [
+            'firstname' => [
+                'type'  => 'text',
+                'label' => 'first_name',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function lastNameField()
+    {
+        return [
+            'lastname' => [
+                'type'  => 'text',
+                'label' => 'last_name',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function emailField()
+    {
+        return [
+            'email' => [
+                'type'  => 'text',
+                'label' => 'email',
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function privateField()
+    {
+        return [
+            'private' => [
+                'type'    => 'select',
+                'label'   => 'visibility',
+                'options' => [
+                    UserModel::PRIVATE_YES => trans('tinyissue.private'),
+                    UserModel::PRIVATE_NO  => trans('tinyissue.public'),
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function passwordField()
+    {
+        $fields = [];
+
+        if (!$this->isEditing()) {
+            $fields['password'] = [
+                'type'         => 'password',
+                'label'        => 'password',
+                'autocomplete' => 'off',
+            ];
+        }
+
+        return $fields;
+    }
+
+    /**
+     * Return password fields.
+     *
+     * @return array
+     */
+    protected function passwordFields()
+    {
+        $fields = [];
+
+        if ($this->isEditing()) {
+            $fields['only_complete_if_changing_password'] = [
+                'type' => 'legend',
+            ];
+            $fields['password'] = [
+                'type'         => 'password',
+                'label'        => 'new_password',
+                'autocomplete' => 'off',
+            ];
+            $fields['password_confirmation'] = [
+                'type'         => 'password',
+                'label'        => 'confirm',
+                'autocomplete' => 'off',
+            ];
+        }
+
+        return $fields;
+    }
+
+    /**
+     * @return array
+     */
+    protected function extendedSettingsGroup()
+    {
+        return [
             'extended_user_settings' => [
                 'type' => 'legend',
             ],
-            'role_id'                => [
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function roleField()
+    {
+        return [
+            'role_id' => [
                 'type'    => 'select',
                 'label'   => 'role',
-                'options' => Role::dropdown(),
+                'options' => $this->getRoleNameDropdown(),
             ],
-            'status'                 => [
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function statusField()
+    {
+        return [
+            'status' => [
                 'type'    => 'select',
                 'label'   => 'Status',
                 'options' => UserModel::getStatuses(),
             ],
         ];
-
-        if ($this->isEditing()) {
-            $fields += $this->passwordFields();
-        }
-
-        return $fields;
     }
 
     /**

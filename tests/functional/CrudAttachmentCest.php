@@ -151,10 +151,12 @@ class CrudAttachmentCest
             )
         );
         $I->seeInSource($fileName);
-        $uri = $I->getApplication()->url->action('Project\IssueController@postRemoveAttachment', [
-            'project' => $project,
+        $uri = $I->getApplication()->url->action('Project\IssueController@getDeleteAttachment', [
+            'project'    => $project,
+            'issue'      => $issue,
+            'attachment' => $attachment,
         ]);
-        $I->sendAjaxPostRequest($uri, [
+        $I->sendAjaxGetRequest($uri, [
             '_token'       => csrf_token(),
             'upload_token' => $uploadToken,
             'filename'     => $fileName,

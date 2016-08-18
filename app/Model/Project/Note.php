@@ -12,11 +12,8 @@
 namespace Tinyissue\Model\Project;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model as BaseModel;
 use Tinyissue\Model;
-use Tinyissue\Model\Traits\Project\Note\CrudTrait;
-use Tinyissue\Model\Traits\Project\Note\RelationTrait;
-use Tinyissue\Model\Traits\Project\Note\QueueTrait;
+use Tinyissue\Model\ModelAbstract;
 
 /**
  * Note is model class for project notes.
@@ -32,11 +29,9 @@ use Tinyissue\Model\Traits\Project\Note\QueueTrait;
  * @property Model\User\Activity $activity
  * @property Collection $messagesQueue
  */
-class Note extends BaseModel
+class Note extends ModelAbstract
 {
-    use CrudTrait,
-        RelationTrait,
-        QueueTrait;
+    use NoteRelations;
 
     /**
      * Timestamp enabled.
@@ -58,6 +53,16 @@ class Note extends BaseModel
      * @var array
      */
     protected $fillable = ['project_id', 'created_by', 'body'];
+
+    /**
+     * @param Model\User|null $user
+     *
+     * @return \Tinyissue\Repository\Project\Note\Updater
+     */
+    public function updater(Model\User $user = null)
+    {
+        return parent::updater($user);
+    }
 
     /**
      * Generate a URL for the project note.

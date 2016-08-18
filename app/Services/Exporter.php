@@ -74,7 +74,7 @@ class Exporter extends NewExcelFile
      * @param string $format
      * @param array  $params
      *
-     * @return array['full', 'path', 'file', 'title', 'ext']
+     * @return array with the following indexes ['full', 'path', 'file', 'title', 'ext']
      */
     public function exportFile($className, $format = self::TYPE_CSV, array $params = [])
     {

@@ -10,10 +10,9 @@
 
 namespace Tinyissue\Http\Middleware;
 
-use Tinyissue\Extensions\Auth\LoggedUser;
-use Tinyissue\Model\User;
 use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Foundation\Application;
+use Tinyissue\Extensions\Auth\LoggedUser;
 
 /**
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
@@ -21,13 +20,6 @@ use Illuminate\Contracts\Foundation\Application;
 abstract class MiddlewareAbstract
 {
     use LoggedUser;
-
-    /**
-     * The Guard implementation.
-     *
-     * @var Guard
-     */
-    protected $auth;
 
     /**
      * The application implementation.
@@ -44,7 +36,7 @@ abstract class MiddlewareAbstract
      */
     public function __construct(Guard $auth, Application $app)
     {
-        $this->auth = $auth;
+        $this->setAuth($auth);
         $this->app  = $app;
     }
 }

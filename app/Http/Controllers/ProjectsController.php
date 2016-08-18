@@ -11,11 +11,14 @@
 
 namespace Tinyissue\Http\Controllers;
 
+use Illuminate\Contracts\Auth\Guard;
+use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
-use Tinyissue\Form\Project as Form;
 use Tinyissue\Form\GlobalIssue as IssueForm;
+use Tinyissue\Form\Project as Form;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
+use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\User;
 
 /**
@@ -26,6 +29,17 @@ use Tinyissue\Model\User;
 class ProjectsController extends Controller
 {
     /**
+     * @var Application
+     */
+    protected $app;
+
+    public function __construct(Guard $auth, Application $app)
+    {
+        $this->app = $app;
+        parent::__construct($auth);
+    }
+
+    /**
      * Display list of active/archived projects.
      *
      * @param int $status
@@ -34,37 +48,65 @@ class ProjectsController extends Controller
      */
     public function getIndex($status = Project::STATUS_OPEN)
     {
-        $viewData = [];
-        if (!$this->auth->guest()) {
-            $projects = $this->getLoggedUser()->projectsWithCountOpenIssues($status)->get();
-            if ($status) {
-                $countActive   = $projects->count();
-                $countArchived = $this->getLoggedUser()->projectsWithCountOpenIssues(Project::STATUS_ARCHIVED)->count();
-            } else {
-                $countActive   = $this->getLoggedUser()->projectsWithCountOpenIssues(Project::STATUS_OPEN)->count();
-                $countArchived = $projects->count();
-            }
-            $viewData['projects'] = $this->getLoggedUser()->projects()->get();
+        if ($this->isLoggedIn()) {
+            $data = $this->getIndexViewDataForLoggedUser($status);
         } else {
-            $viewData['sidebar'] = 'public';
-            $project             = new Project();
-            $projects            = $project->projectsWithOpenIssuesCount($status, Project::PRIVATE_NO)->get();
-            if ($status) {
-                $countActive   = $projects->count();
-                $countArchived = $project->projectsWithOpenIssuesCount(Project::STATUS_ARCHIVED, Project::PRIVATE_NO)->count();
-            } else {
-                $countActive   = $project->projectsWithOpenIssuesCount(Project::STATUS_OPEN, Project::PRIVATE_NO)->count();
-                $countArchived = $projects->count();
-            }
-            $user                    = new User();
-            $viewData['activeUsers'] = $user->activeUsers();
+            $data = $this->getIndexViewDataForPublicProjects($status);
         }
-        $viewData['content_projects'] = $projects;
-        $viewData['active']           = $status === Project::STATUS_OPEN ? 'active' : 'archived';
-        $viewData['active_count']     = $countActive;
-        $viewData['archived_count']   = $countArchived;
 
-        return view('projects.index', $viewData);
+        return view('projects.index', $data);
+    }
+
+    /**
+     * View data for logged in user.
+     *
+     * @param int $status
+     *
+     * @return array
+     */
+    protected function getIndexViewDataForLoggedUser($status = Project::STATUS_OPEN)
+    {
+        $user               = $this->getLoggedUser();
+        $projects           = $user->getProjects();
+        $currentTabProjects = $user->getProjectsWithOpenIssuesCount($status);
+        $otherTabProjects   = $user->countProjectsByStatus($status);
+        $active             = $status === Project::STATUS_OPEN ? 'active' : 'archived';
+        $inactive           = $status !== Project::STATUS_OPEN ? 'active' : 'archived';
+
+        return [
+            'content_projects'   => $currentTabProjects,
+            'projects'           => $projects,
+            $active . '_count'   => $currentTabProjects->count(),
+            $inactive . '_count' => $otherTabProjects,
+            'active'             => $active,
+        ];
+    }
+
+    /**
+     * View data for not logged in user.
+     *
+     * @param int $status
+     *
+     * @return array
+     */
+    protected function getIndexViewDataForPublicProjects($status = Project::STATUS_OPEN)
+    {
+        $project            = $this->app->make(Project::class);
+        $user               = $this->app->make(User::class);
+        $activeUsers        = $user->getActiveUsers();
+        $currentTabProjects = $project->getProjectsWithOpenIssuesCount($status, Project::PRIVATE_NO);
+        $otherTabProjects   = $project->countProjectsByStatus($status);
+        $active             = $status === Project::STATUS_OPEN ? 'active' : 'archived';
+        $inactive           = $status !== Project::STATUS_OPEN ? 'active' : 'archived';
+
+        return [
+            'content_projects'   => $currentTabProjects,
+            'activeUsers'        => $activeUsers,
+            $active . '_count'   => $currentTabProjects->count(),
+            $inactive . '_count' => $otherTabProjects,
+            'sidebar'            => 'public',
+            'active'             => $active,
+        ];
     }
 
     /**
@@ -78,7 +120,7 @@ class ProjectsController extends Controller
     {
         return view('projects.new', [
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -92,7 +134,7 @@ class ProjectsController extends Controller
      */
     public function postNew(Project $project, FormRequest\Project $request)
     {
-        $project->createProject($request->all());
+        $project->updater()->create($request->all());
 
         return redirect($project->to());
     }
@@ -108,7 +150,7 @@ class ProjectsController extends Controller
     public function postProgress(Request $request, Project $project)
     {
         // Get all projects with count of closed and opened issues
-        $projects = $project->projectsWithCountIssues((array) $request->input('ids'));
+        $projects = $project->getProjectsWithCountIssues((array) $request->input('ids'));
 
         // The project progress Html and value
         $progress = $projects->transform(function (Project $project) {
@@ -138,34 +180,32 @@ class ProjectsController extends Controller
     {
         return view('projects.new-issue', [
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
     /**
      * To create a new issue.
      *
-     * @param Project\Issue           $issue
+     * @param Issue                   $issue
      * @param FormRequest\GlobalIssue $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postNewIssue(Project\Issue $issue, FormRequest\GlobalIssue $request)
+    public function postNewIssue(Issue $issue, FormRequest\GlobalIssue $request)
     {
-        $project = Project::find((int) $request->input('project'));
-
-        $issue->setRelation('project', $project);
-        $issue->setRelation('user', $this->getLoggedUser());
-        $issue->createIssue([
+        $issue->setRelations([
+            'user' => $this->getLoggedUser(),
+        ]);
+        $issue->updater($this->getLoggedUser())->create([
+            'project_id'   => (int) $request->input('project'),
             'title'        => $request->input('title'),
             'body'         => $request->input('body'),
             'tag_type'     => $request->input('tag_type'),
             'upload_token' => $request->input('upload_token'),
-            'assigned_to'  => (int) $project->default_assignee,
             'time_quote'   => 0,
         ]);
 
-        return redirect($issue->to())
-            ->with('notice', trans('tinyissue.issue_has_been_created'));
+        return redirect($issue->to())->with('notice', trans('tinyissue.issue_has_been_created'));
     }
 }

@@ -14,7 +14,6 @@ namespace Tinyissue\Model\Project\Issue;
 use Illuminate\Database\Eloquent\Collection;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Project\Issue as ProjectIssue;
 use Tinyissue\Model\Tag;
 use Tinyissue\Model\User;
 use Tinyissue\Services\SendMessagesAbstract;
@@ -38,7 +37,7 @@ class SendMessages extends SendMessagesAbstract
     /**
      * Returns an instance of Issue.
      *
-     * @return ProjectIssue
+     * @return Project\Issue|bool
      */
     protected function getIssue()
     {
@@ -304,13 +303,13 @@ class SendMessages extends SendMessagesAbstract
         // or if there is only one user and is not matching the new assignee.
         // then skip this message
         if ($assignObjects->count() === 0
-            || ($assignObjects->count() === 1 && (int) $assignObjects->first()->id !== (int) $assigns['new'])
+            || ($assignObjects->count() === 1 && (int) $assignObjects->first()->id !== $assigns['new'])
         ) {
             return;
         }
 
         // Get the object of the new assignee
-        $assignTo = $assignObjects->where('id', $assigns['new'], false)->first();
+        $assignTo = $assignObjects->where('id', $assigns['new'])->first();
         $users    = collect([$this->createProjectUserObject($assignTo)]);
 
         // Exclude the user from any other message for this issue
@@ -323,7 +322,7 @@ class SendMessages extends SendMessagesAbstract
 
         // Make sure that the previous assignee was not the same as the new user
         if (array_key_exists('old', $assigns) && $assigns['old'] > 0 && $assigns['new'] !== $assigns['old']) {
-            $previousAssign = $assignObjects->where('id', $assigns['old'], false)->first();
+            $previousAssign = $assignObjects->where('id', $assigns['old'])->first();
             if ($previousAssign) {
                 $extraMessageData['was'] = $previousAssign->fullname;
                 $users->push($this->createProjectUserObject($previousAssign));
@@ -368,7 +367,7 @@ class SendMessages extends SendMessagesAbstract
         }
 
         // Load & extract tag by ID
-        $tag = $this->tags->where('id', $tagId, false)->first();
+        $tag = $this->tags->where('id', $tagId)->first();
         if (!$tag) {
             $tag = (new Tag())->find($tagId);
             $this->tags->push($tag);

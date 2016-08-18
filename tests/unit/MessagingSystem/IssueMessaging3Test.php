@@ -37,7 +37,7 @@ class IssueMessaging3Test extends MessagingSystemAbstract
         $data               = $issue->toArray();
         $data['tag_status'] = $newTag->id;
         $data['tag_type']   = $typeTag->id;
-        $issue->updateIssue($data);
+        $issue->updater($admin)->update($data);
 
         $this->sendMessagesAndAssert('assertUpdateIssueTagNew', [$manager, $developer, $admin]);
         Issue::flushEventListeners();
@@ -46,7 +46,7 @@ class IssueMessaging3Test extends MessagingSystemAbstract
         $data               = $issue->toArray();
         $data['tag_status'] = $testingTag->id;
         $data['tag_type']   = $typeTag->id;
-        $issue->updateIssue($data);
+        $issue->updater($admin)->update($data);
 
         $this->sendMessagesAndAssert('assertUpdateIssueTagTesting', [$manager, $developer, $admin]);
         Issue::flushEventListeners();
@@ -55,7 +55,7 @@ class IssueMessaging3Test extends MessagingSystemAbstract
         $data               = $issue->toArray();
         $data['tag_status'] = $planningTag->id;
         $data['tag_type']   = $typeTag->id;
-        $issue->updateIssue($data);
+        $issue->updater($admin)->update($data);
 
         $this->sendMessagesAndAssert('assertUpdateIssueTagPlanning', [$manager, $developer, $admin]);
         Issue::flushEventListeners();
@@ -72,7 +72,7 @@ class IssueMessaging3Test extends MessagingSystemAbstract
         $data               = $issue->toArray();
         $data['tag_status'] = $testingTag->id;
         $data['tag_type']   = $typeTag->id;
-        $issue->updateIssue($data);
+        $issue->updater($admin)->update($data);
 
         $this->sendMessagesAndAssert('assertUpdateIssueTagTesting', [$manager, $developer, $admin]);
     }

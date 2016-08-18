@@ -11,58 +11,64 @@
 
 namespace Tinyissue\Model\Project;
 
-use Illuminate\Database\Eloquent\Model as BaseModel;
 use Illuminate\Support\Collection;
 use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Model;
-use Tinyissue\Model\Traits\CountAttributeTrait;
-use Tinyissue\Model\Traits\Project\Issue\CountTrait;
-use Tinyissue\Model\Traits\Project\Issue\CrudTagTrait;
-use Tinyissue\Model\Traits\Project\Issue\CrudTrait;
-use Tinyissue\Model\Traits\Project\Issue\QueryTrait;
-use Tinyissue\Model\Traits\Project\Issue\QueueTrait;
-use Tinyissue\Model\Traits\Project\Issue\RelationTrait;
+use Tinyissue\Model\ModelAbstract;
 
 /**
  * Issue is model class for project issues.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- * @property int $created_by
- * @property int $project_id
- * @property string $title
- * @property string $body
- * @property int $assigned_to
- * @property int $time_quote
- * @property bool $lock_quote
- * @property int $closed_by
- * @property int $closed_at
- * @property int status
- * @property int $updated_at
- * @property int $updated_by
+ * @property int           $id
+ * @property int           $created_by
+ * @property int           $project_id
+ * @property string        $title
+ * @property string        $body
+ * @property int           $assigned_to
+ * @property int           $time_quote
+ * @property bool          $lock_quote
+ * @property int           $closed_by
+ * @property int           $closed_at
+ * @property int           status
+ * @property int           $updated_at
+ * @property int           $updated_by
  * @property Model\Project $project
- * @property Model\User $user
- * @property Model\User $assigned
- * @property Model\User $closers
- * @property Model\User $updatedBy
- * @property Collection $attachments
- * @property Collection $activities
- * @property Collection $generalActivities
- * @property Collection $commentActivities
- * @property Collection $tags
- * @property Collection $comments
- * @property Collection $messagesQueue
+ * @property Model\User    $user
+ * @property Model\User    $assigned
+ * @property Model\User    $closers
+ * @property Model\User    $updatedBy
+ * @property Collection    $attachments
+ * @property Collection    $activities
+ * @property Collection    $generalActivities
+ * @property Collection    $commentActivities
+ * @property Collection    $tags
+ * @property Collection    $comments
+ * @property Collection    $messagesQueue
+ *
+ * @method  Model\Tag getStatusTag()
+ * @method  Model\Tag getTypeTag()
+ * @method  Model\Tag getResolutionTag()
+ * @method  Collection getGeneralActivities()
+ * @method  Collection getCommentActivities()
+ * @method  int countOpenIssues()
+ * @method  int countClosedIssues()
+ * @method  $this open()
+ * @method  $this closed()
+ * @method  $this status($status = Issue::STATUS_OPEN)
+ * @method  $this assignedOrCreated(Model\User $user = null)
+ * @method  $this assignedTo($user = null)
+ * @method  $this createdBy(Model\User $user = null)
+ * @method  $this limitByCreatedForInternalProject(Model\Project $project, Model\User $user = null)
+ * @method  $this forProject($projectId)
+ * @method  $this searchContent($keyword)
+ * @method  $this whereTags(...$tags)
  */
-class Issue extends BaseModel
+class Issue extends ModelAbstract
 {
-    use CountAttributeTrait,
-        CountTrait,
-        CrudTrait,
-        CrudTagTrait,
-        RelationTrait,
-        QueryTrait,
-        QueueTrait,
+    use IssueRelations,
+        IssueScopes,
         LoggedUser;
 
     /**
@@ -110,13 +116,13 @@ class Issue extends BaseModel
     ];
 
     /**
-     * Returns the aggregate value of number of comments in an issue.
+     * @param Model\User|null $user
      *
-     * @return int
+     * @return \Tinyissue\Repository\Project\Issue\Updater
      */
-    public function getCountCommentsAttribute()
+    public function updater(Model\User $user = null)
     {
-        return $this->getCountAttribute('countComments');
+        return parent::updater($user);
     }
 
     /**
@@ -144,7 +150,7 @@ class Issue extends BaseModel
             $seconds += isset($value['m']) ? ($value['m'] * 60) : 0;
             $seconds += isset($value['h']) ? ($value['h'] * 60 * 60) : 0;
         }
-        $this->attributes['time_quote'] = (int) $seconds;
+        $this->attributes['time_quote'] = (int)$seconds;
     }
 
     /**
@@ -186,7 +192,7 @@ class Issue extends BaseModel
      */
     public function isOpen()
     {
-        return (boolean) $this->status;
+        return (boolean)$this->status;
     }
 
     /**
@@ -198,7 +204,7 @@ class Issue extends BaseModel
      */
     public function hasReadOnlyTag(Model\User $user)
     {
-        $hasReadOnly = $this->tags->where('readonly', $user->role_id, false);
+        $hasReadOnly = $this->tags->where('readonly', $user->role_id);
 
         return !$hasReadOnly->isEmpty();
     }
@@ -210,25 +216,7 @@ class Issue extends BaseModel
      */
     public function isQuoteLocked()
     {
-        return (boolean) $this->lock_quote;
-    }
-
-    /**
-     * Check if a user is allowed to see the issue quote.
-     *
-     * @param Model\User $user
-     *
-     * @return bool
-     */
-    public function canUserViewQuote(Model\User $user = null)
-    {
-        if ($user && $this->time_quote > 0 &&
-            (!$this->isQuoteLocked() || $user->permission(Model\Permission::PERM_ISSUE_VIEW_LOCKED_QUOTE))
-        ) {
-            return true;
-        }
-
-        return false;
+        return (boolean)$this->lock_quote;
     }
 
     /**
@@ -240,39 +228,6 @@ class Issue extends BaseModel
      */
     public function isCreatedBy(Model\User $user)
     {
-        return (int) $this->created_by === (int) $user->id;
-    }
-
-    /**
-     * Whether a user can view the issue.
-     *
-     * @param Model\User $user
-     *
-     * @return bool
-     */
-    public function canView(Model\User $user)
-    {
-        // not access if issue limited to developers and managers, or user is not member of the project
-        if (
-            ($this->project->isPrivateInternal() && $user->isUser() && !$this->isCreatedBy($user)) ||
-            !$this->project->isMember($user->id)
-        ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * Whether a user can edit the issue.
-     *
-     * @param Model\User $user
-     *
-     * @return bool
-     */
-    public function canEdit(Model\User $user)
-    {
-        // If you have permission to modify issue or a creator and current tag is not read only.
-        return ($this->isCreatedBy($user) && !$this->hasReadOnlyTag($user)) || ($this->canView($user) && $user->permission(Model\Permission::PERM_ISSUE_MODIFY));
+        return $this->created_by === $user->id;
     }
 }

@@ -20,7 +20,7 @@ class CrudProjectNotesCest
         $developer1 = $I->createUser(2, 2);
         $I->amLoggedAs($developer1);
 
-        $project = $I->createProject(1);
+        $project = $I->createProject(1, [$user1, $developer1]);
         $note1   = $I->createNote(1, $user1, $project);
         $note2   = $I->createNote(2, $developer1, $project);
 

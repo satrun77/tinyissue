@@ -74,37 +74,6 @@ class Project extends MiddlewareAbstract
     }
 
     /**
-     * Whether or not a model entity relationship with the project is correct.
-     *
-     * @param Request $request
-     * @param string  $entityName
-     *
-     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
-     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
-     *
-     * @return bool
-     */
-    protected function isBelongToProject(Request $request, $entityName)
-    {
-        /** @var Model $entity */
-        $entity = $request->route()->getParameter($entityName);
-
-        /** @var ProjectModel|null $project */
-        $project = $request->route()->getParameter('project');
-
-        if (!$entity instanceof Model || !$project instanceof ProjectModel) {
-            return false;
-        }
-
-        // Abort request invalid data
-        if ((int) $entity->project_id !== (int) $project->id) {
-            abort(401);
-        }
-
-        return true;
-    }
-
-    /**
      * Whether or not the incoming uri is for the issue filter "project/issue/{issue}".
      *
      * @param Request $request
@@ -143,7 +112,7 @@ class Project extends MiddlewareAbstract
     }
 
     /**
-     * Whether or not the incoming request is valid project note request.
+     * Whether or not the incoming request is valid project request.
      *
      * @param Request $request
      *
@@ -154,9 +123,39 @@ class Project extends MiddlewareAbstract
         /** @var ProjectModel|null $project */
         $project = $request->route()->getParameter('project');
 
-        if (auth()->guest() && $project instanceof ProjectModel && $project->isPrivate()) {
+        return $project instanceof ProjectModel;
+    }
+
+    /**
+     * Whether or not a model entity relationship with the project is correct.
+     *
+     * @param Request $request
+     * @param string  $entityName
+     *
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     *
+     * @return bool
+     */
+    protected function isBelongToProject(Request $request, $entityName)
+    {
+        /** @var Model $entity */
+        $entity = $request->route()->getParameter($entityName);
+
+        /** @var ProjectModel|null $project */
+        $project = $request->route()->getParameter('project');
+
+        if (!$entity instanceof Model || !$project instanceof ProjectModel) {
+            return false;
+        }
+
+        // Abort request invalid data
+        if ((int) $entity->project_id !== (int) $project->id) {
             abort(401);
         }
+
+        // Add project instance to the entity
+        $entity->setRelation('project', $project);
 
         return true;
     }

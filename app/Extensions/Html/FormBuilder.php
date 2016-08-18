@@ -13,9 +13,8 @@ namespace Tinyissue\Extensions\Html;
 
 use Former;
 use Former\Traits\Field;
-use Illuminate\Database\Eloquent\Model;
 use Request;
-use Tinyissue\Form\FormInterface;
+use Tinyissue\Contracts\Form\FormInterface;
 
 /**
  * FormBuilder is a class to extend Laravel FormBuilder to add extra view macro.
@@ -28,52 +27,28 @@ class FormBuilder extends \Collective\Html\FormBuilder
      * Render Form object into Html form with Former.
      *
      * @param FormInterface $form
-     * @param array         $attrs
+     * @param array         $attributes
      *
      * @return string
      */
-    public function form(FormInterface $form, array $attrs = [])
+    public function form(FormInterface $form, array $attributes = [])
     {
-        // Populate form from edited model
-        $model = $form->getModel();
-        if ($model instanceof Model) {
-            Former::populate($model);
-        }
+        /** @var \Former\Form\Form $former Start former instance */
+        $former = call_user_func(['\Former', $form->openType()]);
 
-        // Start a form and add rules
-        $formType = $form->openType();
-        $former   = Former::$formType();
-        array_walk($attrs, function ($value, $attr) use ($former) {
-            if ($value === null) {
-                $former->$attr();
-            } else {
-                $former->$attr($value);
-            }
-        });
-        $former->rules($form->rules());
+        // Setup form
+        $this->setupForm($former, $attributes, $form->rules());
 
-        // Generate form fields
-        $output = $former;
-        $fields = $form->fields();
-        foreach ($fields as $name => $field) {
-            $element = $this->element($name, $field);
+        // Render fields
+        $former .= $this->renderFields($form->fields(), is_null($form->getModel()));
 
-            if ($element instanceof Field) {
-                if (null === $model) {
-                    $element->value = Request::input($name);
-                }
-            }
-
-            $output .= $element;
-        }
-
-        // Generate form actions
-        $output .= $this->actions($form);
+        // Render actions
+        $former .= $this->actions($form);
 
         // Close the opened form
-        $output .= Former::close();
+        $former .= Former::close();
 
-        return $output;
+        return $former;
     }
 
     /**
@@ -87,19 +62,13 @@ class FormBuilder extends \Collective\Html\FormBuilder
     public function element($name, array $field)
     {
         $filterKeys = ['type'];
-        $attrs      = array_diff_key($field, array_flip($filterKeys));
+        $attributes = array_diff_key($field, array_flip($filterKeys));
 
         // Create field with name
-        $element = Former::{$field['type']}($name);
+        $element = call_user_func(['\Former', $field['type']], $name);
 
         // Create field attributes
-        array_walk($attrs, function ($value, $attr) use ($element) {
-            if ($value === null) {
-                $element->$attr();
-            } else {
-                $element->$attr($value);
-            }
-        });
+        $this->setAttributes($attributes, $element);
 
         return $element;
     }
@@ -113,7 +82,7 @@ class FormBuilder extends \Collective\Html\FormBuilder
      */
     public function actions(FormInterface $form)
     {
-        $output  = '';
+        $output = '';
         $buttons = $form->actions();
         if (!empty($buttons)) {
             $actions = Former::actions()->addClass('form-actions');
@@ -125,6 +94,59 @@ class FormBuilder extends \Collective\Html\FormBuilder
                 }
             }
             $output .= $actions;
+        }
+
+        return $output;
+    }
+
+    /**
+     * @param       $former
+     * @param array $attributes
+     * @param array $rules
+     *
+     * @return void
+     */
+    protected function setupForm($former, array $attributes, array $rules)
+    {
+        $this->setAttributes($attributes, $former);
+
+        $former->rules($rules);
+    }
+
+    /**
+     * @param array  $attributes
+     * @param object $object
+     *
+     * @return void
+     */
+    protected function setAttributes(array $attributes, $object)
+    {
+        array_walk($attributes, function ($value, $attr) use ($object) {
+            if ($value === null) {
+                $object->$attr();
+            } else {
+                $object->$attr($value);
+            }
+        });
+    }
+
+    /**
+     * @param array $fields
+     * @param bool  $populate
+     *
+     * @return string
+     */
+    protected function renderFields(array $fields, $populate = false)
+    {
+        $output = '';
+        foreach ($fields as $name => $field) {
+            $element = $this->element($name, $field);
+
+            if ($element instanceof Field && $populate) {
+                $element->value = Request::input($name);
+            }
+
+            $output .= $element;
         }
 
         return $output;

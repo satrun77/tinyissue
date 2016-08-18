@@ -83,10 +83,10 @@ class Settings extends FormAbstract
         $today = $today->format('Y-m-d H:i:s');
 
         return [
-            'type'        => 'select',
-            'label'       => 'date_format',
-            'value'       => $setting->value,
-            'options'     => [
+            'type'    => 'select',
+            'label'   => 'date_format',
+            'value'   => $setting->value,
+            'options' => [
                 'D, d M Y H:i:s' => \Html::date($today, 'D, d M Y H:i:s'),
                 'F jS, Y, g:i a' => \Html::date($today, 'F jS, Y, g:i a'),
                 'd/F/Y g:i A'    => \Html::date($today, 'd/F/Y g:i A'),
@@ -107,10 +107,10 @@ class Settings extends FormAbstract
     protected function fieldFirstStatusTag(Model\Setting $setting)
     {
         return [
-            'type'        => 'select',
-            'label'       => 'first_status_tag',
-            'value'       => $setting->value,
-            'options'     => (new Model\Tag())->getStatusTags()->get()->pluck('fullname', 'id'),
+            'type'    => 'select',
+            'label'   => 'first_status_tag',
+            'value'   => $setting->value,
+            'options' => Model\Tag::instance()->getStatusTags()->dropdown('fullname'),
         ];
     }
 
@@ -127,7 +127,7 @@ class Settings extends FormAbstract
             'type'    => 'select',
             'label'   => 'language',
             'value'   => $setting->value,
-            'options' => Model\User::getLanguages(),
+            'options' => config('tinyissue.supported_lang'),
         ];
     }
 

@@ -12,7 +12,6 @@
 namespace Tinyissue\Http\Middleware;
 
 use Closure;
-use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Http\Request;
 
 /**
@@ -32,15 +31,13 @@ class Authenticate extends MiddlewareAbstract
      */
     public function handle(Request $request, Closure $next)
     {
-        if ($this->auth->guest()) {
+        if ($this->getAuth()->guest()) {
             if ($request->ajax() || $request->wantsJson()) {
                 return response('Unauthorized.', 401);
             }
 
             return redirect()->guest('/');
         }
-
-        app()->setLocale($this->getLoggedUser()->language);
 
         return $next($request);
     }

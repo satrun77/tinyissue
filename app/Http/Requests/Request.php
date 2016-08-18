@@ -11,8 +11,8 @@
 
 namespace Tinyissue\Http\Requests;
 
-use Tinyissue\Form\FormInterface;
 use Illuminate\Foundation\Http\FormRequest;
+use Tinyissue\Contracts\Form\FormInterface;
 
 /**
  * Request is an abstract class for Form Request classes.

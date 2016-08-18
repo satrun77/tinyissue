@@ -45,9 +45,8 @@ class SendMessages extends Command
      */
     public function handle(Mailer $mailer)
     {
-        $queue = new Model\Message\Queue();
         // Get all latest messages in the queue
-        $records = $queue->latestMessages()->get();
+        $records = Model\Message\Queue::instance()->getLatestMessages();
 
         // pull out the first item in the list
         while ($latest = $records->first()) {

@@ -30,9 +30,29 @@ class ConfigServiceProvider extends ServiceProvider
     public function register()
     {
         config([
-            'tinyissue.release_date' => '19-08-2016',
-            'tinyissue.version'      => '2.9.0',
-            'tinyissue.uploads_dir'  => env('APP_UPLOAD_DIR', 'uploads'),
+            'tinyissue.release_date'   => '00-00-0000',
+            'tinyissue.version'        => '3.0.0',
+            'tinyissue.uploads_dir'    => env('APP_UPLOAD_DIR', 'uploads'),
+            'tinyissue.supported_lang' => $this->getLanguages(),
         ]);
+    }
+
+    /**
+     * Get available languages from translations folder.
+     *
+     * @return array
+     */
+    public function getLanguages()
+    {
+        $languages = [];
+
+        $cdir = scandir(__DIR__ . '/../../resources/lang');
+        foreach ($cdir as $value) {
+            if (!in_array($value, ['.', '..'])) {
+                $languages[$value] = $value;
+            }
+        }
+
+        return $languages;
     }
 }

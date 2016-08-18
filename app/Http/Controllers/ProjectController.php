@@ -37,24 +37,14 @@ class ProjectController extends Controller
      */
     public function getIndex(Project $project)
     {
-        $activities = $project->activities()
-            ->with('activity', 'issue', 'user', 'assignTo', 'comment', 'note')
-            ->orderBy('users_activity.created_at', 'DESC')
-            ->take(10);
+        $activities = $project->getRecentActivities($this->getLoggedUser());
 
-        // Internal project and logged user can see created only
-        if ($project->isPrivateInternal() && $this->getLoggedUser()->isUser()) {
-            $activities->join('projects_issues', 'projects_issues.id', '=', 'item_id');
-            $activities->where('created_by', '=', $this->getLoggedUser()->id);
-        }
-
-        return view('project.index', [
-            'tabs'       => $this->projectMainViewTabs($project, 'index'),
-            'project'    => $project,
-            'active'     => 'activity',
-            'activities' => $activities->get(),
-            'sidebar'    => 'project',
-        ]);
+        return $this->indexView([
+            'activities'          => $activities,
+            'notes_count'         => $project->countNotes(),
+            'open_issues_count'   => $project->countOpenIssues($this->getLoggedUser()),
+            'closed_issues_count' => $project->countClosedIssues($this->getLoggedUser()),
+        ], 'activity', $project);
     }
 
     /**
@@ -69,20 +59,55 @@ class ProjectController extends Controller
      */
     public function getIssues(FilterForm $filterForm, Request $request, Project $project, $status = Issue::STATUS_OPEN)
     {
-        if ($project->isPrivateInternal() && $this->getLoggedUser()->isUser()) {
-            $request['created_by'] = $this->getLoggedUser()->id;
+        if ($status === Issue::STATUS_OPEN) {
+            return $this->getOpenIssues($filterForm, $request, $project);
         }
-        $active                = $status == Issue::STATUS_OPEN ? 'open_issue' : 'closed_issue';
-        $issues                = $project->listIssues($status, $request->all());
 
-        return view('project.index', [
-            'tabs'       => $this->projectMainViewTabs($project, 'issues', $issues, $status),
-            'project'    => $project,
-            'active'     => $active,
-            'issues'     => $issues,
-            'sidebar'    => 'project',
-            'filterForm' => $filterForm,
-        ]);
+        return $this->getClosedIssues($filterForm, $request, $project);
+    }
+
+    /**
+     * Display open issues.
+     *
+     * @param FilterForm $filterForm
+     * @param Request    $request
+     * @param Project    $project
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getOpenIssues(FilterForm $filterForm, Request $request, Project $project)
+    {
+        $issues = $project->getIssuesForLoggedUser(Issue::STATUS_OPEN, $request->all());
+
+        return $this->indexView([
+            'notes_count'         => $project->countNotes(),
+            'issues'              => $issues,
+            'filterForm'          => $filterForm,
+            'open_issues_count'   => $issues->count(),
+            'closed_issues_count' => $project->countClosedIssues($this->getLoggedUser()),
+        ], 'open_issues', $project);
+    }
+
+    /**
+     * Display closed issues.
+     *
+     * @param FilterForm $filterForm
+     * @param Request    $request
+     * @param Project    $project
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getClosedIssues(FilterForm $filterForm, Request $request, Project $project)
+    {
+        $issues = $project->getIssuesForLoggedUser(Issue::STATUS_CLOSED, $request->all());
+
+        return $this->indexView([
+            'notes_count'         => $project->countNotes(),
+            'issues'              => $issues,
+            'filterForm'          => $filterForm,
+            'open_issues_count'   => $project->countOpenIssues($this->getLoggedUser()),
+            'closed_issues_count' => $issues->count(),
+        ], 'closed_issues', $project);
     }
 
     /**
@@ -94,15 +119,15 @@ class ProjectController extends Controller
      */
     public function getAssigned(Project $project)
     {
-        $issues = $project->listAssignedOrCreatedIssues($this->getLoggedUser());
+        $issues = $project->getAssignedOrCreatedIssues($this->getLoggedUser());
 
-        return view('project.index', [
-            'tabs'    => $this->projectMainViewTabs($project, 'assigned', $issues),
-            'project' => $project,
-            'active'  => 'issue_assigned_to_you',
-            'issues'  => $issues,
-            'sidebar' => 'project',
-        ]);
+        return $this->indexView([
+            'notes_count'           => $project->countNotes(),
+            'open_issues_count'     => $project->countOpenIssues($this->getLoggedUser()),
+            'closed_issues_count'   => $project->countClosedIssues($this->getLoggedUser()),
+            'assigned_issues_count' => $issues->count(),
+            'issues'                => $issues,
+        ], 'activity', $project);
     }
 
     /**
@@ -114,15 +139,15 @@ class ProjectController extends Controller
      */
     public function getCreated(Project $project)
     {
-        $issues = $project->listAssignedOrCreatedIssues($this->getLoggedUser());
+        $issues = $project->getAssignedOrCreatedIssues($this->getLoggedUser());
 
-        return view('project.index', [
-            'tabs'    => $this->projectMainViewTabs($project, 'created', $issues),
-            'project' => $project,
-            'active'  => 'issue_created_by_you',
-            'issues'  => $issues,
-            'sidebar' => 'project',
-        ]);
+        return $this->indexView([
+            'notes_count'           => $project->countNotes(),
+            'open_issues_count'     => $project->countOpenIssues($this->getLoggedUser()),
+            'closed_issues_count'   => $project->countClosedIssues($this->getLoggedUser()),
+            'assigned_issues_count' => $issues->count(),
+            'issues'                => $issues,
+        ], 'issue_created_by_you', $project);
     }
 
     /**
@@ -135,88 +160,40 @@ class ProjectController extends Controller
      */
     public function getNotes(Project $project, NoteForm $form)
     {
-        $notes = $project->notes()->with('createdBy')->get();
+        $notes = $project->getNotes();
 
-        return view('project.index', [
-            'tabs'     => $this->projectMainViewTabs($project, 'notes', $notes),
-            'project'  => $project,
-            'active'   => 'notes',
-            'notes'    => $notes,
-            'sidebar'  => 'project',
-            'noteForm' => $form,
-        ]);
+        return $this->indexView([
+            'notes_count'         => $project->countNotes(),
+            'open_issues_count'   => $project->countOpenIssues($this->getLoggedUser()),
+            'closed_issues_count' => $project->countClosedIssues($this->getLoggedUser()),
+            'notes'               => $notes,
+            'notes_count'         => $notes->count(),
+            'noteForm'            => $form,
+        ], 'notes', $project);
     }
 
     /**
+     * @param mixed   $data
+     * @param string  $active
      * @param Project $project
-     * @param string  $view
-     * @param null    $data
-     * @param bool    $status
      *
-     * @return array
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    protected function projectMainViewTabs(Project $project, $view, $data = null, $status = false)
+    protected function indexView($data, $active, Project $project)
     {
-        $user              = $this->getLoggedUser();
-        $isLoggedIn        = !$this->auth->guest();
-        $isUser            = $isLoggedIn && $user->isUser();
-        $isInternalProject = $project->isPrivateInternal();
-
-        if ($view === 'note') {
-            $notesCount = !is_null($data) ? $data->count() : 0;
-        } else {
-            $notesCount = $project->notes()->count();
+        // For logged users that is not a normal user
+        if (!array_key_exists('assigned_issues_count', $data) && $this->isLoggedIn() && !$this->isLoggedNormalUser()) {
+            $data['assigned_issues_count'] = $project->countAssignedIssues($this->getLoggedUser());
+        } elseif ($this->isLoggedNormalUser() && $project->isPrivateInternal()) {
+            $data['created_issues_count'] = $project->countCreatedIssues($this->getLoggedUser());
         }
 
-        if ($view === 'issues') {
-            if ($status == Issue::STATUS_OPEN) {
-                $closedIssuesCount = $project->closedIssuesCount($user)->count();
-                $openIssuesCount   = !is_null($data) ? $data->count() : 0;
-            } else {
-                $closedIssuesCount = !is_null($data) ? $data->count() : 0;
-                $openIssuesCount   = $project->openIssuesCount($user)->count();
-            }
-        } else {
-            $openIssuesCount   = $project->openIssuesCount($user)->count();
-            $closedIssuesCount = $project->closedIssuesCount($user)->count();
-        }
+        $data['sidebar']           = 'project';
+        $data['active']            = $active;
+        $data['project']           = $project;
+        $data['usersCanFixIssues'] = $project->getUsersCanFixIssue();
 
-        $tabs   = [];
-        $tabs[] = [
-            'url'  => $project->to(),
-            'page' => 'activity',
-        ];
-        $tabs[] = [
-            'url'    => $project->to('issues'),
-            'page'   => 'open_issue',
-            'prefix' => $openIssuesCount,
-        ];
-        $tabs[] = [
-            'url'    => $project->to('issues') . '/0',
-            'page'   => 'closed_issue',
-            'prefix' => $closedIssuesCount,
-        ];
-        if ($isLoggedIn && (!$isInternalProject || (!$isUser && $isInternalProject))) {
-            if ($view !== 'assigned') {
-                $method              = $isUser ? 'createdIssuesCount' : 'assignedIssuesCount';
-                $assignedIssuesCount = $this->getLoggedUser()->$method($project->id);
-            } else {
-                $assignedIssuesCount = !is_null($data) ? $data->count() : 0;
-            }
-
-            $tabs[] = [
-                'url'    => $project->to($isUser ? 'created' : 'assigned'),
-                'page'   => ($isUser ? 'issue_created_by_you' : 'issue_assigned_to_you'),
-                'prefix' => $assignedIssuesCount,
-            ];
-        }
-        $tabs[] = [
-            'url'    => $project->to('notes'),
-            'page'   => 'notes',
-            'prefix' => $notesCount,
-        ];
-
-        return $tabs;
+        return view('project.index', $data);
     }
 
     /**
@@ -248,13 +225,13 @@ class ProjectController extends Controller
     {
         // Delete the project
         if ($request->has('delete-project')) {
-            $project->delete();
+            $project->updater()->delete();
 
             return redirect('projects')
                 ->with('notice', trans('tinyissue.project_has_been_deleted'));
         }
 
-        $project->update($request->all());
+        $project->updater()->update($request->all());
 
         return redirect($project->to())
             ->with('notice', trans('tinyissue.project_has_been_updated'));
@@ -269,7 +246,7 @@ class ProjectController extends Controller
      */
     public function getInactiveUsers(Project $project)
     {
-        $users = $project->usersNotIn();
+        $users = $project->getNotMembers()->dropdown('fullname');
 
         return response()->json($users);
     }
@@ -284,7 +261,7 @@ class ProjectController extends Controller
      */
     public function postAssign(Project $project, Request $request)
     {
-        $status = $project->assignUser((int) $request->input('user_id'));
+        $status = $project->updater($this->getLoggedUser())->assignUser((int) $request->input('user_id'));
 
         return response()->json(['status' => (bool) $status]);
     }
@@ -299,7 +276,7 @@ class ProjectController extends Controller
      */
     public function postUnassign(Project $project, Request $request)
     {
-        $status = $project->unassignUser((int) $request->input('user_id'));
+        $status = $project->updater($this->getLoggedUser())->unassignUser((int) $request->input('user_id'));
 
         return response()->json(['status' => (bool) $status]);
     }
@@ -317,7 +294,7 @@ class ProjectController extends Controller
     {
         $note->setRelation('project', $project);
         $note->setRelation('createdBy', $this->getLoggedUser());
-        $note->createNote($request->all());
+        $note->updater($this->getLoggedUser())->create($request->all());
 
         return redirect($note->to())->with('notice', trans('tinyissue.your_note_added'));
     }
@@ -331,12 +308,12 @@ class ProjectController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function postEditNote(Project $project, Project\Note $note, Request $request)
+    public function postEditNote(Project $project, Note $note, Request $request)
     {
         $body = '';
         if ($request->has('body')) {
             $note->setRelation('project', $project);
-            $note->updateBody($request->input('body'), $this->getLoggedUser());
+            $note->updater($this->getLoggedUser())->updateBody((string)$request->input('body'));
 
             $body = \Html::format($note->body);
         }
@@ -352,9 +329,10 @@ class ProjectController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function getDeleteNote(Project $project, Project\Note $note)
+    public function getDeleteNote(Project $project, Note $note)
     {
-        $note->deleteNote($this->getLoggedUser());
+        $note->setRelation('project', $project);
+        $note->updater($this->getLoggedUser())->delete();
 
         return response()->json(['status' => true]);
     }
@@ -402,6 +380,8 @@ class ProjectController extends Controller
      */
     public function getDownloadExport(Project $project, $file)
     {
+        $this->authorize('export', $project);
+
         // Filter out any characters that are not in pattern
         $file = preg_replace('/[^a-z0-9\_\.]/mi', '', $file);
 

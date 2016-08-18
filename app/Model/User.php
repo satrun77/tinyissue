@@ -16,8 +16,7 @@ use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Tinyissue\Extensions\Auth\LoggedUser;
 
 /**
@@ -25,18 +24,19 @@ use Tinyissue\Extensions\Auth\LoggedUser;
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- * @property int $deleted
- * @property int $role_id
- * @property string $language
- * @property string $email
- * @property string $password
- * @property string $firstname
- * @property string $lastname
- * @property string $fullname
- * @property int $status
- * @property int $private
- * @property Role $role
+ * @property int                 $id
+ * @property int                 $deleted
+ * @property int                 $role_id
+ * @property string              $language
+ * @property string              $email
+ * @property string              $password
+ * @property string              $firstname
+ * @property string              $lastname
+ * @property string              $fullname
+ * @property int                 $status
+ * @property int                 $private
+ * @property string              $image
+ * @property Role                $role
  * @property Eloquent\Collection $comments
  * @property Eloquent\Collection $issuesCreatedBy
  * @property Eloquent\Collection $issuesClosedBy
@@ -44,19 +44,34 @@ use Tinyissue\Extensions\Auth\LoggedUser;
  * @property Eloquent\Collection $attachments
  * @property Eloquent\Collection $projects
  * @property Eloquent\Collection $issues
- * @property Eloquent\Collection $permissions
  *
- * @method User updateOrCreate(array $where, array $input)
+ * @method Eloquent\Collection getProjects()
+ * @method Eloquent\Collection getProjectsWithSettings()
+ * @method Eloquent\Collection getActiveUsers()
+ * @method Eloquent\Collection getProjectsWithRecentActivities()
+ * @method Eloquent\Collection getProjectsWithRecentIssues()
+ * @method Eloquent\Collection getIssuesGroupByTags(Eloquent\Collection $tagIds, $projectId = null)
+ * @method Eloquent\Collection getProjectsWithOpenIssuesCount($status = Project::STATUS_OPEN)
+ * @method int countNotDeleted()
+ * @method int countDeleted()
+ * @method int createdIssuesCount($projectId = 0)
+ * @method int countProjectsByStatus($status)
+ * @method User updateOrCreate(array $attributes, array $values = [])
+ * @method $this private($status = false)
+ * @method $this notPrivate()
+ * @method $this developerOrHigher()
+ * @method $this active()
+ * @method $this removed()
+ * @method $this notMemberOfProject(Project $project)
  */
-class User extends Model implements AuthenticatableContract, CanResetPasswordContract
+class User extends ModelAbstract implements AuthenticatableContract, CanResetPasswordContract
 {
     use Authenticatable,
         CanResetPassword,
-        Traits\User\CountTrait,
-        Traits\User\RelationTrait,
-        Traits\User\CrudTrait,
-        Traits\User\QueryTrait,
-        LoggedUser;
+        UserRelations,
+        UserScopes,
+        LoggedUser,
+        Authorizable;
 
     /**
      * User name is private.
@@ -122,37 +137,21 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     protected $fillable = ['deleted', 'email', 'password', 'firstname', 'lastname', 'role_id', 'private', 'language', 'status'];
 
     /**
+     * @param User|null $user
+     *
+     * @return \Tinyissue\Repository\User\Updater
+     */
+    public function updater(User $user = null)
+    {
+        return parent::updater($user);
+    }
+
+    /**
      * The attributes excluded from the model's JSON form.
      *
      * @var array
      */
     protected $hidden = ['password', 'remember_token'];
-
-    /**
-     * Collection of user permissions.
-     *
-     * @var Eloquent\Collection
-     */
-    protected $permission;
-
-    /**
-     * Get available languages from translations folder.
-     *
-     * @return array
-     */
-    public static function getLanguages()
-    {
-        $languages = [];
-
-        $cdir = scandir(__DIR__ . '/../../resources/lang');
-        foreach ($cdir as $value) {
-            if (!in_array($value, ['.', '..'])) {
-                $languages[$value] = $value;
-            }
-        }
-
-        return $languages;
-    }
 
     /**
      * Checks to see if $this user is current user.
@@ -165,34 +164,13 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     }
 
     /**
-     * Whether or not the user has a permission.
-     *
-     * @param string $key
-     *
-     * @return bool
-     */
-    public function permission($key)
-    {
-        $this->loadPermissions();
-        foreach ($this->permission as $permission) {
-            if ($permission->permission->isEqual($key)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Return user full name with property "fullname".
      *
      * @return string
      */
     public function getFullNameAttribute()
     {
-        if (!$this->private ||
-            (!Auth::guest() && ((int) $this->getLoggedUser()->id === (int) $this->id || $this->getLoggedUser()->permission(Permission::PERM_PROJECT_ALL)))
-        ) {
+        if ((int) $this->private === self::PRIVATE_NO || ($this->isLoggedIn() && $this->getLoggedUser()->can('viewName', $this))) {
             return $this->attributes['firstname'] . ' ' . $this->attributes['lastname'];
         }
 
@@ -271,5 +249,55 @@ class User extends Model implements AuthenticatableContract, CanResetPasswordCon
     public function isAdmin()
     {
         return $this->exists && $this->role->role === Role::ROLE_ADMIN;
+    }
+
+    /**
+     * Whether or not the user is manager.
+     *
+     * @return bool
+     */
+    public function isManager()
+    {
+        return $this->exists && $this->role->role === Role::ROLE_MANAGER;
+    }
+
+    /**
+     * Whether or not the user is developer.
+     *
+     * @return bool
+     */
+    public function isDeveloper()
+    {
+        return $this->exists && $this->role->role === Role::ROLE_DEVELOPER;
+    }
+
+    /**
+     * Whether or not the user is manager or admin.
+     *
+     * @return bool
+     */
+    public function isManagerOrMore()
+    {
+        return $this->isAdmin() || $this->isManager();
+    }
+
+    /**
+     * Whether or not the user is developer or manager or admin.
+     *
+     * @return bool
+     */
+    public function isDeveloperOrMore()
+    {
+        return $this->isAdmin() || $this->isManager() || $this->isDeveloper();
+    }
+
+    /**
+     * Get user role name.
+     *
+     * @return string
+     */
+    public function getRoleName()
+    {
+        return $this->role->role;
     }
 }

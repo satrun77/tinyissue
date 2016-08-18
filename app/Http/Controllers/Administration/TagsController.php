@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Http\Controllers\Administration;
 
-use Illuminate\Http\Request;
 use Tinyissue\Form\Tag as Form;
 use Tinyissue\Http\Controllers\Controller;
 use Tinyissue\Http\Requests\FormRequest;
@@ -34,8 +33,8 @@ class TagsController extends Controller
     public function getIndex(Tag $tag)
     {
         return view('administration.tags.index', [
-            'tags'     => $tag->getGroupTags(),
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'tags'     => $tag->getGroupWithTags(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -50,7 +49,7 @@ class TagsController extends Controller
     {
         return view('administration.tags.new', [
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -64,7 +63,7 @@ class TagsController extends Controller
      */
     public function postNew(Tag $tag, FormRequest\Tag $request)
     {
-        $tag->createTag($request->all());
+        $tag->updater()->create($request->all());
 
         return redirect('administration/tags')->with('notice', trans('tinyissue.tag_added'));
     }
@@ -82,7 +81,7 @@ class TagsController extends Controller
         return view('administration.tags.edit', [
             'tag'      => $tag,
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 
@@ -96,21 +95,21 @@ class TagsController extends Controller
      */
     public function postEdit(Tag $tag, FormRequest\Tag $request)
     {
-        $tag->update($request->all());
+        $tag->updater()->update($request->all());
 
         return redirect('administration/tags')->with('notice', trans('tinyissue.tag_updated'));
     }
 
     /**
      * Delete tag.
-     * 
+     *
      * @param Tag $tag
      *
      * @return mixed
      */
     public function getDelete(Tag $tag)
     {
-        $tag->delete();
+        $tag->updater()->delete();
 
         return redirect('administration/tags')
             ->with('notice', trans('tinyissue.tag_has_been_deleted'));

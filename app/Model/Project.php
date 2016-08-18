@@ -12,7 +12,6 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use URL;
 
 /**
@@ -27,7 +26,6 @@ use URL;
  * @property int $private
  * @property int $openIssuesCount
  * @property int $closedIssuesCount
- * @property int $closedIssuesCount
  * @property Collection $issues
  * @property Collection $issuesByUser
  * @property Collection $users
@@ -35,16 +33,43 @@ use URL;
  * @property Collection $activities
  * @property Collection $notes
  * @property Collection $kanbanTags
+ *
+ * @method  Collection getActiveProjects()
+ * @method  Collection getNotes()
+ * @method  Collection getPublicProjects()
+ * @method  Collection getNotMembers()
+ * @method  Collection getIssues($status = Project\Issue::STATUS_OPEN, array $filter = [])
+ * @method  Collection getIssuesForLoggedUser($status = Project\Issue::STATUS_OPEN, array $filter = [])
+ * @method  Collection getAssignedOrCreatedIssues(User $user)
+ * @method  Collection getCreatedIssues(User $user)
+ * @method  Collection getAssignedIssues(User $user)
+ * @method  Collection getRecentActivities(User $user = null, $limit = 10)
+ * @method  Collection getPublicProjectsWithRecentIssues()
+ * @method  Collection getKanbanTagsForUser(User $user)
+ * @method  Collection getKanbanTags()
+ * @method  Collection getUsersCanFixIssue()
+ * @method  Collection getUsers()
+ * @method  Collection getProjectsWithOpenIssuesCount($status = Project::STATUS_OPEN, $private = Project::PRIVATE_YES)
+ * @method  Collection getProjectsWithCountIssues(array $projectIds)
+ * @method  int countOpenIssues(User $forUser)
+ * @method  int countClosedIssues(User $forUser)
+ * @method  int countNotes()
+ * @method  int countAssignedIssues(User $forUser)
+ * @method  int countCreatedIssues(User $forUser)
+ * @method  int countPrivateProjects()
+ * @method  int countActiveProjects()
+ * @method  int countArchivedProjects()
+ * @method  int countProjectsByStatus($status)
+ * @method  $this status($status = Project::STATUS_OPEN)
+ * @method  $this active()
+ * @method  $this archived()
+ * @method  $this public()
+ * @method  $this notPublic()
  */
-class Project extends Model
+class Project extends ModelAbstract
 {
-    use Traits\CountAttributeTrait,
-        Traits\Project\CountTrait,
-        Traits\Project\FilterTrait,
-        Traits\Project\SortTrait,
-        Traits\Project\RelationTrait,
-        Traits\Project\CrudTrait,
-        Traits\Project\QueryTrait;
+    use ProjectRelations,
+        ProjectScopes;
 
     /**
      * Project private & user role can see their own issues only.
@@ -130,6 +155,16 @@ class Project extends Model
         self::PRIVATE_YES  => 'private',
         self::INTERNAL_YES => 'internal',
     ];
+
+    /**
+     * @param User|null $user
+     *
+     * @return \Tinyissue\Repository\Project\Updater
+     */
+    public function updater(User $user = null)
+    {
+        return parent::updater($user);
+    }
 
     /**
      * Generate a URL for the active project.
@@ -299,34 +334,17 @@ class Project extends Model
     }
 
     /**
-     * Whether or not a user can access the project.
+     * Get user preferred messaging type.
      *
-     * @param User $user
+     * @param int $userId
      *
-     * @return bool
+     * @return mixed
      */
-    public function canView(User $user)
+    public function getPreferredMessageIdForUser($userId)
     {
-        // Is member of the project
-        if (
-            ($this->isPublic() && app('tinyissue.settings')->isPublicProjectsEnabled()) ||
-            $this->isMember($user->id)
-        ) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * Whether a user can edit the project.
-     *
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function canEdit(User $user)
-    {
-        return $user->permission(Permission::PERM_PROJECT_MODIFY) || $user->permission(Permission::PERM_PROJECT_ALL);
+        return $this->projectUsers()
+            ->where('user_id', '=', $userId)
+            ->first()
+            ->message_id;
     }
 }

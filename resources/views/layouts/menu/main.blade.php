@@ -11,9 +11,9 @@
     @usemacro('menu_item', 'dashboard', 'dashboard', 'dashboard')
     @usemacro('menu_item', 'issues', 'user/issues', 'your_issues')
     @usemacro('menu_item', 'projects', 'projects', 'projects')
-    @permission('administration')
+    @can('manage-admin')
     @usemacro('menu_item', 'settings', 'administration', 'administration')
-    @endpermission
+    @endcan
 
     @usemacro('menu_item', 'settings', 'user/settings', 'myprofile', ' visible-xs hidden-sm hidden-lg')
     @usemacro('menu_item', 'logout', 'logout', 'logout', ' visible-xs hidden-sm hidden-lg')

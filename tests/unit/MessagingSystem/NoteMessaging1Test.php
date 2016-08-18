@@ -32,7 +32,7 @@ class NoteMessaging1Test extends MessagingSystemAbstract
         $this->sendMessagesAndAssert('assertUpdateNote', [$note, $admin, $manager]);
         Issue\Comment::flushEventListeners();
 
-        $note->deleteNote($manager);
+        $note->updater($manager)->delete($manager);
 
         $this->sendMessagesAndAssert('assertDeleteComment', [$note, $admin, $manager]);
     }

@@ -17,5 +17,5 @@
 @stop
 
 @section('content')
-    {!! Form::form($form, ['action'=>'','secure'=>null]) !!}
+    {!! Form::form($form, ['secure'=>null]) !!}
 @stop

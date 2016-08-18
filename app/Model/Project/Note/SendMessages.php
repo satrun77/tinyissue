@@ -11,11 +11,10 @@
 
 namespace Tinyissue\Model\Project\Note;
 
+use Illuminate\Support\Collection;
+use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
-use Tinyissue\Model\Message\Queue;
-use Illuminate\Support\Collection;
-use Tinyissue\Model\User;
 use Tinyissue\Services\SendMessagesAbstract;
 
 /**
@@ -162,7 +161,7 @@ class SendMessages extends SendMessagesAbstract
      */
     protected function validateData()
     {
-        return $this->getProject() && $this->getModel() && (int) $this->getModel()->project_id === (int) $this->getProject()->id;
+        return $this->getProject() && $this->getModel() && $this->getModel()->project_id === $this->getProject()->id;
     }
 
     /**

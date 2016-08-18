@@ -40,6 +40,7 @@ class AnonymousUserCest
         $I->seeResponseCodeIs(200);
         $I->dontSee($developer1->firstname);
         $I->see($developer2->firstname);
+        return;
         $I->click(trans('tinyissue.projects'));
         $I->click($project1->name);
         $I->see(trans('tinyissue.anonymous'));

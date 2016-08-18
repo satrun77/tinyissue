@@ -11,14 +11,13 @@
 
 namespace Tinyissue\Services;
 
+use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Mail\Message as MailMessage;
 use Illuminate\Support\Collection;
-use Illuminate\Contracts\Mail\Mailer;
 use Tinyissue\Http\Requests\FormRequest\Note;
 use Tinyissue\Model\Message;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
-use Tinyissue\Model\Role;
 use Tinyissue\Model\User;
 
 /**
@@ -275,7 +274,7 @@ abstract class SendMessagesAbstract
     {
         $everything = [];
         $changes->reverse()->each(function (Message\Queue $queue) use (&$everything) {
-            if (!$everything) {
+            if (empty($everything)) {
                 $everything = $this->getMessageData($queue);
             } else {
                 $messageData = $this->getMessageData($queue);
@@ -342,7 +341,7 @@ abstract class SendMessagesAbstract
     /**
      * Returns an instance of project issue.
      *
-     * @return Issue
+     * @return Issue|bool
      */
     abstract protected function getIssue();
 
@@ -397,10 +396,10 @@ abstract class SendMessagesAbstract
      */
     protected function getUserById($userId)
     {
-        $projectUser = $this->getProjectUsers()->where('user_id', $userId, false)->first();
+        $projectUser = $this->getProjectUsers()->where('user_id', $userId)->first();
 
         if (!$projectUser) {
-            return $this->getExcludeUsers()->where('id', $userId, false)->first();
+            return $this->getExcludeUsers()->where('id', $userId)->first();
         }
 
         return $projectUser->user;
@@ -414,7 +413,7 @@ abstract class SendMessagesAbstract
     protected function getMessages()
     {
         if (null === $this->messages) {
-            $this->messages = (new Message())->orderBy('id', 'ASC')->get();
+            $this->messages = Message::instance()->getAll();
         }
 
         return $this->messages;
@@ -511,11 +510,7 @@ abstract class SendMessagesAbstract
     protected function wantToReceiveMessage(Project\User $user, array $data)
     {
         /** @var Message $message */
-        $message = $user->message;
-        if (!$message) {
-            $roleName = $user->user->role->role;
-            $message  = $this->getMessages()->where('name', Message::$defaultMessageToRole[$roleName])->first();
-        }
+        $message = $this->getMessageForUser($user);
 
         // No message to send,
         // - if we can't find message object or
@@ -542,6 +537,22 @@ abstract class SendMessagesAbstract
         }
 
         return false;
+    }
+
+    /**
+     * @param Project\User $user
+     *
+     * @return Message
+     */
+    protected function getMessageForUser(Project\User $user)
+    {
+        $message = $user->message;
+        if (!$message) {
+            $roleName = $user->user->role->role;
+            $message  = $this->getMessages()->where('name', Message::$defaultMessageToRole[$roleName])->first();
+        }
+
+        return $message;
     }
 
     /**
@@ -574,13 +585,13 @@ abstract class SendMessagesAbstract
         $creator = $this->getIssue()->user;
 
         // Stop if creator excluded from messages
-        $excluded = $this->getExcludeUsers()->where('id', $creator->id, false)->first();
+        $excluded = $this->getExcludeUsers()->where('id', $creator->id)->first();
         if ($excluded) {
             return;
         }
 
         // Stop if the creator already part of the project users
-        $existInProject = $this->getProjectUsers()->where('user_id', $creator->id, false)->first();
+        $existInProject = $this->getProjectUsers()->where('user_id', $creator->id)->first();
         if ($existInProject) {
             return;
         }

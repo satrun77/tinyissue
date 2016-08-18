@@ -11,34 +11,39 @@
 
 namespace Tinyissue\Model\Project\Issue;
 
-use Tinyissue\Model\User;
-use Tinyissue\Model\Permission;
-use Illuminate\Database\Eloquent\Model as BaseModel;
+use Tinyissue\Model\ModelAbstract;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Traits\Project\Issue\Attachment\CrudTrait;
-use Tinyissue\Model\Traits\Project\Issue\Attachment\RelationTrait;
+use Tinyissue\Model\User;
 
 /**
  * Attachment is model class for project attachments.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property int $id
- * @property int $uploaded_by
- * @property int $issue_id
- * @property int $comment_id
- * @property string $filename
- * @property string $fileextension
- * @property int $filesize
- * @property string $upload_token
+ * @property int           $id
+ * @property int           $uploaded_by
+ * @property int           $issue_id
+ * @property int           $comment_id
+ * @property string        $filename
+ * @property string        $fileextension
+ * @property int           $filesize
+ * @property string        $upload_token
  * @property Project\Issue $issue
- * @property User $user
- * @property Comment $comment
+ * @property User          $user
+ * @property Comment       $comment
+ *
+ * @method $this byUser($userOrId)
+ * @method $this forToken($token)
+ * @method $this filename($name)
+ * @method string getFilePath()
+ * @method string getLastModified()
+ * @method string getSize()
+ * @method string getMimetype()
+ * @method \Illuminate\Http\Response getDisplayResponse(\Illuminate\Http\Request $request)
  */
-class Attachment extends BaseModel
+class Attachment extends ModelAbstract
 {
-    use CrudTrait,
-        RelationTrait;
+    use AttachmentRelations, AttachmentScopes;
 
     /**
      * Timestamp enabled.
@@ -66,6 +71,16 @@ class Attachment extends BaseModel
         'filesize',
         'upload_token',
     ];
+
+    /**
+     * @param User|null $user
+     *
+     * @return \Tinyissue\Repository\Project\Issue\Attachment\Updater
+     */
+    public function updater(User $user = null)
+    {
+        return parent::updater($user);
+    }
 
     /**
      * Whether or not the file extension is supported image type.
@@ -114,29 +129,5 @@ class Attachment extends BaseModel
     public function toDelete()
     {
         return \URL::to('project/' . $this->issue->project_id . '/issue/' . $this->issue_id . '/delete/' . $this->id);
-    }
-
-    /**
-     * Whether a user can view the issue.
-     *
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function canView(User $user)
-    {
-        return $this->issue->canView($user);
-    }
-
-    /**
-     * Whether a user can edit the attachment.
-     *
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function canEdit(User $user)
-    {
-        return (int) $user->id === (int) $this->uploaded_by || ($this->canView($user) && $user->permission(Permission::PERM_ISSUE_MODIFY));
     }
 }

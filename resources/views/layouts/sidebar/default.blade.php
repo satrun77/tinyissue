@@ -1,7 +1,7 @@
 <h2>
-    @permission('project-create')
+    @can('create', Tinyissue\Model\Project::class)
     <a href="{{ URL::to('projects/new') }}" class="add" title="New Project">@lang('tinyissue.new')</a>
-    @endpermission
+    @endcan
     @lang('tinyissue.active_projects')
     <span>@lang('tinyissue.active_projects_description')</span>
 </h2>

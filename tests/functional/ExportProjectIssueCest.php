@@ -161,7 +161,7 @@ class ExportProjectIssueCest
         list($manager, $project, $issues1, $issues2, $developer) = $this->_createData($I, true);
         $I->login($manager->email, '123', $manager->firstname);
 
-        $status = (new Tag())->getStatusTags()->get()->random(1);
+        $status = (new Tag())->getStatusTags()->random(1);
         array_walk($issues1, function ($issue) use ($status) {
             $issue->tags()->save($status);
         });

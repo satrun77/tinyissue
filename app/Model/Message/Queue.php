@@ -12,14 +12,12 @@
 namespace Tinyissue\Model\Message;
 
 use Illuminate\Database\Eloquent\Model;
+use Tinyissue\Model\ModelAbstract;
 use Tinyissue\Model\Project;
 use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Comment;
 use Tinyissue\Model\Project\Note;
 use Tinyissue\Model\User;
-use Tinyissue\Model\Traits\Message\Queue\CrudTrait;
-use Tinyissue\Model\Traits\Message\Queue\QueryTrait;
-use Tinyissue\Model\Traits\Message\Queue\RelationTrait;
 
 /**
  * Queue is model class for message queue.
@@ -35,12 +33,13 @@ use Tinyissue\Model\Traits\Message\Queue\RelationTrait;
  * @property User $changeBy
  * @property int $created_at
  * @property Issue|Comment|Note|Project $model
+ *
+ * @method Collection getLatestMessages()
+ * @method $this latest()
  */
-class Queue extends Model
+class Queue extends ModelAbstract
 {
-    use CrudTrait,
-        RelationTrait,
-        QueryTrait;
+    use QueueRelations, QueueScopes;
 
     // List of available events
     const ADD_ISSUE             = 'add_issue';
@@ -92,6 +91,16 @@ class Queue extends Model
     protected $casts = [
         'payload' => 'array',
     ];
+
+    /**
+     * @param User|null $user
+     *
+     * @return \Tinyissue\Repository\Message\Queue\Updater
+     */
+    public function updater(User $user = null)
+    {
+        return parent::updater($user);
+    }
 
     /**
      * Get an item from a payload using "dot" notation.

@@ -18,18 +18,18 @@ active
 
 @section('content')
 
-{!! Html::tab([
-    [
-        'url' => URL::to('projects'),
-        'page' => 'active',
-        'prefix' => $active_count,
-    ],
-    [
-        'url' => URL::to('projects') . '/0',
-        'page' => 'archived',
-        'prefix' => $archived_count
-    ],
-], $active) !!}
+    {!! Html::tab([
+        [
+            'url' => URL::to('projects'),
+            'page' => 'active',
+            'prefix' => $active_count,
+        ],
+        [
+            'url' => URL::to('projects') . '/0',
+            'page' => 'archived',
+            'prefix' => $archived_count
+        ],
+    ], $active) !!}
 
 <div class="inside-tabs">
 {!! Html::startBox() !!}
@@ -48,11 +48,11 @@ active
     </li>
     @endforeach
 
-    @permission('project-create')
-    @if(count($content_projects) == 0)
-    <li>@lang('tinyissue.you_do_not_have_any_projects') <a href="{{ URL::to('projects/new') }}">@lang('tinyissue.create_project')</a></li>
-    @endif
-    @endpermission
+    @can('create', Tinyissue\Model\Project::class)
+        @if(count($content_projects) == 0)
+            <li>@lang('tinyissue.you_do_not_have_any_projects') <a href="{{ URL::to('projects/new') }}">@lang('tinyissue.create_project')</a></li>
+        @endif
+    @endcan
 </ul>
 {!! Html::endBox() !!}
 </div>

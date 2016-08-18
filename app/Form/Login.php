@@ -23,37 +23,95 @@ class Login extends FormAbstract
      */
     public function fields()
     {
-        $fields = [
+        $fields = $this->emailField();
+        $fields += $this->passwordField();
+        $fields += $this->startGroup();
+        $fields += $this->submitField();
+        $fields += $this->rememberField();
+        $fields += $this->closeGroup();
+
+        return $fields;
+    }
+
+    /**
+     * @return array
+     */
+    protected function emailField()
+    {
+        return [
             'email' => [
                 'type'  => 'text',
                 'label' => 'email',
             ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function passwordField()
+    {
+        return [
             'password' => [
                 'type'  => 'password',
                 'label' => 'password',
             ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function startGroup()
+    {
+        return [
             'group' => [
                 'type'     => 'group',
                 'addClass' => 'form-actions',
                 'label'    => '',
                 'required' => false,
             ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function submitField()
+    {
+        return [
             'login' => [
                 'type'  => 'primary_submit',
                 'value' => 'login',
             ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function rememberField()
+    {
+        return [
             'remember' => [
                 'type'     => 'checkbox',
                 'required' => false,
                 'text'     => 'remember_me',
                 'inline'   => null,
             ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    protected function closeGroup()
+    {
+        return [
             'closeGroup' => [
                 'type' => 'closeGroup',
             ],
         ];
-
-        return $fields;
     }
 
     /**

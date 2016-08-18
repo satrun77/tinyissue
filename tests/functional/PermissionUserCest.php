@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Collection;
+use Tinyissue\Model\Project\Issue\Comment;
 
 class PermissionUserCest
 {
@@ -41,8 +42,8 @@ class PermissionUserCest
         );
         $I->see($comment1->comment);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project1]);
-        $I->seeResponseCodeIs(401);
-        $I->amOnAction('UserController@getIssues');
+        $I->seeResponseCodeIs(403);
+        $I->amOnAction('UserController@getListIssues');
         $I->dontSeeLink($issue2->title);
         $I->dontSeeLink($issue1->title);
     }
@@ -78,7 +79,7 @@ class PermissionUserCest
         $I->seeResponseCodeIs(200);
         $I->seeLink($params['title']);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project1]);
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 
     /**
@@ -150,15 +151,35 @@ class PermissionUserCest
             ['project' => $issue->project, 'issue' => $issue],
             ['comment' => 'Comment 1', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $issue->project, 'issue' => $issue]
+            )
+        );
+        $I->dontSeeInSource('Comment 1');
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $issue2->project, 'issue' => $issue2]);
-        $I->dontSee(trans('tinyissue.comment_on_this_issue'));
+        $I->see(trans('tinyissue.comment_on_this_issue'));
         $I->sendPostRequest(
             'Project\IssueController@postAddComment',
             ['project' => $issue2->project, 'issue' => $issue2],
-            ['comment' => 'Comment 1', '_token' => csrf_token()]
+            ['comment' => 'Comment 2', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->sendAjaxGetRequest(
+            $I->getApplication()->url->action(
+                'Project\IssueController@getIssueComments',
+                ['project' => $issue2->project, 'issue' => $issue2]
+            )
+        );
+        $I->seeInSource('Comment 2');
+        $I->dontSeeRecord(Comment::instance()->getTable(), [
+            'comment' => 'Comment 1',
+            'issue_id' => $issue->id
+        ]);
+        $I->seeRecord(Comment::instance()->getTable(), [
+            'comment' => 'Comment 2',
+            'issue_id' => $issue2->id
+        ]);
     }
 
     /**
@@ -185,7 +206,7 @@ class PermissionUserCest
             ['project'   => $project1],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
         $I->amOnAction('ProjectController@getNotes', ['project' => $project2]);
         $I->dontSee(trans('tinyissue.add_note'));
         $I->sendPostRequest(
@@ -193,7 +214,7 @@ class PermissionUserCest
             ['project'   => $project2],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 
     /**
@@ -211,6 +232,6 @@ class PermissionUserCest
 
         $I->amLoggedAs($I->createUser(1, 1));
         call_user_func_array([$I, 'amOnAction'], $action);
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 }

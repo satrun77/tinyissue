@@ -12,7 +12,6 @@
 namespace Tinyissue\Model;
 
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 
 /**
  * Role is model class for roles.
@@ -25,12 +24,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $description
  * @property Collection $users
  * @property Collection $projectUsers
- * @property Collection $permissions
+ *
+ * @method  array getNameDropdown()
+ * @method  Collection getRolesWithUsers()
  */
-class Role extends Model
+class Role extends ModelAbstract
 {
-    use Traits\Role\QueryTrait,
-        Traits\Role\RelationTrait;
+    use RoleRelations;
 
     const ROLE_USER      = 'user';
     const ROLE_DEVELOPER = 'developer';

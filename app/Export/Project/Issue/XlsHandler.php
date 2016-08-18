@@ -98,9 +98,10 @@ class XlsHandler
         $query = $this->project->issues()->select(array_keys($this->columns));
 
         // Filter issues
-        $this->project->filterTitleOrBody($query, $params['keyword']);
-        $this->project->filterAssignTo($query, $params['keyword']);
-        $this->project->filterTitleOrBody($query, $params['keyword']);
+        $query
+            ->assignedTo((int) array_get($params, 'assignto'))
+            ->whereTags(array_get($params, 'tag_status'), array_get($params, 'tag_type'))
+            ->searchContent(array_get($params, 'keyword'));
 
         // Fetch issues
         $this->issues = $query->get();

@@ -11,10 +11,9 @@
 
 namespace Tinyissue\Model\Project;
 
-use Illuminate\Database\Eloquent\Model;
 use Tinyissue\Model\Message;
+use Tinyissue\Model\ModelAbstract;
 use Tinyissue\Model\Project;
-use Tinyissue\Model\Traits\Project\User\RelationTrait;
 
 /**
  * User is model class for project users.
@@ -28,10 +27,13 @@ use Tinyissue\Model\Traits\Project\User\RelationTrait;
  * @property \Tinyissue\Model\User $user
  * @property Message $message
  * @property Project $project
+ *
+ * @method  $this forUser(\Tinyissue\Model\User $user)
+ * @method  $this inProjects(array $projectIds)
  */
-class User extends Model
+class User extends ModelAbstract
 {
-    use RelationTrait;
+    use UserRelations, UserScopes;
 
     /**
      * Name of database table.

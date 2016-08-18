@@ -29,7 +29,7 @@ class IssueMessaging1Test extends MessagingSystemAbstract
 
         $issue->setRelation('project', $project);
         $issue->setRelation('updatedBy', $admin);
-        $issue->updateIssue([
+        $issue->updater($admin)->update([
             'title'       => $issue->title,
             'body'        => $issue->body,
             'assigned_to' => $issue->assigned_to,
@@ -44,13 +44,13 @@ class IssueMessaging1Test extends MessagingSystemAbstract
         Issue::flushEventListeners();
 
         $assignTo = $this->getDevelopers()->first();
-        $issue->reassign($assignTo, $admin);
+        $issue->updater($admin)->reassign($assignTo, $admin);
         $this->seeRecordInQueue(Queue::ASSIGN_ISSUE, $issue, $admin);
 
         $this->sendMessagesAndAssert('assertAssignIssue', [$assignTo, $manager1, $admin, $issue]);
         Issue::flushEventListeners();
 
-        $issue->changeStatus(Issue::STATUS_CLOSED, $manager1);
+        $issue->updater($manager1)->changeStatus(Issue::STATUS_CLOSED, $manager1);
         $this->seeRecordInQueue(Queue::CLOSE_ISSUE, $issue, $manager1);
 
         $this->sendMessagesAndAssert('assertCloseIssue', [$manager1, $issue]);

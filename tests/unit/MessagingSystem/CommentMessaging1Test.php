@@ -30,7 +30,7 @@ class CommentMessaging1Test extends MessagingSystemAbstract
         /** @var Issue\Comment $comment */
         $comment = $this->tester->createComment(0, $commenter, $issue);
 
-        $comment->updateBody('Hello my name is commenter', $commenter);
+        $comment->updater($commenter)->updateBody('Hello my name is commenter', $commenter);
 
         $this->assertSame('Hello my name is commenter', $comment->comment);
         $this->seeRecordInQueue(Queue::ADD_COMMENT, $comment, $commenter);
@@ -45,13 +45,13 @@ class CommentMessaging1Test extends MessagingSystemAbstract
         $this->tester->dontSeeRecord('messages_queue');
         Issue\Comment::flushEventListeners();
 
-        $comment->updateBody('Hello my name is commenter 2', $commenter);
+        $comment->updater($commenter)->updateBody('Hello my name is commenter 2', $commenter);
         $this->seeRecordInQueue(Queue::UPDATE_COMMENT, $comment, $commenter);
         $this->tester->dontSeeRecord('messages_queue', ['event' => Queue::ADD_COMMENT]);
 
         $this->sendMessagesAndAssert('assertUpdateComment', [$commenter, $comment, $assignTo, $fullSubscriber]);
 
-        $comment->deleteComment($commenter);
+        $comment->updater($commenter)->delete($commenter);
         $message = Message::where('name', '=', 'Disabled')->get()->first();
         $fullSubscriber->updateMessagesSettings([
             $project->id => $message->id,

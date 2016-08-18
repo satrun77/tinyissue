@@ -11,7 +11,10 @@
 
 namespace Tinyissue\Form;
 
+use Former;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Contracts\Foundation\Application;
+use Tinyissue\Contracts\Form\FormInterface;
 use Tinyissue\Extensions\Auth\LoggedUser;
 use Tinyissue\Model\Project as ProjectModel;
 use Tinyissue\Model\User as UserModel;
@@ -26,24 +29,46 @@ abstract class FormAbstract implements FormInterface
     use LoggedUser;
 
     /**
-     * An instance of Model.
+     * An instance of model .
      *
      * @var Model
      */
     protected $model;
 
     /**
-     * Set an instance of model currently being edited.
+     * @var Application
+     */
+    protected $app;
+
+    public function __construct(Application $app)
+    {
+        $this->app = $app;
+    }
+
+    /**
+     * Set an instance of the  that own the model being edited.
      *
      * @param Model $model
      *
      * @return void|FormInterface
      */
-    public function editingModel(Model $model)
+    public function setModel(Model $model = null)
     {
         $this->model = $model;
 
+        Former::populate($this->model);
+
         return $this;
+    }
+
+    /**
+     * Return an instance of the  that own the model being edited.
+     *
+     * @return Model
+     */
+    public function getModel()
+    {
+        return $this->model;
     }
 
     /**
@@ -55,12 +80,11 @@ abstract class FormAbstract implements FormInterface
      */
     public function setup(array $params)
     {
-        $model = array_first($params, function ($key, $value) {
+        // Get the first  instance from param & set it as the owner of the form.
+        $model = array_first($params, function ($value) {
             return $value instanceof Model;
         });
-        if ($model) {
-            $this->editingModel($model);
-        }
+        $this->setModel($model);
 
         return $this;
     }
@@ -72,17 +96,7 @@ abstract class FormAbstract implements FormInterface
      */
     public function isEditing()
     {
-        return $this->model instanceof Model;
-    }
-
-    /**
-     * Return an instance of the model being edited.
-     *
-     * @return Model
-     */
-    public function getModel()
-    {
-        return $this->model;
+        return $this->getModel() instanceof Model && $this->getModel()->id > 0;
     }
 
     /**
@@ -147,7 +161,7 @@ abstract class FormAbstract implements FormInterface
     protected function projectUploadFields($name, ProjectModel $project, UserModel $user)
     {
         return [
-            $name => [
+            $name            => [
                 'type'                 => 'FileUpload',
                 'data_message_success' => trans('tinyissue.success_upload'),
                 'data_message_failed'  => trans('tinyissue.error_uploadfailed'),

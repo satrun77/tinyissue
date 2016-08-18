@@ -63,7 +63,8 @@ trait Creatables
         Model\User $creator,
         Model\User $assign = null,
         Model\Project $project = null
-    ) {
+    )
+    {
         $project = $project ?: $this->createProject($index, [$assign]);
 
         $issueData = [
@@ -79,11 +80,12 @@ trait Creatables
             'status'       => Model\Project\Issue::STATUS_OPEN,
         ];
         $issueData['assigned_to'] = null !== $assign ? $assign->id : '';
+        $issueData['project'] = $project;
+        $issueData['user'] = $creator;
 
         $issue = new Model\Project\Issue();
-        $issue->setRelation('project', $project);
-        $issue->setRelation('user', $creator);
-        $issue->createIssue($issueData);
+        $issue->setRelations($issueData);
+        $issue->updater($creator)->create($issueData);
 
         return $issue;
     }
@@ -107,12 +109,13 @@ trait Creatables
                 $projectData['user'][$user->id] = $user->id;
             }
         }
-        $user                            = current($users);
-        $assignee                        = $user instanceof Model\User ? $user->id : '';
+        $user = current($users);
+        $assignee = $user instanceof Model\User ? $user->id : '';
         $projectData['default_assignee'] = $assignee;
 
         $project = new Model\Project();
-        $project->createProject($projectData);
+        $project->setRelations($projectData);
+        $project->updater()->create($projectData);
 
         return $project;
     }
@@ -129,10 +132,12 @@ trait Creatables
     public function createComment($index = 0, Model\User $user, Model\Project\Issue $issue)
     {
         $comment = new Model\Project\Issue\Comment();
-        $comment->setRelation('project', $issue->project);
-        $comment->setRelation('issue', $issue);
-        $comment->setRelation('user', $user);
-        $comment->createComment([
+        $comment->setRelations([
+            'issue'   => $issue,
+            'user'    => $user,
+            'project' => $issue->project,
+        ]);
+        $comment->updater($user)->create([
             'comment'      => 'Comment ' . $index,
             'upload_token' => '-',
         ]);
@@ -154,9 +159,11 @@ trait Creatables
         $project = $project ?: $this->createProject($index);
 
         $note = new Model\Project\Note();
-        $note->setRelation('project', $project);
-        $note->setRelation('createdBy', $user);
-        $note->createNote([
+        $note->setRelations([
+            'project'   => $project,
+            'createdBy' => $user,
+        ]);
+        $note->updater($user)->create([
             'note_body' => 'Note ' . $index,
         ]);
 
@@ -177,7 +184,7 @@ trait Creatables
      */
     public function createTag($name, $parent, $color = 'red', $roleLimit = 0, $messageLimit = 0, $readonly = 0)
     {
-        $parent = (new Model\Tag())->getTagByName($parent);
+        $parent = (new Model\Tag())->ofType($parent)->first();
 
         $tag = (new Model\Tag())->fill([
             'name'          => $name,

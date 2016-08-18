@@ -14,7 +14,7 @@ matrix:
 before_script:
   - sh -c "sed -i -e s%'smtp'%'log'% config/mail.php"
   - composer self-update
-  - touch storage/database.sqlite
+  - touch database/database.sqlite
   - cp .env.testing .env
   - composer install --prefer-source
   - php artisan migrate
@@ -22,7 +22,7 @@ before_script:
   - ./vendor/bin/codecept build
 
 script:
-  - ./vendor/bin/codecept run --coverage-xml
+    - ./vendor/bin/codecept run --coverage-xml
 
 after_script:
   - cat tests/_output/*.fail.html

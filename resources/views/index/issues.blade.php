@@ -32,10 +32,10 @@ active
                                 {{ Html::age($issue->updated_at) }}
                             @endif
 s
-                            @if ($issue->canUserViewQuote(auth()->user()))
+                            @can('viewLockedQuote', $issue)
                                 - @lang('tinyissue.time_quote')
                                 <strong>{{ Html::duration($issue->time_quote) }}</strong>
-                            @endif
+                            @endcan
                         </div>
                     </div>
                 </li>

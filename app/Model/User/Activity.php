@@ -11,20 +11,28 @@
 
 namespace Tinyissue\Model\User;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
-use Tinyissue\Model\Traits\User\Activity\RelationTrait;
+use Tinyissue\Extensions\Auth\LoggedUser;
+use Tinyissue\Model\ModelAbstract;
 
 /**
  * Activity is model class for user activities.
  *
  * @author Mohamed Alsharaf <mohamed.alsharaf@gmail.com>
  *
- * @property static $this
+ * @property int   $type_id
+ * @property int   $parent_id
+ * @property int   $user_id
+ * @property int   $item_id
+ * @property int   $action_id
+ * @property array $data
+ *
+ * @method  $this loadRelatedDetails()
+ * @method  $this limitResultForUserRole()
  */
-class Activity extends Model
+class Activity extends ModelAbstract
 {
-    use RelationTrait;
+    use ActivityRelations, ActivityScopes, LoggedUser;
 
     /**
      * Timestamp enabled.

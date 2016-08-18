@@ -11,7 +11,6 @@
 
 namespace Tinyissue\Http\Controllers;
 
-use Lang;
 use Tinyissue\Form\Login as LoginForm;
 use Tinyissue\Http\Requests\FormRequest;
 use Tinyissue\Model\Project;
@@ -35,8 +34,8 @@ class HomeController extends Controller
     public function getIssues(User $user, Project $project)
     {
         return view('index.issues', [
-            'activeUsers' => $user->activeUsers(),
-            'projects'    => $project->projectsWidthIssues(Project::STATUS_OPEN, Project::PRIVATE_NO)->get(),
+            'activeUsers' => $user->getActiveUsers(),
+            'projects'    => $project->getPublicProjectsWithRecentIssues(),
             'sidebar'     => 'public',
         ]);
     }
@@ -49,7 +48,7 @@ class HomeController extends Controller
     public function getDashboard()
     {
         return view('index.dashboard', [
-            'projects' => $this->getLoggedUser()->projectsWidthActivities(Project::STATUS_OPEN)->get(),
+            'projects' => $this->getLoggedUser()->getProjectsWithRecentActivities(),
         ]);
     }
 
@@ -60,7 +59,7 @@ class HomeController extends Controller
      */
     public function getLogout()
     {
-        $this->auth->logout();
+        $this->getAuth()->logout();
 
         return redirect('/')->with('message', trans('tinyissue.loggedout'));
     }
@@ -74,7 +73,7 @@ class HomeController extends Controller
      */
     public function getIndex(LoginForm $form)
     {
-        if (!$this->auth->guest()) {
+        if ($this->isLoggedIn()) {
             return redirect('dashboard');
         }
 
@@ -92,7 +91,7 @@ class HomeController extends Controller
     {
         $credentials = $request->only('email', 'password');
 
-        if ($this->auth->attempt($credentials, $request->has('remember'))
+        if ($this->getAuth()->attempt($credentials, $request->has('remember'))
             && $this->getLoggedUser()->isActive()
         ) {
             return redirect()->to('/dashboard');
@@ -100,7 +99,7 @@ class HomeController extends Controller
 
         // Get error message
         $errorMessage = 'password_incorrect';
-        if (!$this->auth->guest()) {
+        if ($this->isLoggedIn()) {
             if ($this->getLoggedUser()->isInactive()) {
                 $errorMessage = 'user_is_not_active';
             } elseif ($this->getLoggedUser()->isBlocked()) {
@@ -108,7 +107,7 @@ class HomeController extends Controller
             }
 
             // Logged out
-            $this->auth->logout();
+            $this->getAuth()->logout();
         }
 
         return redirect('/')

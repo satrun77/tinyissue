@@ -41,8 +41,8 @@ class PermissionDeveloperCest
         );
         $I->see($comment1->comment);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project1]);
-        $I->seeResponseCodeIs(401);
-        $I->amOnAction('UserController@getIssues');
+        $I->seeResponseCodeIs(403);
+        $I->amOnAction('UserController@getListIssues');
         $I->dontSeeLink($issue2->title);
         $I->dontSeeLink($issue1->title);
     }
@@ -76,7 +76,7 @@ class PermissionDeveloperCest
         $I->seeResponseCodeIs(200);
         $I->seeLink($params['title']);
         $I->amOnAction('Project\IssueController@getNew', ['project' => $project1]);
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 
     /**
@@ -139,13 +139,13 @@ class PermissionDeveloperCest
         );
         $I->see('Comment one');
         $I->amOnAction('Project\IssueController@getIndex', ['project' => $project1, 'issue' => $issue1]);
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
         $I->sendPostRequest(
             'Project\IssueController@postAddComment',
             ['project' => $project1, 'issue' => $issue1],
             ['comment' => 'Comment 1', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 
     /**
@@ -216,7 +216,7 @@ class PermissionDeveloperCest
             ['project'   => $project1],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
         $I->amOnAction('ProjectController@getNotes', ['project' => $project2]);
         $I->dontSee(trans('tinyissue.add_note'));
         $I->sendPostRequest(
@@ -224,7 +224,7 @@ class PermissionDeveloperCest
             ['project'   => $project2],
             ['note_body' => 'Note 1', '_token' => csrf_token()]
         );
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 
     /**
@@ -242,6 +242,6 @@ class PermissionDeveloperCest
 
         $I->amLoggedAs($I->createUser(1, 2));
         call_user_func_array([$I, 'amOnAction'], $action);
-        $I->seeResponseCodeIs(401);
+        $I->seeResponseCodeIs(403);
     }
 }

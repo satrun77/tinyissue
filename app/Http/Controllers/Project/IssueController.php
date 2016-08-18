@@ -22,7 +22,6 @@ use Tinyissue\Model\Project\Issue;
 use Tinyissue\Model\Project\Issue\Attachment;
 use Tinyissue\Model\Project\Issue\Comment;
 use Tinyissue\Model\Tag;
-use Tinyissue\Model\User\Activity as UserActivity;
 
 /**
  * IssueController is the controller class for managing request related to projects issues.
@@ -42,18 +41,24 @@ class IssueController extends Controller
      */
     public function getIndex(Project $project, Issue $issue, CommentForm $form)
     {
+        $canEdit           = $this->allows('update', $issue);
+        $usersCanFixIssues = $canEdit && $issue->status == Issue::STATUS_OPEN ? $project->getUsersCanFixIssue() : [];
+
         // Projects should be limited to issue-modify
         $projects = null;
-        if (!$this->auth->guest() && $this->getLoggedUser()->permission('issue-modify')) {
-            $projects = $this->getLoggedUser()->projects()->get();
+        if ($canEdit) {
+            $projects = $this->getLoggedUser()->getProjects();
         }
 
         return view('project.issue.index', [
-            'issue'       => $issue,
-            'project'     => $project,
-            'commentForm' => $form,
-            'sidebar'     => 'project',
-            'projects'    => $projects,
+            'issue'               => $issue,
+            'usersCanFixIssues'   => $usersCanFixIssues,
+            'project'             => $project,
+            'closed_issues_count' => $project->countClosedIssues($this->getLoggedUser()),
+            'open_issues_count'   => $project->countOpenIssues($this->getLoggedUser()),
+            'commentForm'         => $form,
+            'sidebar'             => 'project',
+            'projects'            => $projects,
         ]);
     }
 
@@ -67,10 +72,9 @@ class IssueController extends Controller
      */
     public function postAssign(Issue $issue, Request $request)
     {
-        $response = ['status' => false];
-        if ($issue->reassign((int) $request->input('user_id'), $this->getLoggedUser())) {
-            $response['status'] = true;
-        }
+        $response = [
+            'status' => $issue->updater($this->getLoggedUser())->reassign((int) $request->input('user_id'), $this->getLoggedUser()),
+        ];
 
         return response()->json($response);
     }
@@ -87,7 +91,9 @@ class IssueController extends Controller
     {
         $body = '';
         if ($request->has('body')) {
-            $comment->updateBody((string) $request->input('body'), $this->getLoggedUser());
+            $comment
+                ->updater($this->getLoggedUser())
+                ->updateBody((string) $request->input('body'));
             $body = \Html::format($comment->comment);
         }
 
@@ -106,13 +112,14 @@ class IssueController extends Controller
      */
     public function postAddComment(Project $project, Issue $issue, Comment $comment, FormRequest\Comment $request)
     {
-        $comment->setRelation('project', $project);
-        $comment->setRelation('issue', $issue);
-        $comment->setRelation('user', $this->getLoggedUser());
-        $comment->createComment($request->all());
+        $comment->setRelations([
+            'project' => $project,
+            'issue'   => $issue,
+            'user'    => $this->getLoggedUser(),
+        ]);
+        $comment->updater($this->getLoggedUser())->create($request->all());
 
-        return redirect($issue->to() . '#comment' . $comment->id)
-            ->with('notice', trans('tinyissue.your_comment_added'));
+        return redirect($issue->to() . '#comment' . $comment->id)->with('notice', trans('tinyissue.your_comment_added'));
     }
 
     /**
@@ -124,7 +131,7 @@ class IssueController extends Controller
      */
     public function getDeleteComment(Comment $comment)
     {
-        $comment->deleteComment($this->getLoggedUser());
+        $comment->updater($this->getLoggedUser())->delete();
 
         return response()->json(['status' => true]);
     }
@@ -157,12 +164,13 @@ class IssueController extends Controller
      */
     public function postNew(Project $project, Issue $issue, FormRequest\Issue $request)
     {
-        $issue->setRelation('project', $project);
-        $issue->setRelation('user', $this->getLoggedUser());
-        $issue->createIssue($request->all());
+        $issue->setRelations([
+            'project' => $project,
+            'user'    => $this->getLoggedUser(),
+        ]);
+        $issue->updater($this->getLoggedUser())->create($request->all());
 
-        return redirect($issue->to())
-            ->with('notice', trans('tinyissue.issue_has_been_created'));
+        return redirect($issue->to())->with('notice', trans('tinyissue.issue_has_been_created'));
     }
 
     /**
@@ -203,15 +211,16 @@ class IssueController extends Controller
     {
         // Delete the issue
         if ($request->has('delete-issue')) {
-            $issue->delete();
+            $issue->updater($this->getLoggedUser())->delete();
 
-            return redirect($project->to())
-                ->with('notice', trans('tinyissue.issue_has_been_deleted'));
+            return redirect($project->to())->with('notice', trans('tinyissue.issue_has_been_deleted'));
         }
 
-        $issue->setRelation('project', $project);
-        $issue->setRelation('updatedBy', $this->getLoggedUser());
-        $issue->updateIssue($request->all());
+        $issue->setRelations([
+            'project'   => $project,
+            'updatedBy' => $this->getLoggedUser(),
+        ]);
+        $issue->updater($this->getLoggedUser())->update($request->all());
 
         return redirect($issue->to())
             ->with('notice', trans('tinyissue.issue_has_been_updated'));
@@ -235,7 +244,7 @@ class IssueController extends Controller
         }
 
         $issue->setRelation('project', $project);
-        $issue->changeStatus($status, $this->getLoggedUser());
+        $issue->updater($this->getLoggedUser())->changeStatus($status, $this->getLoggedUser());
 
         return redirect($issue->to())
             ->with('notice', $message);
@@ -253,11 +262,7 @@ class IssueController extends Controller
     public function postUploadAttachment(Project $project, Attachment $attachment, Request $request)
     {
         try {
-            if (!$this->getLoggedUser()->permission('project-all')) {
-                abort(404);
-            }
-
-            $attachment->upload($request->all(), $project, $this->getLoggedUser());
+            $attachment->updater($this->getLoggedUser())->upload($request->all(), $project, $this->getLoggedUser());
 
             $response = [
                 'upload' => [
@@ -283,22 +288,6 @@ class IssueController extends Controller
     }
 
     /**
-     * Ajax: to remove an attachment file.
-     *
-     * @param Project    $project
-     * @param Attachment $attachment
-     * @param Request    $request
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function postRemoveAttachment(Project $project, Attachment $attachment, Request $request)
-    {
-        $attachment->remove($request->all(), $project, $this->getLoggedUser());
-
-        return response()->json(['status' => true]);
-    }
-
-    /**
      * Delete attachment.
      *
      * @param Project    $project
@@ -309,21 +298,11 @@ class IssueController extends Controller
      */
     public function getDeleteAttachment(Project $project, Issue $issue, Attachment $attachment)
     {
-        $path = config('filesystems.disks.local.root')
-            . '/' . config('tinyissue.uploads_dir')
-            . '/' . $project->id
-            . '/' . $attachment->upload_token;
-        try {
-            $attachment->deleteFile($path, $attachment->filename);
-        } catch (\Exception $e) {
-            // For now error of removing the file from the storage is ignored.
-            // File might not be in server, error is not important.
-            // No permission to delete file, this will creates orphan file.
-        }
-        $attachment->delete();
+        $issue->setRelation('project', $project);
+        $attachment->setRelation('issue', $issue);
+        $attachment->updater($this->getLoggedUser())->delete();
 
-        return redirect($issue->to())
-            ->with('notice', trans('tinyissue.attachment_has_been_deleted'));
+        return redirect($issue->to())->with('notice', trans('tinyissue.attachment_has_been_deleted'));
     }
 
     /**
@@ -341,33 +320,7 @@ class IssueController extends Controller
         $issue->setRelation('project', $project);
         $attachment->setRelation('issue', $issue);
 
-        $path    = config('tinyissue.uploads_dir') . '/' . $issue->project_id . '/' . $attachment->upload_token . '/' . $attachment->filename;
-        $storage = \Storage::disk('local');
-        $length  = $storage->size($path);
-        $time    = $storage->lastModified($path);
-        $type    = $storage->getDriver()->getMimetype($path);
-
-        $response = new Response();
-        $response->setEtag(md5($time . $path));
-        $response->setExpires(new \DateTime('@' . ($time + 60)));
-        $response->setLastModified(new \DateTime('@' . $time));
-        $response->setPublic();
-        $response->setStatusCode(200);
-
-        $response->header('Content-Type', $type);
-        $response->header('Content-Length', $length);
-        $response->header('Content-Disposition', 'inline; filename="' . $attachment->filename . '"');
-        $response->header('Cache-Control', 'must-revalidate');
-
-        if ($response->isNotModified($request)) {
-            // Return empty response if not modified
-            return $response;
-        }
-
-        // Return file if first request / modified
-        $response->setContent($storage->get($path));
-
-        return $response;
+        return $attachment->getDisplayResponse($request);
     }
 
     /**
@@ -399,7 +352,7 @@ class IssueController extends Controller
      */
     public function postChangeProject(Issue $issue, Request $request)
     {
-        $issue->changeProject((int) $request->input('project_id'));
+        $issue->updater()->changeProject((int) $request->input('project_id'));
 
         return response()->json(['status' => true, 'url' => $issue->to()]);
     }
@@ -417,7 +370,7 @@ class IssueController extends Controller
         $newTag = Tag::find((int) $request->input('newtag'));
         $oldTag = Tag::find((int) $request->input('oldtag'));
 
-        $issue->changeKanbanTag($newTag, $oldTag);
+        $issue->updater($this->getLoggedUser())->changeKanbanTag($newTag, $oldTag);
 
         return response()->json(['status' => true, 'issue' => $issue->id]);
     }
@@ -432,20 +385,14 @@ class IssueController extends Controller
      */
     public function getIssueComments(Project $project, Issue $issue)
     {
-        $issue->attachments->each(function (Attachment $attachment) use ($issue) {
-            $attachment->setRelation('issue', $issue);
-        });
-        $activities = $issue->commentActivities()->with('activity', 'user', 'comment', 'assignTo',
-            'comment.attachments')->get();
-        $activities->each(function (UserActivity $activity) use ($issue) {
-            $activity->setRelation('issue', $issue);
-        });
+        $issue->setRelation('project', $project);
+        $activities = $issue->getCommentActivities();
 
         return view('project.issue.partials.activities', [
-            'noData'     => trans('tinyissue.no_comments'),
-            'activities' => $activities,
-            'project'    => $project,
-            'issue'      => $issue,
+            'no_data'     => trans('tinyissue.no_comments'),
+            'activities'  => $activities,
+            'project'     => $project,
+            'issue'       => $issue,
         ]);
     }
 
@@ -459,16 +406,14 @@ class IssueController extends Controller
      */
     public function getIssueActivity(Project $project, Issue $issue)
     {
-        $activities = $issue->generalActivities()->with('activity', 'user', 'assignTo')->get();
-        $activities->each(function (UserActivity $activity) use ($issue) {
-            $activity->setRelation('issue', $issue);
-        });
+        $issue->setRelation('project', $project);
+        $activities = $issue->getGeneralActivities();
 
         return view('project.issue.partials.activities', [
-            'noData'     => trans('tinyissue.no_activities'),
-            'activities' => $activities,
-            'project'    => $project,
-            'issue'      => $issue,
+            'no_data'     => trans('tinyissue.no_activities'),
+            'activities'  => $activities,
+            'project'     => $project,
+            'issue'       => $issue,
         ]);
     }
 }

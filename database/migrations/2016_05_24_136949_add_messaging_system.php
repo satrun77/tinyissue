@@ -6,7 +6,6 @@ use Illuminate\Support\Collection;
 use Tinyissue\Model\Message;
 use Tinyissue\Model\Message\Queue;
 use Tinyissue\Model\Role;
-use Tinyissue\Model\User;
 
 class AddMessagingSystem extends Migration
 {
