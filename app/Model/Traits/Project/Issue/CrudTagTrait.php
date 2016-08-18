@@ -78,6 +78,14 @@ trait CrudTagTrait
         $tagIds = array_only($input, [
             'tag_type', 'tag_status', 'tag_resolution',
         ]);
+
+        // User can edit their own role and can only change issue type
+        if ($this->updatedBy instanceof User && $this->updatedBy->isUser()) {
+            $currentTagIds = $currentTags->pluck('id', 'parent.name')->toArray();
+            $tagIds['tag_status'] = array_key_exists('status', $currentTagIds)? $currentTagIds['status'] : 0;
+            $tagIds['tag_resolution'] = array_key_exists('resolution', $currentTagIds)? $currentTagIds['resolution'] : 0;
+        }
+
         $tags = (new Tag())->whereIn('id', $tagIds)->get();
 
         $removedTags = [];
