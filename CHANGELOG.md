@@ -1,5 +1,21 @@
 # Tiny Issue Change Log
 
+## Tiny Issue v2.9.0
+
+- Feature: Messaging system (Send project updates notifications).
+- Change: show resolution tags in kanban items.
+- Change: show issue tags in "Your issues" page.
+- Feature: ability to delete an issue.
+- Feature: automatically make issue read-only to specific user roles based on the current status tag.
+- Feature: ability to delete an attachment from a comment.
+- Feature: allow admin to enter new user password.
+- Feature: allow manager to lock issue quote.
+- Change: allow users with User Role to view their created issues.
+- Feature: added new project visibility status (Internal). Users with User Role can only view their created issues.
+- Feature: add global setting to set default language for new users.
+- Feature: admin setting to turn on/off maintenance mode.
+- Other bug fixes & improvements.
+
 ## Tiny Issue v2.7.1
 
 - Bug fixes.
