@@ -1,4 +1,4 @@
-# Tiny Issue v2.7.1 - for Laravel 5.1+
+# Tiny Issue v2.9.0 - for Laravel 5.1+
 [![Build Status](https://travis-ci.org/satrun77/tinyissue.svg?branch=master&?style=flat-square)](https://travis-ci.org/satrun77/tinyissue)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/a6c6ecdf-13f6-4e51-a9f0-f1fffebf1fdd/mini.png)](https://insight.sensiolabs.com/projects/a6c6ecdf-13f6-4e51-a9f0-f1fffebf1fdd)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/satrun77/tinyissue/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/satrun77/tinyissue/?branch=master)
