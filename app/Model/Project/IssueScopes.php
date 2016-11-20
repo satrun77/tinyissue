@@ -136,6 +136,19 @@ trait IssueScopes
     }
 
     /**
+     * Filter issue by internal issue number.
+     *
+     * @param Builder $query
+     * @param int     $number
+     *
+     * @return Builder
+     */
+    public function scopeNumber(Builder $query, $number)
+    {
+        return $this->whereIdEqual($query, 'issue_no', $number);
+    }
+
+    /**
      * Helper method to filter by a field and a value.
      *
      * @param Builder            $query

@@ -21,6 +21,7 @@ use URL;
  *
  * @property int $id
  * @property string $name
+ * @property string $key
  * @property int $status
  * @property int $default_assignee
  * @property int $private
@@ -132,7 +133,7 @@ class Project extends ModelAbstract
      *
      * @var array
      */
-    protected $fillable = ['name', 'default_assignee', 'status', 'private'];
+    protected $fillable = ['name', 'key', 'default_assignee', 'status', 'private'];
 
     /**
      * List of HTML classes for each status.
@@ -261,6 +262,16 @@ class Project extends ModelAbstract
         }
 
         return $progress;
+    }
+
+    /**
+     * Return project key upper case
+     *
+     * @return string
+     */
+    public function getKeyAttribute()
+    {
+        return strtoupper($this->attributes['key']);
     }
 
     /**

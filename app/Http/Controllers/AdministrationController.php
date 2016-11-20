@@ -58,7 +58,7 @@ class AdministrationController extends Controller
     {
         return view('administration.settings', [
             'form'     => $form,
-            'projects' => $this->getLoggedUser()->projects()->get(),
+            'projects' => $this->getLoggedUser()->getProjects(),
         ]);
     }
 

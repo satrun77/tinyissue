@@ -54,6 +54,11 @@ class Project extends FormAbstract
                 'type'  => 'text',
                 'label' => 'name',
             ],
+            'key' => [
+                'type'      => 'text',
+                'label'     => 'project_key',
+                'maxlength' => 3,
+            ],
             'private' => [
                 'type'    => 'select',
                 'label'   => 'visibility',
@@ -169,6 +174,7 @@ class Project extends FormAbstract
     {
         $rules = [
             'name' => 'required|max:250',
+            'key'  => 'required|size:3|unique:projects|alpha',
             'user' => 'array|min:1',
         ];
 

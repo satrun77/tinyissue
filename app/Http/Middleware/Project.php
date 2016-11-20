@@ -96,6 +96,23 @@ class Project extends MiddlewareAbstract
             return true;
         }
 
+        if ($request->route()->getUri() === 'project/issue/{issue_no}') {
+            $issueNo = $request->route()->getParameter('issue_no');
+            $segments = explode('-', $issueNo);
+            $project = ProjectModel::getByKey($segments[0]);
+            if ($project instanceof ProjectModel) {
+                $issue = $project->issues()->number($segments[1])->limit(1)->first();
+                if ($issue instanceof ProjectModel\Issue) {
+                    $issue->setRelation('project', $project);
+                    $request->route()->forgetParameter('issue_no');
+                    $request->route()->setParameter('project', $project);
+                    $request->route()->setParameter('issue', $issue);
+
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 

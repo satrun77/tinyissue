@@ -23,6 +23,8 @@ use Tinyissue\Model\ModelAbstract;
  *
  * @property int           $id
  * @property int           $created_by
+ * @property int           $issue_no
+ * @property string        $issueNumber
  * @property int           $project_id
  * @property string        $title
  * @property string        $body
@@ -169,6 +171,16 @@ class Issue extends ModelAbstract
         }
 
         return null;
+    }
+
+    /**
+     * Return issue number
+     *
+     * @return string
+     */
+    public function getIssueNumberAttribute()
+    {
+        return $this->project->key . '-' . $this->issue_no;
     }
 
     /**

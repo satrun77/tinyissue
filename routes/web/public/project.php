@@ -3,6 +3,8 @@
  * Routes for public pages when public project enabled.
  * Related to project views.
  */
+use Tinyissue\Model\Project;
+use Tinyissue\Model\Project\Issue;
 
 /** @var \Illuminate\Routing\Router $router */
 /** @var \Tinyissue\Providers\RouteServiceProvider $this */
@@ -16,6 +18,7 @@ $router->group(['middleware' => 'can:view,project'], function ($router) {
 
 // View issue
 $router->group(['middleware' => 'can:view,issue,project'], function ($router) {
+    $router->get('project/issue/{issue_no}', 'Project\IssueController@getIndex')->where('issue_no', '^[a-zA-Z]{3}-[0-9]+');
     $router->get('project/issue/{issue}', 'Project\IssueController@getIndex');
     $router->get('project/{project}/issue/{issue}', 'Project\IssueController@getIndex');
     $router->get('project/{project}/issue/{issue}/comments', ['middleware' => 'ajax', 'uses' => 'Project\IssueController@getIssueComments']);

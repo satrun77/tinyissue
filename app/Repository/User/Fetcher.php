@@ -36,7 +36,7 @@ class Fetcher extends Repository
      */
     public function getProjects()
     {
-        return $this->model->projects()->get();
+        return $this->model->projects()->active()->get();
     }
 
     /**
@@ -46,7 +46,7 @@ class Fetcher extends Repository
      */
     public function getProjectsWithSettings()
     {
-        return $this->model->projects()->with('projectUsers')->get();
+        return $this->model->projects()->active()->with('projectUsers')->get();
     }
 
     /**
@@ -66,7 +66,7 @@ class Fetcher extends Repository
      */
     public function getProjectsWithRecentActivities()
     {
-        return $this->model->projects()->with('recentActivities')->get();
+        return $this->model->projects()->active()->with('recentActivities')->get();
     }
 
     /**

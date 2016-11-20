@@ -148,6 +148,9 @@ class Updater extends RepositoryUpdater
             $fill['time_quote'] = array_get($input, 'time_quote');
         }
 
+        // Project internal issue number
+        $this->model->issue_no = $this->model->forProject($this->model->project->id)->max('issue_no') + 1;
+
         $this->model->fill($fill)->save();
 
         // Add issue to messages queue

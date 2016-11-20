@@ -29,6 +29,11 @@ class Fetcher extends Repository
         $this->model = $model;
     }
 
+    public function getByNumber($number)
+    {
+
+    }
+
     /**
      * Returns the status tag.
      *

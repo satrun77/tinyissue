@@ -31,6 +31,18 @@ class Fetcher extends Repository
     }
 
     /**
+     * Get project by its key.
+     *
+     * @param string $key
+     *
+     * @return Project
+     */
+    public function getByKey($key)
+    {
+        return $this->model->where('key', '=', $key)->limit(1)->first();
+    }
+
+    /**
      * Returns collection of active projects.
      *
      * @return Collection
