@@ -35,20 +35,21 @@ class FormBuilder extends \Collective\Html\FormBuilder
     {
         /** @var \Former\Form\Form $former Start former instance */
         $former = call_user_func(['\Former', $form->openType()]);
-
-        // Setup form
         $this->setupForm($former, $attributes, $form->rules());
 
+        // Render open form
+        $html = (string) $former;
+
         // Render fields
-        $former .= $this->renderFields($form->fields(), is_null($form->getModel()));
+        $html .= $this->renderFields($form->fields(), is_null($form->getModel()));
 
         // Render actions
-        $former .= $this->actions($form);
+        $html .= $this->actions($form);
 
         // Close the opened form
-        $former .= Former::close();
+        $html .= (string) Former::close();
 
-        return $former;
+        return $html;
     }
 
     /**
@@ -93,7 +94,7 @@ class FormBuilder extends \Collective\Html\FormBuilder
                     $actions->primary_submit(trans('tinyissue.' . $options));
                 }
             }
-            $output .= $actions;
+            $output .= (string) $actions;
         }
 
         return $output;
@@ -146,7 +147,7 @@ class FormBuilder extends \Collective\Html\FormBuilder
                 $element->value = Request::input($name);
             }
 
-            $output .= $element;
+            $output .= (string) $element;
         }
 
         return $output;
