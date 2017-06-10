@@ -344,4 +344,29 @@ class Fetcher extends Repository
             ->whereIn('id', $projectIds)
             ->get();
     }
+
+    /**
+     * Get collection of issues group by a list of tags.
+     *
+     * @param Collection $tagIds
+     * @return Collection
+     */
+    public function getIssuesGroupByTags(Collection $tagIds)
+    {
+        $tagIds = $tagIds->pluck('id')->all();
+
+        $issues = $this->model->issues()
+            ->with('user', 'tags')
+            ->open()
+            ->forProject($this->model->id)
+            ->join('projects_issues_tags', 'issue_id', '=', 'id')
+            ->whereIn('projects_issues_tags.tag_id', $tagIds)
+            ->orderBy('id')
+            ->get()
+            ->groupBy(function (Project\Issue $issue) {
+                return $issue->getStatusTag()->name;
+            });
+
+        return $issues;
+    }
 }

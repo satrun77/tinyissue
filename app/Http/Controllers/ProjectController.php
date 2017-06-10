@@ -29,6 +29,29 @@ use Tinyissue\Services\Exporter;
 class ProjectController extends Controller
 {
     /**
+     * Display project issues kanban view.
+     *
+     * @param Project $project
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function getKanban(Project $project)
+    {
+        $columns = $project->getKanbanTagsForUser($this->getLoggedUser());
+        $issues = $project->getIssuesGroupByTags($columns);
+
+
+        return view('project.issues-kanban', [
+            'sidebar' => 'project',
+            'columns' => $columns,
+            'issues' => $issues,
+            'project' => $project,
+            'open_issues_count' => $project->countOpenIssues($this->getLoggedUser()),
+            'closed_issues_count' => $project->countClosedIssues($this->getLoggedUser()),
+        ]);
+    }
+
+    /**
      * Display activity for a project.
      *
      * @param Project $project
