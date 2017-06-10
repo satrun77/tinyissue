@@ -174,9 +174,13 @@ class Project extends FormAbstract
     {
         $rules = [
             'name' => 'required|max:250',
-            'key'  => 'required|size:3|unique:projects|alpha',
+            'key'  => 'required|size:3|alpha|unique:projects',
             'user' => 'array|min:1',
         ];
+
+        if ($this->isEditing()) {
+            $rules['key'] .= ',key,' . $this->getModel()->id;
+        }
 
         return $rules;
     }
