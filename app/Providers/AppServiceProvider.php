@@ -95,7 +95,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerInstallCommand()
     {
-        $this->app['artisan.tinyissue.install'] = $this->app->share(function () {
+        $this->app->singleton('artisan.tinyissue.install', function () {
             return new Commands\Install();
         });
         $this->commands('artisan.tinyissue.install');
@@ -108,7 +108,7 @@ class AppServiceProvider extends ServiceProvider
      */
     protected function registerApplicationSettings()
     {
-        $this->app['tinyissue.settings'] = $this->app->share(function () {
+        $this->app->singleton('tinyissue.settings', function () {
             return new Services\SettingsManager();
         });
     }

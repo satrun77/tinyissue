@@ -83,11 +83,11 @@ class Project extends MiddlewareAbstract
     protected function handleIssueFilterRequest(Request $request)
     {
         /** @var ProjectModel|null $project */
-        $project = $request->route()->getParameter('project');
+        $project = $request->route()->parameter('project');
         /** @var ProjectModel\Issue|null $issue */
-        $issue = $request->route()->getParameter('issue');
+        $issue = $request->route()->parameter('issue');
 
-        if ($project === null && $issue && $request->route()->getUri() === 'project/issue/{issue}') {
+        if ($project === null && $issue && $request->route()->uri() === 'project/issue/{issue}') {
             // Load the project from the issue model
             $request->route()->forgetParameter('issue');
             $request->route()->setParameter('project', $issue->project);
@@ -96,8 +96,8 @@ class Project extends MiddlewareAbstract
             return true;
         }
 
-        if ($request->route()->getUri() === 'project/issue/{issue_no}') {
-            $issueNo = $request->route()->getParameter('issue_no');
+        if ($request->route()->uri() === 'project/issue/{issue_no}') {
+            $issueNo = $request->route()->parameter('issue_no');
             $segments = explode('-', $issueNo);
             $project = ProjectModel::getByKey($segments[0]);
             if ($project instanceof ProjectModel) {
@@ -138,7 +138,7 @@ class Project extends MiddlewareAbstract
     protected function handleProjectRequest(Request $request)
     {
         /** @var ProjectModel|null $project */
-        $project = $request->route()->getParameter('project');
+        $project = $request->route()->parameter('project');
 
         return $project instanceof ProjectModel;
     }
@@ -157,10 +157,10 @@ class Project extends MiddlewareAbstract
     protected function isBelongToProject(Request $request, $entityName)
     {
         /** @var Model $entity */
-        $entity = $request->route()->getParameter($entityName);
+        $entity = $request->route()->parameter($entityName);
 
         /** @var ProjectModel|null $project */
-        $project = $request->route()->getParameter('project');
+        $project = $request->route()->parameter('project');
 
         if (!$entity instanceof Model || !$project instanceof ProjectModel) {
             return false;

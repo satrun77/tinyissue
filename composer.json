@@ -11,25 +11,22 @@
   "type": "project",
   "require": {
     "php": ">=5.6.0",
-    "laravel/framework": "^5.3",
-    "laravelcollective/html": "^5.3",
-    "anahkiasen/former": "^4.0",
-    "graham-campbell/markdown": "~6.0",
-    "maatwebsite/excel": "~2.1",
-    "overtrue/laravel-lang": "~3.0",
+    "laravel/framework": "^5.4",
+    "laravelcollective/html": "^5.4",
+    "anahkiasen/former": "^4.1",
+    "graham-campbell/markdown": "^7.1",
+    "maatwebsite/excel": "^2.1",
+    "overtrue/laravel-lang": "^3.0",
     "thomaswelton/laravel-gravatar": "^1.1",
-    "alt-three/bus": "^2.0"
+    "alt-three/bus": "^2.1"
   },
   "require-dev": {
-    "codeception/codeception": "2.2.4",
+    "codeception/codeception": "^2.2",
     "codeception/c3": "~2.0",
-    "barryvdh/laravel-debugbar": "~2.2",
-    "phpspec/phpspec": "~3.0",
-    "mockery/mockery": "~0.9.4",
-    "fzaninotto/faker": "~1.4",
-    "phpunit/phpunit": "~4.0",
-    "symfony/css-selector": "2.8.*|3.0.*",
-    "symfony/dom-crawler": "2.8.*|3.0.*"
+    "barryvdh/laravel-debugbar": "^2.4",
+    "mockery/mockery": "^0.9",
+    "fzaninotto/faker": "^1.6",
+    "phpunit/phpunit": "~5.7"
   },
   "autoload": {
     "classmap": [
@@ -44,6 +41,12 @@
     ]
   },
   "scripts": {
+    "post-root-package-install": [
+      "php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+    ],
+    "post-create-project-cmd": [
+      "php artisan key:generate"
+    ],
     "post-install-cmd": [
       "Illuminate\\Foundation\\ComposerScripts::postInstall",
       "php artisan optimize"
@@ -51,13 +54,11 @@
     "post-update-cmd": [
       "Illuminate\\Foundation\\ComposerScripts::postUpdate",
       "php artisan optimize"
-    ],
-    "post-create-project-cmd": [
-      "php -r \"copy('.env.example', '.env');\"",
-      "php artisan key:generate"
     ]
   },
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "sort-packages": true,
+    "optimize-autoloader": true
   }
 }

@@ -51,6 +51,8 @@ class Kernel extends HttpKernel
             StartSession::class,
             ShareErrorsFromSession::class,
             AppMiddleware\CheckForMaintenanceMode::class,
+            \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
+            \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
             AppMiddleware\VerifyCsrfToken::class,
             SubstituteBindings::class,
         ],
