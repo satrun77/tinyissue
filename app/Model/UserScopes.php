@@ -94,7 +94,7 @@ trait UserScopes
     public function scopeNotMemberOfProject(Builder $query, Project $project)
     {
         if ($project->id > 0) {
-            return $query->whereNotIn('id', $project->users()->dropdown('user_id'));
+            return $query->whereNotIn('id', $project->users->dropdown('user_id'));
         }
 
         return $query;
